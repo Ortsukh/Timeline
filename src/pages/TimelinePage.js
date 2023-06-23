@@ -105,39 +105,44 @@ export default function TimelinePage(props) {
   ) : (
     <>
       <div className="container sort-box">
-        <ToolsFilter
-          toolNames={mapTruckNames()}
-          onInputChange={handleInputChange}
-          selectedGroups={selectedGroups}
-          clearFilter={clearFilter}
-        />
-
-        {selectedGroups.length ? (
-          <CountTools choseCount={choseCount} groupsCount={getGroupsToShow()} />
-        ) : null}
-
-        <DateFilter
-          showDatePicker={showDatePicker}
-          isActiveDate={isActiveDate}
-          setOrderDate={setOrderDate}
-          orderDate={orderDate}
-        />
-        {isAdmin? <> <CompaniesSelect companies={companies}/> <StatusSelect/>
-        
-        </> : null}
-       
-        <CountOrderFilter />
-
-        <div>
-          <button>забронировать</button>
-        </div>
-
-        {isActiveMessage ? (
-          <MessageWindow
-            closeBookingWindow={closeBookingWindow}
-            date={chosenDate}
+        <div className="sort-box_item">
+          <ToolsFilter
+            toolNames={mapTruckNames()}
+            onInputChange={handleInputChange}
+            selectedGroups={selectedGroups}
+            clearFilter={clearFilter}
           />
-        ) : null}
+
+          {selectedGroups.length ? (
+            <CountTools choseCount={choseCount} groupsCount={getGroupsToShow()} />
+          ) : null}
+        </div> 
+        <div className="sort-box_item">  
+          {isAdmin? <> <CompaniesSelect companies={companies}/> <StatusSelect/>
+          
+          </> : null}
+
+          <DateFilter
+            showDatePicker={showDatePicker}
+            isActiveDate={isActiveDate}
+            setOrderDate={setOrderDate}
+            orderDate={orderDate}
+          />
+        </div>
+        <div className="sort-box_item">
+          <CountOrderFilter />
+
+          <div>
+            <button className="reserved-btn">забронировать</button>
+          </div>
+
+          {isActiveMessage ? (
+            <MessageWindow
+              closeBookingWindow={closeBookingWindow}
+              date={chosenDate}
+            />
+          ) : null}
+        </div>
       </div>
 
       <TimeLineRenderer

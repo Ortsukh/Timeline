@@ -13,9 +13,9 @@ export default function DateFilter({
   const datePicker = useRef(null);
   return (
     <div className="select-date-box">
-      <button onClick={showDatePicker}>выбрать дату</button>
+      <button className="button-select-date" onClick={showDatePicker}>выбрать дату</button>
 
-      <div className={isActiveDate ? "" : "hidden"} ref={datePicker}>
+      <div className={isActiveDate ? "active" : "hidden"} ref={datePicker}>
         <DateRangePicker
           onChange={(item) => setOrderDate({ ...orderDate, ...item })}
           ranges={[orderDate.selection1]}

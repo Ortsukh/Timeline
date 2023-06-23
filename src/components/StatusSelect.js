@@ -12,7 +12,7 @@ export default function StatusSelect(props) {
   };
 
   return (
-    <div>
+    <div className="tools-filter">
       <span> выбрать статус заказа</span>
       <Select
         options={getOptionsForSearch(orderStatus)}

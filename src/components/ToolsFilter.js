@@ -22,7 +22,7 @@ export default function ToolsFilter({ toolNames, onInputChange, clearFilter }) {
   }
 
   return (
-    <div>
+    <div className="tools-filter">
       <Select
         options={getOptionsForSearch(toolNames)}
         onChange={changeSearch}

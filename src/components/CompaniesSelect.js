@@ -22,7 +22,7 @@ export default function CompaniesSelect(props) {
   };
 
   return (
-    <div>
+    <div className="tools-filter">
       <span> выбрать компанию</span>
 
       <Select
