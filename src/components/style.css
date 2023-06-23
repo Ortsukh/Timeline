@@ -1,3 +1,7 @@
+#root{
+    padding: 20px;
+}
+
 .hidden {
     display: none;
 }
@@ -17,25 +21,31 @@
 }
 .container {
     width: 100%;
-    height: 50vh;
-    justify-content: space-between;
-
+    height: 45vh;
 }
 
-.sort-box {
+.sort-box_item{
     display: flex;
+    margin-bottom: 60px;
+    gap: 40px;
 }
+
 .select-box .select-count-order-box{
     height: 50px;
 }
 
 .clear-button {
-    height: 20px;
+    padding: 5px 10px;
+    margin-top: 10px;
+    background-color: #f03333;
+    border: none;
+    color: white;
+    border-radius: 5px;
 }
 
 .messageWindow {
-    width: 150px;
-    height: 150px;
+    width: 205px;
+    height: 120px;
     position: absolute;
     background-color: rgb(252, 253, 253);
     top: 50%;
@@ -43,21 +53,104 @@
     z-index: 500 ;
     display: flex;
     flex-direction: column;
-    border: 1px solid black
+    justify-content: space-between;
+    border: 1px solid rgb(156, 156, 156);
+    padding: 10px;
+    border-radius: 5px;
 }
 .messageWindow .button-close {
-    background-color: red;
+    background-color: #f03333;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 2px;
     position: absolute;
     width: 20px;
     height: 20px;
-    left: 90%
+    left: 88%;
+    cursor: pointer;
+}
+.messageWindow-item{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.messageWindow-item span:nth-child(2n){
+    font-weight: 600;
 }
 
-.messageWindow .button-submit {
-    background-color: rgb(132, 0, 255);
+.tools-filter{
+    min-width: 200px;
+    width:auto;
+}
+
+.css-b62m3t-container{
+    margin-top: 5px;
+}
+
+.select-date-box{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    position: relative;
+}
+
+.select-date-box .active{
     position: absolute;
-    width: 100px;
-    height: 30px;
-    left: 20%;
-    top: 60%
+    left: 150px;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+}
+
+.button-select-date{
+    min-height: 38px;
+    min-width: 115px;
+    margin-bottom: 10px;
+    border: 1px solid rgb(39, 128, 252);
+    border-radius: 5px;
+    padding: 5px 10px;
+    background-color: white;
+    box-sizing: border-box;
+}
+
+.button-select-date:hover{
+    cursor: pointer;
+}
+
+.button-select-date:active{
+    border: 2px solid rgb(39, 128, 252);
+}
+
+.select-count-box, .select-count-order-box{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.select-count-box{
+    height: fit-content;
+    margin-top: 10px;
+}
+
+.select-count-box select, .select-count-order-box select{
+    padding: 5px;
+    border: 1px solid hsl(0, 0%, 80%);
+    border-radius: 3px;
+    outline: none;
+}
+
+.reserved-btn{
+    border: 1px solid  rgb(39, 128, 252);
+    background-color: rgb(39, 128, 252);
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.reserved-btn:hover{
+    transition: .5s;
+    background-color: white;
+    color: rgb(4, 20, 42);
 }
