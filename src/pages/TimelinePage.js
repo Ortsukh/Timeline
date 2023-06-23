@@ -2,7 +2,6 @@ import moment from "moment";
 import React, { useState, useEffect } from "react";
 import { addDays } from "date-fns";
 
-import Timeline from "react-calendar-timeline";
 import DataConvertHelper from "../DataConvertHelper";
 import ToolsFilter from "../components/ToolsFilter";
 import CountTools from "../components/CountToolsFilter";
@@ -10,6 +9,8 @@ import DateFilter from "../components/DateFilter";
 import CountOrderFilter from "../components/CountOrderFilter";
 import MessageWindow from "../components/MessageWindow";
 import TimeLineRenderer from "../components/TimeLineRenderer";
+import CompaniesSelect from "../components/CompaniesSelect";
+import StatusSelect from "../components/StatusSelect";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
 
@@ -32,16 +33,13 @@ export default function TimelinePage(props) {
     },
   }); 
 
-  const admin = true
+  const isAdmin = true
 
   useEffect(() => {
     props.dataComponent
       .getData()
       .then((response) => {
         console.log(response);
-        console.log(
-          DataConvertHelper.convertTrucksToTimelineGroups(response.tools)
-        );
         setGroups(
           DataConvertHelper.convertTrucksToTimelineGroups(response.tools)
         );
@@ -51,7 +49,7 @@ export default function TimelinePage(props) {
             response.tools
           )
         );
-        setCompanies( response.companies)
+        setCompanies(response.companies)
         setIsLoading(false);
       })
       .catch((error) => console.log(error));
@@ -124,7 +122,10 @@ export default function TimelinePage(props) {
           setOrderDate={setOrderDate}
           orderDate={orderDate}
         />
-
+        {isAdmin? <> <CompaniesSelect companies={companies}/> <StatusSelect/>
+        
+        </> : null}
+       
         <CountOrderFilter />
 
         <div>
@@ -140,7 +141,11 @@ export default function TimelinePage(props) {
       </div>
 
       <TimeLineRenderer
-        groups={groups}
+        groups={
+          toolsCount
+            ? getGroupsToShow().slice(0, toolsCount)
+            : getGroupsToShow()
+        }
         toolsCount={toolsCount}
         isActiveDate={isActiveDate}
         orderDate={orderDate}

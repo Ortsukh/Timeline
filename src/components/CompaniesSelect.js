@@ -1,12 +1,29 @@
 import React from "react";
-import SortedGroupItem from "./SortedGroupItem";
+import Select from "react-select";
+import "./style.css";
 
-export default function SortedGroupList({ groups, romoveItem }) {
+export default function CompaniesSelect(props) {
+  // const chengeSearch = (e) => {
+  //   onInputChange(e.value);
+  // };
+  console.log(props);
+  const getOptionsForSearch = (companies) => {
+    return companies.map((companie) => {
+      return { value: companie.name, label: companie.name };
+    });
+  };
+
   return (
-    <div onClick={romoveItem}>
-      {groups.map((group) => (
-        <SortedGroupItem group={group} key={group} />
-      ))}
+    <div>
+      <span> выбрать компанию</span>
+
+      <Select
+        options={getOptionsForSearch(props.companies)}
+        // onChange={chengeSearch}
+      />
+      <button className="clear-button" onClick={console.log(123)}>
+        clear
+      </button>
     </div>
   );
 }

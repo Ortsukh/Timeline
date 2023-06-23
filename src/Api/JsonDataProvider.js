@@ -173,7 +173,7 @@ export default class JsonDataProvider {
     },
   ]
 
-  static copmanies = [
+  static companies = [
     {
       id:1,
       name: 'title'
@@ -201,7 +201,7 @@ export default class JsonDataProvider {
     return {
       tools: this.tools,
       orders: this.orders,
-      copmanies: this.copmanies
+      companies: this.companies
     };
   };
 }
