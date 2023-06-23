@@ -5,6 +5,9 @@ import "./style.css";
 import "react-calendar-timeline/lib/Timeline.css";
 
 export default function TimeLineRenderer({ groups, toolsCount, isActiveDate, orderDate, openBookingWindow, items }) {
+    console.log(items);
+    console.log(new Date("2020.02.01 16:00:00").getTime());
+    console.log(new Date("2020.02.01 12:00:00").getTime());
   return (
     <Timeline
     className="container"
@@ -15,13 +18,14 @@ export default function TimeLineRenderer({ groups, toolsCount, isActiveDate, ord
     }
     items={items}
     canMove={false}
-    defaultTimeStart={moment("2020.02.01 0:00:00")}
-    defaultTimeEnd={moment("2020.02.03 0:00:00")}
+    defaultTimeStart={1580504400000}
+
+    defaultTimeEnd={1580677200000}
     visibleTimeStart={
       isActiveDate
         ? orderDate.selection1.startDate
           ? orderDate.selection1.startDate
-          : moment("2020.02.01 0:00:00")
+          : null
         : false
     }
     visibleTimeEnd={

@@ -1,12 +1,20 @@
-import React from "react";
+import React, {useState} from "react";
 import Select from "react-select";
 import "./style.css";
 
 export default function CompaniesSelect(props) {
-  // const chengeSearch = (e) => {
-  //   onInputChange(e.value);
-  // };
-  console.log(props);
+  const [selectValue, setSelectValue] = useState(null)
+
+  const changeSearch = (e) => {
+    setSelectValue(e)
+    // onInputChange(e.value);
+  };
+
+  const handleReset = () => {
+    setSelectValue(null)
+    // clearFilter()
+  }
+
   const getOptionsForSearch = (companies) => {
     return companies.map((companie) => {
       return { value: companie.name, label: companie.name };
@@ -19,9 +27,11 @@ export default function CompaniesSelect(props) {
 
       <Select
         options={getOptionsForSearch(props.companies)}
-        // onChange={chengeSearch}
+        onChange={changeSearch}
+        value={selectValue}
       />
-      <button className="clear-button" onClick={console.log(123)}>
+
+      <button className="clear-button" onClick={handleReset}>
         clear
       </button>
     </div>

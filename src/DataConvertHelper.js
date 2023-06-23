@@ -20,8 +20,8 @@ export default class DataConvertHelper {
       id: this._createOrderIdNumberFromIdString(order.id),
       group: hash[order.id],
       title: order.id,
-      start_time: moment(order.from),
-      end_time: moment(order.to)
+      start_time: order.from,
+      end_time: order.to
     }));
   }
 
