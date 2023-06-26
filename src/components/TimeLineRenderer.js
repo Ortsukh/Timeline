@@ -6,8 +6,7 @@ import "react-calendar-timeline/lib/Timeline.css";
 
 export default function TimeLineRenderer({ groups, toolsCount, isActiveDate, orderDate, openBookingWindow, items }) {
     console.log(items);
-    console.log(new Date("2020.02.01 16:00:00").getTime());
-    console.log(new Date("2020.02.01 12:00:00").getTime());
+
   return (
     <Timeline
     className="container"
@@ -41,8 +40,12 @@ export default function TimeLineRenderer({ groups, toolsCount, isActiveDate, ord
       console.log(groupId, time, e);
     }}
     onCanvasDoubleClick={(groupId, time, e) => {
-      openBookingWindow(time, e.clientX, e.clientY);
+      openBookingWindow(time, e.clientX, e.clientY, 'clickOnEmpty' );
       console.log(e);
+    }}
+    onItemDoubleClick={(itemId, e, time) => {
+        openBookingWindow(time, e.clientX, e.clientY, 'clickOnOrder', itemId);
+        console.log(itemId);
     }}
     itemTouchSendsClick={true}
     onItemClick={(itemId, e, time) => {

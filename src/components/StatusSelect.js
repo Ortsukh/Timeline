@@ -5,17 +5,20 @@ import { orderStatus } from "../constants/constants";
 
 export default function StatusSelect(props) {
 
-  const getOptionsForSearch = (companies) => {
-    return companies.map((companie) => {
-      return { value: companie.title, label: companie.translate };
-    });
+  const getOptionsForSearch = () => {
+    const options = []
+   for (let key in orderStatus) {
+    console.log(key);
+    options. push({ value: orderStatus[key].title, label: orderStatus[key].translate })
+   }
+   return options
   };
 
   return (
     <div className="tools-filter">
       <span> выбрать статус заказа</span>
       <Select
-        options={getOptionsForSearch(orderStatus)}
+        options={getOptionsForSearch()}
         // onChange={chengeSearch}
       />
     </div>

@@ -46,7 +46,8 @@ export default function TimelinePage(props) {
         setItems(
           DataConvertHelper.convertOrdersToTimelineItems(
             response.orders,
-            response.tools
+            response.tools,
+            response.companies
           )
         );
         setCompanies(response.companies)
@@ -83,20 +84,26 @@ export default function TimelinePage(props) {
       : groups;
   };
 
-  const openBookingWindow = (time, posX, posY) => {
+  const openBookingWindow = (time, posX, posY, kindModal, itemId) => {
     setIsActiveMessage((current) => !current);
     const date = moment(time).format("MMMM Do YYYY");
     const hour = moment(time).hours();
     let result = date;
+
     result +=
       hour % 2 !== 0
         ? ` ${hour - 1}:00 - ${hour + 1}:00`
         : ` ${hour}:00 - ${hour + 2}:00`;
 
+    const item = itemId ? items.find(item => item.id === itemId) : null; // дальше будет фильтр по времени и группе
+    console.log(item);
+
     setChosenDate({
       date: result,
       posX: posX,
-      posY: posY
+      posY: posY, 
+      kindModal,
+      item: item
     });
   };
 

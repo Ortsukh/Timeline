@@ -1,5 +1,6 @@
 
 import moment from "moment";
+import { orderStatus } from "./constants/constants";
 
 export default class DataConvertHelper {
   static convertTrucksToTimelineGroups(tools) {
@@ -12,7 +13,8 @@ export default class DataConvertHelper {
 
   static convertOrdersToTimelineItems(
     orders,
-    tools
+    tools,
+    companies
   ) {
     const hash = this._mapTruckIdsToOrderIds(tools);
 
@@ -21,7 +23,14 @@ export default class DataConvertHelper {
       group: hash[order.id],
       title: order.id,
       start_time: order.from,
-      end_time: order.to
+      end_time: order.to,
+      companie: companies.find(companie => companie.id === order.companieId),
+      status: order.status || null,
+      itemProps: {
+             style: {
+          background: orderStatus[order.status]?.color || "blue",
+        }
+      }
     }));
   }
 

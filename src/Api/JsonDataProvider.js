@@ -55,6 +55,7 @@ export default class JsonDataProvider {
       id: "order1",
       from: 1580540400000,
       to: 1580547600000,
+      status: "pending"
     },
     {
       companieId: 4, 
@@ -67,12 +68,16 @@ export default class JsonDataProvider {
       id: "order2",
       from: 1580562000000,
       to: 1580569200000,
+      status: "approved"
+
     },
     {
       companieId: 3, 
       id: "order3",
       from: 1580540400000,
       to: 1580547600000,
+      status: "rejected"
+
     },
     {
       companieId: 3, 
