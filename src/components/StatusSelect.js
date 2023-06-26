@@ -8,7 +8,6 @@ export default function StatusSelect(props) {
   const getOptionsForSearch = () => {
     const options = []
    for (let key in orderStatus) {
-    console.log(key);
     options. push({ value: orderStatus[key].title, label: orderStatus[key].translate })
    }
    return options
