@@ -21,7 +21,7 @@
 }
 .container {
     width: 100%;
-    height: 45vh;
+    height: 43vh;
 }
 
 .sort-box_item{
@@ -45,7 +45,7 @@
 
 .messageWindow {
     width: 205px;
-    height: 120px;
+    height: 165px;
     position: absolute;
     background-color: rgb(252, 253, 253);
     top: 50%;
@@ -65,10 +65,12 @@
     font-size: 16px;
     border-radius: 2px;
     position: absolute;
-    width: 20px;
-    height: 20px;
-    left: 88%;
+    width: 24px;
+    height: 24px;
+    left: 85%;
     cursor: pointer;
+    line-height: 11px;
+
 }
 .messageWindow-item{
     display: flex;
@@ -153,4 +155,17 @@
     transition: .5s;
     background-color: white;
     color: rgb(4, 20, 42);
+}
+
+.rct-header-root {
+    position: fixed;
+    z-index: 100;
+}
+
+.react-calendar-timeline.container {
+    position: relative; overflow: scroll;
+    
+}
+.rct-outer {
+    margin: 62px 0 0;
 }

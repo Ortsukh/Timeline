@@ -23,7 +23,7 @@ export default function TimelinePage(props) {
   const [isActiveMessage, setIsActiveMessage] = useState(false);
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [toolsCount, setToolsCount] = useState(0);
-  const [chosenDate, setChosenDate] = useState(0);
+  const [chosenDate, setChosenDate] = useState(null);
   const [orderDate, setOrderDate] = useState({
     selection1: {
       startDate: addDays(new Date(), 1),
@@ -83,7 +83,7 @@ export default function TimelinePage(props) {
       : groups;
   };
 
-  const openBookingWindow = (time) => {
+  const openBookingWindow = (time, posX, posY) => {
     setIsActiveMessage((current) => !current);
     const date = moment(time).format("MMMM Do YYYY");
     const hour = moment(time).hours();
@@ -93,7 +93,11 @@ export default function TimelinePage(props) {
         ? ` ${hour - 1}:00 - ${hour + 1}:00`
         : ` ${hour}:00 - ${hour + 2}:00`;
 
-    setChosenDate(result);
+    setChosenDate({
+      date: result,
+      posX: posX,
+      posY: posY
+    });
   };
 
   const closeBookingWindow = () => {
@@ -139,7 +143,7 @@ export default function TimelinePage(props) {
           {isActiveMessage ? (
             <MessageWindow
               closeBookingWindow={closeBookingWindow}
-              date={chosenDate}
+              data={chosenDate}
             />
           ) : null}
         </div>

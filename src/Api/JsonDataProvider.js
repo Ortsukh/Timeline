@@ -57,6 +57,12 @@ export default class JsonDataProvider {
       to: 1580547600000,
     },
     {
+      companieId: 4, 
+      id: "order122",
+      from: 1580540400000,
+      to: 1580547600000,
+    },
+    {
       companieId: 3, 
       id: "order2",
       from: 1580562000000,

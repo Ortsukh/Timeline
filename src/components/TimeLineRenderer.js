@@ -41,7 +41,8 @@ export default function TimeLineRenderer({ groups, toolsCount, isActiveDate, ord
       console.log(groupId, time, e);
     }}
     onCanvasDoubleClick={(groupId, time, e) => {
-      openBookingWindow(time);
+      openBookingWindow(time, e.clientX, e.clientY);
+      console.log(e);
     }}
     itemTouchSendsClick={true}
     onItemClick={(itemId, e, time) => {
