@@ -1,52 +1,42 @@
-
-import moment from "moment";
+// import moment from "moment";
 import { orderStatus } from "./constants/constants";
 
-export default class DataConvertHelper {
-  static convertTrucksToTimelineGroups(tools) {
-    return tools.map((tool, index) => ({
-      id: index + 1,
-      title: tool.name,
-      category: tool.category
-    }));
-  }
+export function convertTrucksToTimelineGroups(tools) {
+  return tools.map((tool, index) => ({
+    id: index + 1,
+    title: tool.name,
+    category: tool.category
+  }));
+}
 
-  static convertOrdersToTimelineItems(
-    orders,
-    tools,
-    companies
-  ) {
-    const hash = this._mapTruckIdsToOrderIds(tools);
+export function convertOrdersToTimelineItems(orders, tools, companies) {
+  const hash = tools.reduce((acc, tool, index) => {
+    tool.assignedOrderId.forEach(id => {
+      acc[id] = index + 1;
+    });
+    return acc;
+  }, {});
 
-    return orders.map(order => ({
-      id: this._createOrderIdNumberFromIdString(order.id),
-      group: hash[order.id],
+  return orders.map(order => {
+    const orderId = createOrderIdNumberFromIdString(order.id);
+    const group = hash[order.id];
+    const companie = companies.find(companie => companie.id === order.companieId);
+    const statusColor = orderStatus[order.status]?.color || "blue";
+    const itemProps = { style: { background: statusColor } };
+
+    return {
+      id: orderId,
+      group,
       title: order.id,
       start_time: order.from,
       end_time: order.to,
-      companie: companies.find(companie => companie.id === order.companieId),
+      companie,
       status: order.status || null,
-      itemProps: {
-             style: {
-          background: orderStatus[order.status]?.color || "blue",
-        }
-      }
-    }));
-  }
+      itemProps
+    };
+  });
+}
 
-   static _mapTruckIdsToOrderIds(tools) {
-    const hash = {};
-    tools.forEach((tool, index) => {
-      tool.assignedOrderId.forEach(id => {
-        hash[id] = index + 1;
-      });
-    });
-    return hash;
-  }
-
-
-
-   static _createOrderIdNumberFromIdString = (orderId) => {
-    return parseInt(orderId.match(/\d+/)[0], 10);
-  };
+function createOrderIdNumberFromIdString(orderId) {
+  return parseInt(orderId.match(/\d+/)[0], 10);
 }

@@ -2,7 +2,7 @@ import moment from "moment";
 import React, { useState, useEffect } from "react";
 import { addDays } from "date-fns";
 
-import DataConvertHelper from "../DataConvertHelper";
+import {convertTrucksToTimelineGroups, convertOrdersToTimelineItems} from "../DataConvertHelper";
 import ToolsFilter from "../components/ToolsFilter";
 import CountTools from "../components/CountToolsFilter";
 import DateFilter from "../components/DateFilter";
@@ -41,10 +41,10 @@ export default function TimelinePage(props) {
       .then((response) => {
         console.log(response);
         setGroups(
-          DataConvertHelper.convertTrucksToTimelineGroups(response.tools)
+          convertTrucksToTimelineGroups(response.tools)
         );
         setItems(
-          DataConvertHelper.convertOrdersToTimelineItems(
+          convertOrdersToTimelineItems(
             response.orders,
             response.tools,
             response.companies

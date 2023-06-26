@@ -14,7 +14,22 @@ export default class MockAPI {
   };
 }
 
-export async function getAllNotes() {
+export async function getAllEqupments() {
+  const str = `${backendUrl}equipments`;
+  let res = await fetch(str, {
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Something went wrong.Sorry");
+  }
+
+  return await res.json();
+}
+
+export async function getAllOrders() {
   const str = `${backendUrl}equipments`;
   let res = await fetch(str, {
     headers: {

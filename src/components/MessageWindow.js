@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
 
-export default function MessageWindow({ data, closeBookingWindow}) {
+export default function MessageWindow({ data, closeBookingWindow }) {
   const heightModal = 185;
   const weightModal = 225;
 
@@ -10,11 +10,11 @@ export default function MessageWindow({ data, closeBookingWindow}) {
   const modalConstants = {
     clickOnEmpty: {
       companieName: null,
-      ButtonName: "Забранировать",
+      buttonName: "Забранировать",
     },
     clickOnOrder: {
-      companieName: "Название компании",
-      ButtonName: null,
+      companieName: "Название компании:",
+      buttonName: null,
     },
   };
 
@@ -30,7 +30,7 @@ export default function MessageWindow({ data, closeBookingWindow}) {
         x
       </button>
       <div className="messageWindow-item">
-        <span>смена</span>
+        <span>Cмена:</span>
         <span>{data.date}</span>
       </div>
 
@@ -41,9 +41,14 @@ export default function MessageWindow({ data, closeBookingWindow}) {
         </div>
       ) : null}
 
-      {!modalConstants[data.kindModal].button ? (
+      {modalConstants[data.kindModal].buttonName ? (
         <button className="button-submit reserved-btn">Забронировать</button>
-      ) : null}
+      ) : (
+        <div className="messageWindow-item">
+          <span>{"Статус:"}</span>
+          <span>{data.item.status}</span>
+        </div>
+      )}
     </div>
   );
 }
