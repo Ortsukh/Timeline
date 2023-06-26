@@ -16,8 +16,8 @@ export default function StatusSelect(props) {
 
   return (
     <div className="tools-filter">
-      <span> выбрать статус заказа</span>
-      <Select
+      <span> Выбрать статус заказа</span>
+      <Select className="select-filter"
         options={getOptionsForSearch()}
         // onChange={chengeSearch}
       />

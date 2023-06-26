@@ -23,13 +23,14 @@ export default function ToolsFilter({ toolNames, onInputChange, clearFilter }) {
 
   return (
     <div className="tools-filter">
-      <Select
+    <span> Выбрать оборудование</span>
+      <Select className="select-filter"
         options={getOptionsForSearch(toolNames)}
         onChange={changeSearch}
         value={selectValue}
       />
       <button className="clear-button" onClick={handleReset}>
-        clear
+        Отчистить
       </button>
     </div>
   );

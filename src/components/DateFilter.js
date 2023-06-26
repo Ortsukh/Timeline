@@ -14,7 +14,7 @@ export default function DateFilter({
   return (
     <div className="select-date-box">
       <button className="button-select-date" onClick={showDatePicker}>
-        {isActiveDate ? "Зкрыть" : "Выбрать дату"}
+        {isActiveDate ? "Закрыть" : "Выбрать дату"}
       </button>
 
       <div className={isActiveDate ? "active" : "hidden"} ref={datePicker}>

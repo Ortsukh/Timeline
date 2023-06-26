@@ -24,16 +24,16 @@ export default function CompaniesSelect(props) {
 
   return (
     <div className="tools-filter">
-      <span> выбрать компанию</span>
+      <span> Выбрать компанию</span>
 
-      <Select
+      <Select className="select-filter"
         options={getOptionsForSearch(props.companies)}
         onChange={changeSearch}
         value={selectValue}
       />
 
       <button className="clear-button" onClick={handleReset}>
-        clear
+        Отчистить
       </button>
     </div>
   );
