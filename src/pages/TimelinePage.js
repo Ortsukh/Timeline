@@ -144,7 +144,7 @@ export default function TimelinePage(props) {
           <CountOrderFilter />
 
           <div>
-            <button className="reserved-btn">забронировать</button>
+            <button className="reserved-btn">Забронировать</button>
           </div>
 
           {isActiveMessage ? (

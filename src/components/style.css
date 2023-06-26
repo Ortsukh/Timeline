@@ -21,13 +21,24 @@
 }
 .container {
     width: 100%;
-    height: 43vh;
+    height: 80vh;
+}
+
+.container.sort-box{
+    height: 15vh;
+    display: flex;
+    align-items: end;
+    gap: 40px;
 }
 
 .sort-box_item{
     display: flex;
-    margin-bottom: 60px;
+    margin-bottom: 35px;
     gap: 40px;
+}
+
+.sort-box_item:last-child{
+    margin-bottom: 70px;
 }
 
 .select-box .select-count-order-box{
@@ -99,7 +110,9 @@
 
 .select-date-box .active{
     position: absolute;
-    left: 150px;
+    left: 0;
+    top: 100px;
+    z-index: 200;
     border: 1px solid #e5e5e5;
     border-radius: 5px;
 }
@@ -131,7 +144,7 @@
 
 .select-count-box{
     height: fit-content;
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
 .select-count-box select, .select-count-order-box select{
@@ -160,6 +173,7 @@
 .rct-header-root {
     position: fixed;
     z-index: 100;
+    width: 97.2% !important;
 }
 
 .react-calendar-timeline.container {
@@ -168,4 +182,8 @@
 }
 .rct-outer {
     margin: 62px 0 0;
+}
+
+.select-filter{
+    z-index: 200;
 }
