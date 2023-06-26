@@ -5,9 +5,10 @@ import "./style.css";
 import "react-calendar-timeline/lib/Timeline.css";
 
 export default function TimeLineRenderer({ groups, toolsCount, isActiveDate, orderDate, openBookingWindow, items }) {
-    console.log(items);
-  const minTime = moment().add(-1, 'months').valueOf()
-  const maxTime = moment().add(1, 'months').valueOf()
+    console.log(orderDate.selection1.startDate);
+    console.log(orderDate.selection1.endDate);
+  const minTime = moment(orderDate.selection1.startDate).valueOf() || moment().valueOf()
+  const maxTime = moment(orderDate.selection1.endDate).add(1, 'days').valueOf() || moment().add(1, 'days').valueOf()
   return (
     <Timeline
     className="container"
@@ -21,6 +22,9 @@ export default function TimeLineRenderer({ groups, toolsCount, isActiveDate, ord
     defaultTimeStart={1580504400000}
 
     defaultTimeEnd={1580677200000}
+    // defaultTimeStart={moment().valueOf()}
+
+    // defaultTimeEnd={ moment().add(1, 'days').valueOf()}
     visibleTimeStart={
       isActiveDate
         ? orderDate.selection1.startDate
@@ -30,10 +34,7 @@ export default function TimeLineRenderer({ groups, toolsCount, isActiveDate, ord
     }
     visibleTimeEnd={
       isActiveDate
-        ? orderDate.selection1.endDate &&
-          orderDate.selection1.endDate !== orderDate.selection1.startDate
-          ? moment(orderDate.selection1.endDate).add(1, "d")
-          : moment(orderDate.selection1.startDate).add(1, "d")
+        ? moment(orderDate.selection1.startDate).add(1, "d")
         : false
     }
     minZoom= {60 * 60 * 1000 }

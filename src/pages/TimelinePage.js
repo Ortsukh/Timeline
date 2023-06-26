@@ -26,7 +26,7 @@ export default function TimelinePage(props) {
   const [chosenDate, setChosenDate] = useState(null);
   const [orderDate, setOrderDate] = useState({
     selection1: {
-      startDate: addDays(new Date(), 1),
+      startDate: moment().valueOf(),
 
       endDate: null,
       key: "selection1",
