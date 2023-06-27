@@ -1,22 +1,22 @@
 export const orderStatus = 
 {   approved: {
         title: "approved",
-        color: "green",
-        translate: "подтвердить"
+        color: "rgb(39, 128, 252)",
+        translate: "Подтвердить"
 
     },
     rejected:
     {
         title: "rejected",
-        color: "red",
-        translate: "отказать"
+        color: "#f03333",
+        translate: "Отменить"
 
     },
     pending:
     {
         title: "pending",
-        color: "yellow",
-        translate: "ожидание "
+        color: "#ff9900",
+        translate: "Ожидание "
 
     },
 
