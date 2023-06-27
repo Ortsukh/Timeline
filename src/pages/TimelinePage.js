@@ -74,28 +74,102 @@ export default function TimelinePage(props) {
       return [newInput];
     });
   };
-
-  const createorderGrid = () => {
-
-      const equipmentIdArray = {}
-      
-      const dateIntervals = {
-
+  const createOrderGrid = () => { 
+    const equipmentIdArray = {} 
+    const dateIntervals = [] 
+  
+    itemsPreOrder.forEach(order => { 
+      if(!equipmentIdArray[order.group]) {
+        equipmentIdArray[order.group] = [] 
       }
-
-      itemsPreOrder.map(order => {
-        if(!equipmentIdArray[order.group]) equipmentIdArray[order.group] = []
-        equipmentIdArray[order.group].push(order)
-      })
-      console.log(equipmentIdArray);
+      equipmentIdArray[order.group].push(order) 
+    }) 
+    for(let key in equipmentIdArray) { 
+      const equipmentIdArrayByDate = {} 
+      equipmentIdArray[key].forEach(order => { 
+        if(!equipmentIdArrayByDate[order.date]) {
+          equipmentIdArrayByDate[order.date] = [] 
+        }
+        equipmentIdArrayByDate[order.date].push(order) 
+      }) 
+      dateIntervals.push({ 
+        equipmentId: key, 
+        intervals: equipmentIdArrayByDate 
+      }) 
+    } 
+    console.log(dateIntervals);
+  
+    const result = [] 
+    dateIntervals.forEach(el =>  { 
+      for(let keyObj in el.intervals)  { 
+        let partA = 2000000000000;
+        let partB = 2000000000000;
+     
+        el.intervals[keyObj].map (el => {
+          partA += Number(el.grid.slice(0,12))
+          partB += Number(el.grid.slice(12,24))
+        })
+        
+        result.push({ 
+          equipmentId: el.equipmentId, 
+          date: keyObj, 
+          grid: (String(partA).slice(1,13)) + (String(partB).slice(1,13))
+        })
+      }
+    }) 
+  
+    console.log(result); 
   }
+  // const createOrderGrid = () => {
+
+  //     const equipmentIdArray = {}
+  //     const dateIntervals = []
+
+      
+
+  //     itemsPreOrder.map(order => {
+  //       if(!equipmentIdArray[order.group]) equipmentIdArray[order.group] = []
+  //       equipmentIdArray[order.group].push(order)
+  //     })
+  //     console.log(equipmentIdArray);
+  //     for(let key in equipmentIdArray) {
+  //       const equipmentIdArrayByDate = {}
+  //       equipmentIdArray[key].map(order => {
+  //           if(!equipmentIdArrayByDate[order.date]) equipmentIdArrayByDate[order.date] = []
+  //           equipmentIdArrayByDate[order.date].push(order)
+  //       })
+  //       dateIntervals.push({
+  //         equipmentId: key,
+  //         intevals: equipmentIdArrayByDate
+       
+  //       })
+  //     }
+  //     const result = []
+  //      dateIntervals. map(el =>  {
+  //       for(let keyObj in el.intevals)  {
+  //         const grid = el.intevals[keyObj].reduce((acc, interval) => {
+  //           console.log(interval.grid);
+  //           return (acc + Number(interval.grid))
+  //         }, 5) -5 + ''
+  //         let str = new Array ( 24 - grid.length).fill(0).join('')
+  //       result.push({
+  //         equipmentId: el.equipmentId,
+  //         data:  keyObj,
+  //         grid: str + grid
+  //       })}})
+
+       
+      
+  //     console.log(result);
+  //     return result
+  // }
 
 
   const addPreOrder = (groupId, time) => {
     const date = moment(time).format("MMMM DD YYYY");
    
     const hour = moment(time).hours();
-    const formatHour = hour % 2 !== 0 ? hour : hour -1;
+    const formatHour = hour % 2 !== 0 ? hour-1 : hour ;
     const length = 2;
     let start, end;
 
@@ -106,10 +180,10 @@ export default function TimelinePage(props) {
       start = date + ` ${hour}:00`;
       end = date + ` ${hour + 2}:00`;
     }
-
+    console.log(formatHour);
     const grid = new Array(24).fill(0)
     for( let i = 0; i < length; i++){
-      grid[formatHour + i -1] = 1;
+      grid[formatHour + i ] = 1;
     }
 
     console.log( grid);
@@ -119,8 +193,8 @@ export default function TimelinePage(props) {
       status: "preOrder",
       canMove: false,
       // itemTouchSendsClick:true,
-      date:date,
-      grid: grid,
+      date: date,
+      grid: grid.join(''),
       start_time: moment(start).valueOf(),
       end_time: moment(end).valueOf(),  //Добавить length
       itemTouchSendsClick: false,
@@ -227,7 +301,7 @@ export default function TimelinePage(props) {
           {/* <CountOrderFilter /> */}
 
           <div>
-            <button className="reserved-btn" onClick={(itemsPreOrder) => createorderGrid(itemsPreOrder)}>Забронировать</button>
+            <button className="reserved-btn" onClick={(itemsPreOrder) => createOrderGrid(itemsPreOrder)}>Забронировать</button>
           </div>
 
           {isActiveMessage ? (

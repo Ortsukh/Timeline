@@ -58,7 +58,6 @@ export default function TimeLineRenderer({
       }}
       onItemSelect ={(itemId, e, time) => {
         console.log(itemId);
-        // openBookingWindow(time, e.clientX, e.clientY, "clickOnEmpty");
         openBookingWindow(time, e.clientX, e.clientY, "clickOnOrder", itemId);
 
         clickOnItem(time, itemId)
@@ -84,6 +83,7 @@ export default function TimeLineRenderer({
           updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
         }
       }}
+      itemHeightRatio={1}
       canResize={false}
       timeSteps={{
         hour: 1,
