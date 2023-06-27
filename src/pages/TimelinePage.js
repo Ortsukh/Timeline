@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import {
   convertTrucksToTimelineGroups,
   convertOrdersToTimelineItems,
+  createEquipmentGroup,
+  createOrderGroup,
 } from "../DataConvertHelper";
 import ToolsFilter from "../components/ToolsFilter";
 import CountTools from "../components/CountToolsFilter";
@@ -15,10 +17,13 @@ import CompaniesSelect from "../components/CompaniesSelect";
 import StatusSelect from "../components/StatusSelect";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
+import { createOrder, getAllEqupments, getAllEqupments1, getAllOrders, getAllOrders1 } from "../Api/API";
 
 export default function TimelinePage(props) {
   const [groups, setGroups] = useState([]);
+  const [groups1, setGroups1] = useState([]);
   const [items, setItems] = useState([]);
+  const [items1, setItems1] = useState([]);
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,19 +45,32 @@ export default function TimelinePage(props) {
 
   const isAdmin = false;
 
+  // useEffect(() => {
+  //   getAllEqupments().then((response) => {
+  //     console.log("response", response);
+  //     console.log("23123", createEquipmentGroup(response.data));
+  //     setGroups1(createEquipmentGroup(response.data));
+
+  //   });
+  // }, []);
+
+  useEffect(() => {
+    getAllEqupments1().then((response) => {
+      setGroups1(createEquipmentGroup(response.data));
+    });
+
+    getAllOrders1().then((response) => {
+      console.log(createOrderGroup(response.data));
+      setItems1(createOrderGroup(response.data));
+    });
+  }, []);
+
   useEffect(() => {
     props.dataComponent
       .getData()
       .then((response) => {
-        console.log(response);
         setGroups(convertTrucksToTimelineGroups(response.tools));
-        console.log(
-          convertOrdersToTimelineItems(
-            response.orders,
-            response.tools,
-            response.companies
-          )
-        );
+    
         setItems(
           convertOrdersToTimelineItems(
             response.orders,
@@ -67,65 +85,67 @@ export default function TimelinePage(props) {
   }, [props.dataComponent]);
 
   const handleInputChange = (newInput) => {
-    console.log(newInput);
-    localStorage.setItem("toolsFilter", newInput)
+    localStorage.setItem("toolsFilter", newInput);
 
     setSelectedGroups(() => {
       return [newInput];
     });
   };
-  const createOrderGrid = () => { 
-    const equipmentIdArray = {} 
-    const dateIntervals = [] 
-  
-    itemsPreOrder.forEach(order => { 
-      if(!equipmentIdArray[order.group]) {
-        equipmentIdArray[order.group] = [] 
+
+  const sendNewOrder= () =>{
+    const orders = createOrderGrid()
+    console.log(orders);
+    createOrder(orders).then(response => console.log(response))
+  }
+
+  const createOrderGrid = () => {
+    const equipmentIdArray = {};
+    const dateIntervals = [];
+
+    itemsPreOrder.forEach((order) => {
+      if (!equipmentIdArray[order.group]) {
+        equipmentIdArray[order.group] = [];
       }
-      equipmentIdArray[order.group].push(order) 
-    }) 
-    for(let key in equipmentIdArray) { 
-      const equipmentIdArrayByDate = {} 
-      equipmentIdArray[key].forEach(order => { 
-        if(!equipmentIdArrayByDate[order.date]) {
-          equipmentIdArrayByDate[order.date] = [] 
+      equipmentIdArray[order.group].push(order);
+    });
+    for (let key in equipmentIdArray) {
+      const equipmentIdArrayByDate = {};
+      equipmentIdArray[key].forEach((order) => {
+        if (!equipmentIdArrayByDate[order.date]) {
+          equipmentIdArrayByDate[order.date] = [];
         }
-        equipmentIdArrayByDate[order.date].push(order) 
-      }) 
-      dateIntervals.push({ 
-        equipmentId: key, 
-        intervals: equipmentIdArrayByDate 
-      }) 
-    } 
-    console.log(dateIntervals);
-  
-    const result = [] 
-    dateIntervals.forEach(el =>  { 
-      for(let keyObj in el.intervals)  { 
+        equipmentIdArrayByDate[order.date].push(order);
+      });
+      dateIntervals.push({
+        equipmentId: key,
+        intervals: equipmentIdArrayByDate,
+      });
+    }
+
+    const result = [];
+    dateIntervals.forEach((el) => {
+      for (let keyObj in el.intervals) {
         let partA = 2000000000000;
         let partB = 2000000000000;
-     
-        el.intervals[keyObj].map (el => {
-          partA += Number(el.grid.slice(0,12))
-          partB += Number(el.grid.slice(12,24))
-        })
-        
-        result.push({ 
-          equipmentId: el.equipmentId, 
-          date: keyObj, 
-          grid: (String(partA).slice(1,13)) + (String(partB).slice(1,13))
-        })
+
+        el.intervals[keyObj].map((el) => {
+          partA += Number(el.grid.slice(0, 12));
+          partB += Number(el.grid.slice(12, 24));
+        });
+
+        result.push({
+          equipmentId: el.equipmentId,
+          date: keyObj,
+          grid: String(partA).slice(1, 13) + String(partB).slice(1, 13),
+        });
       }
-    }) 
-  
-    console.log(result); 
-  }
+    });
+    return result
+  };
   // const createOrderGrid = () => {
 
   //     const equipmentIdArray = {}
   //     const dateIntervals = []
-
-      
 
   //     itemsPreOrder.map(order => {
   //       if(!equipmentIdArray[order.group]) equipmentIdArray[order.group] = []
@@ -141,7 +161,7 @@ export default function TimelinePage(props) {
   //       dateIntervals.push({
   //         equipmentId: key,
   //         intevals: equipmentIdArrayByDate
-       
+
   //       })
   //     }
   //     const result = []
@@ -158,18 +178,15 @@ export default function TimelinePage(props) {
   //         grid: str + grid
   //       })}})
 
-       
-      
   //     console.log(result);
   //     return result
   // }
 
-
   const addPreOrder = (groupId, time) => {
     const date = moment(time).format("MMMM DD YYYY");
-   
+
     const hour = moment(time).hours();
-    const formatHour = hour % 2 !== 0 ? hour-1 : hour ;
+    const formatHour = hour % 2 !== 0 ? hour - 1 : hour;
     const length = 2;
     let start, end;
 
@@ -180,13 +197,11 @@ export default function TimelinePage(props) {
       start = date + ` ${hour}:00`;
       end = date + ` ${hour + 2}:00`;
     }
-    console.log(formatHour);
-    const grid = new Array(24).fill(0)
-    for( let i = 0; i < length; i++){
-      grid[formatHour + i ] = 1;
+    const grid = new Array(24).fill(0);
+    for (let i = 0; i < length; i++) {
+      grid[formatHour + i] = 1;
     }
 
-    console.log( grid);
     const obj = {
       id: Math.random() * 100,
       group: groupId,
@@ -194,18 +209,17 @@ export default function TimelinePage(props) {
       canMove: false,
       // itemTouchSendsClick:true,
       date: date,
-      grid: grid.join(''),
+      grid: grid.join(""),
       start_time: moment(start).valueOf(),
-      end_time: moment(end).valueOf(),  //Добавить length
+      end_time: moment(end).valueOf(), //Добавить length
       itemTouchSendsClick: false,
       itemProps: { style: { background: "gray" } },
     };
-    console.log(items);
     setItemsPreOrder((pred) => [...pred, obj]);
   };
 
   const clearFilter = () => {
-    localStorage.clear('toolsFilter')
+    localStorage.clear("toolsFilter");
     setSelectedGroups([]);
   };
 
@@ -218,23 +232,26 @@ export default function TimelinePage(props) {
   };
 
   const mapTruckNames = () => {
-    return [...new Set(groups.map((group) => group.category))];
+    return [...new Set(groups1.map((group) => group.category))];
   };
 
   const getGroupsToShow = () => {
     return selectedGroups.length
-      ? groups.filter((group) => selectedGroups.includes(group.category))
-      : groups;
+      ? groups1.filter((group) => selectedGroups.includes(group.category))
+      : groups1;
   };
 
   const clickOnItem = (time, itemId) => {
-    const item = itemId ? itemsPreOrder.find((item) => item.id === itemId) : null;
+    const item = itemId
+      ? itemsPreOrder.find((item) => item.id === itemId)
+      : null;
     if (!item || item.status !== "preOrder") return;
     setItemsPreOrder((pred) => pred.filter((el) => el.id !== itemId));
   };
 
   const openBookingWindow = (time, posX, posY, kindModal, itemId) => {
-    const item = itemId ? items.find((item) => item.id === itemId) : null;
+    console.log(itemId);
+    const item = itemId ? items1.find((item) => item.id === itemId) : null;
     if (!item || item.status === "preOrder") return;
     setIsActiveMessage((current) => !current);
     const date = moment(time).format("MMMM Do YYYY");
@@ -247,7 +264,6 @@ export default function TimelinePage(props) {
         : ` ${hour}:00 - ${hour + 2}:00`;
 
     // const item = itemId ? items.find((item) => item.id === itemId) : null; // дальше будет фильтр по времени и группе
-    console.log(item);
 
     setChosenDate({
       date: result,
@@ -285,8 +301,7 @@ export default function TimelinePage(props) {
         <div className="sort-box_item">
           {isAdmin ? (
             <>
-              {" "}
-              <CompaniesSelect companies={companies} /> <StatusSelect />
+              <CompaniesSelect companies={companies} /> 
             </>
           ) : null}
 
@@ -301,7 +316,12 @@ export default function TimelinePage(props) {
           {/* <CountOrderFilter /> */}
 
           <div>
-            <button className="reserved-btn" onClick={(itemsPreOrder) => createOrderGrid(itemsPreOrder)}>Забронировать</button>
+            <button
+              className="reserved-btn"
+              onClick={() => sendNewOrder()}
+            >
+              Забронировать
+            </button>
           </div>
 
           {isActiveMessage ? (
@@ -319,11 +339,13 @@ export default function TimelinePage(props) {
             ? getGroupsToShow().slice(0, toolsCount)
             : getGroupsToShow()
         }
+        // groups={groups1}
         toolsCount={toolsCount}
         isActiveDate={isActiveDate}
         orderDate={orderDate}
         openBookingWindow={openBookingWindow}
-        items={items.concat(itemsPreOrder)}
+        // items={items.concat(itemsPreOrder)}
+        items={items1.concat(itemsPreOrder)}
         addPreOrder={addPreOrder}
         clickOnItem={clickOnItem}
       />

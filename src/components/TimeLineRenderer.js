@@ -14,6 +14,7 @@ export default function TimeLineRenderer({
   addPreOrder,
   clickOnItem
 }) {
+    console.log('render',items, groups );
   const minTime =
     moment(orderDate.selection1.startDate).valueOf() || moment().valueOf();
   const maxTime =
@@ -27,8 +28,8 @@ export default function TimeLineRenderer({
       groups={toolsCount ? groups.slice(0, toolsCount) : groups}
       items={items}
       canMove={false}
-      defaultTimeStart={1580504400000}
-      defaultTimeEnd={1580677200000}
+      defaultTimeStart={1687860800000}
+      defaultTimeEnd={1687879000000}
       // defaultTimeStart={moment().valueOf()}
 
       // defaultTimeEnd={ moment().add(1, 'days').valueOf()}
