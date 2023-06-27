@@ -1,6 +1,6 @@
 import JsonDataProvider from "./JsonDataProvider.js";
 
-const backendUrl = ''
+const backendUrl = 'http://freekitchen.loc/admin/manager/'
 
 export default class MockAPI {
   getData = () => {
@@ -30,7 +30,7 @@ export async function getAllEqupments() {
 }
 
 export async function getAllOrders() {
-  const str = `${backendUrl}equipments`;
+  const str = `${backendUrl}orders`;
   let res = await fetch(str, {
     headers: {
       "Content-Type": "application/json;charset=utf-8",

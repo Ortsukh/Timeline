@@ -1,9 +1,17 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Select from "react-select";
 import "./style.css";
 
 export default function ToolsFilter({ toolNames, onInputChange, clearFilter }) {
+
   const [selectValue, setSelectValue] = useState(null)
+
+  useEffect(() => {
+    const value = localStorage.getItem('toolsFilter') || null
+    if(value){
+    setSelectValue({ value: value, label: value })
+    onInputChange(value)}
+  },[])
 
   const changeSearch = (e) => {
     setSelectValue(e)

@@ -40,6 +40,7 @@ export default function TimeLineRenderer({
           ? moment(orderDate.selection1.startDate).add(1, "d")
           : false
       }
+      itemTouchSendsClick={true}
       minZoom={60 * 60 * 1000}
       maxZoom={60 * 60 * 1000 * 24}
       lineHeight={100}
@@ -48,16 +49,17 @@ export default function TimeLineRenderer({
         console.log(groupId, time, e);
       }}
       onCanvasDoubleClick={(groupId, time, e) => {
-        openBookingWindow(time, e.clientX, e.clientY, "clickOnEmpty");
+        // openBookingWindow(time, e.clientX, e.clientY, "clickOnEmpty");
         console.log(e);
       }}
       onItemDoubleClick={(itemId, e, time) => {
-        openBookingWindow(time, e.clientX, e.clientY, "clickOnOrder", itemId);
+        // openBookingWindow(time, e.clientX, e.clientY, "clickOnOrder", itemId);
         console.log(itemId);
       }}
-      itemTouchSendsClick={true}
-      onItemClick={(itemId, e, time) => {
+      onItemSelect ={(itemId, e, time) => {
         console.log(itemId);
+        // openBookingWindow(time, e.clientX, e.clientY, "clickOnEmpty");
+        openBookingWindow(time, e.clientX, e.clientY, "clickOnOrder", itemId);
 
         clickOnItem(time, itemId)
       }}

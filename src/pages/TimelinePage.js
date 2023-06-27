@@ -1,6 +1,5 @@
 import moment from "moment";
 import React, { useState, useEffect } from "react";
-import { addDays } from "date-fns";
 
 import {
   convertTrucksToTimelineGroups,
@@ -39,7 +38,7 @@ export default function TimelinePage(props) {
     },
   });
 
-  const isAdmin = true;
+  const isAdmin = false;
 
   useEffect(() => {
     props.dataComponent
@@ -68,14 +67,36 @@ export default function TimelinePage(props) {
   }, [props.dataComponent]);
 
   const handleInputChange = (newInput) => {
+    console.log(newInput);
+    localStorage.setItem("toolsFilter", newInput)
+
     setSelectedGroups(() => {
       return [newInput];
     });
   };
 
+  const createorderGrid = () => {
+
+      const equipmentIdArray = {}
+      
+      const dateIntervals = {
+
+      }
+
+      itemsPreOrder.map(order => {
+        if(!equipmentIdArray[order.group]) equipmentIdArray[order.group] = []
+        equipmentIdArray[order.group].push(order)
+      })
+      console.log(equipmentIdArray);
+  }
+
+
   const addPreOrder = (groupId, time) => {
     const date = moment(time).format("MMMM DD YYYY");
+   
     const hour = moment(time).hours();
+    const formatHour = hour % 2 !== 0 ? hour : hour -1;
+    const length = 2;
     let start, end;
 
     if (hour % 2 !== 0) {
@@ -85,15 +106,23 @@ export default function TimelinePage(props) {
       start = date + ` ${hour}:00`;
       end = date + ` ${hour + 2}:00`;
     }
+
+    const grid = new Array(24).fill(0)
+    for( let i = 0; i < length; i++){
+      grid[formatHour + i -1] = 1;
+    }
+
+    console.log( grid);
     const obj = {
       id: Math.random() * 100,
       group: groupId,
       status: "preOrder",
       canMove: false,
-      itemTouchSendsClick:true,
-
+      // itemTouchSendsClick:true,
+      date:date,
+      grid: grid,
       start_time: moment(start).valueOf(),
-      end_time: moment(end).valueOf(),
+      end_time: moment(end).valueOf(),  //Добавить length
       itemTouchSendsClick: false,
       itemProps: { style: { background: "gray" } },
     };
@@ -102,6 +131,7 @@ export default function TimelinePage(props) {
   };
 
   const clearFilter = () => {
+    localStorage.clear('toolsFilter')
     setSelectedGroups([]);
   };
 
@@ -194,10 +224,10 @@ export default function TimelinePage(props) {
           />
         </div>
         <div className="sort-box_item">
-          <CountOrderFilter />
+          {/* <CountOrderFilter /> */}
 
           <div>
-            <button className="reserved-btn">Забронировать</button>
+            <button className="reserved-btn" onClick={(itemsPreOrder) => createorderGrid(itemsPreOrder)}>Забронировать</button>
           </div>
 
           {isActiveMessage ? (
