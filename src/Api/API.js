@@ -1,18 +1,8 @@
-import JsonDataProvider from "./JsonDataProvider.js";
+import { formatOrder } from "../DataConvertHelper.js";
+
 
 const backendUrl = "http://freekitchen.loc/admin/manager/";
 
-export default class MockAPI {
-  getData = () => {
-    return new Promise((resolve) => {
-      resolve(JsonDataProvider.callMockApiCall());
-    });
-  };
-
-  addData = (order, toolId) => {
-    JsonDataProvider.add(order, toolId);
-  };
-}
 const test = {
   success: true,
   data: [
@@ -22,45 +12,29 @@ const test = {
         id: 1,
         company: {
           id: 1,
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
-        id: 10,
-        type: "kitchen",
-        name: "Пиццерия",
+        id: 1,
+        type: "equipment",
+        name: "микроволновка 1",
         category: {
-          id: 1,
-          name: "category1",
-          shiftLength: 2,
+          id: 5,
+          name: "Микроволновка",
+          shiftLength: 1,
         },
       },
       intervals: [
         {
           id: 1,
-          date: {
-            date: "2023-06-20 00:00:00.000000",
-            timezone_type: 3,
-            timezone: "Europe/Moscow",
-          },
-          grid: "000000000000000011000000",
+          date: "2023-06-26",
+          grid: "000000110000111100000000",
         },
         {
-          id: 4,
-          date: {
-            date: "2023-06-20 00:00:00.000000",
-            timezone_type: 3,
-            timezone: "Europe/Moscow",
-          },
-          grid: "000000000000000011000000",
-        },
-        {
-          id: 5,
-          date: {
-            date: "2023-06-20 00:00:00.000000",
-            timezone_type: 3,
-            timezone: "Europe/Moscow",
-          },
-          grid: "000000000000000000001100",
+          id: 2,
+          date: "2023-06-27",
+          grid: "000000110000111100000000",
         },
       ],
     },
@@ -70,27 +44,24 @@ const test = {
         id: 1,
         company: {
           id: 1,
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
         id: 4,
         type: "kitchen",
-        name: "Шаурмичная",
+        name: "k1",
         category: {
-          id: 1,
-          name: "category1",
-          shiftLength: 2,
+          id: 6,
+          name: "Кухня",
+          shiftLength: 8,
         },
       },
       intervals: [
         {
-          id: 2,
-          date: {
-            date: "2023-06-24 00:00:00.000000",
-            timezone_type: 3,
-            timezone: "Europe/Moscow",
-          },
-          grid: "000000000000000000001100",
+          id: 3,
+          date: "2023-06-27",
+          grid: "000000111100111100000000",
         },
       ],
     },
@@ -100,29 +71,16 @@ const test = {
         id: 1,
         company: {
           id: 1,
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
         id: 2,
         type: "equipment",
-        name: "Холодильник",
-        category: {
-          id: 1,
-          name: "category1",
-          shiftLength: 2,
-        },
+        name: "Холодильник 1",
+        category: null,
       },
-      intervals: [
-        {
-          id: 3,
-          date: {
-            date: "2023-06-23 00:00:00.000000",
-            timezone_type: 3,
-            timezone: "Europe/Moscow",
-          },
-          grid: "000000000000000000110000",
-        },
-      ],
+      intervals: [],
     },
     {
       id: 4,
@@ -130,17 +88,14 @@ const test = {
         id: 1,
         company: {
           id: 1,
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
         id: 3,
         type: "equipment",
-        name: "Фритюрница",
-        category: {
-          id: 1,
-          name: "category1",
-          shiftLength: 2,
-        },
+        name: "микроволновка 2",
+        category: null,
       },
       intervals: [],
     },
@@ -150,17 +105,35 @@ const test = {
         id: 2,
         company: {
           id: 2,
+          name: "Умами",
         },
       },
       equipment: {
         id: 1,
         type: "equipment",
-        name: "Холодная коптильня",
+        name: "микроволновка 1",
         category: {
-          id: 1,
-          name: "category1",
-          shiftLength: 2,
+          id: 5,
+          name: "Микроволновка",
+          shiftLength: 1,
         },
+      },
+      intervals: [],
+    },
+    {
+      id: 6,
+      rentOrder: {
+        id: 2,
+        company: {
+          id: 2,
+          name: "Умами",
+        },
+      },
+      equipment: {
+        id: 8,
+        type: "kitchen",
+        name: "Суши 1",
+        category: null,
       },
       intervals: [],
     },
@@ -170,17 +143,14 @@ const test = {
         id: 2,
         company: {
           id: 2,
+          name: "Умами",
         },
       },
       equipment: {
         id: 2,
         type: "equipment",
-        name: "Холодильник",
-        category: {
-          id: 1,
-          name: "category1",
-          shiftLength: 2,
-        },
+        name: "Холодильник 1",
+        category: null,
       },
       intervals: [],
     },
@@ -190,16 +160,17 @@ const test = {
         id: 2,
         company: {
           id: 2,
+          name: "Умами",
         },
       },
       equipment: {
         id: 1,
         type: "equipment",
-        name: "Холодная коптильня",
+        name: "микроволновка 1",
         category: {
-          id: 1,
-          name: "category1",
-          shiftLength: 2,
+          id: 5,
+          name: "Микроволновка",
+          shiftLength: 1,
         },
       },
       intervals: [],
@@ -210,263 +181,323 @@ const test = {
         id: 3,
         company: {
           id: 2,
+          name: "Умами",
+        },
+      },
+      equipment: null,
+      intervals: [],
+    },
+    {
+      id: 10,
+      rentOrder: {
+        id: 3,
+        company: {
+          id: 2,
+          name: "Умами",
+        },
+      },
+      equipment: {
+        id: 7,
+        type: "kitchen",
+        name: "Пиццерия 1",
+        category: null,
+      },
+      intervals: [],
+    },
+    {
+      id: 11,
+      rentOrder: {
+        id: 3,
+        company: {
+          id: 2,
+          name: "Умами",
+        },
+      },
+      equipment: {
+        id: 9,
+        type: "kitchen",
+        name: "Мясо-рыбный цех",
+        category: null,
+      },
+      intervals: [],
+    },
+    {
+      id: 12,
+      rentOrder: {
+        id: 3,
+        company: {
+          id: 2,
+          name: "Умами",
         },
       },
       equipment: {
         id: 1,
         type: "equipment",
-        name: "Холодная коптильня",
+        name: "микроволновка 1",
         category: {
-          id: 1,
-          name: "category1",
-          shiftLength: 2,
+          id: 5,
+          name: "Микроволновка",
+          shiftLength: 1,
         },
+      },
+      intervals: [],
+    },
+    {
+      id: 13,
+      rentOrder: {
+        id: 4,
+        company: {
+          id: 2,
+          name: "Умами",
+        },
+      },
+      equipment: {
+        id: 1,
+        type: "equipment",
+        name: "микроволновка 1",
+        category: {
+          id: 5,
+          name: "Микроволновка",
+          shiftLength: 1,
+        },
+      },
+      intervals: [],
+    },
+    {
+      id: 14,
+      rentOrder: {
+        id: 4,
+        company: {
+          id: 2,
+          name: "Умами",
+        },
+      },
+      equipment: {
+        id: 1,
+        type: "equipment",
+        name: "микроволновка 1",
+        category: {
+          id: 5,
+          name: "Микроволновка",
+          shiftLength: 1,
+        },
+      },
+      intervals: [],
+    },
+    {
+      id: 15,
+      rentOrder: {
+        id: 4,
+        company: {
+          id: 2,
+          name: "Умами",
+        },
+      },
+      equipment: {
+        id: 2,
+        type: "equipment",
+        name: "Холодильник 1",
+        category: null,
+      },
+      intervals: [],
+    },
+    {
+      id: 16,
+      rentOrder: {
+        id: 4,
+        company: {
+          id: 2,
+          name: "Умами",
+        },
+      },
+      equipment: {
+        id: 1,
+        type: "equipment",
+        name: "микроволновка 1",
+        category: {
+          id: 5,
+          name: "Микроволновка",
+          shiftLength: 1,
+        },
+      },
+      intervals: [],
+    },
+    {
+      id: 17,
+      rentOrder: {
+        id: 5,
+        company: {
+          id: 2,
+          name: "Умами",
+        },
+      },
+      equipment: {
+        id: 1,
+        type: "equipment",
+        name: "микроволновка 1",
+        category: {
+          id: 5,
+          name: "Микроволновка",
+          shiftLength: 1,
+        },
+      },
+      intervals: [],
+    },
+    {
+      id: 18,
+      rentOrder: {
+        id: 5,
+        company: {
+          id: 2,
+          name: "Умами",
+        },
+      },
+      equipment: {
+        id: 4,
+        type: "kitchen",
+        name: "k1",
+        category: {
+          id: 6,
+          name: "Кухня",
+          shiftLength: 8,
+        },
+      },
+      intervals: [],
+    },
+    {
+      id: 19,
+      rentOrder: {
+        id: 5,
+        company: {
+          id: 2,
+          name: "Умами",
+        },
+      },
+      equipment: {
+        id: 2,
+        type: "equipment",
+        name: "Холодильник 1",
+        category: null,
+      },
+      intervals: [],
+    },
+    {
+      id: 20,
+      rentOrder: {
+        id: 5,
+        company: {
+          id: 2,
+          name: "Умами",
+        },
+      },
+      equipment: {
+        id: 3,
+        type: "equipment",
+        name: "микроволновка 2",
+        category: null,
       },
       intervals: [],
     },
   ],
 };
 
-const testOrder = {
+const testOrderequip = {
   success: true,
   data: [
     {
-      id: 1,
-      rentOrder: {
-        id: 1,
-        status: "accepted",
-        company: {
-          id: 1,
-          name: 'Суши "Минск-сити"',
-        },
-      },
-      equipment: {
-        id: 10,
-        status: "free",
-        type: "kitchen",
-        description: "TextHolder",
-        price: "1000.0000",
-        category: {
-          id: 1,
-          name: "category1",
-          shiftLength: 2,
-        },
-      },
-      intervals: [
+      id: 5,
+      name: "Микроволновка",
+      shiftLength: 1,
+      kitchenEquipment: [
         {
           id: 1,
-          date: {
-            date: "2023-06-27",
-            timezone_type: 3,
-            timezone: "Europe/Moscow",
-          },
-          grid: "000000000000000011000000",
+          type: "equipment",
+          name: "микроволновка 1",
         },
+      ],
+    },
+    {
+      id: 6,
+      name: "Кухня",
+      shiftLength: 8,
+      kitchenEquipment: [
         {
           id: 4,
-          date: {
-            date: "2023-06-25",
-            timezone_type: 3,
-            timezone: "Europe/Moscow",
-          },
-          grid: "000000000000001100000000",
+          type: "kitchen",
+          name: "k1",
         },
         {
           id: 5,
-          date: {
-            date: "2023-06-26",
-            timezone_type: 3,
-            timezone: "Europe/Moscow",
-          },
-          grid: "000000000000000000001100",
+          type: "kitchen",
+          name: "k2",
         },
       ],
+    },
+    {
+      id: 1,
+      name: "Холодильник",
+      shiftLength: 4,
+      kitchenEquipment: [],
     },
     {
       id: 2,
-      equipment: {
-        id: 4,
-        status: "free",
-        type: "kitchen",
-        description: "TextHolder",
-        price: "800.0000",
-        category: {
-          id: 1,
-          name: "category1",
-          shiftLength: 2,
-        },
-      },
-      intervals: [
-        {
-          id: 2,
-          date: {
-            date: "2023-06-24 00:00:00.000000",
-            timezone_type: 3,
-            timezone: "Europe/Moscow",
-          },
-          grid: "000000000000000000001100",
-        },
-      ],
+      name: "Комбайн",
+      shiftLength: 2,
+      kitchenEquipment: [],
     },
     {
       id: 3,
-      equipment: {
-        id: 2,
-        status: "free",
-        type: "equipment",
-        description: "TextHolder",
-        price: "150.0000",
-        category: {
-          id: 1,
-          name: "category1",
-          shiftLength: 2,
-        },
-      },
-      intervals: [
-        {
-          id: 3,
-          date: {
-            date: "2023-06-23 00:00:00.000000",
-            timezone_type: 3,
-            timezone: "Europe/Moscow",
-          },
-          grid: "000000000000000000110000",
-        },
-      ],
+      name: "Чайник",
+      shiftLength: 2,
+      kitchenEquipment: [],
     },
     {
       id: 4,
-      equipment: {
-        id: 3,
-        status: "free",
-        type: "equipment",
-        description: "TextHolder",
-        price: "650.0000",
-        category: {
-          id: 1,
-          name: "category1",
-          shiftLength: 2,
-        },
-      },
-      intervals: [],
-    },
-    {
-      id: 25,
-      equipment: {
-        id: 1,
-        status: "free",
-        type: "equipment",
-        description: "TextHolder",
-        price: "300.0000",
-        category: {
-          id: 1,
-          name: "category1",
-          shiftLength: 2,
-        },
-      },
-      intervals: [],
-    },
-    {
-      id: 35,
-      equipment: {
-        id: 11,
-        status: "free",
-        type: "equipment",
-        description: "equipment",
-        price: "37.0000",
-        category: {
-          id: 1,
-          name: "category1",
-          shiftLength: 2,
-        },
-      },
-      intervals: [],
-    },
-    {
-      id: 57,
-      equipment: {
-        id: 2,
-        status: "free",
-        type: "equipment",
-        description: "TextHolder",
-        price: "150.0000",
-        category: {
-          id: 1,
-          name: "category1",
-          shiftLength: 2,
-        },
-      },
-      intervals: [],
-    },
-    {
-      id: 43,
-      equipment: {
-        id: 17,
-        status: "free",
-        type: "equipment",
-        description: "equipment",
-        price: "75.0000",
-        category: {
-          id: 2,
-          name: "category2",
-          shiftLength: 4,
-        },
-      },
-      intervals: [],
+      name: "Плита",
+      shiftLength: 4,
+      kitchenEquipment: [],
     },
   ],
 };
 
 export async function getAllEqupments1() {
   return new Promise((resolve) => {
-    resolve(test);
+    resolve(testOrderequip);
   });
 }
 
 export async function getAllOrders1() {
   return new Promise((resolve) => {
-    resolve(testOrder);
+    resolve(test);
   });
 }
+
 export async function getAllEqupments() {
-  const str = `http://freekitchen.loc/admin/manager/get_equipment_items`;
-  let res = await fetch(str, {
-    headers: {
-      method: "get",
-      "Content-Type": "application/json;charset=utf-8",
-      "Access-Control-Allow-Headers": "*",
-      "Access-Control-Allow-Methods": "*",
-      "Access-Control-Allow-Origin": "*",
-    },
-  });
+  const str = `http://freekitchen.loc/admin/manager/get_equipment`;
+  let res = await fetch(str, {});
   if (!res.ok) {
-    throw new Error("Something went wrong.Sorry");
+    throw new Error("Something went wrong. Sorry");
   }
 
   return await res.json();
 }
 
 export async function getAllOrders() {
-  const str = `http://freekitchen.loc/admin/manager/get_order/1`;
-  let res = await fetch(str, {
-    headers: {
-      "Content-Type": "application/json;charset=utf-8",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers":
-        "Origin, X-Requested-With, Content-Type, Accept",
-    },
-  });
+  const str = `http://freekitchen.loc/admin/manager/get_equipment_items`;
+  let res = await fetch(str, {});
 
   if (!res.ok) {
-    throw new Error("Something went wrong.Sorry");
+    throw new Error("Something went wrong. Sorry");
   }
 
   return await res.json();
 }
 
-export async function createOrder(order) {
+export async function sendEditOrder(order) {
+  const str = `/admin/manager/edit_order`;
 
-  const str = `${backendUrl}orders`;
+
+
   let res = await fetch(str, {
     method: "post",
     headers: {
@@ -474,6 +505,41 @@ export async function createOrder(order) {
     },
     body: JSON.stringify(order),
   });
+
+
+  if (!res.ok) {
+    throw new Error("Something went wrong. Sorry");
+  }
+
+  return await res.json();
+}
+
+
+
+export async function createOrder(order) {
+  const str = `/admin/manager/save_order`;
+  const dateIntervals = formatOrder(order)
+ 
+  const body = {
+    company: {
+      id: 1,
+      name: 'Суши "Минск-сити"',
+    },
+    status: "pending",
+    equipmentItems: dateIntervals,
+  };
+
+  let res = await fetch(str, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    throw new Error("Something went wrong. Sorry");
+  }
 
   return await res.json();
 }

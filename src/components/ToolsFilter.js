@@ -38,7 +38,7 @@ export default function ToolsFilter({ toolNames, onInputChange, clearFilter }) {
         value={selectValue}
       />
       <button className="clear-button" onClick={handleReset}>
-        Отчистить
+        Очистить
       </button>
     </div>
   );

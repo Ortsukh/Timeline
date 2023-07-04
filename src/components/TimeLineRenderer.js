@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import Timeline from "react-calendar-timeline";
 import "./style.css";
@@ -11,63 +11,50 @@ export default function TimeLineRenderer({
   orderDate,
   openBookingWindow,
   items,
-  addPreOrder,
-  clickOnItem
+  clickOnEmptySpace,
+  clickOnItem,
 }) {
-    console.log('render',items, groups );
-  const minTime =
-    moment(orderDate.selection1.startDate).valueOf() || moment().valueOf();
-  const maxTime =
-    moment(orderDate.selection1.endDate).add(1, "days").valueOf() ||
-    moment(moment().year() + "-" + moment().month() + "-" + moment().date())
-      .add(1, "days")
-      .valueOf();
+  const [time, setTime] = useState(0);
+  useEffect(() => {
+    setTime(orderDate.selection1.startDate);
+  }, [orderDate.selection1.startDate, isActiveDate]);
+
+  console.log("render", items, groups);
+  const minTime = moment(orderDate.selection1.startDate).valueOf();
+  const maxTime = moment(orderDate.selection1.endDate).add(1, "days").valueOf();
+
+
   return (
     <Timeline
       className="container"
       groups={toolsCount ? groups.slice(0, toolsCount) : groups}
       items={items}
       canMove={false}
-      defaultTimeStart={1687860800000}
-      defaultTimeEnd={1687879000000}
-      // defaultTimeStart={moment().valueOf()}
-
-      // defaultTimeEnd={ moment().add(1, 'days').valueOf()}
+      defaultTimeStart={moment()}
+      defaultTimeEnd={moment().add(2, "days")}
       visibleTimeStart={
-        isActiveDate ? moment(orderDate.selection1.startDate) : false
+        isActiveDate ? moment(orderDate.selection1.startDate) : null
       }
       visibleTimeEnd={
         isActiveDate
-          ? moment(orderDate.selection1.startDate).add(1, "d")
-          : false
+          ? moment(orderDate.selection1.startDate).add(1, "days")
+          : null
       }
       itemTouchSendsClick={true}
       minZoom={60 * 60 * 1000}
       maxZoom={60 * 60 * 1000 * 24}
-      lineHeight={100}
+      lineHeight={45}
       onCanvasClick={(groupId, time, e) => {
-        addPreOrder(groupId,time )
+        clickOnEmptySpace(groupId, time);
         console.log(groupId, time, e);
       }}
-      onCanvasDoubleClick={(groupId, time, e) => {
-        // openBookingWindow(time, e.clientX, e.clientY, "clickOnEmpty");
-        console.log(e);
-      }}
-      onItemDoubleClick={(itemId, e, time) => {
-        // openBookingWindow(time, e.clientX, e.clientY, "clickOnOrder", itemId);
-        console.log(itemId);
-      }}
-      onItemSelect ={(itemId, e, time) => {
+      onItemSelect={(itemId, e, time) => {
         console.log(itemId);
         openBookingWindow(time, e.clientX, e.clientY, "clickOnOrder", itemId);
 
-        clickOnItem(time, itemId)
+        clickOnItem(time, itemId);
       }}
-      onTimeChange={function (
-        visibleTimeStart,
-        visibleTimeEnd,
-        updateScrollCanvas
-      ) {
+      onTimeChange={(visibleTimeStart, visibleTimeEnd, updateScrollCanvas) => {
         if (visibleTimeStart < minTime && visibleTimeEnd > maxTime) {
           updateScrollCanvas(minTime, maxTime);
         } else if (visibleTimeStart < minTime) {

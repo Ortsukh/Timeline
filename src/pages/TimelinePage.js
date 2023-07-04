@@ -1,15 +1,18 @@
 import moment from "moment";
 import React, { useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import {
-  convertTrucksToTimelineGroups,
-  convertOrdersToTimelineItems,
+  addGrid,
   createEquipmentGroup,
+  createOrderGrid,
   createOrderGroup,
+  formatOrder,
 } from "../DataConvertHelper";
 import ToolsFilter from "../components/ToolsFilter";
 import CountTools from "../components/CountToolsFilter";
 import DateFilter from "../components/DateFilter";
+import Spiner from "../components/Spiner";
 import CountOrderFilter from "../components/CountOrderFilter";
 import MessageWindow from "../components/MessageWindow";
 import TimeLineRenderer from "../components/TimeLineRenderer";
@@ -17,72 +20,71 @@ import CompaniesSelect from "../components/CompaniesSelect";
 import StatusSelect from "../components/StatusSelect";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
-import { createOrder, getAllEqupments, getAllEqupments1, getAllOrders, getAllOrders1 } from "../Api/API";
+import {
+  createOrder,
+  getAllEqupments,
+  getAllEqupments1,
+  getAllOrders,
+  getAllOrders1,
+  sendEditOrder,
+} from "../Api/API";
+import AlertWindow from "../components/AlertWindow";
+import ButtonBoxComponent from "../components/ButtonBoxComponent";
 
 export default function TimelinePage(props) {
   const [groups, setGroups] = useState([]);
-  const [groups1, setGroups1] = useState([]);
+  const [update, setUpdate] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [isCreateMode, setIsCreateMode] = useState(false);
   const [items, setItems] = useState([]);
-  const [items1, setItems1] = useState([]);
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
+  const [copyEditItems, setCopyEditItems] = useState([]);
+
   const [companies, setCompanies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingEquipment, setIsLoadingEquipment] = useState(true);
+  const [blockCreateButton, setBlockCreateButton] = useState(false);
   const [isActiveDate, setIsActiveDate] = useState(false);
   const [isActiveMessage, setIsActiveMessage] = useState(false);
+  const [isOpenAlertWindow, setIsOpenAlertWindow] = useState({
+    status: false,
+    message: "",
+  });
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [toolsCount, setToolsCount] = useState(0);
   const [chosenDate, setChosenDate] = useState(null);
   const [orderDate, setOrderDate] = useState({
     selection1: {
-      startDate: moment(
-        moment().year() + "-" + moment().month() + "-" + moment().date()
-      ).valueOf(),
+      startDate: new Date(),
 
-      endDate: null,
+      endDate: new Date(moment().add(2, "days").valueOf()),
       key: "selection1",
     },
   });
 
   const isAdmin = false;
 
-  // useEffect(() => {
-  //   getAllEqupments().then((response) => {
-  //     console.log("response", response);
-  //     console.log("23123", createEquipmentGroup(response.data));
-  //     setGroups1(createEquipmentGroup(response.data));
+  useEffect(() => {
+    setIsLoadingEquipment(true);
 
-  //   });
-  // }, []);
+    getAllEqupments().then((response) => {
+      setGroups(createEquipmentGroup(response.data));
+      setIsLoadingEquipment(false);
+    });
+  }, [update]);
 
   useEffect(() => {
-    getAllEqupments1().then((response) => {
-      setGroups1(createEquipmentGroup(response.data));
-    });
+    setIsLoadingEquipment(true);
 
-    getAllOrders1().then((response) => {
-      console.log(createOrderGroup(response.data));
-      setItems1(createOrderGroup(response.data));
-    });
-  }, []);
-
-  useEffect(() => {
-    props.dataComponent
-      .getData()
+    getAllOrders()
       .then((response) => {
-        setGroups(convertTrucksToTimelineGroups(response.tools));
-    
-        setItems(
-          convertOrdersToTimelineItems(
-            response.orders,
-            response.tools,
-            response.companies
-          )
-        );
-        setCompanies(response.companies);
+        console.log(createOrderGroup(response.data));
+        setItems(createOrderGroup(response.data));
         setIsLoading(false);
       })
+
       .catch((error) => console.log(error));
-  }, [props.dataComponent]);
+  }, [update]);
 
   const handleInputChange = (newInput) => {
     localStorage.setItem("toolsFilter", newInput);
@@ -92,126 +94,128 @@ export default function TimelinePage(props) {
     });
   };
 
-  const sendNewOrder= () =>{
-    const orders = createOrderGrid()
-    console.log(orders);
-    createOrder(orders).then(response => console.log(response))
-  }
+  const editMode = (_e, order) => {
+    const selectedItems = items.filter(
+      (item) => item.rentOrderId == order.rentOrderId
+    );
 
-  const createOrderGrid = () => {
-    const equipmentIdArray = {};
-    const dateIntervals = [];
+    const allItems = items.filter(
+      (item) => item.rentOrderId !== order.rentOrderId
+    );
 
-    itemsPreOrder.forEach((order) => {
-      if (!equipmentIdArray[order.group]) {
-        equipmentIdArray[order.group] = [];
-      }
-      equipmentIdArray[order.group].push(order);
+    const selectedItemsWithColor = selectedItems.map((el) => {
+      return {
+        ...el,
+        itemProps: { style: { background: "gray" } },
+      };
     });
-    for (let key in equipmentIdArray) {
-      const equipmentIdArrayByDate = {};
-      equipmentIdArray[key].forEach((order) => {
-        if (!equipmentIdArrayByDate[order.date]) {
-          equipmentIdArrayByDate[order.date] = [];
-        }
-        equipmentIdArrayByDate[order.date].push(order);
-      });
-      dateIntervals.push({
-        equipmentId: key,
-        intervals: equipmentIdArrayByDate,
-      });
-    }
 
-    const result = [];
-    dateIntervals.forEach((el) => {
-      for (let keyObj in el.intervals) {
-        let partA = 2000000000000;
-        let partB = 2000000000000;
-
-        el.intervals[keyObj].map((el) => {
-          partA += Number(el.grid.slice(0, 12));
-          partB += Number(el.grid.slice(12, 24));
-        });
-
-        result.push({
-          equipmentId: el.equipmentId,
-          date: keyObj,
-          grid: String(partA).slice(1, 13) + String(partB).slice(1, 13),
-        });
-      }
-    });
-    return result
+    setItems(allItems);
+    setItemsPreOrder(selectedItemsWithColor);
+    setCopyEditItems(selectedItems);
+    setIsEditMode(true);
+    setIsActiveMessage(false);
   };
-  // const createOrderGrid = () => {
 
-  //     const equipmentIdArray = {}
-  //     const dateIntervals = []
+  const sendNewOrder = () => {
+    if (itemsPreOrder.length < 1) return;
+    const orderItems = createOrderGrid(itemsPreOrder);
+    setBlockCreateButton(true);
+    createOrder(orderItems)
+      .then((response) => {
+        setItemsPreOrder([]);
+        setUpdate((previousUpdate) => !previousUpdate);
+        operAlertWindow("success");
+      })
+      .catch(() => operAlertWindow("error"));
+  };
 
-  //     itemsPreOrder.map(order => {
-  //       if(!equipmentIdArray[order.group]) equipmentIdArray[order.group] = []
-  //       equipmentIdArray[order.group].push(order)
-  //     })
-  //     console.log(equipmentIdArray);
-  //     for(let key in equipmentIdArray) {
-  //       const equipmentIdArrayByDate = {}
-  //       equipmentIdArray[key].map(order => {
-  //           if(!equipmentIdArrayByDate[order.date]) equipmentIdArrayByDate[order.date] = []
-  //           equipmentIdArrayByDate[order.date].push(order)
-  //       })
-  //       dateIntervals.push({
-  //         equipmentId: key,
-  //         intevals: equipmentIdArrayByDate
+  const editOrder = () => {
+    if (itemsPreOrder.length < 1) return;
+    const orderItem = itemsPreOrder[0];
+    console.log(itemsPreOrder);
+    const orderItemsGrid = createOrderGrid(itemsPreOrder);
+    console.log(orderItemsGrid);
+    const dateIntervals = formatOrder(orderItemsGrid);
+    console.log(dateIntervals);
+    console.log(orderItem);
+    const editedOrder = {
+      rentOrder: {
+        id: orderItem.rentOrderId,
+        company: orderItem.company,
+      },
+      status: orderItem.status,
+      equipmentItems: dateIntervals,
+    };
 
-  //       })
-  //     }
-  //     const result = []
-  //      dateIntervals. map(el =>  {
-  //       for(let keyObj in el.intevals)  {
-  //         const grid = el.intevals[keyObj].reduce((acc, interval) => {
-  //           console.log(interval.grid);
-  //           return (acc + Number(interval.grid))
-  //         }, 5) -5 + ''
-  //         let str = new Array ( 24 - grid.length).fill(0).join('')
-  //       result.push({
-  //         equipmentId: el.equipmentId,
-  //         data:  keyObj,
-  //         grid: str + grid
-  //       })}})
+    setBlockCreateButton(true);
 
-  //     console.log(result);
-  //     return result
-  // }
+    sendEditOrder(editedOrder)
+      .then(() => {
+        setUpdate((previousUpdate) => !previousUpdate);
+        setItemsPreOrder([]);
+        setCopyEditItems([]);
+        operAlertWindow("success");
+        setIsEditMode(false);
+      })
+      .catch(() => operAlertWindow("error"));
+  };
 
-  const addPreOrder = (groupId, time) => {
-    const date = moment(time).format("MMMM DD YYYY");
+  const operAlertWindow = (message) => {
+    setIsOpenAlertWindow({
+      status: true,
+      message: message,
+    });
+    setTimeout(() => {
+      setIsOpenAlertWindow({
+        status: false,
+        message: message,
+      });
+      setBlockCreateButton(false);
+    }, 2000);
+  };
 
+  const getFormatedDate = (groupId, time) => {
+    const date = moment(time).format("YYYY-MM-DD");
     const hour = moment(time).hours();
-    const formatHour = hour % 2 !== 0 ? hour - 1 : hour;
-    const length = 2;
+    const shiftLength = groups.find(
+      (group) => group.id === groupId
+    ).shiftLength;
+    const formatHour = Math.floor(hour / shiftLength);
+
     let start, end;
 
-    if (hour % 2 !== 0) {
-      start = date + ` ${hour - 1}:00`;
-      end = date + ` ${hour + 1}:00`;
-    } else {
-      start = date + ` ${hour}:00`;
-      end = date + ` ${hour + 2}:00`;
-    }
-    const grid = new Array(24).fill(0);
-    for (let i = 0; i < length; i++) {
-      grid[formatHour + i] = 1;
-    }
+    start = formatHour * shiftLength;
+    end = start + shiftLength;
+    start = date + " " + start + ":00";
+    end = date + " " + end + ":00";
+    return {
+      start,
+      end,
+    };
+  };
+
+  const clickOnEmptySpace = (groupId, time) => {
+    console.log(!isEditMode);
+    if (!isCreateMode && !isEditMode) return;
+    const date = moment(time).format("YYYY-MM-DD");
+    const hour = moment(time).hours();
+    const shiftLength = groups.find(
+      (group) => group.id === groupId
+    ).shiftLength;
+    const formatHour = Math.floor(hour / shiftLength);
+
+    const formatedDate = getFormatedDate(groupId, time);
 
     const obj = {
-      id: Math.random() * 100,
+      id: uuidv4(),
       group: groupId,
       status: "preOrder",
       canMove: false,
-      // itemTouchSendsClick:true,
       date: date,
-      grid: grid.join(""),
-      start_time: moment(start).valueOf(),
-      end_time: moment(end).valueOf(), //Добавить length
+      grid: addGrid(formatHour, shiftLength),
+      start_time: moment(formatedDate.start).valueOf(),
+      end_time: moment(formatedDate.end).valueOf(),
       itemTouchSendsClick: false,
       itemProps: { style: { background: "gray" } },
     };
@@ -231,39 +235,34 @@ export default function TimelinePage(props) {
     setIsActiveDate((current) => !current);
   };
 
-  const mapTruckNames = () => {
-    return [...new Set(groups1.map((group) => group.category))];
+  const mapToolsNames = () => {
+    return [...new Set(groups.map((group) => group.category))];
   };
 
   const getGroupsToShow = () => {
     return selectedGroups.length
-      ? groups1.filter((group) => selectedGroups.includes(group.category))
-      : groups1;
+      ? groups.filter((group) => selectedGroups.includes(group.category))
+      : groups;
   };
 
-  const clickOnItem = (time, itemId) => {
+  const clickOnItem = (_time, itemId) => {
+    console.log(itemsPreOrder);
+    console.log(itemId);
     const item = itemId
       ? itemsPreOrder.find((item) => item.id === itemId)
       : null;
-    if (!item || item.status !== "preOrder") return;
+    console.log(item);
+    if (!item) return;
     setItemsPreOrder((pred) => pred.filter((el) => el.id !== itemId));
   };
 
   const openBookingWindow = (time, posX, posY, kindModal, itemId) => {
-    console.log(itemId);
-    const item = itemId ? items1.find((item) => item.id === itemId) : null;
-    if (!item || item.status === "preOrder") return;
+    const item = itemId ? items.find((item) => item.id === itemId) : null;
+    if (!item || item.status === "preOrder" || isEditMode) return;
     setIsActiveMessage((current) => !current);
-    const date = moment(time).format("MMMM Do YYYY");
-    const hour = moment(time).hours();
-    let result = date;
-
-    result +=
-      hour % 2 !== 0
-        ? ` ${hour - 1}:00 - ${hour + 1}:00`
-        : ` ${hour}:00 - ${hour + 2}:00`;
-
-    // const item = itemId ? items.find((item) => item.id === itemId) : null; // дальше будет фильтр по времени и группе
+    const formatedDate = getFormatedDate(item.group, time);
+    const date = moment(time).format("YYYY-MM-DD");
+    const result = date + " " + formatedDate.start + " - " + formatedDate.end;
 
     setChosenDate({
       date: result,
@@ -274,18 +273,44 @@ export default function TimelinePage(props) {
     });
   };
 
+  const changeMode = () => {
+    setIsCreateMode((previousUpdate) => !previousUpdate);
+  };
+
+  const restoreEditItems = () => {
+    setItemsPreOrder(
+      copyEditItems.map((el) => {
+        return {
+          ...el,
+          itemProps: { style: { background: "gray" } },
+        };
+      })
+    );
+  };
+
+  const restoreAndCloseEditMode = () => {
+    setItems((previousUpdate) => previousUpdate.concat(copyEditItems));
+    setItemsPreOrder([]);
+    setCopyEditItems([]);
+    setIsEditMode((previousUpdate) => !previousUpdate);
+  };
+
+  const clearAndChangeMode = () => {
+    setIsCreateMode((previousUpdate) => !previousUpdate);
+    setItemsPreOrder([]);
+  };
+
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };
-
-  return isLoading ? (
-    <div>"Loading Data..."</div>
+  return isLoading || (isLoadingEquipment && false) ? (
+    <Spiner />
   ) : (
     <>
       <div className="container sort-box">
         <div className="sort-box_item">
           <ToolsFilter
-            toolNames={mapTruckNames()}
+            toolNames={mapToolsNames()}
             onInputChange={handleInputChange}
             selectedGroups={selectedGroups}
             clearFilter={clearFilter}
@@ -301,7 +326,7 @@ export default function TimelinePage(props) {
         <div className="sort-box_item">
           {isAdmin ? (
             <>
-              <CompaniesSelect companies={companies} /> 
+              <CompaniesSelect companies={companies} />
             </>
           ) : null}
 
@@ -312,25 +337,19 @@ export default function TimelinePage(props) {
             orderDate={orderDate}
           />
         </div>
-        <div className="sort-box_item">
-          {/* <CountOrderFilter /> */}
+        <div className="sort-box_item">{/* <CountOrderFilter /> */}</div>
 
-          <div>
-            <button
-              className="reserved-btn"
-              onClick={() => sendNewOrder()}
-            >
-              Забронировать
-            </button>
-          </div>
-
-          {isActiveMessage ? (
-            <MessageWindow
-              closeBookingWindow={closeBookingWindow}
-              data={chosenDate}
-            />
-          ) : null}
-        </div>
+        <ButtonBoxComponent
+          isEditMode={isEditMode}
+          sendNewOrder={sendNewOrder}
+          clearAndChangeMode={clearAndChangeMode}
+          changeMode={changeMode}
+          blockCreateButton={blockCreateButton}
+          editOrder={editOrder}
+          restoreAndCloseEditMode={restoreAndCloseEditMode}
+          restoreEditItems={restoreEditItems}
+          isCreateMode={isCreateMode}
+        />
       </div>
 
       <TimeLineRenderer
@@ -339,16 +358,24 @@ export default function TimelinePage(props) {
             ? getGroupsToShow().slice(0, toolsCount)
             : getGroupsToShow()
         }
-        // groups={groups1}
         toolsCount={toolsCount}
         isActiveDate={isActiveDate}
         orderDate={orderDate}
         openBookingWindow={openBookingWindow}
-        // items={items.concat(itemsPreOrder)}
-        items={items1.concat(itemsPreOrder)}
-        addPreOrder={addPreOrder}
+        items={items.concat(itemsPreOrder)}
+        clickOnEmptySpace={clickOnEmptySpace}
         clickOnItem={clickOnItem}
       />
+      {isActiveMessage ? (
+        <MessageWindow
+          closeBookingWindow={closeBookingWindow}
+          data={chosenDate}
+          editMode={editMode}
+        />
+      ) : null}
+      {isOpenAlertWindow.status ? (
+        <AlertWindow message={isOpenAlertWindow.message} />
+      ) : null}
     </>
   );
 }
