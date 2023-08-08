@@ -1,20 +1,23 @@
 import moment from "moment";
 import { orderStatus } from "./constants/constants";
 import { v4 as uuidv4 } from "uuid";
-import { id } from "date-fns/locale";
+
+
+
+const createEquipmentObject = (item, elem) => ({
+  id: item.id,
+  title: item.name,
+  type: item.type,
+  category: elem.name,
+  shiftLength: elem.shiftLength,
+});
 
 export const createEquipmentGroup = (equipments) => {
   const result = [];
-  equipments.map((elem) => {
+  equipments.forEach((elem) => {
     if (elem.kitchenEquipment.length > 0) {
       elem.kitchenEquipment.forEach((item) => {
-        result.push({
-          id: item.id,
-          title: item.name,
-          type: item.type,
-          category: elem.name,
-          shiftLength: elem.shiftLength,
-        });
+        result.push(createEquipmentObject(item, elem));
       });
     }
   });
@@ -35,44 +38,43 @@ const convertGrid = (length, grid, date) => {
   return times;
 };
 
+const createOrderObject = (order, el, shiftLength, interval) => {
+  const statusColor =
+    orderStatus[order.rentOrder.status]?.color || "rgb(39, 128, 252)";
+  const itemProps = { style: { background: statusColor } };
+  const hour = moment(el.start_time).hours();
+  const formatHour = Math.floor(hour / shiftLength);
+
+  return {
+    id: uuidv4(),
+    orderId: order.id,
+    rentOrderId: order.rentOrder.id,
+    group: order.equipment.id,
+    intervalId: interval.id,
+    start_time: el.start_time,
+    end_time: el.end_time,
+    company: order.rentOrder.company || null,
+    status: order.rentOrder.status || "accepted",
+    itemProps,
+    date: interval.date,
+    grid: addGrid(formatHour, shiftLength),
+  };
+};
+
 export const createOrderGroup = (orders) => {
   const result = [];
 
   orders.forEach((order) => {
     if (!order.rentOrder || !order.equipment || !order.equipment.category)
       return;
-    console.log(order);
+
     const shiftLength = order.equipment.category.shiftLength;
 
-    order.intervals.map((interval) => {
-      const statusColor =
-        orderStatus[order.rentOrder.status]?.color || "rgb(39, 128, 252)";
-      const itemProps = { style: { background: statusColor } };
-
-      const formInterval = convertGrid(
-        shiftLength,
-        interval.grid,
-        interval.date
-      );
+    order.intervals.forEach((interval) => {
+      const formInterval = convertGrid(shiftLength, interval.grid, interval.date);
 
       formInterval.forEach((el) => {
-        const hour = moment(el.start_time).hours();
-
-        const formatHour = Math.floor(hour / shiftLength);
-        result.push({
-          id: uuidv4(),
-          orderId: order.id,
-          rentOrderId: order.rentOrder.id,
-          group: order.equipment.id,
-          intervalId: interval.id,
-          start_time: el.start_time,
-          end_time: el.end_time,
-          company: order.rentOrder.company || null,
-          status: order.rentOrder.status || "accepted",
-          itemProps,
-          date: interval.date,
-          grid: addGrid(formatHour, shiftLength),
-        });
+        result.push(createOrderObject(order, el, shiftLength, interval));
       });
     });
   });
@@ -89,6 +91,7 @@ export const addGrid = (formatHour, shiftLength) => {
 
   return grid.join("");
 };
+
 
 export const formatOrder = (order, orderId) => {
   const equipmentIdArray = {};
@@ -162,7 +165,7 @@ export const createOrderGrid = (itemsPreOrder) => {
   return result;
 };
 
-// import { orderStatus } from "./constants/constants";
+
 
 // export function convertTrucksToTimelineGroups(tools) {
 //   return tools.map((tool, index) => ({

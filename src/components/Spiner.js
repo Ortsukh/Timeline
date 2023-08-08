@@ -15,7 +15,6 @@ export default function Spiner() {
       <ClipLoader
       type="CircleLoader"
         color={color}
-        // loading={loading}
         cssOverride={override}
         size={150}
         aria-label="Loading Spinner"

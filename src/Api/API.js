@@ -473,7 +473,7 @@ export async function getAllOrders1() {
 }
 
 export async function getAllEqupments() {
-  const str = `http://freekitchen.loc/admin/manager/get_equipment`;
+  const str = `http://freekitchen.loc/test/get_equipment`;
   let res = await fetch(str, {});
   if (!res.ok) {
     throw new Error("Something went wrong. Sorry");
@@ -483,7 +483,7 @@ export async function getAllEqupments() {
 }
 
 export async function getAllOrders() {
-  const str = `http://freekitchen.loc/admin/manager/get_equipment_items`;
+  const str = `http://freekitchen.loc/test/get_equipment_items`;
   let res = await fetch(str, {});
 
   if (!res.ok) {

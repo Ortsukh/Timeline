@@ -78,7 +78,6 @@ export default function TimelinePage(props) {
 
     getAllOrders()
       .then((response) => {
-        console.log(createOrderGroup(response.data));
         setItems(createOrderGroup(response.data));
         setIsLoading(false);
       })
@@ -133,12 +132,9 @@ export default function TimelinePage(props) {
   const editOrder = () => {
     if (itemsPreOrder.length < 1) return;
     const orderItem = itemsPreOrder[0];
-    console.log(itemsPreOrder);
     const orderItemsGrid = createOrderGrid(itemsPreOrder);
     console.log(orderItemsGrid);
     const dateIntervals = formatOrder(orderItemsGrid);
-    console.log(dateIntervals);
-    console.log(orderItem);
     const editedOrder = {
       rentOrder: {
         id: orderItem.rentOrderId,
@@ -196,7 +192,6 @@ export default function TimelinePage(props) {
   };
 
   const clickOnEmptySpace = (groupId, time) => {
-    console.log(!isEditMode);
     if (!isCreateMode && !isEditMode) return;
     const date = moment(time).format("YYYY-MM-DD");
     const hour = moment(time).hours();
@@ -246,12 +241,9 @@ export default function TimelinePage(props) {
   };
 
   const clickOnItem = (_time, itemId) => {
-    console.log(itemsPreOrder);
-    console.log(itemId);
     const item = itemId
       ? itemsPreOrder.find((item) => item.id === itemId)
       : null;
-    console.log(item);
     if (!item) return;
     setItemsPreOrder((pred) => pred.filter((el) => el.id !== itemId));
   };
@@ -303,9 +295,7 @@ export default function TimelinePage(props) {
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };
-  return isLoading || (isLoadingEquipment && false) ? (
-    <Spiner />
-  ) : (
+  return !isLoading && !isLoadingEquipment  ? (
     <>
       <div className="container sort-box">
         <div className="sort-box_item">
@@ -377,5 +367,7 @@ export default function TimelinePage(props) {
         <AlertWindow message={isOpenAlertWindow.message} />
       ) : null}
     </>
+  ) : (
+    <Spiner />
   );
 }
