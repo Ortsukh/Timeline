@@ -1,11 +1,18 @@
 import moment from "moment";
 import React, { useState, useEffect } from "react";
-import { addDays } from "date-fns";
+import { v4 as uuidv4 } from "uuid";
 
-import {convertTrucksToTimelineGroups, convertOrdersToTimelineItems} from "../DataConvertHelper";
+import {
+  addGrid,
+  createEquipmentGroup,
+  createOrderGrid,
+  createOrderGroup,
+  formatOrder,
+} from "../DataConvertHelper";
 import ToolsFilter from "../components/ToolsFilter";
 import CountTools from "../components/CountToolsFilter";
 import DateFilter from "../components/DateFilter";
+import Spiner from "../components/Spiner";
 import CountOrderFilter from "../components/CountOrderFilter";
 import MessageWindow from "../components/MessageWindow";
 import TimeLineRenderer from "../components/TimeLineRenderer";
@@ -13,56 +20,205 @@ import CompaniesSelect from "../components/CompaniesSelect";
 import StatusSelect from "../components/StatusSelect";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
+import {
+  createOrder,
+  getAllEqupments,
+  getAllEqupments1,
+  getAllOrders,
+  getAllOrders1,
+  sendEditOrder,
+} from "../Api/API";
+import AlertWindow from "../components/AlertWindow";
+import ButtonBoxComponent from "../components/ButtonBoxComponent";
 
 export default function TimelinePage(props) {
   const [groups, setGroups] = useState([]);
+  const [update, setUpdate] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [isCreateMode, setIsCreateMode] = useState(false);
   const [items, setItems] = useState([]);
+  const [itemsPreOrder, setItemsPreOrder] = useState([]);
+  const [copyEditItems, setCopyEditItems] = useState([]);
+
   const [companies, setCompanies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingEquipment, setIsLoadingEquipment] = useState(true);
+  const [blockCreateButton, setBlockCreateButton] = useState(false);
   const [isActiveDate, setIsActiveDate] = useState(false);
   const [isActiveMessage, setIsActiveMessage] = useState(false);
+  const [isOpenAlertWindow, setIsOpenAlertWindow] = useState({
+    status: false,
+    message: "",
+  });
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [toolsCount, setToolsCount] = useState(0);
   const [chosenDate, setChosenDate] = useState(null);
   const [orderDate, setOrderDate] = useState({
     selection1: {
-      startDate: moment().valueOf(),
+      startDate: new Date(),
 
-      endDate: null,
+      endDate: new Date(moment().add(2, "days").valueOf()),
       key: "selection1",
     },
-  }); 
+  });
 
-  const isAdmin = true
+  const isAdmin = false;
 
   useEffect(() => {
-    props.dataComponent
-      .getData()
+    setIsLoadingEquipment(true);
+
+    getAllEqupments().then((response) => {
+      setGroups(createEquipmentGroup(response.data));
+      setIsLoadingEquipment(false);
+    });
+  }, [update]);
+
+  useEffect(() => {
+    setIsLoadingEquipment(true);
+
+    getAllOrders()
       .then((response) => {
-        console.log(response);
-        setGroups(
-          convertTrucksToTimelineGroups(response.tools)
-        );
-        setItems(
-          convertOrdersToTimelineItems(
-            response.orders,
-            response.tools,
-            response.companies
-          )
-        );
-        setCompanies(response.companies)
+        setItems(createOrderGroup(response.data));
         setIsLoading(false);
       })
+
       .catch((error) => console.log(error));
-  }, [props.dataComponent]);
+  }, [update]);
 
   const handleInputChange = (newInput) => {
+    localStorage.setItem("toolsFilter", newInput);
+
     setSelectedGroups(() => {
       return [newInput];
     });
   };
 
+  const editMode = (_e, order) => {
+    const selectedItems = items.filter(
+      (item) => item.rentOrderId == order.rentOrderId
+    );
+
+    const allItems = items.filter(
+      (item) => item.rentOrderId !== order.rentOrderId
+    );
+
+    const selectedItemsWithColor = selectedItems.map((el) => {
+      return {
+        ...el,
+        itemProps: { style: { background: "gray" } },
+      };
+    });
+
+    setItems(allItems);
+    setItemsPreOrder(selectedItemsWithColor);
+    setCopyEditItems(selectedItems);
+    setIsEditMode(true);
+    setIsActiveMessage(false);
+  };
+
+  const sendNewOrder = () => {
+    if (itemsPreOrder.length < 1) return;
+    const orderItems = createOrderGrid(itemsPreOrder);
+    setBlockCreateButton(true);
+    createOrder(orderItems)
+      .then((response) => {
+        setItemsPreOrder([]);
+        setUpdate((previousUpdate) => !previousUpdate);
+        operAlertWindow("success");
+      })
+      .catch(() => operAlertWindow("error"));
+  };
+
+  const editOrder = () => {
+    if (itemsPreOrder.length < 1) return;
+    const orderItem = itemsPreOrder[0];
+    const orderItemsGrid = createOrderGrid(itemsPreOrder);
+    console.log(orderItemsGrid);
+    const dateIntervals = formatOrder(orderItemsGrid);
+    const editedOrder = {
+      rentOrder: {
+        id: orderItem.rentOrderId,
+        company: orderItem.company,
+      },
+      status: orderItem.status,
+      equipmentItems: dateIntervals,
+    };
+
+    setBlockCreateButton(true);
+
+    sendEditOrder(editedOrder)
+      .then(() => {
+        setUpdate((previousUpdate) => !previousUpdate);
+        setItemsPreOrder([]);
+        setCopyEditItems([]);
+        operAlertWindow("success");
+        setIsEditMode(false);
+      })
+      .catch(() => operAlertWindow("error"));
+  };
+
+  const operAlertWindow = (message) => {
+    setIsOpenAlertWindow({
+      status: true,
+      message: message,
+    });
+    setTimeout(() => {
+      setIsOpenAlertWindow({
+        status: false,
+        message: message,
+      });
+      setBlockCreateButton(false);
+    }, 2000);
+  };
+
+  const getFormatedDate = (groupId, time) => {
+    const date = moment(time).format("YYYY-MM-DD");
+    const hour = moment(time).hours();
+    const shiftLength = groups.find(
+      (group) => group.id === groupId
+    ).shiftLength;
+    const formatHour = Math.floor(hour / shiftLength);
+
+    let start, end;
+
+    start = formatHour * shiftLength;
+    end = start + shiftLength;
+    start = date + " " + start + ":00";
+    end = date + " " + end + ":00";
+    return {
+      start,
+      end,
+    };
+  };
+
+  const clickOnEmptySpace = (groupId, time) => {
+    if (!isCreateMode && !isEditMode) return;
+    const date = moment(time).format("YYYY-MM-DD");
+    const hour = moment(time).hours();
+    const shiftLength = groups.find(
+      (group) => group.id === groupId
+    ).shiftLength;
+    const formatHour = Math.floor(hour / shiftLength);
+
+    const formatedDate = getFormatedDate(groupId, time);
+
+    const obj = {
+      id: uuidv4(),
+      group: groupId,
+      status: "preOrder",
+      canMove: false,
+      date: date,
+      grid: addGrid(formatHour, shiftLength),
+      start_time: moment(formatedDate.start).valueOf(),
+      end_time: moment(formatedDate.end).valueOf(),
+      itemTouchSendsClick: false,
+      itemProps: { style: { background: "gray" } },
+    };
+    setItemsPreOrder((pred) => [...pred, obj]);
+  };
+
   const clearFilter = () => {
+    localStorage.clear("toolsFilter");
     setSelectedGroups([]);
   };
 
@@ -74,7 +230,7 @@ export default function TimelinePage(props) {
     setIsActiveDate((current) => !current);
   };
 
-  const mapTruckNames = () => {
+  const mapToolsNames = () => {
     return [...new Set(groups.map((group) => group.category))];
   };
 
@@ -84,54 +240,85 @@ export default function TimelinePage(props) {
       : groups;
   };
 
+  const clickOnItem = (_time, itemId) => {
+    const item = itemId
+      ? itemsPreOrder.find((item) => item.id === itemId)
+      : null;
+    if (!item) return;
+    setItemsPreOrder((pred) => pred.filter((el) => el.id !== itemId));
+  };
+
   const openBookingWindow = (time, posX, posY, kindModal, itemId) => {
+    const item = itemId ? items.find((item) => item.id === itemId) : null;
+    if (!item || item.status === "preOrder" || isEditMode) return;
     setIsActiveMessage((current) => !current);
-    const date = moment(time).format("MMMM Do YYYY");
-    const hour = moment(time).hours();
-    let result = date;
-
-    result +=
-      hour % 2 !== 0
-        ? ` ${hour - 1}:00 - ${hour + 1}:00`
-        : ` ${hour}:00 - ${hour + 2}:00`;
-
-    const item = itemId ? items.find(item => item.id === itemId) : null; // дальше будет фильтр по времени и группе
-    console.log(item);
+    const formatedDate = getFormatedDate(item.group, time);
+    const date = moment(time).format("YYYY-MM-DD");
+    const result = date + " " + formatedDate.start + " - " + formatedDate.end;
 
     setChosenDate({
       date: result,
       posX: posX,
-      posY: posY, 
+      posY: posY,
       kindModal,
-      item: item
+      item: item,
     });
+  };
+
+  const changeMode = () => {
+    setIsCreateMode((previousUpdate) => !previousUpdate);
+  };
+
+  const restoreEditItems = () => {
+    setItemsPreOrder(
+      copyEditItems.map((el) => {
+        return {
+          ...el,
+          itemProps: { style: { background: "gray" } },
+        };
+      })
+    );
+  };
+
+  const restoreAndCloseEditMode = () => {
+    setItems((previousUpdate) => previousUpdate.concat(copyEditItems));
+    setItemsPreOrder([]);
+    setCopyEditItems([]);
+    setIsEditMode((previousUpdate) => !previousUpdate);
+  };
+
+  const clearAndChangeMode = () => {
+    setIsCreateMode((previousUpdate) => !previousUpdate);
+    setItemsPreOrder([]);
   };
 
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };
-
-  return isLoading ? (
-    <div>"Loading Data..."</div>
-  ) : (
+  return !isLoading && !isLoadingEquipment  ? (
     <>
       <div className="container sort-box">
         <div className="sort-box_item">
           <ToolsFilter
-            toolNames={mapTruckNames()}
+            toolNames={mapToolsNames()}
             onInputChange={handleInputChange}
             selectedGroups={selectedGroups}
             clearFilter={clearFilter}
           />
 
           {selectedGroups.length ? (
-            <CountTools choseCount={choseCount} groupsCount={getGroupsToShow()} />
+            <CountTools
+              choseCount={choseCount}
+              groupsCount={getGroupsToShow()}
+            />
           ) : null}
-        </div> 
-        <div className="sort-box_item">  
-          {isAdmin? <> <CompaniesSelect companies={companies}/> <StatusSelect/>
-          
-          </> : null}
+        </div>
+        <div className="sort-box_item">
+          {isAdmin ? (
+            <>
+              <CompaniesSelect companies={companies} />
+            </>
+          ) : null}
 
           <DateFilter
             showDatePicker={showDatePicker}
@@ -140,20 +327,19 @@ export default function TimelinePage(props) {
             orderDate={orderDate}
           />
         </div>
-        <div className="sort-box_item">
-          <CountOrderFilter />
+        <div className="sort-box_item">{/* <CountOrderFilter /> */}</div>
 
-          <div>
-            <button className="reserved-btn">Забронировать</button>
-          </div>
-
-          {isActiveMessage ? (
-            <MessageWindow
-              closeBookingWindow={closeBookingWindow}
-              data={chosenDate}
-            />
-          ) : null}
-        </div>
+        <ButtonBoxComponent
+          isEditMode={isEditMode}
+          sendNewOrder={sendNewOrder}
+          clearAndChangeMode={clearAndChangeMode}
+          changeMode={changeMode}
+          blockCreateButton={blockCreateButton}
+          editOrder={editOrder}
+          restoreAndCloseEditMode={restoreAndCloseEditMode}
+          restoreEditItems={restoreEditItems}
+          isCreateMode={isCreateMode}
+        />
       </div>
 
       <TimeLineRenderer
@@ -166,8 +352,22 @@ export default function TimelinePage(props) {
         isActiveDate={isActiveDate}
         orderDate={orderDate}
         openBookingWindow={openBookingWindow}
-        items={items}
+        items={items.concat(itemsPreOrder)}
+        clickOnEmptySpace={clickOnEmptySpace}
+        clickOnItem={clickOnItem}
       />
+      {isActiveMessage ? (
+        <MessageWindow
+          closeBookingWindow={closeBookingWindow}
+          data={chosenDate}
+          editMode={editMode}
+        />
+      ) : null}
+      {isOpenAlertWindow.status ? (
+        <AlertWindow message={isOpenAlertWindow.message} />
+      ) : null}
     </>
+  ) : (
+    <Spiner />
   );
 }

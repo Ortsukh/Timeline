@@ -9,11 +9,15 @@ export default function DateFilter({
   showDatePicker,
   setOrderDate,
   orderDate,
+  isAdmin,
 }) {
   const datePicker = useRef(null);
+  const className = isAdmin
+    ? "button-select-date"
+    : "button-select-date btn-date";
   return (
-    <div className="select-date-box">
-      <button className="button-select-date" onClick={showDatePicker}>
+    <div className="select-date-box ">
+      <button className={className} onClick={showDatePicker}>
         {isActiveDate ? "Закрыть" : "Выбрать дату"}
       </button>
 

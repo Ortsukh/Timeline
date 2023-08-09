@@ -16,7 +16,6 @@ export default function CompaniesSelect(props) {
   }
 
   const getOptionsForSearch = (companies) => {
-    console.log(companies);
     return companies.map((companie) => {
       return { value: companie.name, label: companie.name };
     });
