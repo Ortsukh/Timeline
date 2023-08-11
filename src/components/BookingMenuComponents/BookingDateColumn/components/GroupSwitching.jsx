@@ -1,28 +1,28 @@
+import { useState } from "react";
 import style from "../BookingTimeline.module.css";
 
 export const GroupSwitching = ({groups: equipments, currentDevice, setCurrentDevice}) => {
-  console.log(equipments);
-
-  const deviceTitle = equipments.map(device => device.title)
-  console.log(deviceTitle);
   
+  const [currentDeviceIndex, setCurrentDeviceIndex] = useState(0);
+  setCurrentDevice(equipments[currentDeviceIndex]) //TODO рендериться дважды
+
   const onPreviousGroup = () => {
-    console.log("prev");
+    setCurrentDeviceIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+    setCurrentDevice(equipments[currentDeviceIndex])
   }
 
   const onNextGroup = () => {
-    console.log("next");
+    setCurrentDeviceIndex((prevIndex) => Math.min(prevIndex + 1, equipments.length - 1));
+    setCurrentDevice(equipments[currentDeviceIndex])
   }
 
   return (
     <div className={style.containerGroupSwitching}>
-      <button onClick={onPreviousGroup}>
+      <button onClick={onPreviousGroup} disabled={currentDeviceIndex === 0}>
         &#9668;
       </button>
-      <p>
-        {currentDevice}
-      </p>
-      <button onClick={onNextGroup}>
+      <p>{currentDevice.title}</p>
+      <button onClick={onNextGroup} disabled={currentDeviceIndex === equipments.length - 1}>
         &#9658;
       </button>
     </div>
