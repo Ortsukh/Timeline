@@ -1,0 +1,37 @@
+.containerTimeline {
+  width: 45vw;
+  /* height: 90vh; */
+  margin: 0 auto;
+  border: 1px solid blue;
+}
+
+.tableTimeline {
+  width: 100%;
+  border: 1px solid red;
+}
+/* 
+.rct-outer {
+  margin-top: 500px;
+} */
+
+.monthLabel {
+  text-align: left;
+  font-size: 18px;
+  background-color: rgb(224, 224, 224);
+}
+.monthLabel::first-letter {
+  text-transform: uppercase;
+}
+
+.customCalendar {
+  position: absolute;
+  margin-top: 56px;
+  z-index: 101; /* макс-ый zIndex у либы calendar-timeline - 100*/
+}
+
+.containerGroupSwitching {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 400px;
+}
