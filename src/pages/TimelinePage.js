@@ -30,6 +30,7 @@ import {
 } from "../Api/API";
 import AlertWindow from "../components/AlertWindow";
 import ButtonBoxComponent from "../components/ButtonBoxComponent";
+import { BookingMenu } from "../components/BookingMenuComponents/BookingMenu";
 
 export default function TimelinePage(props) {
   const [groups, setGroups] = useState([]);
@@ -61,6 +62,7 @@ export default function TimelinePage(props) {
       key: "selection1",
     },
   });
+  const [isBookingMenu, setIsBookingMenu] = useState(false);
 
   const isAdmin = false;
 
@@ -295,77 +297,103 @@ export default function TimelinePage(props) {
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };
+
+  // console.log("items:", items)
+
   return !isLoading && !isLoadingEquipment  ? (
     <>
-      <div className="container sort-box">
-        <div className="sort-box_item">
-          <ToolsFilter
-            toolNames={mapToolsNames()}
-            onInputChange={handleInputChange}
-            selectedGroups={selectedGroups}
-            clearFilter={clearFilter}
-          />
-
-          {selectedGroups.length ? (
-            <CountTools
-              choseCount={choseCount}
-              groupsCount={getGroupsToShow()}
-            />
-          ) : null}
-        </div>
-        <div className="sort-box_item">
-          {isAdmin ? (
-            <>
-              <CompaniesSelect companies={companies} />
-            </>
-          ) : null}
-
-          <DateFilter
-            showDatePicker={showDatePicker}
-            isActiveDate={isActiveDate}
-            setOrderDate={setOrderDate}
-            orderDate={orderDate}
-          />
-        </div>
-        <div className="sort-box_item">{/* <CountOrderFilter /> */}</div>
-
-        <ButtonBoxComponent
-          isEditMode={isEditMode}
-          sendNewOrder={sendNewOrder}
-          clearAndChangeMode={clearAndChangeMode}
-          changeMode={changeMode}
-          blockCreateButton={blockCreateButton}
-          editOrder={editOrder}
-          restoreAndCloseEditMode={restoreAndCloseEditMode}
-          restoreEditItems={restoreEditItems}
-          isCreateMode={isCreateMode}
-        />
-      </div>
-
-      <TimeLineRenderer
-        groups={
-          toolsCount
-            ? getGroupsToShow().slice(0, toolsCount)
-            : getGroupsToShow()
-        }
-        toolsCount={toolsCount}
-        isActiveDate={isActiveDate}
-        orderDate={orderDate}
-        openBookingWindow={openBookingWindow}
-        items={items.concat(itemsPreOrder)}
-        clickOnEmptySpace={clickOnEmptySpace}
-        clickOnItem={clickOnItem}
+      {isBookingMenu
+      ? <BookingMenu 
+      //! Нужные
+      setIsBookingMenu={setIsBookingMenu}
+      selectedGroups={selectedGroups}
+      //!
+      groups={
+        toolsCount
+          ? getGroupsToShow().slice(0, toolsCount)
+          : getGroupsToShow()
+      }
+      toolsCount={toolsCount}
+      isActiveDate={isActiveDate}
+      orderDate={orderDate}
+      openBookingWindow={openBookingWindow}
+      items={items.concat(itemsPreOrder)}
+      clickOnEmptySpace={clickOnEmptySpace}
+      clickOnItem={clickOnItem}
       />
-      {isActiveMessage ? (
-        <MessageWindow
-          closeBookingWindow={closeBookingWindow}
-          data={chosenDate}
-          editMode={editMode}
+      
+      : <>
+        <div className="container sort-box">
+          <div className="sort-box_item">
+            <ToolsFilter
+              toolNames={mapToolsNames()}
+              onInputChange={handleInputChange}
+              selectedGroups={selectedGroups}
+              clearFilter={clearFilter}
+            />
+            {selectedGroups.length ? (
+              <CountTools
+                choseCount={choseCount}
+                groupsCount={getGroupsToShow()}
+              />
+            ) : null}
+          </div>
+          <div className="sort-box_item">
+            {isAdmin ? (
+              <>
+                <CompaniesSelect companies={companies} />
+              </>
+            ) : null}
+
+            <DateFilter
+              showDatePicker={showDatePicker}
+              isActiveDate={isActiveDate}
+              setOrderDate={setOrderDate}
+              orderDate={orderDate}
+            />
+          </div>
+          <div className="sort-box_item">{/* <CountOrderFilter /> */}</div>
+
+          <ButtonBoxComponent
+            setIsBookingMenu={setIsBookingMenu}
+            isEditMode={isEditMode}
+            sendNewOrder={sendNewOrder}
+            clearAndChangeMode={clearAndChangeMode}
+            changeMode={changeMode}
+            blockCreateButton={blockCreateButton}
+            editOrder={editOrder}
+            restoreAndCloseEditMode={restoreAndCloseEditMode}
+            restoreEditItems={restoreEditItems}
+            isCreateMode={isCreateMode}
+          />
+        </div>
+
+        <TimeLineRenderer
+          groups={
+            toolsCount
+              ? getGroupsToShow().slice(0, toolsCount)
+              : getGroupsToShow()
+          }
+          toolsCount={toolsCount}
+          isActiveDate={isActiveDate}
+          orderDate={orderDate}
+          openBookingWindow={openBookingWindow}
+          items={items.concat(itemsPreOrder)}
+          clickOnEmptySpace={clickOnEmptySpace}
+          clickOnItem={clickOnItem}
         />
-      ) : null}
-      {isOpenAlertWindow.status ? (
-        <AlertWindow message={isOpenAlertWindow.message} />
-      ) : null}
+        {isActiveMessage ? (
+          <MessageWindow
+            closeBookingWindow={closeBookingWindow}
+            data={chosenDate}
+            editMode={editMode}
+          />
+        ) : null}
+        {isOpenAlertWindow.status ? (
+          <AlertWindow message={isOpenAlertWindow.message} />
+        ) : null}
+      </>
+      }
     </>
   ) : (
     <Spiner />
