@@ -61,11 +61,34 @@ export default function TimeLineRenderer({
     }
   }
 
+  const goToSelectedGroup = (id) => {
+    // setOpenGroups((prev) => ({
+    //   ...prev,
+    //   [id]: !prev[id],
+    // }));
+    console.log("id:", id);
+  };
+
+// console.log("groups:", groups);
+const newGroups = groups.map((group) => {
+  return Object.assign({}, group, {
+    title: (
+      <div
+        // className={openGroups[group.id] ? style.highlight : ''}
+        onClick={() => goToSelectedGroup(group.id)}
+        style={{ cursor: "pointer" }}
+      >
+        {group.title}
+      </div>
+    ),
+  });
+});
+// console.log("newGroups:", newGroups);
 
   return (
     <Timeline
       className="container"
-      groups={toolsCount ? groups.slice(0, toolsCount) : groups}
+      groups={toolsCount ? newGroups.slice(0, toolsCount) : newGroups}
       items={items}
       canMove={false}
       defaultTimeStart={moment()}
