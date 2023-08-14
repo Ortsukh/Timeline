@@ -32,9 +32,14 @@ export const BookingTimeline = ({ selectedGroups, groups, items }) => {
   const [currentMonth, setCurrentMonth] = useState(today);
   const [showCalendar, setShowCalendar] = useState(false);
 
+<<<<<<< HEAD
   const [openGroups, setOpenGroups] = useState(false);
 
   const [currentDevice, setCurrentDevice] = useState("---");
+=======
+  const [currentDevice, setCurrentDevice] = useState([]);
+  // console.log(currentDevice);
+>>>>>>> main
 
   const handleBoundsChange = (visibleTimeStart, visibleTimeEnd) => {
     setVisibleTimeStart(visibleTimeStart);
