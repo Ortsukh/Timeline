@@ -299,7 +299,8 @@ export default function TimelinePage(props) {
   };
 
   // console.log("items:", items)
-
+console.log(getGroupsToShow());
+console.log(items);
   return !isLoading && !isLoadingEquipment  ? (
     <>
       {isBookingMenu
@@ -317,7 +318,7 @@ export default function TimelinePage(props) {
       isActiveDate={isActiveDate}
       orderDate={orderDate}
       openBookingWindow={openBookingWindow}
-      items={items.concat(itemsPreOrder)}
+      items={items}
       clickOnEmptySpace={clickOnEmptySpace}
       clickOnItem={clickOnItem}
       />

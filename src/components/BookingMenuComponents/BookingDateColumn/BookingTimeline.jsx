@@ -11,24 +11,30 @@ import style from "./BookingTimeline.module.css";
 import "react-calendar-timeline/lib/Timeline.css";
 import "react-calendar/dist/Calendar.css"; // удалить для изменения стиля календаря
 import { GroupSwitching } from "./components/GroupSwitching";
+import '../../style.css'
 
-export const BookingTimeline = ({ selectedGroups, groups }) => {
+export const BookingTimeline = ({ selectedGroups, groups, items }) => {
   const today = moment();
   const startOfDay = moment(today).startOf("day");
   const endOfDay = moment(today).endOf("day");
 
-  const items = [
-    // { id: 1, group: 1, start_time: startOfDay, end_time: endOfDay },
-    // { id: 2, group: 2, start_time: startOfDay, end_time: endOfDay },
-  ];
-
+  console.log(12312312, selectedGroups);
+  console.log(12312312, groups);
+ 
+  // const items = [
+  //   // { id: 1, group: 1, start_time: startOfDay, end_time: endOfDay },
+  //   // { id: 2, group: 2, start_time: startOfDay, end_time: endOfDay },
+  // ];
+   
   const [visibleTimeStart, setVisibleTimeStart] = useState(startOfDay);
+  const [selectedGroup, setSelectedGroup] = useState(groups[0].id);
   const [visibleTimeEnd, setVisibleTimeEnd] = useState(endOfDay);
   const [currentMonth, setCurrentMonth] = useState(today);
   const [showCalendar, setShowCalendar] = useState(false);
 
-  const [currentDevice, setCurrentDevice] = useState("---");
+  const [openGroups, setOpenGroups] = useState(false);
 
+  const [currentDevice, setCurrentDevice] = useState("---");
 
   const handleBoundsChange = (visibleTimeStart, visibleTimeEnd) => {
     setVisibleTimeStart(visibleTimeStart);
@@ -39,7 +45,13 @@ export const BookingTimeline = ({ selectedGroups, groups }) => {
     //   setCurrentMonth(newMonth);
     // }
   };
-
+  console.log(items);
+  console.log(selectedGroup);
+  const copyItems = items.map(item =>Object.assign({}, item) )
+  const filteredItems = copyItems.filter(copyItems => copyItems.group === selectedGroup ).map(item => {
+    item.group = item.date;
+    return item
+  })
   const generateDaysOfMonth = () => {
     const daysInMonth = moment(currentMonth).daysInMonth();
     const days = [];
@@ -56,7 +68,29 @@ export const BookingTimeline = ({ selectedGroups, groups }) => {
 
     return days;
   };
+
   const daysOfMonth = generateDaysOfMonth();
+
+  const toggleGroup = (id) => {
+    setOpenGroups((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
+  const newGroups = daysOfMonth.map((group) => {
+    return Object.assign({}, group, {
+      title: (
+        <div
+          className={openGroups[group.id] ? style.highlight : ''}
+          onClick={() => toggleGroup(group.id)}
+          style={{ cursor: "pointer" }}
+        >
+          {openGroups[group.id] ? "-" : "+"} {group.title}
+        </div>
+      ),
+    });
+  });
 
   const onPreviousMonth = () => {
     const prevMonth = moment(currentMonth).startOf("month").add(-1, "months");
@@ -77,13 +111,16 @@ export const BookingTimeline = ({ selectedGroups, groups }) => {
     setCurrentMonth(newDate);
     setShowCalendar(false);
   };
-
+console.log(filteredItems);
+console.log(newGroups);
   return (
     <div className={style.containerTimeline}>
       {/* <div>{selectedGroups}</div> */} {/* Общее название группы */}
-
-      <GroupSwitching groups={groups} currentDevice={currentDevice} setCurrentDevice={setCurrentDevice}/>
-
+      <GroupSwitching
+        groups={groups}
+        currentDevice={currentDevice}
+        setCurrentDevice={setCurrentDevice}
+      />
       <div className={style.customCalendar}>
         {showCalendar && (
           <Calendar
@@ -96,9 +133,13 @@ export const BookingTimeline = ({ selectedGroups, groups }) => {
       <div className={style.monthLabel}>{currentMonth.format("MMMM YYYY")}</div>
       <Timeline
         className={style.tableTimeline}
-        groups={daysOfMonth}
+        groups={newGroups}
+        // groupRenderer={groupRenderer}
+        horizontalLineClassNamesForGroup={group => 
+          openGroups[group.id] ? [style.highlight] : []
+        }
         // groupClassName={style.customGroup}
-        items={items}
+        items={filteredItems}
         visibleTimeStart={visibleTimeStart}
         visibleTimeEnd={visibleTimeEnd}
         // sidebarWidth={150} // ширина левой панели по дефолту - 150px
