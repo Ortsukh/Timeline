@@ -63,6 +63,7 @@ export default function TimelinePage(props) {
     },
   });
   const [isBookingMenu, setIsBookingMenu] = useState(false);
+  const [isClickingOnEmptyFilter, setIsClickingOnEmptyFilter] = useState(false);
 
   const isAdmin = false;
 
@@ -331,6 +332,8 @@ console.log(selectedGroups);
               onInputChange={handleInputChange}
               selectedGroups={selectedGroups}
               clearFilter={clearFilter}
+              isClickingOnEmptyFilter={isClickingOnEmptyFilter}
+              setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
             />
             {selectedGroups.length ? (
               <CountTools
@@ -366,6 +369,8 @@ console.log(selectedGroups);
             restoreAndCloseEditMode={restoreAndCloseEditMode}
             restoreEditItems={restoreEditItems}
             isCreateMode={isCreateMode}
+            selectedGroups={selectedGroups}
+            setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
           />
         </div>
 
