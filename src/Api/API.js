@@ -519,7 +519,7 @@ export async function sendEditOrder(order) {
 export async function createOrder(order) {
   const str = `http://freekitchen.loc/test/save_order`;
   const dateIntervals = formatOrder(order)
- 
+ console.log(122222222);
   const body = {
     company: {
       id: 1,
@@ -535,12 +535,15 @@ export async function createOrder(order) {
       "Content-Type": "application/json;charset=utf-8",
       "Access-Control-Allow-Origin": "*"
     },
+    mode: 'no-cors',
     body: JSON.stringify(body),
   });
+  // let result = await res.json()
+  // console.log(result);
+  // if (!res.ok) {
+  //   throw new Error("Something went wrong. Sorry");
+  // }
 
-  if (!res.ok) {
-    throw new Error("Something went wrong. Sorry");
-  }
-
-  return await res.json();
+  // return await res.json();
+  return true
 }

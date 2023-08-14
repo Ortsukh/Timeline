@@ -310,6 +310,7 @@ console.log(selectedGroups);
       setIsBookingMenu={setIsBookingMenu}
       selectedGroups={selectedGroups}
       //!
+      setUpdate={setUpdate}
       groups={
         toolsCount
           ? getGroupsToShow().slice(0, toolsCount)

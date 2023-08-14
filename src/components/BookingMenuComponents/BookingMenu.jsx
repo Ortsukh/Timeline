@@ -6,7 +6,7 @@ import { EditButtonColumn } from "./EditButtonColumn/EditButtonColumn";
 export const BookingMenu = ({
   setIsBookingMenu,
   selectedGroups,
-
+  setUpdate,
   groups,
   toolsCount,
   isActiveDate,
@@ -22,6 +22,7 @@ export const BookingMenu = ({
       <div className={style.container}>
         <div className={style.editButtonColumn}>
           <EditButtonColumn
+          setUpdate={setUpdate}
             setIsBookingMenu={setIsBookingMenu}
             itemsPreOrder={itemsPreOrder}
             setItemsPreOrder={setItemsPreOrder}

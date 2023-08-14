@@ -6,6 +6,7 @@ export const EditButtonColumn = ({
   setIsBookingMenu,
   setItemsPreOrder,
   itemsPreOrder,
+  setUpdate
 }) => {
   const back = "< Назад";
 
@@ -21,12 +22,13 @@ export const EditButtonColumn = ({
     const orderItems = createOrderGrid(itemsPreOrder);
     createOrder(orderItems)
       .then((response) => {
+        console.log(true);
         setItemsPreOrder([]);
         setIsBookingMenu(false);
-
+        setUpdate((previousUpdate) => !previousUpdate);
         // operAlertWindow("success");
       })
-      .catch(() => console.log("error"));
+      .catch((errror) => console.log(errror));
   };
   return (
     <>
