@@ -32,11 +32,12 @@ export default function TimeLineRenderer({
   const maxTime = moment(orderDate.selection1.endDate).add(1, "year").valueOf(); //! Прокрутка вправо на {1 год}
 
   const handleCanvasClick = (groupId, time, e) => {
-    clickOnEmptySpace(groupId, time);
+      clickOnEmptySpace(groupId, time);
     console.log(groupId, time, e);
   };
 
   const handleItemSelect = (itemId, e, time) => {
+    console.log(123);
     console.log(itemId);
     openBookingWindow(time, e.clientX, e.clientY, "clickOnOrder", itemId);
     clickOnItem(time, itemId);
