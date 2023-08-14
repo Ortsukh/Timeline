@@ -9,49 +9,70 @@ import "moment/locale/ru";
 import Calendar from "react-calendar";
 import style from "./BookingTimeline.module.css";
 import "react-calendar-timeline/lib/Timeline.css";
+import { v4 as uuidv4 } from "uuid";
 import "react-calendar/dist/Calendar.css"; // удалить для изменения стиля календаря
 import { GroupSwitching } from "./components/GroupSwitching";
-import '../../style.css'
+import "../../style.css";
+import { addGrid } from "../../../DataConvertHelper";
+import { useEffect } from "react";
 
-export const BookingTimeline = ({ selectedGroups, groups, items }) => {
+export const BookingTimeline = ({
+  selectedGroups,
+  groups,
+  items,
+  itemsPreOrder,
+  setItemsPreOrder,
+}) => {
   const today = moment();
   const startOfDay = moment(today).startOf("day");
   const endOfDay = moment(today).endOf("day");
 
-  console.log(12312312, selectedGroups);
-  console.log(12312312, groups);
- 
-  // const items = [
-  //   // { id: 1, group: 1, start_time: startOfDay, end_time: endOfDay },
-  //   // { id: 2, group: 2, start_time: startOfDay, end_time: endOfDay },
-  // ];
-   
   const [visibleTimeStart, setVisibleTimeStart] = useState(startOfDay);
-  const [selectedGroup, setSelectedGroup] = useState(groups[0].id);
   const [visibleTimeEnd, setVisibleTimeEnd] = useState(endOfDay);
   const [currentMonth, setCurrentMonth] = useState(today);
   const [showCalendar, setShowCalendar] = useState(false);
 
   const [openGroups, setOpenGroups] = useState(false);
 
-  const [currentDevice, setCurrentDevice] = useState("---");
-
+  const [currentDevice, setCurrentDevice] = useState(
+    selectedGroups[0] || groups[0]
+  );
+    console.log('date',currentMonth.format("YYYY-MM") );
   const handleBoundsChange = (visibleTimeStart, visibleTimeEnd) => {
     setVisibleTimeStart(visibleTimeStart);
     setVisibleTimeEnd(visibleTimeEnd);
-
-    // const newMonth = moment(visibleTimeStart).month();
-    // if (newMonth !== currentMonth) {
-    //   setCurrentMonth(newMonth);
-    // }
   };
-  console.log(items);
-  console.log(selectedGroup);
-  const copyItems = items.map(item =>Object.assign({}, item) )
-  const filteredItems = copyItems.filter(copyItems => copyItems.group === selectedGroup ).map(item => {
-    item.group = item.date;
-    return item
-  })
+
+  const convertGrid = (length, grid, date) => {
+    const arr = grid.split("");
+    const orderedTimes = {};
+    for (let i = 0; i < 24; i += length) {
+      if (arr[i] === "1") {
+        orderedTimes.start_time = moment(date +  " " + i + ":00").valueOf();
+        orderedTimes.end_time = moment(
+          date +  " " + (i + length) + ":00"
+        ).valueOf();
+      }
+    }
+    return orderedTimes;
+  };
+
+  const copyItems = items.map((item) => Object.assign({}, item));
+
+  const filteredItems = copyItems
+    .filter(
+      (copyItems) =>
+        copyItems.group === currentDevice.id &&
+        copyItems.date.startsWith(currentMonth.format("YYYY-MM"))
+    )
+    .map((item) => {
+      item.group = item.date;
+      const orderedTimes = convertGrid(groups[0].shiftLength, item.grid, today.format("YYYY-MM-DD"));
+      item.start_time = orderedTimes.start_time;
+      item.end_time = orderedTimes.end_time;
+      return item;
+    });
+
   const generateDaysOfMonth = () => {
     const daysInMonth = moment(currentMonth).daysInMonth();
     const days = [];
@@ -60,7 +81,6 @@ export const BookingTimeline = ({ selectedGroups, groups, items }) => {
       days.push({
         id: date.format("YYYY-MM-DD"), //дата в качестве ID
         title: date.format("D dd").toUpperCase(), // день месяца числом - D, сокращенная абривиатура - dd
-        // rightTitle: "Убрать",
         date: date, // объект `moment(today).date(i)` для использования в items
         height: 18, // высота строчки
       });
@@ -76,21 +96,78 @@ export const BookingTimeline = ({ selectedGroups, groups, items }) => {
       ...prev,
       [id]: !prev[id],
     }));
+    setItemsPreOrder((pred) => pred.filter((el) => el.group !== id));
   };
 
   const newGroups = daysOfMonth.map((group) => {
     return Object.assign({}, group, {
       title: (
         <div
-          className={openGroups[group.id] ? style.highlight : ''}
+          className={openGroups[group.id] ? style.highlight : ""}
           onClick={() => toggleGroup(group.id)}
           style={{ cursor: "pointer" }}
         >
-          {openGroups[group.id] ? "-" : "+"} {group.title}
+          {openGroups[group.id] ? "+" : "-"} {group.title}
         </div>
       ),
     });
   });
+
+  const clickOnEmptySpace = (groupId, time) => {
+    const date = moment(time).format("YYYY-MM-DD");
+    const hour = moment(time).hours();
+    const shiftLength = groups[0].shiftLength;
+    const formatHour = Math.floor(hour / shiftLength);
+
+    const formatedDate = getFormatedDate(groupId, time);
+
+    const obj = {
+      id: uuidv4(),
+      group: groupId,
+      status: "preOrder",
+      canMove: false,
+      date: date,
+      grid: addGrid(formatHour, shiftLength),
+      start_time: moment(formatedDate.start).valueOf(),
+      end_time: moment(formatedDate.end).valueOf(),
+      itemTouchSendsClick: false,
+      itemProps: { style: { background: "gray" } },
+      deviceGroup: currentDevice.id,
+    };
+    setItemsPreOrder((pred) => [...pred, obj]);
+  };
+
+  const handleCanvasClick = (groupId, time, e) => {
+    if (openGroups[groupId]) return;
+    console.log(groupId, time, e);
+    clickOnEmptySpace(groupId, time);
+  };
+
+  const handleItemSelect = (itemId) => {
+    const item = itemId
+      ? itemsPreOrder.find((item) => item.id === itemId)
+      : null;
+    if (!item) return;
+    setItemsPreOrder((pred) => pred.filter((el) => el.id !== itemId));
+  };
+
+  const getFormatedDate = (groupId, time) => {
+    const date = moment(time).format("YYYY-MM-DD");
+    const hour = moment(time).hours();
+    const shiftLength = groups[0].shiftLength;
+    const formatHour = Math.floor(hour / shiftLength);
+
+    let start, end;
+
+    start = formatHour * shiftLength;
+    end = start + shiftLength;
+    start = date + " " + start + ":00";
+    end = date + " " + end + ":00";
+    return {
+      start,
+      end,
+    };
+  };
 
   const onPreviousMonth = () => {
     const prevMonth = moment(currentMonth).startOf("month").add(-1, "months");
@@ -111,8 +188,15 @@ export const BookingTimeline = ({ selectedGroups, groups, items }) => {
     setCurrentMonth(newDate);
     setShowCalendar(false);
   };
-console.log(filteredItems);
-console.log(newGroups);
+
+  const getCurrentDevicePreOrderedItems = () => {
+    console.log(itemsPreOrder);
+    console.log(currentDevice);
+    return itemsPreOrder.filter(
+      (item) => item.deviceGroup === currentDevice.id
+    );
+  };
+
   return (
     <div className={style.containerTimeline}>
       {/* <div>{selectedGroups}</div> */} {/* Общее название группы */}
@@ -134,12 +218,12 @@ console.log(newGroups);
       <Timeline
         className={style.tableTimeline}
         groups={newGroups}
-        // groupRenderer={groupRenderer}
-        horizontalLineClassNamesForGroup={group => 
+        lineHeight={18}
+        itemHeightRatio={1}
+        horizontalLineClassNamesForGroup={(group) =>
           openGroups[group.id] ? [style.highlight] : []
         }
-        // groupClassName={style.customGroup}
-        items={filteredItems}
+        items={filteredItems.concat(getCurrentDevicePreOrderedItems())}
         visibleTimeStart={visibleTimeStart}
         visibleTimeEnd={visibleTimeEnd}
         // sidebarWidth={150} // ширина левой панели по дефолту - 150px
@@ -147,6 +231,8 @@ console.log(newGroups);
         buffer={1} // убрать прокрутку на колесико (день вперед/назад)
         onBoundsChange={handleBoundsChange} // границы показа времени
         maxZoom={24 * 60 * 60 * 1000} // ограничение масштаба до 1 дня
+        onCanvasClick={handleCanvasClick}
+        onItemSelect={handleItemSelect}
       >
         <TimelineHeaders>
           <SidebarHeader>

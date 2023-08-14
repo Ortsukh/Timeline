@@ -517,7 +517,7 @@ export async function sendEditOrder(order) {
 
 
 export async function createOrder(order) {
-  const str = `/admin/manager/save_order`;
+  const str = `http://freekitchen.loc/test/save_order`;
   const dateIntervals = formatOrder(order)
  
   const body = {
@@ -533,6 +533,7 @@ export async function createOrder(order) {
     method: "post",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
+      "Access-Control-Allow-Origin": "*"
     },
     body: JSON.stringify(body),
   });
