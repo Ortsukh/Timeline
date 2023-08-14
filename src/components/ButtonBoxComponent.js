@@ -12,11 +12,17 @@ export default function ButtonBoxComponent({
   sendNewOrder,
   isEditMode,
   isCreateMode,
+  selectedGroups,
+  setIsClickingOnEmptyFilter
 }) {
-      
-    const createBook = () => {
+
+  const createBook = () => {
+    if (selectedGroups.length == 0) {
+      setIsClickingOnEmptyFilter(true)
+    } else {
       setIsBookingMenu(true)
     }
+  }
 
   return (
     <div className="sort-box_item">
