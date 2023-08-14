@@ -37,7 +37,6 @@ export default function TimeLineRenderer({
   };
 
   const handleItemSelect = (itemId, e, time) => {
-    console.log(123);
     console.log(itemId);
     openBookingWindow(time, e.clientX, e.clientY, "clickOnOrder", itemId);
     clickOnItem(time, itemId);

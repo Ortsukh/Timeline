@@ -300,7 +300,7 @@ export default function TimelinePage(props) {
 
   // console.log("items:", items)
 console.log(getGroupsToShow());
-console.log(items);
+console.log(selectedGroups);
   return !isLoading && !isLoadingEquipment  ? (
     <>
       {isBookingMenu

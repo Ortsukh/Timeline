@@ -120,6 +120,7 @@ export const formatOrder = (order, orderId) => {
 };
 
 export const createOrderGrid = (itemsPreOrder) => {
+  console.log(12,itemsPreOrder);
   const equipmentIdArray = {};
   const dateIntervals = [];
   itemsPreOrder.forEach((order) => {
