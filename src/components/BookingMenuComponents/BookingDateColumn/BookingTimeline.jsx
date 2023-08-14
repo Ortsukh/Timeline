@@ -126,7 +126,7 @@ export const BookingTimeline = ({
       group: groupId,
       status: "preOrder",
       canMove: false,
-      date: date,
+      date: groupId,
       grid: addGrid(formatHour, shiftLength),
       start_time: moment(formatedDate.start).valueOf(),
       end_time: moment(formatedDate.end).valueOf(),
