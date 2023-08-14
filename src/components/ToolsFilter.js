@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import Select from "react-select";
 import "./style.css";
 
-export default function ToolsFilter({ toolNames, onInputChange, clearFilter }) {
+export default function ToolsFilter({ toolNames, onInputChange, clearFilter, isClickingOnEmptyFilter, setIsClickingOnEmptyFilter }) {
 
   const [selectValue, setSelectValue] = useState(null)
 
@@ -27,8 +27,9 @@ export default function ToolsFilter({ toolNames, onInputChange, clearFilter }) {
   const handleReset = () => {
     setSelectValue(null)
     clearFilter()
+    setIsClickingOnEmptyFilter(false)
   }
-
+// console.log("selectValue:", selectValue);
   return (
     <div className="tools-filter">
     <span> Выбрать оборудование</span>
@@ -37,6 +38,7 @@ export default function ToolsFilter({ toolNames, onInputChange, clearFilter }) {
         onChange={changeSearch}
         value={selectValue}
       />
+      {!selectValue && isClickingOnEmptyFilter && <p style={{ color: 'red', position: "absolute", backgroundColor: "white", border: "1px solid black" }}>Пожалуйста, выберите группу</p>}
       <button className="clear-button" onClick={handleReset}>
         Очистить
       </button>
