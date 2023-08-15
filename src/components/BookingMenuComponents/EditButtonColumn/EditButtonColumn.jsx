@@ -45,7 +45,7 @@ export const EditButtonColumn = ({
           </div>
 
           <div className={style.editButtons}>
-            <button className={style.backButton} onClick={sendNewOrder}>
+            <button className={style.reserveBtn} onClick={sendNewOrder}>
               Забронировать и выйти
             </button>
           </div>

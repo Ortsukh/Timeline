@@ -38,7 +38,7 @@ export default function ToolsFilter({ toolNames, onInputChange, clearFilter, isC
         onChange={changeSearch}
         value={selectValue}
       />
-      {!selectValue && isClickingOnEmptyFilter && <p style={{ color: 'red', position: "absolute", backgroundColor: "white", border: "1px solid black" }}>Пожалуйста, выберите группу</p>}
+      {!selectValue && isClickingOnEmptyFilter && <div className="tooltip">Пожалуйста, выберите группу</div>}
       <button className="clear-button" onClick={handleReset}>
         Очистить
       </button>
