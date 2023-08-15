@@ -13,9 +13,6 @@ export default function TimeLineRenderer({
   items,
   clickOnEmptySpace,
   clickOnItem,
-  setIsBookingMenu,
-  setSelectedGroups,
-  setCurrentDevice
 }) {
   const [visibleTimeRange, setVisibleTimeRange] = useState({
     start: moment(),
@@ -63,11 +60,21 @@ export default function TimeLineRenderer({
   //   }
   // }
 
+  const goToSelectedGroup = (id) => {
+    // setOpenGroups((prev) => ({
+    //   ...prev,
+    //   [id]: !prev[id],
+    // }));
+    console.log("id:", id);
+  };
+
+// console.log("groups:", groups);
 const newGroups = groups.map((group) => {
   return Object.assign({}, group, {
     title: (
       <div
-        onClick={() => handleToSelectedGroup(group, group.category)}
+        // className={openGroups[group.id] ? style.highlight : ''}
+        onClick={() => goToSelectedGroup(group.id)}
         style={{ cursor: "pointer" }}
       >
         {group.title}
@@ -75,15 +82,7 @@ const newGroups = groups.map((group) => {
     ),
   });
 });
-
-const handleToSelectedGroup = (group, category) => {
-  setIsBookingMenu(true)
-  localStorage.setItem("toolsFilter", category);
-  setSelectedGroups(() => {
-    return [category];
-  });
-  setCurrentDevice(group);
-};
+// console.log("newGroups:", newGroups);
 
   return (
     <Timeline

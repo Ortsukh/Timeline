@@ -290,7 +290,6 @@ export default function TimelinePage(props) {
               setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
               setCurrentDevice={setCurrentDevice}
               createBook={createBook}
-              getGroupsToShow={getGroupsToShow}
             />
           </div>
 
