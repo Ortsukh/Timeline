@@ -8,7 +8,8 @@ export const EditButtonColumn = ({
   setItemsPreOrder,
   itemsPreOrder,
   setUpdate,
-  setItems
+  setItems,
+  setCurrentDevice
 }) => {
   const [blockCreateButton, setBlockCreateButton] = useState(false);
   const [copyEditItems, setCopyEditItems] = useState([]);
@@ -18,6 +19,7 @@ export const EditButtonColumn = ({
 
   const createBook = () => {
     setIsBookingMenu(false);
+    setCurrentDevice([]) // очистить текущий выбор, для верноного отображения при клике на "Добавить новый"
   };
 
   const clearAndChangeMode = () => {

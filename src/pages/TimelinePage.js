@@ -66,7 +66,6 @@ export default function TimelinePage(props) {
   });
   const [isBookingMenu, setIsBookingMenu] = useState(false);
   const [isClickingOnEmptyFilter, setIsClickingOnEmptyFilter] = useState(false);
-
   const isAdmin = false;
 
   useEffect(() => {
@@ -92,7 +91,6 @@ export default function TimelinePage(props) {
 
   const handleInputChange = (newInput) => {
     localStorage.setItem("toolsFilter", newInput);
-
     setSelectedGroups(() => {
       return [newInput];
     });
@@ -307,12 +305,12 @@ export default function TimelinePage(props) {
     setIsActiveMessage((current) => !current);
   };
 
-  // console.log("items:", items)
   console.log(getGroupsToShow());
   console.log(selectedGroups);
   return !isLoading && !isLoadingEquipment ? (
     <>
-      {isBookingMenu ? (
+      {isBookingMenu 
+      ? (
         <BookingMenu
           //! Нужные
           setIsBookingMenu={setIsBookingMenu}
@@ -382,6 +380,7 @@ export default function TimelinePage(props) {
               selectedGroups={selectedGroups}
               setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
               setCurrentDevice={setCurrentDevice}
+              getGroupsToShow={getGroupsToShow}
             />
           </div>
 
@@ -398,6 +397,9 @@ export default function TimelinePage(props) {
             items={items.concat(itemsPreOrder)}
             clickOnEmptySpace={clickOnEmptySpace}
             clickOnItem={clickOnItem}
+            setIsBookingMenu={setIsBookingMenu}
+            setSelectedGroups={setSelectedGroups}
+            setCurrentDevice={setCurrentDevice}
           />
           {isActiveMessage ? (
             <MessageWindow

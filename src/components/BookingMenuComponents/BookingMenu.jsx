@@ -35,6 +35,7 @@ console.log("updatedItems", updatedItems, itemsPreOrder);
             itemsPreOrder={itemsPreOrder}
             setItemsPreOrder={setItemsPreOrder}
             setItems={setUpdatedItems}
+            setCurrentDevice={setCurrentDevice}
           />
         </div>
 
