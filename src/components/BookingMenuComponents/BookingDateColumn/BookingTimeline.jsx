@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
@@ -14,7 +14,6 @@ import "react-calendar/dist/Calendar.css"; // удалить для измене
 import { GroupSwitching } from "./components/GroupSwitching";
 import "../../style.css";
 import { addGrid } from "../../../DataConvertHelper";
-import { useEffect } from "react";
 
 export const BookingTimeline = ({
   selectedGroups,
@@ -22,22 +21,27 @@ export const BookingTimeline = ({
   items,
   itemsPreOrder,
   setItemsPreOrder,
+  editOrderData,
+  setCopyEditItems,
+  setUpdatedItems,
+  isEditMode,
+  currentDevice,
+  setCurrentDevice,
 }) => {
-  const today = moment();
-  const startOfDay = moment(today).startOf("day");
-  const endOfDay = moment(today).endOf("day");
+  const today = editOrderData?.date ? moment(editOrderData.date) : moment();
+  const startOfDay = (day) => moment(day).startOf("day");
+  const endOfDay = (day) => moment(day).endOf("day");
 
-  const [visibleTimeStart, setVisibleTimeStart] = useState(startOfDay);
-  const [visibleTimeEnd, setVisibleTimeEnd] = useState(endOfDay);
-  const [currentMonth, setCurrentMonth] = useState(today);
+  const [visibleTimeStart, setVisibleTimeStart] = useState(startOfDay(today));
+  const [visibleTimeEnd, setVisibleTimeEnd] = useState(endOfDay(today));
+  const [currentMonth, setCurrentMonth] = useState(
+    moment(today).startOf("month")
+  );
   const [showCalendar, setShowCalendar] = useState(false);
 
   const [openGroups, setOpenGroups] = useState(false);
 
-  const [currentDevice, setCurrentDevice] = useState(
-    selectedGroups[0] || groups[0]
-  );
-    console.log('date',currentMonth.format("YYYY-MM") );
+  // console.log("date", currentMonth.format("YYYY-MM"));
   const handleBoundsChange = (visibleTimeStart, visibleTimeEnd) => {
     setVisibleTimeStart(visibleTimeStart);
     setVisibleTimeEnd(visibleTimeEnd);
@@ -48,30 +52,76 @@ export const BookingTimeline = ({
     const orderedTimes = {};
     for (let i = 0; i < 24; i += length) {
       if (arr[i] === "1") {
-        orderedTimes.start_time = moment(date +  " " + i + ":00").valueOf();
+        orderedTimes.start_time = moment(date + " " + i + ":00").valueOf();
         orderedTimes.end_time = moment(
-          date +  " " + (i + length) + ":00"
+          date + " " + (i + length) + ":00"
         ).valueOf();
       }
     }
     return orderedTimes;
   };
 
-  const copyItems = items.map((item) => Object.assign({}, item));
+  const convertItemsData = (items) => {
+    return items
+      .filter((item) => {
+        console.log(
+          item.group,
+          currentDevice.id,
+          item.date,
+          currentMonth.format("YYYY-MM")
+        );
+        return (
+          item.group === currentDevice.id &&
+          item.date.startsWith(currentMonth.format("YYYY-MM"))
+        );
+      })
+      .map((item) => {
+        console.log(item);
+        item.deviceGroup = item.group;
+        item.group = item.date;
+        const orderedTimes = convertGrid(
+          groups[0].shiftLength,
+          item.grid,
+          today.format("YYYY-MM-DD")
+        );
+        item.start_time = orderedTimes.start_time;
+        item.end_time = orderedTimes.end_time;
+        return item;
+      });
+  };
 
-  const filteredItems = copyItems
-    .filter(
-      (copyItems) =>
-        copyItems.group === currentDevice.id &&
-        copyItems.date.startsWith(currentMonth.format("YYYY-MM"))
-    )
-    .map((item) => {
-      item.group = item.date;
-      const orderedTimes = convertGrid(groups[0].shiftLength, item.grid, today.format("YYYY-MM-DD"));
-      item.start_time = orderedTimes.start_time;
-      item.end_time = orderedTimes.end_time;
-      return item;
-    });
+  useEffect(() => {
+    if (isEditMode) {
+      // console.log(123, editOrderData, items, itemsPreOrder);
+      const selectedItems = items.filter(
+        (item) => item.rentOrderId === editOrderData.rentOrderId
+      );
+      // console.log(selectedItems);
+      const allItems = items.filter(
+        (item) => item.rentOrderId !== editOrderData.rentOrderId
+      );
+
+      const selectedItemsWithColor = convertItemsData(selectedItems).map(
+        (el) => {
+          // console.log(el);
+          return {
+            ...el,
+            group: el.date,
+            itemProps: { style: { background: "gray" } },
+          };
+        }
+      );
+      setUpdatedItems(allItems);
+      setItemsPreOrder(selectedItemsWithColor);
+      setCopyEditItems(selectedItems);
+    }
+  }, [editOrderData, isEditMode]);
+
+  const copyItems = items.map((item) => Object.assign({}, item));
+  console.log(itemsPreOrder);
+  console.log(copyItems);
+
+  const filteredItems = convertItemsData(copyItems);
 
   const generateDaysOfMonth = () => {
     const daysInMonth = moment(currentMonth).daysInMonth();
@@ -197,9 +247,14 @@ export const BookingTimeline = ({
     );
   };
 
+  // console.log(filteredItems);
+  // console.log(filteredItems.concat(getCurrentDevicePreOrderedItems()));
+  // console.log(newGroups);
   return (
+
     <div className={style.containerTimeline} >
       {/* <div>{selectedGroups}</div> */} {/* Общее название группы */}
+
       <GroupSwitching
         groups={groups}
         currentDevice={currentDevice}
@@ -214,6 +269,7 @@ export const BookingTimeline = ({
           />
         )}
       </div>
+
       <div className={style.monthLabel}>{currentMonth.format("MMMM YYYY")}</div>
       <div className="style">
         <Timeline
@@ -270,6 +326,7 @@ export const BookingTimeline = ({
           </TimelineHeaders>
         </Timeline>
         </div>
+
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BookingTimeline } from "./BookingDateColumn/BookingTimeline";
 import style from "./BookingMenu.module.css";
 import { EditButtonColumn } from "./EditButtonColumn/EditButtonColumn";
@@ -15,8 +15,16 @@ export const BookingMenu = ({
   items,
   clickOnEmptySpace,
   clickOnItem,
+  editOrderData,
+  isEditMode,
+  currentDevice,
+  setCurrentDevice
 }) => {
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
+  const [updatedItems, setUpdatedItems] = useState(items);
+  const [copyEditItems, setCopyEditItems] = useState([]);
+
+console.log("updatedItems", updatedItems, itemsPreOrder);
   return (
     <>
       <div className={style.container}>
@@ -26,6 +34,8 @@ export const BookingMenu = ({
             setIsBookingMenu={setIsBookingMenu}
             itemsPreOrder={itemsPreOrder}
             setItemsPreOrder={setItemsPreOrder}
+            setItems={setUpdatedItems}
+            setCurrentDevice={setCurrentDevice}
           />
         </div>
 
@@ -38,10 +48,16 @@ export const BookingMenu = ({
             toolsCount={toolsCount}
             isActiveDate={isActiveDate}
             orderDate={orderDate}
+            editOrderData={editOrderData}
+            isEditMode={isEditMode}
             openBookingWindow={openBookingWindow}
-            items={items}
+            setCopyEditItems={setCopyEditItems}
+            setUpdatedItems={setUpdatedItems}
+            items={updatedItems}
             clickOnEmptySpace={clickOnEmptySpace}
             clickOnItem={clickOnItem}
+            currentDevice={currentDevice}
+            setCurrentDevice={setCurrentDevice}
           />
         </div>
       </div>

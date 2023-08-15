@@ -46,12 +46,14 @@ export default function TimelinePage(props) {
   const [isLoadingEquipment, setIsLoadingEquipment] = useState(true);
   const [blockCreateButton, setBlockCreateButton] = useState(false);
   const [isActiveDate, setIsActiveDate] = useState(false);
+  const [editOrderData, setEditOrderData] = useState(null);
   const [isActiveMessage, setIsActiveMessage] = useState(false);
   const [isOpenAlertWindow, setIsOpenAlertWindow] = useState({
     status: false,
     message: "",
   });
   const [selectedGroups, setSelectedGroups] = useState([]);
+  const [currentDevice, setCurrentDevice] = useState(groups[0]);
   const [toolsCount, setToolsCount] = useState(0);
   const [chosenDate, setChosenDate] = useState(null);
   const [orderDate, setOrderDate] = useState({
@@ -64,7 +66,6 @@ export default function TimelinePage(props) {
   });
   const [isBookingMenu, setIsBookingMenu] = useState(false);
   const [isClickingOnEmptyFilter, setIsClickingOnEmptyFilter] = useState(false);
-
   const isAdmin = false;
 
   useEffect(() => {
@@ -90,33 +91,37 @@ export default function TimelinePage(props) {
 
   const handleInputChange = (newInput) => {
     localStorage.setItem("toolsFilter", newInput);
-
     setSelectedGroups(() => {
       return [newInput];
     });
   };
 
   const editMode = (_e, order) => {
-    const selectedItems = items.filter(
-      (item) => item.rentOrderId == order.rentOrderId
-    );
-
-    const allItems = items.filter(
-      (item) => item.rentOrderId !== order.rentOrderId
-    );
-
-    const selectedItemsWithColor = selectedItems.map((el) => {
-      return {
-        ...el,
-        itemProps: { style: { background: "gray" } },
-      };
-    });
-
-    setItems(allItems);
-    setItemsPreOrder(selectedItemsWithColor);
-    setCopyEditItems(selectedItems);
     setIsEditMode(true);
     setIsActiveMessage(false);
+    setCurrentDevice(groups.find((group) => order.group === group.id));
+    setEditOrderData(order);
+    setIsBookingMenu(true);
+    // const selectedItems = items.filter(
+    //   (item) => item.rentOrderId === order.rentOrderId
+    // );
+
+    // const allItems = items.filter(
+    //   (item) => item.rentOrderId !== order.rentOrderId
+    // );
+
+    // const selectedItemsWithColor = selectedItems.map((el) => {
+    //   return {
+    //     ...el,
+    //     itemProps: { style: { background: "gray" } },
+    //   };
+    // });
+
+    // setItems(allItems);
+    // setItemsPreOrder(selectedItemsWithColor);
+    // setCopyEditItems(selectedItems);
+    // setIsEditMode(true);
+    // setIsActiveMessage(false);
   };
 
   const sendNewOrder = () => {
@@ -223,6 +228,7 @@ export default function TimelinePage(props) {
   const clearFilter = () => {
     localStorage.clear("toolsFilter");
     setSelectedGroups([]);
+    setToolsCount(0);
   };
 
   const choseCount = (e) => {
@@ -299,108 +305,114 @@ export default function TimelinePage(props) {
     setIsActiveMessage((current) => !current);
   };
 
-  // console.log("items:", items)
-console.log(getGroupsToShow());
-console.log(selectedGroups);
-  return !isLoading && !isLoadingEquipment  ? (
+  console.log(getGroupsToShow());
+  console.log(selectedGroups);
+  return !isLoading && !isLoadingEquipment ? (
     <>
-      {isBookingMenu
-      ? <BookingMenu 
-      //! Нужные
-      setIsBookingMenu={setIsBookingMenu}
-      selectedGroups={selectedGroups}
-      //!
-      setUpdate={setUpdate}
-      groups={
-        toolsCount
-          ? getGroupsToShow().slice(0, toolsCount)
-          : getGroupsToShow()
-      }
-      toolsCount={toolsCount}
-      isActiveDate={isActiveDate}
-      orderDate={orderDate}
-      openBookingWindow={openBookingWindow}
-      items={items}
-      clickOnEmptySpace={clickOnEmptySpace}
-      clickOnItem={clickOnItem}
-      />
-      
-      : <>
-        <div className="container sort-box">
-          <div className="sort-box_item">
-            <ToolsFilter
-              toolNames={mapToolsNames()}
-              onInputChange={handleInputChange}
-              selectedGroups={selectedGroups}
-              clearFilter={clearFilter}
-              isClickingOnEmptyFilter={isClickingOnEmptyFilter}
-              setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
-            />
-            {selectedGroups.length ? (
-              <CountTools
-                choseCount={choseCount}
-                groupsCount={getGroupsToShow()}
-              />
-            ) : null}
-          </div>
-          <div className="sort-box_item">
-            {isAdmin ? (
-              <>
-                <CompaniesSelect companies={companies} />
-              </>
-            ) : null}
-
-            <DateFilter
-              showDatePicker={showDatePicker}
-              isActiveDate={isActiveDate}
-              setOrderDate={setOrderDate}
-              orderDate={orderDate}
-            />
-          </div>
-          <div className="sort-box_item">{/* <CountOrderFilter /> */}</div>
-
-          <ButtonBoxComponent
-            setIsBookingMenu={setIsBookingMenu}
-            isEditMode={isEditMode}
-            sendNewOrder={sendNewOrder}
-            clearAndChangeMode={clearAndChangeMode}
-            changeMode={changeMode}
-            blockCreateButton={blockCreateButton}
-            editOrder={editOrder}
-            restoreAndCloseEditMode={restoreAndCloseEditMode}
-            restoreEditItems={restoreEditItems}
-            isCreateMode={isCreateMode}
-            selectedGroups={selectedGroups}
-            setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
-          />
-        </div>
-
-        <TimeLineRenderer
+      {isBookingMenu 
+      ? (
+        <BookingMenu
+          //! Нужные
+          setIsBookingMenu={setIsBookingMenu}
+          selectedGroups={selectedGroups}
+          //!
+          setUpdate={setUpdate}
           groups={
             toolsCount
               ? getGroupsToShow().slice(0, toolsCount)
               : getGroupsToShow()
           }
-          toolsCount={toolsCount}
-          isActiveDate={isActiveDate}
+          isEditMode={isEditMode}
+          editOrderData={editOrderData}
           orderDate={orderDate}
-          openBookingWindow={openBookingWindow}
-          items={items.concat(itemsPreOrder)}
+          items={items}
           clickOnEmptySpace={clickOnEmptySpace}
           clickOnItem={clickOnItem}
+          currentDevice={currentDevice}
+          setCurrentDevice={setCurrentDevice}
         />
-        {isActiveMessage ? (
-          <MessageWindow
-            closeBookingWindow={closeBookingWindow}
-            data={chosenDate}
-            editMode={editMode}
+      ) : (
+        <>
+          <div className="container sort-box">
+            <div className="sort-box_item">
+              <ToolsFilter
+                toolNames={mapToolsNames()}
+                onInputChange={handleInputChange}
+                selectedGroups={selectedGroups}
+                clearFilter={clearFilter}
+                isClickingOnEmptyFilter={isClickingOnEmptyFilter}
+                setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
+              />
+              {selectedGroups.length ? (
+                <CountTools
+                  choseCount={choseCount}
+                  groupsCount={getGroupsToShow()}
+                />
+              ) : null}
+            </div>
+            <div className="sort-box_item">
+              {isAdmin ? (
+                <>
+                  <CompaniesSelect companies={companies} />
+                </>
+              ) : null}
+
+              <DateFilter
+                showDatePicker={showDatePicker}
+                isActiveDate={isActiveDate}
+                setOrderDate={setOrderDate}
+                orderDate={orderDate}
+              />
+            </div>
+            <div className="sort-box_item">{/* <CountOrderFilter /> */}</div>
+
+            <ButtonBoxComponent
+              setIsBookingMenu={setIsBookingMenu}
+              isEditMode={isEditMode}
+              sendNewOrder={sendNewOrder}
+              clearAndChangeMode={clearAndChangeMode}
+              changeMode={changeMode}
+              blockCreateButton={blockCreateButton}
+              editOrder={editOrder}
+              restoreAndCloseEditMode={restoreAndCloseEditMode}
+              restoreEditItems={restoreEditItems}
+              isCreateMode={isCreateMode}
+              selectedGroups={selectedGroups}
+              setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
+              setCurrentDevice={setCurrentDevice}
+              getGroupsToShow={getGroupsToShow}
+            />
+          </div>
+
+          <TimeLineRenderer
+            groups={
+              toolsCount
+                ? getGroupsToShow().slice(0, toolsCount)
+                : getGroupsToShow()
+            }
+            toolsCount={toolsCount}
+            isActiveDate={isActiveDate}
+            orderDate={orderDate}
+            openBookingWindow={openBookingWindow}
+            items={items.concat(itemsPreOrder)}
+            clickOnEmptySpace={clickOnEmptySpace}
+            clickOnItem={clickOnItem}
+            setIsBookingMenu={setIsBookingMenu}
+            setSelectedGroups={setSelectedGroups}
+            setCurrentDevice={setCurrentDevice}
           />
-        ) : null}
-        {isOpenAlertWindow.status ? (
-          <AlertWindow message={isOpenAlertWindow.message} />
-        ) : null}
-      </>
-      }
+          {isActiveMessage ? (
+            <MessageWindow
+              closeBookingWindow={closeBookingWindow}
+              data={chosenDate}
+              editMode={editMode}
+            />
+          ) : null}
+          {isOpenAlertWindow.status ? (
+            <AlertWindow message={isOpenAlertWindow.message} />
+          ) : null}
+        </>
+      )}
     </>
   ) : (
     <Spiner />
