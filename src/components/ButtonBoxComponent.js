@@ -3,28 +3,11 @@ import "./style.css";
 
 export default function ButtonBoxComponent({
   setIsBookingMenu,
-  restoreEditItems,
-  restoreAndCloseEditMode,
-  editOrder,
-  blockCreateButton,
-  changeMode,
-  clearAndChangeMode,
-  sendNewOrder,
-  isEditMode,
-  isCreateMode,
   selectedGroups,
   setIsClickingOnEmptyFilter,
-  setCurrentDevice
+  setCurrentDevice,
+  createBook
 }) {
-
-  const createBook = () => {
-    if (selectedGroups.length === 0) {
-      setIsClickingOnEmptyFilter(true)
-    } else {
-      setCurrentDevice(selectedGroups[0])
-      setIsBookingMenu(true)
-    }
-  }
 
   return (
     <div className="sort-box_item">

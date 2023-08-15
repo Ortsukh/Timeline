@@ -3,6 +3,8 @@ import Timeline, {
   TimelineHeaders,
   SidebarHeader,
   DateHeader,
+  TimelineMarkers,
+  TodayMarker,
 } from "react-calendar-timeline";
 import moment from "moment";
 import "moment/locale/ru";
@@ -47,7 +49,7 @@ export const BookingTimeline = ({
     setVisibleTimeStart(visibleTimeStart);
     setVisibleTimeEnd(visibleTimeEnd);
   };
-
+  console.log(currentDevice);
   const convertGrid = (length, grid, date) => {
     const arr = grid.split("");
     const orderedTimes = {};
@@ -65,23 +67,16 @@ export const BookingTimeline = ({
   const convertItemsData = (items) => {
     return items
       .filter((item) => {
-        console.log(
-          item.group,
-          currentDevice.id,
-          item.date,
-          currentMonth.format("YYYY-MM")
-        );
         return (
           item.group === currentDevice.id &&
           item.date.startsWith(currentMonth.format("YYYY-MM"))
         );
       })
       .map((item) => {
-        console.log(item);
         item.deviceGroup = item.group;
         item.group = item.date;
         const orderedTimes = convertGrid(
-          groups[0].shiftLength,
+          currentDevice.shiftLength,
           item.grid,
           today.format("YYYY-MM-DD")
         );
@@ -93,18 +88,15 @@ export const BookingTimeline = ({
 
   useEffect(() => {
     if (isEditMode) {
-      console.log(123, editOrderData, items, itemsPreOrder);
       const selectedItems = items.filter(
         (item) => item.rentOrderId === editOrderData.rentOrderId
       );
-      console.log(selectedItems);
       const allItems = items.filter(
         (item) => item.rentOrderId !== editOrderData.rentOrderId
       );
 
       const selectedItemsWithColor = convertItemsData(selectedItems).map(
         (el) => {
-          console.log(el);
           return {
             ...el,
             group: el.date,
@@ -119,8 +111,6 @@ export const BookingTimeline = ({
   }, [editOrderData, isEditMode]);
 
   const copyItems = items.map((item) => Object.assign({}, item));
-  console.log(itemsPreOrder);
-  console.log(copyItems);
 
   const filteredItems = convertItemsData(copyItems);
 
@@ -165,9 +155,8 @@ export const BookingTimeline = ({
   });
 
   const clickOnEmptySpace = (groupId, time) => {
-    const date = moment(time).format("YYYY-MM-DD");
     const hour = moment(time).hours();
-    const shiftLength = groups[0].shiftLength;
+    const shiftLength = currentDevice.shiftLength;
     const formatHour = Math.floor(hour / shiftLength);
 
     const formatedDate = getFormatedDate(groupId, time);
@@ -205,7 +194,7 @@ export const BookingTimeline = ({
   const getFormatedDate = (groupId, time) => {
     const date = moment(time).format("YYYY-MM-DD");
     const hour = moment(time).hours();
-    const shiftLength = groups[0].shiftLength;
+    const shiftLength = currentDevice.shiftLength;
     const formatHour = Math.floor(hour / shiftLength);
 
     let start, end;
@@ -241,16 +230,11 @@ export const BookingTimeline = ({
   };
 
   const getCurrentDevicePreOrderedItems = () => {
-    console.log(itemsPreOrder);
-    console.log(currentDevice);
     return itemsPreOrder.filter(
       (item) => item.deviceGroup === currentDevice.id
     );
   };
-
-  console.log(filteredItems);
   console.log(filteredItems.concat(getCurrentDevicePreOrderedItems()));
-  console.log(newGroups);
   return (
     <div className={style.containerTimeline}>
       {/* <div>{selectedGroups}</div> */} {/* Общее название группы */}
@@ -286,7 +270,14 @@ export const BookingTimeline = ({
         onBoundsChange={handleBoundsChange} // границы показа времени
         maxZoom={24 * 60 * 60 * 1000} // ограничение масштаба до 1 дня
         onCanvasClick={handleCanvasClick}
+        showCursorLine
         onItemSelect={handleItemSelect}
+        timeSteps={{
+          hour: currentDevice.shiftLength,
+          day: 1,
+          month: 1,
+          year: 1,
+        }}
       >
         <TimelineHeaders>
           <SidebarHeader>
@@ -295,21 +286,38 @@ export const BookingTimeline = ({
                 <>
                   <button
                     {...getRootProps()}
-                    style={{ width: "40px", color: "rgb(39, 128, 252)", border: "1px solid rgb(39, 128, 252)", cursor:"pointer", backgroundColor:"white" }}
+                    style={{
+                      width: "40px",
+                      color: "rgb(39, 128, 252)",
+                      border: "1px solid rgb(39, 128, 252)",
+                      cursor: "pointer",
+                      backgroundColor: "white",
+                    }}
                     onClick={onPreviousMonth}
                   >
                     &#9668;
                   </button>
                   <button
                     {...getRootProps()}
-                    style={{ width: "70px", backgroundColor:"white",  border: "1px solid rgb(39, 128, 252)", cursor:"pointer" }}
+                    style={{
+                      width: "70px",
+                      backgroundColor: "white",
+                      border: "1px solid rgb(39, 128, 252)",
+                      cursor: "pointer",
+                    }}
                     onClick={chooseFromCalendar}
                   >
                     Month
                   </button>
                   <button
                     {...getRootProps()}
-                    style={{ width: "40px", color: "rgb(39, 128, 252)", border: "1px solid rgb(39, 128, 252)", cursor:"pointer", backgroundColor:"white"  }}
+                    style={{
+                      width: "40px",
+                      color: "rgb(39, 128, 252)",
+                      border: "1px solid rgb(39, 128, 252)",
+                      cursor: "pointer",
+                      backgroundColor: "white",
+                    }}
                     onClick={onNextMonth}
                   >
                     &#9658;
@@ -319,7 +327,26 @@ export const BookingTimeline = ({
             }}
           </SidebarHeader>
           <DateHeader unit="hour" labelFormat="H" />{" "}
-          {/* отображать только часы, без минут */}
+          <DateHeader
+            intervalRenderer={({ getIntervalProps, intervalContext, data }) => {
+              console.log(getIntervalProps);
+              return (
+                <div {...getIntervalProps()}>
+                  <div
+                    style={{
+                      backgroundColor: "white",
+                      display: "flex",
+                      "justify-content": "center",
+                    }}
+                  >
+                    {moment(intervalContext.interval.startTime).format("H") +
+                      "-" +
+                      moment(intervalContext.interval.endTime).format("H")}
+                  </div>
+                </div>
+              );
+            }}
+          />{" "}
         </TimelineHeaders>
       </Timeline>
     </div>

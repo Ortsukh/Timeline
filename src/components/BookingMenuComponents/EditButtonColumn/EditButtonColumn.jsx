@@ -8,22 +8,36 @@ export const EditButtonColumn = ({
   setItemsPreOrder,
   itemsPreOrder,
   setUpdate,
-  setItems
+  setItems,
+  copyEditItems,
+  setCopyEditItems,
+  isEditMode,
+  setIsEditMode,
+  operAlertWindow,
 }) => {
   const [blockCreateButton, setBlockCreateButton] = useState(false);
-  const [copyEditItems, setCopyEditItems] = useState([]);
-
 
   const back = "< Назад";
 
   const createBook = () => {
+    if (isEditMode) {
+      console.log(copyEditItems);
+      setItems((previousUpdate) =>
+        previousUpdate.concat(
+          copyEditItems.map((item) => (item.group = item.deviceGroup))
+        )
+      );
+      setItemsPreOrder([]);
+      setCopyEditItems([]);
+      setIsEditMode(false);
+    }
     setIsBookingMenu(false);
   };
 
   const clearAndChangeMode = () => {
     setItemsPreOrder([]);
     setIsBookingMenu(false);
-  }
+  };
 
   const sendNewOrder = () => {
     if (itemsPreOrder.length < 1) return;
@@ -34,20 +48,22 @@ export const EditButtonColumn = ({
     const orderItems = createOrderGrid(itemsPreOrder);
     createOrder(orderItems)
       .then((response) => {
-        console.log(true);
+        operAlertWindow("success");
         setItemsPreOrder([]);
         setIsBookingMenu(false);
         setUpdate((previousUpdate) => !previousUpdate);
-        // operAlertWindow("success");
       })
-      .catch((errror) => console.log(errror));
+      .catch(operAlertWindow("error"));
   };
 
   const editOrder = () => {
     if (itemsPreOrder.length < 1) return;
-    const orderItem = itemsPreOrder[0];
+    itemsPreOrder = itemsPreOrder.map((item) => {
+      item.group = item.deviceGroup;
+      return item;
+    });
+    const orderItem = copyEditItems[0];
     const orderItemsGrid = createOrderGrid(itemsPreOrder);
-    console.log(orderItemsGrid);
     const dateIntervals = formatOrder(orderItemsGrid);
     const editedOrder = {
       rentOrder: {
@@ -62,13 +78,12 @@ export const EditButtonColumn = ({
 
     sendEditOrder(editedOrder)
       .then(() => {
+        operAlertWindow("success");
         setUpdate((previousUpdate) => !previousUpdate);
         setItemsPreOrder([]);
         setCopyEditItems([]);
-        // operAlertWindow("success");
-        // setIsEditMode(false);
       })
-      // .catch(() => operAlertWindow("error"));
+      .catch(() => operAlertWindow("error"));
   };
   const restoreEditItems = () => {
     setItemsPreOrder(
@@ -80,14 +95,6 @@ export const EditButtonColumn = ({
       })
     );
   };
-
-  const restoreAndCloseEditMode = () => {
-    setItems((previousUpdate) => previousUpdate.concat(copyEditItems));
-    setItemsPreOrder([]);
-    setCopyEditItems([]);
-    // setIsEditMode((previousUpdate) => !previousUpdate);
-  };
-
 
   return (
     <>
@@ -102,36 +109,37 @@ export const EditButtonColumn = ({
           <div className={style.editButtonColumn}>
             <p>Button</p>
           </div>
-
-          <div className={style.editButtons}>
-            <button className={style.reserveBtn} onClick={sendNewOrder}>
-              Забронировать и выйти
-            </button>
-          </div>
-          <button className="reserved-btn" onClick={() => clearAndChangeMode()}>
-            Сбросить и Закрыть
-          </button>
-
-          <div>
-         <button
-            disabled={blockCreateButton}
-            className={
-              blockCreateButton ? "reserved-btn-locked" : "reserved-btn"
-            }
-            onClick={() => editOrder()}
-          >
-            Применить
-          </button>
-          <button className="reserved-btn" onClick={() => restoreEditItems()}>
-            Отменить
-          </button>
-          <button
-            className="reserved-btn"
-            onClick={() => restoreAndCloseEditMode()}
-          >
-            Отменить и закрыть
-          </button>
-        </div>
+          {isEditMode ? (
+            <div>
+              <button
+                disabled={blockCreateButton}
+                className={
+                  blockCreateButton ? "reserved-btn-locked" : "reserved-btn"
+                }
+                onClick={() => editOrder()}
+              >
+                Применить
+              </button>
+              <button
+                className="reserved-btn"
+                onClick={() => restoreEditItems()}
+              >
+                Отменить
+              </button>
+            </div>
+          ) : (
+            <div className={style.editButtons}>
+              <button className={style.reserveBtn} onClick={sendNewOrder}>
+                Забронировать и выйти
+              </button>
+              <button
+                className="reserved-btn"
+                onClick={() => clearAndChangeMode()}
+              >
+                Сбросить и Закрыть
+              </button>
+            </div>
+          )}
 
           <div className={style.bookingDateColumn}>
             <p>Date</p>

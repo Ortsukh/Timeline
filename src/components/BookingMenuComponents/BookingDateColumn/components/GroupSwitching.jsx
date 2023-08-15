@@ -2,9 +2,9 @@ import { useState } from "react";
 import style from "../BookingTimeline.module.css";
 
 export const GroupSwitching = ({groups: equipments, currentDevice, setCurrentDevice}) => {
-  
+  console.log(currentDevice);
   const [currentDeviceIndex, setCurrentDeviceIndex] = useState(0);
-  setCurrentDevice(equipments[currentDeviceIndex]) //TODO рендериться дважды
+  // setCurrentDevice(equipments[currentDeviceIndex]) //TODO рендериться дважды
 
   const onPreviousGroup = () => {
     setCurrentDeviceIndex((prevIndex) => Math.max(prevIndex - 1, 0));

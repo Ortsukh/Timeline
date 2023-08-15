@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BookingTimeline } from "./BookingDateColumn/BookingTimeline";
 import style from "./BookingMenu.module.css";
 import { EditButtonColumn } from "./EditButtonColumn/EditButtonColumn";
@@ -18,23 +18,30 @@ export const BookingMenu = ({
   editOrderData,
   isEditMode,
   currentDevice,
-  setCurrentDevice
+  setCurrentDevice,
+  setIsEditMode,
+  operAlertWindow
 }) => {
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
   const [updatedItems, setUpdatedItems] = useState(items);
   const [copyEditItems, setCopyEditItems] = useState([]);
 
-console.log("updatedItems", updatedItems, itemsPreOrder);
+  console.log("updatedItems", updatedItems, itemsPreOrder);
   return (
     <>
       <div className={style.container}>
         <div className={style.editButtonColumn}>
           <EditButtonColumn
-          setUpdate={setUpdate}
+            setUpdate={setUpdate}
             setIsBookingMenu={setIsBookingMenu}
             itemsPreOrder={itemsPreOrder}
             setItemsPreOrder={setItemsPreOrder}
             setItems={setUpdatedItems}
+            copyEditItems={copyEditItems}
+            setCopyEditItems={setCopyEditItems}
+            isEditMode={isEditMode}
+            setIsEditMode={setIsEditMode}
+            operAlertWindow={operAlertWindow}
           />
         </div>
 

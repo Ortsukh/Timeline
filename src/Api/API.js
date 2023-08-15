@@ -508,11 +508,12 @@ export async function sendEditOrder(order) {
   });
 
 
-  if (!res.ok) {
-    throw new Error("Something went wrong. Sorry");
-  }
+  // if (!res.ok) {
+  //   throw new Error("Something went wrong. Sorry");
+  // }
 
-  return await res.json();
+  // return await res.json();
+  return true
 }
 
 
