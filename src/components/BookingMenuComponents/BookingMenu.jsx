@@ -56,16 +56,10 @@ export const BookingMenu = ({
             toolsCount={toolsCount}
             isActiveDate={isActiveDate}
             orderDate={orderDate}
-            editOrderData={editOrderData}
-            isEditMode={isEditMode}
             openBookingWindow={openBookingWindow}
-            setCopyEditItems={setCopyEditItems}
-            setUpdatedItems={setUpdatedItems}
-            items={updatedItems}
+            items={items}
             clickOnEmptySpace={clickOnEmptySpace}
             clickOnItem={clickOnItem}
-            currentDevice={currentDevice}
-            setCurrentDevice={setCurrentDevice}
           />
         </div>
       </div>
