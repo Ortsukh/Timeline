@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
@@ -14,7 +14,6 @@ import "react-calendar/dist/Calendar.css"; // удалить для измене
 import { GroupSwitching } from "./components/GroupSwitching";
 import "../../style.css";
 import { addGrid } from "../../../DataConvertHelper";
-import { useEffect } from "react";
 
 export const BookingTimeline = ({
   selectedGroups,
@@ -42,7 +41,7 @@ export const BookingTimeline = ({
 
   const [openGroups, setOpenGroups] = useState(false);
 
-  console.log("date", currentMonth.format("YYYY-MM"));
+  // console.log("date", currentMonth.format("YYYY-MM"));
   const handleBoundsChange = (visibleTimeStart, visibleTimeEnd) => {
     setVisibleTimeStart(visibleTimeStart);
     setVisibleTimeEnd(visibleTimeEnd);
@@ -93,18 +92,18 @@ export const BookingTimeline = ({
 
   useEffect(() => {
     if (isEditMode) {
-      console.log(123, editOrderData, items, itemsPreOrder);
+      // console.log(123, editOrderData, items, itemsPreOrder);
       const selectedItems = items.filter(
         (item) => item.rentOrderId === editOrderData.rentOrderId
       );
-      console.log(selectedItems);
+      // console.log(selectedItems);
       const allItems = items.filter(
         (item) => item.rentOrderId !== editOrderData.rentOrderId
       );
 
       const selectedItemsWithColor = convertItemsData(selectedItems).map(
         (el) => {
-          console.log(el);
+          // console.log(el);
           return {
             ...el,
             group: el.date,
@@ -248,12 +247,11 @@ export const BookingTimeline = ({
     );
   };
 
-  console.log(filteredItems);
-  console.log(filteredItems.concat(getCurrentDevicePreOrderedItems()));
-  console.log(newGroups);
+  // console.log(filteredItems);
+  // console.log(filteredItems.concat(getCurrentDevicePreOrderedItems()));
+  // console.log(newGroups);
   return (
     <div className={style.containerTimeline}>
-      {/* <div>{selectedGroups}</div> */} {/* Общее название группы */}
       <GroupSwitching
         groups={groups}
         currentDevice={currentDevice}
@@ -268,7 +266,6 @@ export const BookingTimeline = ({
           />
         )}
       </div>
-      <div className={style.monthLabel}>{currentMonth.format("MMMM YYYY")}</div>
       <Timeline
         className={style.tableTimeline}
         groups={newGroups}
@@ -305,7 +302,7 @@ export const BookingTimeline = ({
                     style={{ width: "70px", backgroundColor:"white",  border: "1px solid rgb(39, 128, 252)", cursor:"pointer" }}
                     onClick={chooseFromCalendar}
                   >
-                    Month
+                    {currentMonth.format("MMMM")}
                   </button>
                   <button
                     {...getRootProps()}
