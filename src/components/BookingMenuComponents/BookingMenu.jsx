@@ -44,11 +44,15 @@ export const BookingMenu = ({
             setIsEditMode={setIsEditMode}
             operAlertWindow={operAlertWindow}
             setCurrentDevice={setCurrentDevice}
+            currentDevice={currentDevice}
           />
         </div>
 
         <div className={style.bookingDateColumn}>
           <BookingTimeline
+            setCurrentDevice={setCurrentDevice}
+
+          currentDevice={currentDevice}
             selectedGroups={selectedGroups}
             groups={groups}
             itemsPreOrder={itemsPreOrder}

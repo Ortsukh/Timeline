@@ -6,12 +6,12 @@ export const GroupSwitching = ({groups: equipments, currentDevice, setCurrentDev
   const [currentDeviceIndex, setCurrentDeviceIndex] = useState(0);
   setCurrentDevice(equipments[currentDeviceIndex]) //TODO рендериться дважды
 
-  const onPreviousGroup = () => {
+  const handlePreviousGroup = () => {
     setCurrentDeviceIndex((prevIndex) => Math.max(prevIndex - 1, 0));
     setCurrentDevice(equipments[currentDeviceIndex])
   }
 
-  const onNextGroup = () => {
+  const handleNextGroup = () => {
     setCurrentDeviceIndex((prevIndex) => Math.min(prevIndex + 1, equipments.length - 1));
     setCurrentDevice(equipments[currentDeviceIndex])
   }

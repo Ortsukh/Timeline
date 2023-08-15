@@ -16,10 +16,7 @@ import TimeLineRenderer from "../components/TimeLineRenderer";
 import CompaniesSelect from "../components/CompaniesSelect";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
-import {
-  getAllEqupments,
-  getAllOrders,
-} from "../Api/API";
+import { getAllEqupments, getAllOrders } from "../Api/API";
 import AlertWindow from "../components/AlertWindow";
 import ButtonBoxComponent from "../components/ButtonBoxComponent";
 import { BookingMenu } from "../components/BookingMenuComponents/BookingMenu";
@@ -91,7 +88,6 @@ export default function TimelinePage(props) {
     setCurrentDevice(groups.find((group) => order.group === group.id));
     setEditOrderData(order);
     setIsBookingMenu(true);
-   
   };
 
   const operAlertWindow = (message) => {
@@ -128,7 +124,7 @@ export default function TimelinePage(props) {
   };
 
   const clickOnEmptySpace = (groupId, time) => {
-    if ( !isEditMode) return;
+    if (!isEditMode) return;
     const date = moment(time).format("YYYY-MM-DD");
     const hour = moment(time).hours();
     const shiftLength = groups.find(
@@ -204,18 +200,16 @@ export default function TimelinePage(props) {
 
   const createBook = () => {
     if (selectedGroups.length === 0) {
-      setIsClickingOnEmptyFilter(true)
+      setIsClickingOnEmptyFilter(true);
     } else {
-      setCurrentDevice(groups.filter((group) => selectedGroups.includes(group.category))[0])
-      setIsBookingMenu(true)
+      console.log(groups.filter((group) => selectedGroups.includes(group.category))[0]);
+      setCurrentDevice(
+        groups.filter((group) => selectedGroups.includes(group.category))[0]
+      );
+      setIsBookingMenu(true);
     }
-  }
-
-
-
-
-
-
+  };
+console.log(selectedGroups);
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };
@@ -224,8 +218,7 @@ export default function TimelinePage(props) {
   console.log(selectedGroups);
   return !isLoading && !isLoadingEquipment ? (
     <>
-      {isBookingMenu 
-      ? (
+      {isBookingMenu ? (
         <BookingMenu
           //! Нужные
           setIsBookingMenu={setIsBookingMenu}
