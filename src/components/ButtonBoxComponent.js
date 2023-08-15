@@ -13,13 +13,15 @@ export default function ButtonBoxComponent({
   isEditMode,
   isCreateMode,
   selectedGroups,
-  setIsClickingOnEmptyFilter
+  setIsClickingOnEmptyFilter,
+  setCurrentDevice
 }) {
 
   const createBook = () => {
-    if (selectedGroups.length == 0) {
+    if (selectedGroups.length === 0) {
       setIsClickingOnEmptyFilter(true)
     } else {
+      setCurrentDevice(selectedGroups[0])
       setIsBookingMenu(true)
     }
   }

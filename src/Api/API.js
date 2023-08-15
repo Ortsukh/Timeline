@@ -494,7 +494,7 @@ export async function getAllOrders() {
 }
 
 export async function sendEditOrder(order) {
-  const str = `/admin/manager/edit_order`;
+  const str = `http://freekitchen.loc/test/edit_order`;
 
 
 
@@ -503,6 +503,7 @@ export async function sendEditOrder(order) {
     headers: {
       "Content-Type": "application/json;charset=utf-8",
     },
+    mode: 'no-cors',
     body: JSON.stringify(order),
   });
 
