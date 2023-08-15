@@ -18,7 +18,7 @@ export const GroupSwitching = ({groups: equipments, currentDevice, setCurrentDev
 
   return (
     <div className={style.containerGroupSwitching}>
-      <button onClick={onPreviousGroup} disabled={currentDeviceIndex === 0}>
+      <button onClick={onPreviousGroup} disabled={currentDeviceIndex === 0} >
         &#9668;
       </button>
       <p>{currentDevice.title}</p>

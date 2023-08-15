@@ -8,10 +8,8 @@
 
 .editButtonColumn {
   grid-area: 1 / 1 / 2 / 2;
-  border: 1px solid red;
 }
 
 .bookingDateColumn {
   grid-area: 1 / 2 / 2 / 3;
-  border: 1px solid purple;
 }

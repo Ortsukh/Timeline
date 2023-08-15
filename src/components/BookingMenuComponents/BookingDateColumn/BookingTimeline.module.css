@@ -2,12 +2,14 @@
   width: 45vw;
   /* height: 90vh; */
   margin: 0 auto;
-  border: 1px solid blue;
+  background-color: #fdfdfd;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 2px 2px 0 2px;
 }
 
 .tableTimeline {
   width: 100%;
-  border: 1px solid red;
 }
 /* 
 .rct-outer {
@@ -33,10 +35,13 @@
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  width: 400px;
 }
 
 
 .highlight {
-  background-color: #bada55 !important;
+  background-color: #b6b6b6 !important;
+}
+
+.react-calendar-timeline .rct-sidebar .rct-sidebar-row{
+  padding: 0 !important;
 }

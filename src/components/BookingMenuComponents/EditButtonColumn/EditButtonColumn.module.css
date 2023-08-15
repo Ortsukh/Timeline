@@ -2,21 +2,23 @@
 
 .backButtonBlock {
   width: 100%;
-  height: 1.8rem;
 }
 
 .backButton {
-  padding: 0;
-  border: 1px solid red;
-  font: inherit;
-  color: inherit;
-  background-color: transparent;
-  font-weight: 700;
-  font-size: larger;
+  padding: 5px 10px;
+  color: white;
+  background-color: #f03333;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #f03333;
+  margin-bottom: 20px;
 }
 
 .backButton:hover {
-  transform: scale(1.1);
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  transition: .3s;
 }
 
 .editButtons {
@@ -35,4 +37,23 @@
 .bookingDateColumn {
   grid-area: 1 / 2 / 2 / 3;
   border: 1px solid blue;
+}
+
+.reserveBtn{
+  border: 1px solid rgb(39, 128, 252);
+  background-color: rgb(39, 128, 252);
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: 14px;
+  width: 180px;
+  margin-top: 20px;
+}
+
+.reserveBtn:hover{
+  transition: .5s;
+  background-color: white;
+  color: rgb(4, 20, 42);
 }

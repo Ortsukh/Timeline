@@ -295,21 +295,21 @@ export const BookingTimeline = ({
                 <>
                   <button
                     {...getRootProps()}
-                    style={{ width: "50px" }}
+                    style={{ width: "40px", color: "rgb(39, 128, 252)", border: "1px solid rgb(39, 128, 252)", cursor:"pointer", backgroundColor:"white" }}
                     onClick={onPreviousMonth}
                   >
                     &#9668;
                   </button>
                   <button
                     {...getRootProps()}
-                    style={{ width: "50px" }}
+                    style={{ width: "70px", backgroundColor:"white",  border: "1px solid rgb(39, 128, 252)", cursor:"pointer" }}
                     onClick={chooseFromCalendar}
                   >
                     Month
                   </button>
                   <button
                     {...getRootProps()}
-                    style={{ width: "50px" }}
+                    style={{ width: "40px", color: "rgb(39, 128, 252)", border: "1px solid rgb(39, 128, 252)", cursor:"pointer", backgroundColor:"white"  }}
                     onClick={onNextMonth}
                   >
                     &#9658;
