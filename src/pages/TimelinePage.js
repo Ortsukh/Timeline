@@ -5,28 +5,20 @@ import { v4 as uuidv4 } from "uuid";
 import {
   addGrid,
   createEquipmentGroup,
-  createOrderGrid,
   createOrderGroup,
-  formatOrder,
 } from "../DataConvertHelper";
 import ToolsFilter from "../components/ToolsFilter";
 import CountTools from "../components/CountToolsFilter";
 import DateFilter from "../components/DateFilter";
 import Spiner from "../components/Spiner";
-import CountOrderFilter from "../components/CountOrderFilter";
 import MessageWindow from "../components/MessageWindow";
 import TimeLineRenderer from "../components/TimeLineRenderer";
 import CompaniesSelect from "../components/CompaniesSelect";
-import StatusSelect from "../components/StatusSelect";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
 import {
-  createOrder,
   getAllEqupments,
-  getAllEqupments1,
   getAllOrders,
-  getAllOrders1,
-  sendEditOrder,
 } from "../Api/API";
 import AlertWindow from "../components/AlertWindow";
 import ButtonBoxComponent from "../components/ButtonBoxComponent";
@@ -36,15 +28,12 @@ export default function TimelinePage(props) {
   const [groups, setGroups] = useState([]);
   const [update, setUpdate] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [isCreateMode, setIsCreateMode] = useState(false);
   const [items, setItems] = useState([]);
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
-  const [copyEditItems, setCopyEditItems] = useState([]);
 
   const [companies, setCompanies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingEquipment, setIsLoadingEquipment] = useState(true);
-  const [blockCreateButton, setBlockCreateButton] = useState(false);
   const [isActiveDate, setIsActiveDate] = useState(false);
   const [editOrderData, setEditOrderData] = useState(null);
   const [isActiveMessage, setIsActiveMessage] = useState(false);
@@ -102,67 +91,7 @@ export default function TimelinePage(props) {
     setCurrentDevice(groups.find((group) => order.group === group.id));
     setEditOrderData(order);
     setIsBookingMenu(true);
-    // const selectedItems = items.filter(
-    //   (item) => item.rentOrderId === order.rentOrderId
-    // );
-
-    // const allItems = items.filter(
-    //   (item) => item.rentOrderId !== order.rentOrderId
-    // );
-
-    // const selectedItemsWithColor = selectedItems.map((el) => {
-    //   return {
-    //     ...el,
-    //     itemProps: { style: { background: "gray" } },
-    //   };
-    // });
-
-    // setItems(allItems);
-    // setItemsPreOrder(selectedItemsWithColor);
-    // setCopyEditItems(selectedItems);
-    // setIsEditMode(true);
-    // setIsActiveMessage(false);
-  };
-
-  const sendNewOrder = () => {
-    if (itemsPreOrder.length < 1) return;
-    const orderItems = createOrderGrid(itemsPreOrder);
-    setBlockCreateButton(true);
-    createOrder(orderItems)
-      .then((response) => {
-        setItemsPreOrder([]);
-        setUpdate((previousUpdate) => !previousUpdate);
-        operAlertWindow("success");
-      })
-      .catch(() => operAlertWindow("error"));
-  };
-
-  const editOrder = () => {
-    if (itemsPreOrder.length < 1) return;
-    const orderItem = itemsPreOrder[0];
-    const orderItemsGrid = createOrderGrid(itemsPreOrder);
-    console.log(orderItemsGrid);
-    const dateIntervals = formatOrder(orderItemsGrid);
-    const editedOrder = {
-      rentOrder: {
-        id: orderItem.rentOrderId,
-        company: orderItem.company,
-      },
-      status: orderItem.status,
-      equipmentItems: dateIntervals,
-    };
-
-    setBlockCreateButton(true);
-
-    sendEditOrder(editedOrder)
-      .then(() => {
-        setUpdate((previousUpdate) => !previousUpdate);
-        setItemsPreOrder([]);
-        setCopyEditItems([]);
-        operAlertWindow("success");
-        setIsEditMode(false);
-      })
-      .catch(() => operAlertWindow("error"));
+   
   };
 
   const operAlertWindow = (message) => {
@@ -175,7 +104,6 @@ export default function TimelinePage(props) {
         status: false,
         message: message,
       });
-      setBlockCreateButton(false);
     }, 2000);
   };
 
@@ -200,7 +128,7 @@ export default function TimelinePage(props) {
   };
 
   const clickOnEmptySpace = (groupId, time) => {
-    if (!isCreateMode && !isEditMode) return;
+    if ( !isEditMode) return;
     const date = moment(time).format("YYYY-MM-DD");
     const hour = moment(time).hours();
     const shiftLength = groups.find(
@@ -274,32 +202,19 @@ export default function TimelinePage(props) {
     });
   };
 
-  const changeMode = () => {
-    setIsCreateMode((previousUpdate) => !previousUpdate);
-  };
+  const createBook = () => {
+    if (selectedGroups.length === 0) {
+      setIsClickingOnEmptyFilter(true)
+    } else {
+      setCurrentDevice(groups.filter((group) => selectedGroups.includes(group.category))[0])
+      setIsBookingMenu(true)
+    }
+  }
 
-  const restoreEditItems = () => {
-    setItemsPreOrder(
-      copyEditItems.map((el) => {
-        return {
-          ...el,
-          itemProps: { style: { background: "gray" } },
-        };
-      })
-    );
-  };
 
-  const restoreAndCloseEditMode = () => {
-    setItems((previousUpdate) => previousUpdate.concat(copyEditItems));
-    setItemsPreOrder([]);
-    setCopyEditItems([]);
-    setIsEditMode((previousUpdate) => !previousUpdate);
-  };
 
-  const clearAndChangeMode = () => {
-    setIsCreateMode((previousUpdate) => !previousUpdate);
-    setItemsPreOrder([]);
-  };
+
+
 
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
@@ -330,6 +245,8 @@ export default function TimelinePage(props) {
           clickOnItem={clickOnItem}
           currentDevice={currentDevice}
           setCurrentDevice={setCurrentDevice}
+          setIsEditMode={setIsEditMode}
+          operAlertWindow={operAlertWindow}
         />
       ) : (
         <>
@@ -369,17 +286,10 @@ export default function TimelinePage(props) {
             <ButtonBoxComponent
               setIsBookingMenu={setIsBookingMenu}
               isEditMode={isEditMode}
-              sendNewOrder={sendNewOrder}
-              clearAndChangeMode={clearAndChangeMode}
-              changeMode={changeMode}
-              blockCreateButton={blockCreateButton}
-              editOrder={editOrder}
-              restoreAndCloseEditMode={restoreAndCloseEditMode}
-              restoreEditItems={restoreEditItems}
-              isCreateMode={isCreateMode}
               selectedGroups={selectedGroups}
               setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
               setCurrentDevice={setCurrentDevice}
+              createBook={createBook}
               getGroupsToShow={getGroupsToShow}
             />
           </div>

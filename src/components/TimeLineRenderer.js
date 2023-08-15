@@ -31,13 +31,13 @@ export default function TimeLineRenderer({
   }, [orderDate.selection1.startDate, isActiveDate]);
 
   console.log("render", items, groups);
-  const minTime = moment(orderDate.selection1.startDate).add(-1, "year").valueOf(); //! Прокрутка влево на {1 год}
-  const maxTime = moment(orderDate.selection1.endDate).add(1, "year").valueOf(); //! Прокрутка вправо на {1 год}
+  // const minTime = moment(orderDate.selection1.startDate).add(-1, "year").valueOf(); //! Прокрутка влево на {1 год}
+  // const maxTime = moment(orderDate.selection1.endDate).add(1, "year").valueOf(); //! Прокрутка вправо на {1 год}
 
-  const handleCanvasClick = (groupId, time, e) => {
-      clickOnEmptySpace(groupId, time);
-    console.log(groupId, time, e);
-  };
+  // const handleCanvasClick = (groupId, time, e) => {
+  //     clickOnEmptySpace(groupId, time);
+  //   console.log(groupId, time, e);
+  // };
 
   const handleItemSelect = (itemId, e, time) => {
     console.log(itemId);
@@ -45,23 +45,23 @@ export default function TimeLineRenderer({
     clickOnItem(time, itemId);
   };
 
-  const handleTimeChange = (visibleTimeStart, visibleTimeEnd, updateScrollCanvas) => {
-    if (visibleTimeStart < minTime && visibleTimeEnd > maxTime) {
-      updateScrollCanvas(minTime, maxTime);
-    } else if (visibleTimeStart < minTime) {
-      updateScrollCanvas(
-        minTime,
-        minTime + (visibleTimeEnd - visibleTimeStart)
-      );
-    } else if (visibleTimeEnd > maxTime) {
-      updateScrollCanvas(
-        maxTime - (visibleTimeEnd - visibleTimeStart),
-        maxTime
-      );
-    } else {
-      updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
-    }
-  }
+  // const handleTimeChange = (visibleTimeStart, visibleTimeEnd, updateScrollCanvas) => {
+  //   if (visibleTimeStart < minTime && visibleTimeEnd > maxTime) {
+  //     updateScrollCanvas(minTime, maxTime);
+  //   } else if (visibleTimeStart < minTime) {
+  //     updateScrollCanvas(
+  //       minTime,
+  //       minTime + (visibleTimeEnd - visibleTimeStart)
+  //     );
+  //   } else if (visibleTimeEnd > maxTime) {
+  //     updateScrollCanvas(
+  //       maxTime - (visibleTimeEnd - visibleTimeStart),
+  //       maxTime
+  //     );
+  //   } else {
+  //     updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
+  //   }
+  // }
 
 const newGroups = groups.map((group) => {
   return Object.assign({}, group, {
@@ -101,9 +101,9 @@ const handleToSelectedGroup = (group, category) => {
       maxZoom={60 * 60 * 1000 * 24 * 30}
       lineHeight={45}
       onZoom= {(timelineContext, unit)=>console.log(timelineContext, unit)}
-      onCanvasClick={handleCanvasClick}
+      // onCanvasClick={handleCanvasClick}
       onItemSelect={handleItemSelect}
-      onTimeChange={handleTimeChange}
+      // onTimeChange={handleTimeChange}
       itemHeightRatio={1}
       canResize={false}
       timeSteps={{
