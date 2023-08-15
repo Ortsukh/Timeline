@@ -17,14 +17,16 @@ export const GroupSwitching = ({groups: equipments, currentDevice, setCurrentDev
   }
 
   return (
-    <div className={style.containerGroupSwitching}>
-      <button onClick={onPreviousGroup} disabled={currentDeviceIndex === 0} >
-        &#9668;
-      </button>
-      <p>{currentDevice.title}</p>
-      <button onClick={onNextGroup} disabled={currentDeviceIndex === equipments.length - 1}>
-        &#9658;
-      </button>
+    <div className="headerSwitch">
+      <div className={style.containerGroupSwitching}>
+        <button onClick={onPreviousGroup} disabled={currentDeviceIndex === 0} >
+        &#129120;
+        </button>
+        <p>{currentDevice.title}</p>
+        <button onClick={onNextGroup} disabled={currentDeviceIndex === equipments.length - 1}>
+        &#129122;
+        </button>
+      </div>
     </div>
   );
 };
