@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
@@ -16,7 +16,6 @@ import "react-calendar/dist/Calendar.css"; // удалить для измене
 import { GroupSwitching } from "./components/GroupSwitching";
 import "../../style.css";
 import { addGrid } from "../../../DataConvertHelper";
-import { useEffect } from "react";
 
 export const BookingTimeline = ({
   selectedGroups,
@@ -44,7 +43,7 @@ export const BookingTimeline = ({
 
   const [openGroups, setOpenGroups] = useState(false);
 
-  console.log("date", currentMonth.format("YYYY-MM"));
+  // console.log("date", currentMonth.format("YYYY-MM"));
   const handleBoundsChange = (visibleTimeStart, visibleTimeEnd) => {
     setVisibleTimeStart(visibleTimeStart);
     setVisibleTimeEnd(visibleTimeEnd);
@@ -234,10 +233,11 @@ export const BookingTimeline = ({
       (item) => item.deviceGroup === currentDevice.id
     );
   };
-  console.log(filteredItems.concat(getCurrentDevicePreOrderedItems()));
   return (
-    <div className={style.containerTimeline}>
+
+    <div className={style.containerTimeline} >
       {/* <div>{selectedGroups}</div> */} {/* Общее название группы */}
+
       <GroupSwitching
         groups={groups}
         currentDevice={currentDevice}
@@ -252,7 +252,9 @@ export const BookingTimeline = ({
           />
         )}
       </div>
+
       <div className={style.monthLabel}>{currentMonth.format("MMMM YYYY")}</div>
+      <div className="style">
       <Timeline
         className={style.tableTimeline}
         groups={newGroups}
@@ -326,7 +328,7 @@ export const BookingTimeline = ({
               );
             }}
           </SidebarHeader>
-          <DateHeader unit="hour" labelFormat="H" />{" "}
+          {currentDevice.shiftLength < 2 ? <DateHeader unit="hour" labelFormat="H" /> :
           <DateHeader
             intervalRenderer={({ getIntervalProps, intervalContext, data }) => {
               console.log(getIntervalProps);
@@ -346,9 +348,10 @@ export const BookingTimeline = ({
                 </div>
               );
             }}
-          />{" "}
+          />}
         </TimelineHeaders>
       </Timeline>
+    </div>
     </div>
   );
 };

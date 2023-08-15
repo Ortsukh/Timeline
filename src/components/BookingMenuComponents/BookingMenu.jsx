@@ -20,7 +20,8 @@ export const BookingMenu = ({
   currentDevice,
   setCurrentDevice,
   setIsEditMode,
-  operAlertWindow
+  operAlertWindow,
+  
 }) => {
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
   const [updatedItems, setUpdatedItems] = useState(items);
@@ -42,6 +43,7 @@ export const BookingMenu = ({
             isEditMode={isEditMode}
             setIsEditMode={setIsEditMode}
             operAlertWindow={operAlertWindow}
+            setCurrentDevice={setCurrentDevice}
           />
         </div>
 

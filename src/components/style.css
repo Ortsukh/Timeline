@@ -226,11 +226,11 @@
     font-size: 14px;
 }
 
-.BookingMenu_bookingDateColumn__o1H9r .rct-header-root{
+.style .rct-header-root{
     position: relative !important;
     width: auto !important;
 }
 
-.BookingTimeline_tableTimeline__gOCAr .rct-outer{
+.style .rct-outer{
     margin: 0;
-}
+} 
