@@ -198,7 +198,7 @@ export const BookingTimeline = ({
   };
 
   return (
-    <div className={style.containerTimeline}>
+    <div className={style.containerTimeline} >
       {/* <div>{selectedGroups}</div> */} {/* Общее название группы */}
       <GroupSwitching
         groups={groups}
@@ -215,59 +215,61 @@ export const BookingTimeline = ({
         )}
       </div>
       <div className={style.monthLabel}>{currentMonth.format("MMMM YYYY")}</div>
-      <Timeline
-        className={style.tableTimeline}
-        groups={newGroups}
-        lineHeight={18}
-        itemHeightRatio={1}
-        horizontalLineClassNamesForGroup={(group) =>
-          openGroups[group.id] ? [style.highlight] : []
-        }
-        items={filteredItems.concat(getCurrentDevicePreOrderedItems())}
-        visibleTimeStart={visibleTimeStart}
-        visibleTimeEnd={visibleTimeEnd}
-        // sidebarWidth={150} // ширина левой панели по дефолту - 150px
-        // rightSidebarWidth={80} // задать ширину правой панели
-        buffer={1} // убрать прокрутку на колесико (день вперед/назад)
-        onBoundsChange={handleBoundsChange} // границы показа времени
-        maxZoom={24 * 60 * 60 * 1000} // ограничение масштаба до 1 дня
-        onCanvasClick={handleCanvasClick}
-        onItemSelect={handleItemSelect}
-      >
-        <TimelineHeaders>
-          <SidebarHeader>
-            {({ getRootProps }) => {
-              return (
-                <>
-                  <button
-                    {...getRootProps()}
-                    style={{ width: "40px", color: "rgb(39, 128, 252)", border: "1px solid rgb(39, 128, 252)", cursor:"pointer", backgroundColor:"white" }}
-                    onClick={onPreviousMonth}
-                  >
-                    &#9668;
-                  </button>
-                  <button
-                    {...getRootProps()}
-                    style={{ width: "70px", backgroundColor:"white",  border: "1px solid rgb(39, 128, 252)", cursor:"pointer" }}
-                    onClick={chooseFromCalendar}
-                  >
-                    Month
-                  </button>
-                  <button
-                    {...getRootProps()}
-                    style={{ width: "40px", color: "rgb(39, 128, 252)", border: "1px solid rgb(39, 128, 252)", cursor:"pointer", backgroundColor:"white"  }}
-                    onClick={onNextMonth}
-                  >
-                    &#9658;
-                  </button>
-                </>
-              );
-            }}
-          </SidebarHeader>
-          <DateHeader unit="hour" labelFormat="H" />{" "}
-          {/* отображать только часы, без минут */}
-        </TimelineHeaders>
-      </Timeline>
+      <div className="style">
+        <Timeline
+          className={style.tableTimeline}
+          groups={newGroups}
+          lineHeight={18}
+          itemHeightRatio={1}
+          horizontalLineClassNamesForGroup={(group) =>
+            openGroups[group.id] ? [style.highlight] : []
+          }
+          items={filteredItems.concat(getCurrentDevicePreOrderedItems())}
+          visibleTimeStart={visibleTimeStart}
+          visibleTimeEnd={visibleTimeEnd}
+          // sidebarWidth={150} // ширина левой панели по дефолту - 150px
+          // rightSidebarWidth={80} // задать ширину правой панели
+          buffer={1} // убрать прокрутку на колесико (день вперед/назад)
+          onBoundsChange={handleBoundsChange} // границы показа времени
+          maxZoom={24 * 60 * 60 * 1000} // ограничение масштаба до 1 дня
+          onCanvasClick={handleCanvasClick}
+          onItemSelect={handleItemSelect}
+        >
+          <TimelineHeaders>
+            <SidebarHeader>
+              {({ getRootProps }) => {
+                return (
+                  <>
+                    <button
+                      {...getRootProps()}
+                      style={{ width: "40px", color: "rgb(39, 128, 252)", border: "1px solid rgb(39, 128, 252)", cursor:"pointer", backgroundColor:"white" }}
+                      onClick={onPreviousMonth}
+                    >
+                      &#9668;
+                    </button>
+                    <button
+                      {...getRootProps()}
+                      style={{ width: "70px", backgroundColor:"white",  border: "1px solid rgb(39, 128, 252)", cursor:"pointer" }}
+                      onClick={chooseFromCalendar}
+                    >
+                      Month
+                    </button>
+                    <button
+                      {...getRootProps()}
+                      style={{ width: "40px", color: "rgb(39, 128, 252)", border: "1px solid rgb(39, 128, 252)", cursor:"pointer", backgroundColor:"white"  }}
+                      onClick={onNextMonth}
+                    >
+                      &#9658;
+                    </button>
+                  </>
+                );
+              }}
+            </SidebarHeader>
+            <DateHeader unit="hour" labelFormat="H" />{" "}
+            {/* отображать только часы, без минут */}
+          </TimelineHeaders>
+        </Timeline>
+        </div>
     </div>
   );
 };
