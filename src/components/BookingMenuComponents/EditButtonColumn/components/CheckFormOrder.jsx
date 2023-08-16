@@ -132,9 +132,9 @@ export const CheckFormOrder = ({
 
     for (const key in selectedDateSampleGrid) {
       result.push(
-        <div>
-          {key}
-          <div key={key}>
+        <div className="one-date-string">
+          <p>{key}</p>
+          <div className="checkboxes" key={key}>
             {selectedDateSampleGrid[key].map((interval) => {
               return (
                 <label htmlFor={key}>
