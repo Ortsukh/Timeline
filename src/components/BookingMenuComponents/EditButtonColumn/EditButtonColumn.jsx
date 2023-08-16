@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { createOrder, sendEditOrder } from "../../../Api/API";
 import { createOrderGrid, formatOrder } from "../../../DataConvertHelper";
+import { CheckFormOrder } from "./components/CheckFormOrder";
+import { FiltersForOrder } from "./components/FiltersForOrder";
 import style from "./EditButtonColumn.module.css";
 
 export const EditButtonColumn = ({
@@ -15,14 +17,18 @@ export const EditButtonColumn = ({
   setIsEditMode,
   operAlertWindow,
   setCurrentDevice,
+  currentDevice,
+  orderDate,
+  setOrderDate,
+  items,
 }) => {
   const [blockCreateButton, setBlockCreateButton] = useState(false);
 
+  const [shiftsCount, setShiftsCount] = useState(1);
   const back = "< Назад";
 
   const createBook = () => {
     if (isEditMode) {
-      console.log(copyEditItems);
       setItems((previousUpdate) =>
         previousUpdate.concat(
           copyEditItems.map((item) => (item.group = item.deviceGroup))
@@ -106,7 +112,11 @@ export const EditButtonColumn = ({
             {back}
           </button>
         </div>
-
+        <FiltersForOrder
+          orderDate={orderDate}
+          setOrderDate={setOrderDate}
+          setShiftsCount={setShiftsCount}
+        />
         <div className={style.editButtons}>
           <div className={style.editButtonColumn}>
             <p>Button</p>
@@ -148,6 +158,14 @@ export const EditButtonColumn = ({
           </div>
         </div>
       </div>
+      <CheckFormOrder
+        items={items}
+        currentDevice={currentDevice}
+        orderDate={orderDate}
+        shiftsCount={shiftsCount}
+        setItemsPreOrder={setItemsPreOrder}
+        itemsPreOrder= {itemsPreOrder}
+      />
     </>
   );
 };
