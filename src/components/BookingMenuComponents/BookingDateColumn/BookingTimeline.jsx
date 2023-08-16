@@ -30,6 +30,7 @@ export const BookingTimeline = ({
   currentDevice,
   setCurrentDevice,
   orderDatePlanning,
+   
 }) => {
   const today = editOrderData?.date ? moment(editOrderData.date) : moment();
   const startOfDay = (day) => moment(day).startOf("day");
