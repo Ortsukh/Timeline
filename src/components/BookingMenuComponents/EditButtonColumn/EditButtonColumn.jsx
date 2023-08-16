@@ -132,15 +132,7 @@ export const EditButtonColumn = ({
             {back}
           </button>
         </div>
-        <div className="selects-block">
-          <FiltersForOrder
-            orderDate={orderDate}
-            setOrderDate={setOrderDate}
-            setShiftsCount={setShiftsCount}
-          />
-        </div>
-        <div className={style.editButtons}>
-          <ToolsFilter
+        <ToolsFilter
             toolNames={toolNames}
             onInputChange={onInputChange}
             clearFilter={clearFilter}
@@ -149,6 +141,14 @@ export const EditButtonColumn = ({
             onDataFromChild={onDataFromChild}
             showButtonClear={showButtonClear}
           />
+        <div className="selects-block">
+          <FiltersForOrder
+            orderDate={orderDate}
+            setOrderDate={setOrderDate}
+            setShiftsCount={setShiftsCount}
+          />
+        </div>
+        <div className={style.editButtons}>
           <div className="date-block">
             <CheckFormOrder
               items={items}
