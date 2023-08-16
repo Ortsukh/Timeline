@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import Select from "react-select";
 import "./style.css";
 
-export default function ToolsFilter({ toolNames, onInputChange, clearFilter, isClickingOnEmptyFilter, setIsClickingOnEmptyFilter }) {
+export default function ToolsFilter({ toolNames, onInputChange, clearFilter, isClickingOnEmptyFilter, setIsClickingOnEmptyFilter, showButtonClear }) {
 
   const [selectValue, setSelectValue] = useState(null)
 
@@ -39,9 +39,9 @@ export default function ToolsFilter({ toolNames, onInputChange, clearFilter, isC
         value={selectValue}
       />
       {!selectValue && isClickingOnEmptyFilter && <div className="tooltip">Пожалуйста, выберите группу</div>}
-      <button className="clear-button" onClick={handleReset}>
+      {showButtonClear && <button className="clear-button" onClick={handleReset}>
         Очистить
-      </button>
+      </button>}
     </div>
   );
 }
