@@ -28,7 +28,9 @@ export const CheckFormOrder = ({
       moment(item.date).isSameOrAfter(startDate) &&
       moment(item.date).isSameOrBefore(endDate)
   );
-  const sampleStr = "".padStart(currentDevice.shiftLength * shiftsCount, "0");
+  const sampleStr =
+    "".padStart(currentDevice.shiftLength, "0") +
+    `(?=${"".padStart(currentDevice.shiftLength * shiftsCount, "0")})`;
   const regexp = new RegExp(sampleStr, "g");
   const groupByDateItems = (items) => {
     const dateObj = {};
@@ -69,40 +71,59 @@ export const CheckFormOrder = ({
     const data = JSON.parse(value);
 
     if (checked) {
+      const result = [];
       const today = moment().format("YYYY-MM-DD");
-      const formatHour = Math.floor(
-        Number(data.interval) / Number(currentDevice.shiftLength)
-      );
-      const formatedDate = {
-        start: today + " " + data.interval + ":00",
-        end:
-          today +
-          " " +
-          (Number(data.interval) + Number(currentDevice.shiftLength)) +
-          ":00",
-      };
+      for (let i = 0; i < shiftsCount; i++) {
+        const correctDate = data.interval + currentDevice.shiftLength * i;
+        const formatHour = Math.floor(
+          Number(correctDate) / Number(currentDevice.shiftLength)
+        );
+        const formatedDate = {
+          start: today + " " + correctDate + ":00",
+          end:
+            today +
+            " " +
+            (Number(correctDate) + Number(currentDevice.shiftLength)) +
+            ":00",
+        };
 
-      const obj = {
-        id: uuidv4(),
-        group: data.date,
-        status: "preOrder",
-        canMove: false,
-        date: data.date,
-        grid: addGrid(formatHour, currentDevice.shiftLength),
-        start_time: moment(formatedDate.start).valueOf(),
-        end_time: moment(formatedDate.end).valueOf(),
-        itemTouchSendsClick: false,
-        itemProps: { style: { background: "gray" } },
-        deviceGroup: currentDevice.id,
-        checkBoxId: data.date + " " + data.interval,
-      };
-      setItemsPreOrder((pred) => [...pred, obj]);
+        const obj = {
+          id: uuidv4(),
+          group: data.date,
+          status: "preOrder",
+          canMove: false,
+          date: data.date,
+          grid: addGrid(formatHour, currentDevice.shiftLength),
+          start_time: moment(formatedDate.start).valueOf(),
+          end_time: moment(formatedDate.end).valueOf(),
+          itemTouchSendsClick: false,
+          itemProps: { style: { background: "gray" } },
+          deviceGroup: currentDevice.id,
+          checkBoxId:
+            data.date +
+            " " +
+            data.interval +
+            "-" +
+            currentDevice.shiftLength * shiftsCount,
+        };
+        result.push(obj);
+      }
+
+      setItemsPreOrder((pred) => [...pred, ...result]);
     } else {
-      setItemsPreOrder((pred) =>
-        pred.filter(
-          (item) => item.checkBoxId !== data.date + " " + data.interval
-        )
-      );
+      for (let i = 0; i < shiftsCount; i++) {
+        setItemsPreOrder((pred) =>
+          pred.filter(
+            (item) =>
+              item.checkBoxId !==
+              data.date +
+                " " +
+                data.interval +
+                "-" +
+                currentDevice.shiftLength * shiftsCount
+          )
+        );
+      }
     }
   };
 
@@ -123,9 +144,21 @@ export const CheckFormOrder = ({
                       handleAddPreOrder(e.target.value, e.target.checked)
                     }
                     checked={itemsPreOrder.find(
-                      (item) => item.checkBoxId === key + " " + interval
+                      (item) =>
+                        item.checkBoxId ===
+                        key +
+                          " " +
+                          interval +
+                          "-" +
+                          currentDevice.shiftLength * shiftsCount
                     )}
-                    id={key + " " + interval}
+                    id={
+                      key +
+                      " " +
+                      interval +
+                      "-" +
+                      currentDevice.shiftLength * shiftsCount
+                    }
                     value={JSON.stringify({
                       date: key,
                       interval: interval,
