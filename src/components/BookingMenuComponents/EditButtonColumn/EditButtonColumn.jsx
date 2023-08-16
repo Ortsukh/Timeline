@@ -14,7 +14,7 @@ export const EditButtonColumn = ({
   isEditMode,
   setIsEditMode,
   operAlertWindow,
-  setCurrentDevice
+  setCurrentDevice,
 }) => {
   const [blockCreateButton, setBlockCreateButton] = useState(false);
 
@@ -33,7 +33,7 @@ export const EditButtonColumn = ({
       setIsEditMode(false);
     }
     setIsBookingMenu(false);
-    setCurrentDevice([]) // очистить текущий выбор, для верноного отображения при клике на "Добавить новый"
+    setCurrentDevice([]); // очистить текущий выбор, для верноного отображения при клике на "Добавить новый"
   };
 
   const clearAndChangeMode = () => {
