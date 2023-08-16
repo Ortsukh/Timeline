@@ -37,8 +37,11 @@
   margin: 0 auto;
 }
 
-
 .highlight {
+  background-color: #cef1f3 !important;
+}
+
+.blocked {
   background-color: #b6b6b6 !important;
 }
 

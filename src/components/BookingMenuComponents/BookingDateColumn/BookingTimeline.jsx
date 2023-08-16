@@ -29,11 +29,15 @@ export const BookingTimeline = ({
   isEditMode,
   currentDevice,
   setCurrentDevice,
+  orderDatePlanning,
 }) => {
   const today = editOrderData?.date ? moment(editOrderData.date) : moment();
   const startOfDay = (day) => moment(day).startOf("day");
   const endOfDay = (day) => moment(day).endOf("day");
-
+  const startDate = moment(orderDatePlanning.selection1.startDate).startOf(
+    "day"
+  );
+  const endDate = moment(orderDatePlanning.selection1.endDate).startOf("day");
   const [visibleTimeStart, setVisibleTimeStart] = useState(startOfDay(today));
   const [visibleTimeEnd, setVisibleTimeEnd] = useState(endOfDay(today));
   const [currentMonth, setCurrentMonth] = useState(
@@ -140,10 +144,15 @@ export const BookingTimeline = ({
   };
 
   const newGroups = daysOfMonth.map((group) => {
+    const selectedDate =
+      moment(group.date).isSameOrAfter(startDate) &&
+      moment(group.date).isSameOrBefore(endDate);
     return Object.assign({}, group, {
       title: (
         <div
-          className={openGroups[group.id] ? style.highlight : ""}
+          className={`${openGroups[group.id] ? style.blocked : ""}  ${
+            selectedDate ? style.highlight : ""
+          }`}
           onClick={() => toggleGroup(group.id)}
           style={{ cursor: "pointer" }}
         >
@@ -172,6 +181,7 @@ export const BookingTimeline = ({
       itemTouchSendsClick: false,
       itemProps: { style: { background: "gray" } },
       deviceGroup: currentDevice.id,
+      checkBoxId: groupId + " " + formatHour,
     };
     setItemsPreOrder((pred) => [...pred, obj]);
   };
@@ -233,11 +243,10 @@ export const BookingTimeline = ({
       (item) => item.deviceGroup === currentDevice.id
     );
   };
+  console.log(itemsPreOrder);
   return (
-
-    <div className={style.containerTimeline} >
+    <div className={style.containerTimeline}>
       {/* <div>{selectedGroups}</div> */} {/* Общее название группы */}
-
       <GroupSwitching
         groups={groups}
         currentDevice={currentDevice}
@@ -252,105 +261,118 @@ export const BookingTimeline = ({
           />
         )}
       </div>
-
       <div className="style">
-      <Timeline
-        className={style.tableTimeline}
-        groups={newGroups}
-        lineHeight={18}
-        itemHeightRatio={1}
-        horizontalLineClassNamesForGroup={(group) =>
-          openGroups[group.id] ? [style.highlight] : []
-        }
-        items={filteredItems.concat(getCurrentDevicePreOrderedItems())}
-        visibleTimeStart={visibleTimeStart}
-        visibleTimeEnd={visibleTimeEnd}
-        // sidebarWidth={150} // ширина левой панели по дефолту - 150px
-        // rightSidebarWidth={80} // задать ширину правой панели
-        buffer={1} // убрать прокрутку на колесико (день вперед/назад)
-        onBoundsChange={handleBoundsChange} // границы показа времени
-        maxZoom={24 * 60 * 60 * 1000} // ограничение масштаба до 1 дня
-        onCanvasClick={handleCanvasClick}
-        showCursorLine
-        onItemSelect={handleItemSelect}
-        timeSteps={{
-          hour: currentDevice.shiftLength,
-          day: 1,
-          month: 1,
-          year: 1,
-        }}
-      >
-        <TimelineHeaders>
-          <SidebarHeader>
-            {({ getRootProps }) => {
-              return (
-                <>
-                  <button
-                    {...getRootProps()}
-                    style={{
-                      width: "40px",
-                      color: "rgb(39, 128, 252)",
-                      border: "1px solid rgb(39, 128, 252)",
-                      cursor: "pointer",
-                      backgroundColor: "white",
-                    }}
-                    onClick={onPreviousMonth}
-                  >
-                    &#9668;
-                  </button>
-                  <button
-                    {...getRootProps()}
-                    style={{
-                      width: "70px",
-                      backgroundColor: "white",
-                      border: "1px solid rgb(39, 128, 252)",
-                      cursor: "pointer",
-                    }}
-                    onClick={chooseFromCalendar}
-                  >
-                    {currentMonth.format("MMMM")}
-                  </button>
-                  <button
-                    {...getRootProps()}
-                    style={{
-                      width: "40px",
-                      color: "rgb(39, 128, 252)",
-                      border: "1px solid rgb(39, 128, 252)",
-                      cursor: "pointer",
-                      backgroundColor: "white",
-                    }}
-                    onClick={onNextMonth}
-                  >
-                    &#9658;
-                  </button>
-                </>
-              );
-            }}
-          </SidebarHeader>
-          {currentDevice.shiftLength < 2 ? <DateHeader unit="hour" labelFormat="H" /> :
-          <DateHeader
-            intervalRenderer={({ getIntervalProps, intervalContext, data }) => {
-              console.log(getIntervalProps);
-              return (
-                <div {...getIntervalProps()}>
-                  <div
-                    style={{
-                      backgroundColor: "white",
-                      display: "flex",
-                      "justify-content": "center",
-                    }}
-                  >
-                    {moment(intervalContext.interval.startTime).format("H") +
-                      "-" +
-                      moment(intervalContext.interval.endTime).format("H")}
-                  </div>
-                </div>
-              );
-            }}
-          />}
-        </TimelineHeaders>
-      </Timeline>
-    </div>
+        <Timeline
+          className={style.tableTimeline}
+          groups={newGroups}
+          lineHeight={18}
+          itemHeightRatio={1}
+          horizontalLineClassNamesForGroup={(group) => {
+            const selectedDate =
+              moment(group.date).isSameOrAfter(startDate) &&
+              moment(group.date).isSameOrBefore(endDate);
+            return [
+              openGroups[group.id] ? style.blocked : "",
+              selectedDate ? style.highlight : "",
+            ];
+          }}
+          items={filteredItems.concat(getCurrentDevicePreOrderedItems())}
+          visibleTimeStart={visibleTimeStart}
+          visibleTimeEnd={visibleTimeEnd}
+          // sidebarWidth={150} // ширина левой панели по дефолту - 150px
+          // rightSidebarWidth={80} // задать ширину правой панели
+          buffer={1} // убрать прокрутку на колесико (день вперед/назад)
+          onBoundsChange={handleBoundsChange} // границы показа времени
+          maxZoom={24 * 60 * 60 * 1000} // ограничение масштаба до 1 дня
+          onCanvasClick={handleCanvasClick}
+          showCursorLine
+          onItemSelect={handleItemSelect}
+          timeSteps={{
+            hour: currentDevice.shiftLength,
+            day: 1,
+            month: 1,
+            year: 1,
+          }}
+        >
+          <TimelineHeaders>
+            <SidebarHeader>
+              {({ getRootProps }) => {
+                return (
+                  <>
+                    <button
+                      {...getRootProps()}
+                      style={{
+                        width: "40px",
+                        color: "rgb(39, 128, 252)",
+                        border: "1px solid rgb(39, 128, 252)",
+                        cursor: "pointer",
+                        backgroundColor: "white",
+                      }}
+                      onClick={onPreviousMonth}
+                    >
+                      &#9668;
+                    </button>
+                    <button
+                      {...getRootProps()}
+                      style={{
+                        width: "70px",
+                        backgroundColor: "white",
+                        border: "1px solid rgb(39, 128, 252)",
+                        cursor: "pointer",
+                      }}
+                      onClick={chooseFromCalendar}
+                    >
+                      {currentMonth.format("MMMM")}
+                    </button>
+                    <button
+                      {...getRootProps()}
+                      style={{
+                        width: "40px",
+                        color: "rgb(39, 128, 252)",
+                        border: "1px solid rgb(39, 128, 252)",
+                        cursor: "pointer",
+                        backgroundColor: "white",
+                      }}
+                      onClick={onNextMonth}
+                    >
+                      &#9658;
+                    </button>
+                  </>
+                );
+              }}
+            </SidebarHeader>
+            {currentDevice.shiftLength < 2 ? (
+              <DateHeader unit="hour" labelFormat="H" />
+            ) : (
+              <DateHeader
+                intervalRenderer={({
+                  getIntervalProps,
+                  intervalContext,
+                  data,
+                }) => {
+                  return (
+                    <div {...getIntervalProps()}>
+                      <div
+                        style={{
+                          backgroundColor: "white",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        {moment(intervalContext.interval.startTime).format(
+                          "H"
+                        ) +
+                          "-" +
+                          moment(intervalContext.interval.endTime).format("H")}
+                      </div>
+                    </div>
+                  );
+                }}
+              />
+            )}
+          </TimelineHeaders>
+        </Timeline>
+      </div>
     </div>
   );
 };
