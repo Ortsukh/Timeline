@@ -112,14 +112,31 @@ export const EditButtonColumn = ({
             {back}
           </button>
         </div>
-        <FiltersForOrder
-          orderDate={orderDate}
-          setOrderDate={setOrderDate}
-          setShiftsCount={setShiftsCount}
-        />
+        <div className="selects-block">
+          <FiltersForOrder
+            orderDate={orderDate}
+            setOrderDate={setOrderDate}
+            setShiftsCount={setShiftsCount}
+          />
+        </div>
         <div className={style.editButtons}>
-          <div className={style.editButtonColumn}>
-            <p>Button</p>
+          <div className={style.selects}>
+            <div className={style.editButtonColumn}>
+              <p>Button</p>
+            </div>
+            <div className={style.bookingDateColumn}>
+              <p>Date</p>
+            </div>
+          </div>
+          <div className="date-block">
+            <CheckFormOrder
+              items={items}
+              currentDevice={currentDevice}
+              orderDate={orderDate}
+              shiftsCount={shiftsCount}
+              setItemsPreOrder={setItemsPreOrder}
+              itemsPreOrder= {itemsPreOrder}
+            />
           </div>
           {isEditMode ? (
             <div>
@@ -133,7 +150,7 @@ export const EditButtonColumn = ({
                 Применить
               </button>
               <button
-                className="reserved-btn"
+                className={style.closeBtn}
                 onClick={() => restoreEditItems()}
               >
                 Отменить
@@ -152,20 +169,8 @@ export const EditButtonColumn = ({
               </button>
             </div>
           )}
-
-          <div className={style.bookingDateColumn}>
-            <p>Date</p>
-          </div>
         </div>
       </div>
-      <CheckFormOrder
-        items={items}
-        currentDevice={currentDevice}
-        orderDate={orderDate}
-        shiftsCount={shiftsCount}
-        setItemsPreOrder={setItemsPreOrder}
-        itemsPreOrder= {itemsPreOrder}
-      />
     </>
   );
 };
