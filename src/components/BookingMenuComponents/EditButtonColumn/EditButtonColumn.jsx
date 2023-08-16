@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createOrder, sendEditOrder } from "../../../Api/API";
 import { createOrderGrid, formatOrder } from "../../../DataConvertHelper";
 import { CheckFormOrder } from "./components/CheckFormOrder";
 import { FiltersForOrder } from "./components/FiltersForOrder";
 import style from "./EditButtonColumn.module.css";
+import ToolsFilter from "../../ToolsFilter";
 
 export const EditButtonColumn = ({
   setIsBookingMenu,
@@ -21,10 +22,24 @@ export const EditButtonColumn = ({
   orderDate,
   setOrderDate,
   items,
+  //! ToolsFilter->
+  toolNames,
+  onInputChange,
+  clearFilter,
+  isClickingOnEmptyFilter,
+  setIsClickingOnEmptyFilter,
+  onDataFromChild,
+  setShowButtonClear,
+  showButtonClear,
+  //! <-ToolsFilter
 }) => {
   const [blockCreateButton, setBlockCreateButton] = useState(false);
-
   const [shiftsCount, setShiftsCount] = useState(1);
+
+  useEffect(() => {
+    setShowButtonClear(false);
+  }, []);
+
   const back = "< Назад";
 
   const createBook = () => {
@@ -40,11 +55,14 @@ export const EditButtonColumn = ({
     }
     setIsBookingMenu(false);
     setCurrentDevice([]); // очистить текущий выбор, для верноного отображения при клике на "Добавить новый"
+    setShowButtonClear(true);
   };
 
   const clearAndChangeMode = () => {
     setItemsPreOrder([]);
     setIsBookingMenu(false);
+    setCurrentDevice([]);
+    setShowButtonClear(true);
   };
 
   const sendNewOrder = () => {
@@ -59,6 +77,8 @@ export const EditButtonColumn = ({
         operAlertWindow("success");
         setItemsPreOrder([]);
         setIsBookingMenu(false);
+        setCurrentDevice([]);
+        setShowButtonClear(true);
         setUpdate((previousUpdate) => !previousUpdate);
       })
       .catch(operAlertWindow("error"));
@@ -120,14 +140,15 @@ export const EditButtonColumn = ({
           />
         </div>
         <div className={style.editButtons}>
-          <div className={style.selects}>
-            <div className={style.editButtonColumn}>
-              <p>Button</p>
-            </div>
-            <div className={style.bookingDateColumn}>
-              <p>Date</p>
-            </div>
-          </div>
+          <ToolsFilter
+            toolNames={toolNames}
+            onInputChange={onInputChange}
+            clearFilter={clearFilter}
+            isClickingOnEmptyFilter={isClickingOnEmptyFilter}
+            setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
+            onDataFromChild={onDataFromChild}
+            showButtonClear={showButtonClear}
+          />
           <div className="date-block">
             <CheckFormOrder
               items={items}
@@ -135,7 +156,7 @@ export const EditButtonColumn = ({
               orderDate={orderDate}
               shiftsCount={shiftsCount}
               setItemsPreOrder={setItemsPreOrder}
-              itemsPreOrder= {itemsPreOrder}
+              itemsPreOrder={itemsPreOrder}
             />
           </div>
           {isEditMode ? (

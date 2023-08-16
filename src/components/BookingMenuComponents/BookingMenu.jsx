@@ -22,6 +22,15 @@ export const BookingMenu = ({
   setCurrentDevice,
   setIsEditMode,
   operAlertWindow,
+  //! ToolsFilter->
+  toolNames, 
+  onInputChange, 
+  clearFilter, 
+  isClickingOnEmptyFilter, 
+  setIsClickingOnEmptyFilter,
+  setShowButtonClear,
+  showButtonClear
+  //! <-ToolsFilter
 }) => {
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
   const [updatedItems, setUpdatedItems] = useState(items);
@@ -55,6 +64,16 @@ export const BookingMenu = ({
             items={updatedItems}
             orderDate={orderDatePlanning}
             setOrderDate={setOrderDatePlanning}
+            //! ToolsFilter->
+            toolNames={toolNames}
+            onInputChange={onInputChange}
+            clearFilter={clearFilter}
+            isClickingOnEmptyFilter={isClickingOnEmptyFilter}
+            setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
+            selectedGroups={selectedGroups}
+            setShowButtonClear={setShowButtonClear}
+            showButtonClear={showButtonClear}
+            //! <-ToolsFilter
           />
         </div>
 
