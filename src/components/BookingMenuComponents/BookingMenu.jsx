@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useState } from "react";
 import { BookingTimeline } from "./BookingDateColumn/BookingTimeline";
 import style from "./BookingMenu.module.css";
@@ -21,12 +22,18 @@ export const BookingMenu = ({
   setCurrentDevice,
   setIsEditMode,
   operAlertWindow,
-  
 }) => {
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
   const [updatedItems, setUpdatedItems] = useState(items);
   const [copyEditItems, setCopyEditItems] = useState([]);
+  const [orderDatePlanning, setOrderDatePlanning] = useState({
+    selection1: {
+      startDate: new Date(),
 
+      endDate: new Date(moment().add(2, "days").valueOf()),
+      key: "selection1",
+    },
+  });
   console.log("updatedItems", updatedItems, itemsPreOrder);
   return (
     <>
@@ -45,14 +52,16 @@ export const BookingMenu = ({
             operAlertWindow={operAlertWindow}
             setCurrentDevice={setCurrentDevice}
             currentDevice={currentDevice}
+            items={updatedItems}
+            orderDate={orderDatePlanning}
+            setOrderDate={setOrderDatePlanning}
           />
         </div>
 
         <div className={style.bookingDateColumn}>
           <BookingTimeline
             setCurrentDevice={setCurrentDevice}
-
-          currentDevice={currentDevice}
+            currentDevice={currentDevice}
             selectedGroups={selectedGroups}
             groups={groups}
             itemsPreOrder={itemsPreOrder}
@@ -64,6 +73,8 @@ export const BookingMenu = ({
             items={items}
             clickOnEmptySpace={clickOnEmptySpace}
             clickOnItem={clickOnItem}
+            orderDatePlanning={orderDatePlanning}
+
           />
         </div>
       </div>

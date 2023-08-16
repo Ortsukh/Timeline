@@ -202,14 +202,16 @@ export default function TimelinePage(props) {
     if (selectedGroups.length === 0) {
       setIsClickingOnEmptyFilter(true);
     } else {
-      console.log(groups.filter((group) => selectedGroups.includes(group.category))[0]);
+      console.log(
+        groups.filter((group) => selectedGroups.includes(group.category))[0]
+      );
       setCurrentDevice(
         groups.filter((group) => selectedGroups.includes(group.category))[0]
       );
       setIsBookingMenu(true);
     }
   };
-console.log(selectedGroups);
+  console.log(selectedGroups);
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };
