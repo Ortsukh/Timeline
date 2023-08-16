@@ -52,6 +52,7 @@ export default function TimelinePage(props) {
   });
   const [isBookingMenu, setIsBookingMenu] = useState(false);
   const [isClickingOnEmptyFilter, setIsClickingOnEmptyFilter] = useState(false);
+  const [showButtonClear, setShowButtonClear] = useState(true);
   const isAdmin = false;
 
   useEffect(() => {
@@ -242,6 +243,15 @@ export default function TimelinePage(props) {
           setCurrentDevice={setCurrentDevice}
           setIsEditMode={setIsEditMode}
           operAlertWindow={operAlertWindow}
+          //! ToolsFilter->
+          toolNames={mapToolsNames()}
+          onInputChange={handleInputChange}
+          clearFilter={clearFilter}
+          isClickingOnEmptyFilter={isClickingOnEmptyFilter}
+          setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
+          setShowButtonClear={setShowButtonClear}
+          showButtonClear={showButtonClear}
+          //! <-ToolsFilter
         />
       ) : (
         <>
@@ -254,6 +264,7 @@ export default function TimelinePage(props) {
                 clearFilter={clearFilter}
                 isClickingOnEmptyFilter={isClickingOnEmptyFilter}
                 setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
+                showButtonClear={showButtonClear}
               />
               {selectedGroups.length ? (
                 <CountTools

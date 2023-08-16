@@ -2,10 +2,27 @@ import { useEffect, useState } from "react";
 import style from "../BookingTimeline.module.css";
 
 export const GroupSwitching = ({groups: equipments, currentDevice, setCurrentDevice}) => {
-  
+
+  const ddd = equipments.filter(dev => dev.id === currentDevice.id)
+
+
+
   const initialCurrentDeviceIndex = equipments.map(current => current.id).indexOf(currentDevice.id)
+  // if (initialCurrentDeviceIndex < 0) {
+  //   initialCurrentDeviceIndex = 0
+  // }
+  console.log("initialCurrentDeviceIndex in Switch:", initialCurrentDeviceIndex);
+  // console.log("currentDevice in Switch:", currentDevice);
+  // console.log("equipments in Switch:", equipments);
+  // console.log("ddd in Switch:", ddd);
 
   const [currentDeviceIndex, setCurrentDeviceIndex] = useState(initialCurrentDeviceIndex);
+  console.log("currentDeviceIndex in Switch:", currentDeviceIndex);
+
+  if (ddd.length === 0) {
+    setCurrentDevice(equipments[0])
+    // setCurrentDeviceIndex(0)
+  }
 
   const handlePreviousGroup = () => {
     setCurrentDeviceIndex((prevIndex) => Math.max(prevIndex - 1, 0));
