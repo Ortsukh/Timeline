@@ -135,7 +135,7 @@ export const EditButtonColumn = ({
                 Забронировать и выйти
               </button>
               <button
-                className="reserved-btn"
+                className={style.closeBtn}
                 onClick={() => clearAndChangeMode()}
               >
                 Сбросить и Закрыть

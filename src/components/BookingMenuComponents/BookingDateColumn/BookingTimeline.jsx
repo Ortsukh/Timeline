@@ -253,7 +253,6 @@ export const BookingTimeline = ({
         )}
       </div>
 
-      <div className={style.monthLabel}>{currentMonth.format("MMMM YYYY")}</div>
       <div className="style">
       <Timeline
         className={style.tableTimeline}
@@ -309,7 +308,7 @@ export const BookingTimeline = ({
                     }}
                     onClick={chooseFromCalendar}
                   >
-                    Month
+                    {currentMonth.format("MMMM")}
                   </button>
                   <button
                     {...getRootProps()}
