@@ -1,4 +1,4 @@
-#root{
+#root {
     padding: 20px;
 }
 
@@ -12,36 +12,38 @@
     border: 1px solid black;
     display: flex;
     justify-content: space-between;
-    
+
 }
-.sortItem button{
+
+.sortItem button {
     width: 10px;
     height: 10px;
     background-color: brown;
 }
+
 .container {
     width: 100%;
     height: 80vh;
 }
 
-.container.sort-box{
+.container.sort-box {
     height: 15vh;
     display: flex;
     align-items: end;
     gap: 40px;
 }
 
-.sort-box_item{
+.sort-box_item {
     display: flex;
     margin-bottom: 35px;
     gap: 40px;
 }
 
-.sort-box_item:last-child{
+.sort-box_item:last-child {
     margin-bottom: 70px;
 }
 
-.select-box .select-count-order-box{
+.select-box .select-count-order-box {
     height: 50px;
 }
 
@@ -61,7 +63,7 @@
     background-color: rgb(252, 253, 253);
     top: 50%;
     right: 50%;
-    z-index: 500 ;
+    z-index: 500;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -69,6 +71,7 @@
     padding: 10px;
     border-radius: 5px;
 }
+
 .messageWindow .button-close {
     background-color: #f03333;
     border: none;
@@ -83,32 +86,34 @@
     line-height: 11px;
 
 }
-.messageWindow-item{
+
+.messageWindow-item {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-.messageWindow-item span:nth-child(2n){
+
+.messageWindow-item span:nth-child(2n) {
     font-weight: 600;
 }
 
-.tools-filter{
+.tools-filter {
     min-width: 200px;
-    width:auto;
+    width: auto;
 }
 
-.css-b62m3t-container{
+.css-b62m3t-container {
     margin-top: 5px;
 }
 
-.select-date-box{
+.select-date-box {
     display: flex;
     align-items: center;
     gap: 30px;
     position: relative;
 }
 
-.select-date-box .active{
+.select-date-box .active {
     position: absolute;
     left: 0;
     top: 100px;
@@ -117,7 +122,7 @@
     border-radius: 5px;
 }
 
-.button-select-date{
+.button-select-date {
     min-height: 38px;
     min-width: 115px;
     margin-bottom: 10px;
@@ -128,34 +133,36 @@
     box-sizing: border-box;
 }
 
-.button-select-date:hover{
+.button-select-date:hover {
     cursor: pointer;
 }
 
-.button-select-date:active{
+.button-select-date:active {
     border: 2px solid rgb(39, 128, 252);
 }
 
-.select-count-box, .select-count-order-box{
+.select-count-box,
+.select-count-order-box {
     display: flex;
     gap: 20px;
     align-items: center;
 }
 
-.select-count-box{
+.select-count-box {
     height: fit-content;
     margin-top: 30px;
 }
 
-.select-count-box select, .select-count-order-box select{
+.select-count-box select,
+.select-count-order-box select {
     padding: 5px;
     border: 1px solid hsl(0, 0%, 80%);
     border-radius: 3px;
     outline: none;
 }
 
-.reserved-btn{
-    border: 1px solid  rgb(39, 128, 252);
+.reserved-btn {
+    border: 1px solid rgb(39, 128, 252);
     background-color: rgb(39, 128, 252);
     padding: 10px 15px;
     border-radius: 5px;
@@ -165,8 +172,8 @@
     margin-right: 20px;
 }
 
-.reserved-btn-locked{
-    border: 1px solid  rgb(238, 73, 73);
+.reserved-btn-locked {
+    border: 1px solid rgb(238, 73, 73);
     background-color: rgb(238, 73, 73);
     padding: 10px 15px;
     border-radius: 5px;
@@ -176,7 +183,7 @@
     margin-right: 20px;
 }
 
-.reserved-btn:hover{
+.reserved-btn:hover {
     transition: .5s;
     background-color: white;
     color: rgb(4, 20, 42);
@@ -189,31 +196,33 @@
 }
 
 .react-calendar-timeline.container {
-    position: relative; overflow: scroll;
-    
+    position: relative;
+    overflow: scroll;
+
 }
+
 .rct-outer {
     margin: 62px 0 0;
 }
 
-.select-filter{
+.select-filter {
     z-index: 200;
 }
 
-.btn-date{
+.btn-date {
     margin-bottom: 35px;
 }
 
 .rct-sidebar-row .highlight,
 .react-calendar-timeline .rct-horizontal-lines .highlight {
-  background-color: #bada55 !important;
+    background-color: #bada55 !important;
 }
 
 .react-calendar-timeline .rct-sidebar .rct-sidebar-row {
-  padding-left: 0;
+    padding-left: 0;
 }
 
-.tooltip{
+.tooltip {
     background-color: rgb(253, 223, 223);
     padding: 5px 10px;
     border: 1px solid #ff0000;
@@ -226,24 +235,24 @@
     font-size: 14px;
 }
 
-.style .rct-header-root{
+.style .rct-header-root {
     position: relative !important;
     width: auto !important;
 }
 
-.style .rct-outer{
+.style .rct-outer {
     margin: 0;
-} 
+}
 
-.headerSwitch{
+.headerSwitch {
     margin-bottom: 5px;
 }
 
-.headerSwitch div{
+.headerSwitch div {
     align-items: center;
 }
 
-.headerSwitch button{
+.headerSwitch button {
     height: 35px;
     width: 35px;
     font-size: 16px;
@@ -253,6 +262,60 @@
     border-radius: 5px;
 }
 
-.headerSwitch p{
+.headerSwitch p {
     margin: 0;
+}
+
+.selects-block {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.selects-block .select-count-box {
+    font-size: 14px;
+}
+
+.selects-block .select-count-box,
+.selects-block button {
+    margin: 0;
+}
+
+.date-block {
+    border: 1px solid #b7b7b7;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.date-block p {
+    margin: 0 0 10px 0;
+    font-weight: 600;
+    color: #001f5d;
+}
+
+.one-date-string {
+    border-bottom: 1px solid #b7b7b7;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.one-date-string:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.one-date-string label {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+
+.one-date-string .checkboxes {
+    display: flex;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: 20px;
 }

@@ -22,27 +22,27 @@
 }
 
 .editButtons {
-  display: grid;
+  /* display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 1fr;
   grid-column-gap: 0px;
-  grid-row-gap: 0px;
+  grid-row-gap: 0px; */
 }
 
 .editButtonColumn {
-  grid-area: 1 / 1 / 2 / 2;
+  /* grid-area: 1 / 1 / 2 / 2; */
   border: 1px solid green;
 }
 
 .bookingDateColumn {
-  grid-area: 1 / 2 / 2 / 3;
+  /* grid-area: 1 / 2 / 2 / 3; */
   border: 1px solid blue;
 }
 
-.reserveBtn{
+.reserveBtn {
   border: 1px solid rgb(39, 128, 252);
   background-color: rgb(39, 128, 252);
-  padding: 10px;
+  padding: 10px 5px;
   border-radius: 5px;
   color: white;
   cursor: pointer;
@@ -52,20 +52,21 @@
   margin-top: 20px;
 }
 
-.reserveBtn:hover{
+.reserveBtn:hover {
   transition: .5s;
   background-color: white;
   color: rgb(4, 20, 42);
 }
 
-.closeBtn{
-  padding: 5px 10px;
+.closeBtn {
+  padding: 10px 5px;
   color: white;
   background-color: #f03333;
   font-size: 14px;
   border-radius: 5px;
   border: 1px solid #f03333;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-left: 20px;
 }
 
 .closeBtn:hover {
