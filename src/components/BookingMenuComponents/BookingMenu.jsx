@@ -23,13 +23,13 @@ export const BookingMenu = ({
   setIsEditMode,
   operAlertWindow,
   //! ToolsFilter->
-  toolNames, 
-  onInputChange, 
-  clearFilter, 
-  isClickingOnEmptyFilter, 
+  toolNames,
+  onInputChange,
+  clearFilter,
+  isClickingOnEmptyFilter,
   setIsClickingOnEmptyFilter,
   setShowButtonClear,
-  showButtonClear
+  showButtonClear,
   //! <-ToolsFilter
 }) => {
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
@@ -79,12 +79,16 @@ export const BookingMenu = ({
 
         <div className={style.bookingDateColumn}>
           <BookingTimeline
+            editOrderData={editOrderData}
+            isEditMode={isEditMode}
             setCurrentDevice={setCurrentDevice}
             currentDevice={currentDevice}
             selectedGroups={selectedGroups}
             groups={groups}
             itemsPreOrder={itemsPreOrder}
             setItemsPreOrder={setItemsPreOrder}
+            setUpdatedItems={setUpdatedItems}
+            setCopyEditItems ={setCopyEditItems }
             toolsCount={toolsCount}
             isActiveDate={isActiveDate}
             orderDate={orderDate}
@@ -93,7 +97,6 @@ export const BookingMenu = ({
             clickOnEmptySpace={clickOnEmptySpace}
             clickOnItem={clickOnItem}
             orderDatePlanning={orderDatePlanning}
-
           />
         </div>
       </div>
