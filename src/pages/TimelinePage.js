@@ -16,7 +16,12 @@ import TimeLineRenderer from "../components/TimeLineRenderer";
 import CompaniesSelect from "../components/CompaniesSelect";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
-import { getAllEqupments, getAllEqupments1, getAllOrders, getAllOrders1 } from "../Api/API";
+import {
+  getAllEqupments,
+  getAllEqupments1,
+  getAllOrders,
+  getAllOrders1,
+} from "../Api/API";
 import AlertWindow from "../components/AlertWindow";
 import ButtonBoxComponent from "../components/ButtonBoxComponent";
 import { BookingMenu } from "../components/BookingMenuComponents/BookingMenu";
@@ -233,6 +238,7 @@ export default function TimelinePage(props) {
               ? getGroupsToShow().slice(0, toolsCount)
               : getGroupsToShow()
           }
+          allGroups={groups}
           isEditMode={isEditMode}
           editOrderData={editOrderData}
           orderDate={orderDate}
@@ -316,13 +322,13 @@ export default function TimelinePage(props) {
             setSelectedGroups={setSelectedGroups}
             setCurrentDevice={setCurrentDevice}
           />
-          {isActiveMessage ? (
+          {isActiveMessage && (
             <MessageWindow
               closeBookingWindow={closeBookingWindow}
               data={chosenDate}
               editMode={editMode}
             />
-          ) : null}
+          )}
           {isOpenAlertWindow.status ? (
             <AlertWindow message={isOpenAlertWindow.message} />
           ) : null}

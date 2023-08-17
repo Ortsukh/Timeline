@@ -153,30 +153,7 @@ export const CheckFormOrder = ({
                           currentDevice.shiftLength * shiftsCount
                     )}
                     disabled={itemsPreOrder.find((item) => {
-                      console.log(
-                        key + " " + interval ===
-                          item.date +
-                            " " +
-                            moment(item.start_time).format("H") &&
-                          itemsPreOrder.find((item) => {
-                            console.log( key +
-                                " " +
-                                (interval +
-                                  currentDevice.shiftLength * shiftsCount) ===
-                              item.date +
-                                " " +
-                                moment(item.end_time).format("H"));
-                            return (
-                              key +
-                                " " +
-                                (interval +
-                                  currentDevice.shiftLength * shiftsCount) ===
-                              item.date +
-                                " " +
-                                moment(item.end_time).format("H")
-                            );
-                          })
-                      );
+                
                       if (
                         itemsPreOrder.find(
                             (item) =>

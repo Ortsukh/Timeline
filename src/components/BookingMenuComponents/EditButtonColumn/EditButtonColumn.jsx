@@ -5,6 +5,7 @@ import { CheckFormOrder } from "./components/CheckFormOrder";
 import { FiltersForOrder } from "./components/FiltersForOrder";
 import style from "./EditButtonColumn.module.css";
 import ToolsFilter from "../../ToolsFilter";
+import { PreOrderTable } from "./components/PreOrderTable";
 
 export const EditButtonColumn = ({
   setIsBookingMenu,
@@ -23,6 +24,9 @@ export const EditButtonColumn = ({
   setOrderDate,
   items,
   setCurrentDeviceIndex,
+  groups,
+  setIsConfirmWindowOpen,
+  setOrderContent,
   //! ToolsFilter->
   toolNames,
   onInputChange,
@@ -34,7 +38,6 @@ export const EditButtonColumn = ({
   showButtonClear,
   //! <-ToolsFilter
 }) => {
-  const [blockCreateButton, setBlockCreateButton] = useState(false);
   const [shiftsCount, setShiftsCount] = useState(1);
 
   useEffect(() => {
@@ -66,54 +69,6 @@ export const EditButtonColumn = ({
     setShowButtonClear(true);
   };
 
-  const sendNewOrder = () => {
-    if (itemsPreOrder.length < 1) return;
-    itemsPreOrder = itemsPreOrder.map((item) => {
-      item.group = item.deviceGroup;
-      return item;
-    });
-    const orderItems = createOrderGrid(itemsPreOrder);
-    createOrder(orderItems)
-      .then((response) => {
-        operAlertWindow("success");
-        setItemsPreOrder([]);
-        setIsBookingMenu(false);
-        setCurrentDevice([]);
-        setShowButtonClear(true);
-        setUpdate((previousUpdate) => !previousUpdate);
-      })
-      .catch(operAlertWindow("error"));
-  };
-
-  const editOrder = () => {
-    if (itemsPreOrder.length < 1) return;
-    itemsPreOrder = itemsPreOrder.map((item) => {
-      item.group = item.deviceGroup;
-      return item;
-    });
-    const orderItem = copyEditItems[0];
-    const orderItemsGrid = createOrderGrid(itemsPreOrder);
-    const dateIntervals = formatOrder(orderItemsGrid);
-    const editedOrder = {
-      rentOrder: {
-        id: orderItem.rentOrderId,
-        company: orderItem.company,
-      },
-      status: orderItem.status,
-      equipmentItems: dateIntervals,
-    };
-
-    setBlockCreateButton(true);
-
-    sendEditOrder(editedOrder)
-      .then(() => {
-        operAlertWindow("success");
-        setUpdate((previousUpdate) => !previousUpdate);
-        setItemsPreOrder([]);
-        setCopyEditItems([]);
-      })
-      .catch(() => operAlertWindow("error"));
-  };
   const restoreEditItems = () => {
     setItemsPreOrder(
       copyEditItems.map((el) => {
@@ -134,41 +89,48 @@ export const EditButtonColumn = ({
           </button>
         </div>
         <ToolsFilter
-            toolNames={toolNames}
-            onInputChange={onInputChange}
-            clearFilter={clearFilter}
-            isClickingOnEmptyFilter={isClickingOnEmptyFilter}
-            setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
-            onDataFromChild={onDataFromChild}
-            showButtonClear={showButtonClear}
-            setCurrentDeviceIndex={setCurrentDeviceIndex}
-          />
-        <div className="selects-block">
-          <FiltersForOrder
-            orderDate={orderDate}
-            setOrderDate={setOrderDate}
-            setShiftsCount={setShiftsCount}
-          />
-        </div>
-        <div className={style.editButtons}>
-          <div className="date-block">
-            <CheckFormOrder
-              items={items}
-              currentDevice={currentDevice}
+          toolNames={toolNames}
+          onInputChange={onInputChange}
+          clearFilter={clearFilter}
+          isClickingOnEmptyFilter={isClickingOnEmptyFilter}
+          setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
+          onDataFromChild={onDataFromChild}
+          showButtonClear={showButtonClear}
+          setCurrentDeviceIndex={setCurrentDeviceIndex}
+        />
+        {!isEditMode && (
+          <div className="selects-block">
+            <FiltersForOrder
               orderDate={orderDate}
-              shiftsCount={shiftsCount}
-              setItemsPreOrder={setItemsPreOrder}
-              itemsPreOrder={itemsPreOrder}
+              setOrderDate={setOrderDate}
+              setShiftsCount={setShiftsCount}
             />
           </div>
+        )}
+        <div className={style.editButtons}>
+          {!isEditMode && (
+            <div className="date-block">
+              <CheckFormOrder
+                items={items}
+                currentDevice={currentDevice}
+                orderDate={orderDate}
+                shiftsCount={shiftsCount}
+                setItemsPreOrder={setItemsPreOrder}
+                itemsPreOrder={itemsPreOrder}
+              />
+            </div>
+          )}
+          <PreOrderTable
+            itemsPreOrder={itemsPreOrder}
+            groups={groups}
+            setItemsPreOrder={setItemsPreOrder}
+            setOrderContent={setOrderContent}
+          />
           {isEditMode ? (
             <div>
               <button
-                disabled={blockCreateButton}
-                className={
-                  blockCreateButton ? "reserved-btn-locked" : "reserved-btn"
-                }
-                onClick={() => editOrder()}
+                className={"reserved-btn"}
+                onClick={() => itemsPreOrder[0] && setIsConfirmWindowOpen(true)}
               >
                 Применить
               </button>
@@ -181,7 +143,10 @@ export const EditButtonColumn = ({
             </div>
           ) : (
             <div className={style.editButtons}>
-              <button className={style.reserveBtn} onClick={sendNewOrder}>
+              <button
+                className={style.reserveBtn}
+                onClick={() => itemsPreOrder[0] && setIsConfirmWindowOpen(true)}
+              >
                 Забронировать и выйти
               </button>
               <button

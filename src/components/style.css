@@ -323,3 +323,7 @@
 .selects-block .active {
     top: 45px;
 }
+.confirmWindow {
+    max-height: 200px;
+    overflow-y : auto
+}
