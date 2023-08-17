@@ -7,23 +7,17 @@ import {
   createEquipmentGroup,
   createOrderGroup,
 } from "../DataConvertHelper";
-import ToolsFilter from "../components/ToolsFilter";
-import CountTools from "../components/CountToolsFilter";
-import DateFilter from "../components/DateFilter";
-import Spiner from "../components/Spiner";
-import MessageWindow from "../components/MessageWindow";
+import ToolsFilter from "../components/FilterComponents/ToolsFilter";
+import CountTools from "../components/FilterComponents/CountToolsFilter";
+import DateFilter from "../components/FilterComponents/DateFilter";
+import Spiner from "../components/Spiner/Spiner";
+import MessageWindow from "../components/Popup/MessageWindow";
 import TimeLineRenderer from "../components/TimeLineRenderer";
-import CompaniesSelect from "../components/CompaniesSelect";
+import CompaniesSelect from "../components/FilterComponents/CompaniesSelect";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
-import {
-  getAllEqupments,
-  getAllEqupments1,
-  getAllOrders,
-  getAllOrders1,
-} from "../Api/API";
-import AlertWindow from "../components/AlertWindow";
-import ButtonBoxComponent from "../components/ButtonBoxComponent";
+import { getAllEqupments, getAllOrders } from "../Api/API";
+import AlertWindow from "../components/Popup/AlertWindow";
 import { BookingMenu } from "../components/BookingMenuComponents/BookingMenu";
 
 export default function TimelinePage(props) {
@@ -208,22 +202,16 @@ export default function TimelinePage(props) {
     if (selectedGroups.length === 0) {
       setIsClickingOnEmptyFilter(true);
     } else {
-      console.log(
-        groups.filter((group) => selectedGroups.includes(group.category))[0]
-      );
       setCurrentDevice(
         groups.filter((group) => selectedGroups.includes(group.category))[0]
       );
       setIsBookingMenu(true);
     }
   };
-  console.log(selectedGroups);
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };
 
-  console.log(getGroupsToShow());
-  console.log(selectedGroups);
   return !isLoading && !isLoadingEquipment ? (
     <>
       {isBookingMenu ? (
@@ -294,15 +282,13 @@ export default function TimelinePage(props) {
               />
             </div>
             <div className="sort-box_item">{/* <CountOrderFilter /> */}</div>
-
-            <ButtonBoxComponent
-              setIsBookingMenu={setIsBookingMenu}
-              isEditMode={isEditMode}
-              selectedGroups={selectedGroups}
-              setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
-              setCurrentDevice={setCurrentDevice}
-              createBook={createBook}
-            />
+            <div className="sort-box_item">
+              <div>
+                <button className="reserved-btn" onClick={createBook}>
+                  Добавить новый
+                </button>
+              </div>
+            </div>
           </div>
 
           <TimeLineRenderer

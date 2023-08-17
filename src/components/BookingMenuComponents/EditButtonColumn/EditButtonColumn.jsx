@@ -1,23 +1,19 @@
 import { useEffect, useState } from "react";
-import { createOrder, sendEditOrder } from "../../../Api/API";
-import { createOrderGrid, formatOrder } from "../../../DataConvertHelper";
 import { CheckFormOrder } from "./components/CheckFormOrder";
 import { FiltersForOrder } from "./components/FiltersForOrder";
 import style from "./EditButtonColumn.module.css";
-import ToolsFilter from "../../ToolsFilter";
+import ToolsFilter from "../../FilterComponents/ToolsFilter";
 import { PreOrderTable } from "./components/PreOrderTable";
 
 export const EditButtonColumn = ({
   setIsBookingMenu,
   setItemsPreOrder,
   itemsPreOrder,
-  setUpdate,
   setItems,
   copyEditItems,
   setCopyEditItems,
   isEditMode,
   setIsEditMode,
-  operAlertWindow,
   setCurrentDevice,
   currentDevice,
   orderDate,

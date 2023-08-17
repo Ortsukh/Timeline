@@ -18,7 +18,6 @@ import "../../style.css";
 import { addGrid } from "../../../DataConvertHelper";
 
 export const BookingTimeline = ({
-  selectedGroups,
   groups,
   items,
   itemsPreOrder,

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DateFilter from "../../../DateFilter";
+import DateFilter from "../../../FilterComponents/DateFilter";
 
 export const FiltersForOrder = ({
   setShiftsCount,

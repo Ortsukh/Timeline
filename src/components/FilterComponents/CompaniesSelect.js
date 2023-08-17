@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import Select from "react-select";
-import "./style.css";
+import "../style.css";
 
 export default function CompaniesSelect(props) {
   const [selectValue, setSelectValue] = useState(null)

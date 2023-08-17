@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import Select from "react-select";
-import "./style.css";
+import "../style.css";
 
 export default function ToolsFilter({ toolNames, onInputChange, clearFilter, isClickingOnEmptyFilter, setIsClickingOnEmptyFilter, showButtonClear, setCurrentDeviceIndex }) {
 

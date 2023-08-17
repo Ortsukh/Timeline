@@ -1,5 +1,5 @@
 import React from "react";
-import "./style.css";
+import "../style.css";
 
 export default function EditWindow({ data, closeBookingWindow, editMode }) {
   const heightModal = 185;
