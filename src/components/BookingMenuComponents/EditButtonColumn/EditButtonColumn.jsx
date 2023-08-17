@@ -120,12 +120,14 @@ export const EditButtonColumn = ({
               />
             </div>
           )}
-          <PreOrderTable
-            itemsPreOrder={itemsPreOrder}
-            groups={groups}
-            setItemsPreOrder={setItemsPreOrder}
-            setOrderContent={setOrderContent}
-          />
+          <div className="preOrderTable">
+            <PreOrderTable
+              itemsPreOrder={itemsPreOrder}
+              groups={groups}
+              setItemsPreOrder={setItemsPreOrder}
+              setOrderContent={setOrderContent}
+            />
+          </div>
           {isEditMode ? (
             <div>
               <button

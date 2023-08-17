@@ -28,10 +28,12 @@ export const PreOrderTable = ({
       orderContent.push(data);
 
       return (
-        <div>
-          <button onClick={() => handleRemovePreOrderItem(item)}>{"x"}</button>
-          <div>{data.groupTitle}</div>
-          <div>{data.shiftDate}</div>
+        <div className="preOrder">
+          <div className="preOrderContent">
+            <div>{data.groupTitle}</div>
+            <div>{data.shiftDate}</div>
+          </div>
+          <button className="cross" onClick={() => handleRemovePreOrderItem(item)}>{"x"}</button>
         </div>
       );
     });
