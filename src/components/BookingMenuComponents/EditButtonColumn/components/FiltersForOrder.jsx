@@ -1,11 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import DateFilter from "../../../FilterComponents/DateFilter";
 
-export const FiltersForOrder = ({
+export default function FiltersForOrder({
   setShiftsCount,
   setOrderDate,
   orderDate,
-}) => {
+}) {
   const [isActiveDate, setIsActiveDate] = useState(false);
 
   const showDatePicker = () => {
@@ -27,7 +27,7 @@ export const FiltersForOrder = ({
       <div className="select-count-box">
         <span>Количество смен</span>
         <select onChange={choseShiftsCount}>
-          <option value={1} selected={true}>
+          <option value={1} selected>
             {1}
           </option>
           <option value={2}>{2}</option>
@@ -36,4 +36,4 @@ export const FiltersForOrder = ({
       </div>
     </>
   );
-};
+}

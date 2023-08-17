@@ -1,4 +1,4 @@
-export const orderStatus = {
+const orderStatus = {
   accepted: {
     title: "accepted",
     color: "rgb(39, 128, 252)",
@@ -15,3 +15,5 @@ export const orderStatus = {
     translate: "Ожидание ",
   },
 };
+
+export default orderStatus;

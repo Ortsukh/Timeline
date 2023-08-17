@@ -1,24 +1,18 @@
 import moment from "moment";
-import { useState } from "react";
+import React, { useState } from "react";
 import { createOrder, sendEditOrder } from "../../Api/API";
 import { createOrderGrid, formatOrder } from "../../common/DataConvertHelper";
 import ConfirmWindow from "../Popup/ConfirmWindow";
-import { BookingTimeline } from "./BookingDateColumn/BookingTimeline";
+import BookingTimeline from "./BookingDateColumn/BookingTimeline";
 import style from "./BookingMenu.module.css";
-import { EditButtonColumn } from "./EditButtonColumn/EditButtonColumn";
+import EditButtonColumn from "./EditButtonColumn/EditButtonColumn";
 
-export const BookingMenu = ({
+export default function BookingMenu({
   setIsBookingMenu,
   selectedGroups,
   setUpdate,
   groups,
-  toolsCount,
-  isActiveDate,
-  orderDate,
-  openBookingWindow,
   items,
-  clickOnEmptySpace,
-  clickOnItem,
   editOrderData,
   isEditMode,
   currentDevice,
@@ -35,7 +29,7 @@ export const BookingMenu = ({
   setShowButtonClear,
   showButtonClear,
   //! <-ToolsFilter
-}) => {
+}) {
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
   const [updatedItems, setUpdatedItems] = useState(items);
   const [copyEditItems, setCopyEditItems] = useState([]);
@@ -53,12 +47,12 @@ export const BookingMenu = ({
     .map((current) => current.id)
     .indexOf(currentDevice.id);
   const [currentDeviceIndex, setCurrentDeviceIndex] = useState(
-    initialCurrentDeviceIndex
+    initialCurrentDeviceIndex,
   );
 
   const editOrder = () => {
     if (itemsPreOrder.length < 1) return;
-    let itemsPreOrderCorrect = itemsPreOrder.map((item) => {
+    const itemsPreOrderCorrect = itemsPreOrder.map((item) => {
       item.group = item.deviceGroup;
       return item;
     });
@@ -86,7 +80,7 @@ export const BookingMenu = ({
 
   const sendNewOrder = () => {
     if (itemsPreOrder.length < 1) return;
-    let itemsPreOrderCorrect = itemsPreOrder.map((item) => {
+    const itemsPreOrderCorrect = itemsPreOrder.map((item) => {
       item.group = item.deviceGroup;
       return item;
     });
@@ -165,4 +159,4 @@ export const BookingMenu = ({
       )}
     </>
   );
-};
+}

@@ -11,17 +11,15 @@ export default function TimeLineRenderer({
   orderDate,
   openBookingWindow,
   items,
-  clickOnEmptySpace,
   clickOnItem,
   setIsBookingMenu,
   setSelectedGroups,
-  setCurrentDevice
+  setCurrentDevice,
 }) {
   const [visibleTimeRange, setVisibleTimeRange] = useState({
     start: moment(),
     end: moment().add(2, "days"),
   });
-
 
   useEffect(() => {
     setVisibleTimeRange({
@@ -53,27 +51,26 @@ export default function TimeLineRenderer({
   //   }
   // }
 
-const newGroups = groups.map((group) => {
-  return Object.assign({}, group, {
+  const handleToSelectedGroup = (group, category) => {
+    setIsBookingMenu(true);
+    localStorage.setItem("toolsFilter", category);
+    setSelectedGroups(() => [category]);
+    setCurrentDevice(group);
+  };
+
+  const newGroups = groups.map((group) => ({
+    ...group,
     title: (
       <div
         onClick={() => handleToSelectedGroup(group, group.category)}
+        onKeyDown={() => handleToSelectedGroup(group, group.category)}
+        aria-hidden="true"
         style={{ cursor: "pointer" }}
       >
         {group.title}
       </div>
     ),
-  });
-});
-
-const handleToSelectedGroup = (group, category) => {
-  setIsBookingMenu(true)
-  localStorage.setItem("toolsFilter", category);
-  setSelectedGroups(() => {
-    return [category];
-  });
-  setCurrentDevice(group);
-};
+  }));
 
   return (
     <Timeline
@@ -85,7 +82,7 @@ const handleToSelectedGroup = (group, category) => {
       defaultTimeEnd={moment().add(2, "days")}
       visibleTimeStart={isActiveDate ? visibleTimeRange.start : null}
       visibleTimeEnd={isActiveDate ? visibleTimeRange.end : null}
-      itemTouchSendsClick={true}
+      itemTouchSendsClick
       minZoom={60 * 60 * 1000 * 24 * 2} //! Минимальное зумирование {2} дня
       maxZoom={60 * 60 * 1000 * 24 * 30}
       lineHeight={45}

@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { CheckFormOrder } from "./components/CheckFormOrder";
-import { FiltersForOrder } from "./components/FiltersForOrder";
+import { useEffect, useState, React } from "react";
+import CheckFormOrder from "./components/CheckFormOrder";
+import FiltersForOrder from "./components/FiltersForOrder";
+import PreOrderTable from "./components/PreOrderTable";
 import style from "./EditButtonColumn.module.css";
 import ToolsFilter from "../../FilterComponents/ToolsFilter";
-import { PreOrderTable } from "./components/PreOrderTable";
 
-export const EditButtonColumn = ({
+export default function EditButtonColumn({
   setIsBookingMenu,
   setItemsPreOrder,
   itemsPreOrder,
@@ -33,7 +33,7 @@ export const EditButtonColumn = ({
   setShowButtonClear,
   showButtonClear,
   //! <-ToolsFilter
-}) => {
+}) {
   const [shiftsCount, setShiftsCount] = useState(1);
 
   useEffect(() => {
@@ -44,17 +44,19 @@ export const EditButtonColumn = ({
 
   const createBook = () => {
     if (isEditMode) {
-      setItems((previousUpdate) =>
-        previousUpdate.concat(
-          copyEditItems.map((item) => (item.group = item.deviceGroup))
-        )
-      );
+      setItems((previousUpdate) => previousUpdate.concat(
+        copyEditItems.map((el) => {
+          (el.group = el.deviceGroup);
+          return el;
+        }), // хз
+      ));
       setItemsPreOrder([]);
       setCopyEditItems([]);
       setIsEditMode(false);
     }
     setIsBookingMenu(false);
-    setCurrentDevice([]); // очистить текущий выбор, для верноного отображения при клике на "Добавить новый"
+    setCurrentDevice([]);
+    // очистить текущий выбор, для верноного отображения при клике на "Добавить новый"
     setShowButtonClear(true);
   };
 
@@ -67,94 +69,94 @@ export const EditButtonColumn = ({
 
   const restoreEditItems = () => {
     setItemsPreOrder(
-      copyEditItems.map((el) => {
-        return {
-          ...el,
-          itemProps: { style: { background: "gray" } },
-        };
-      })
+      copyEditItems.map((el) => ({
+        ...el,
+        itemProps: { style: { background: "gray" } },
+      })),
     );
   };
 
   return (
-    <>
-      <div className={style.containerEditMenu}>
-        <div className={style.backButtonBlock}>
-          <button className={style.backButton} onClick={createBook}>
-            {back}
-          </button>
-        </div>
-        <ToolsFilter
-          toolNames={toolNames}
-          onInputChange={onInputChange}
-          clearFilter={clearFilter}
-          isClickingOnEmptyFilter={isClickingOnEmptyFilter}
-          setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
-          onDataFromChild={onDataFromChild}
-          showButtonClear={showButtonClear}
-          setCurrentDeviceIndex={setCurrentDeviceIndex}
+    <div className={style.containerEditMenu}>
+      <div className={style.backButtonBlock}>
+        <button type="button" className={style.backButton} onClick={createBook}>
+          {back}
+        </button>
+      </div>
+      <ToolsFilter
+        toolNames={toolNames}
+        onInputChange={onInputChange}
+        clearFilter={clearFilter}
+        isClickingOnEmptyFilter={isClickingOnEmptyFilter}
+        setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
+        onDataFromChild={onDataFromChild}
+        showButtonClear={showButtonClear}
+        setCurrentDeviceIndex={setCurrentDeviceIndex}
+      />
+      {!isEditMode && (
+      <div className="selects-block">
+        <FiltersForOrder
+          orderDate={orderDate}
+          setOrderDate={setOrderDate}
+          setShiftsCount={setShiftsCount}
         />
+      </div>
+      )}
+      <div className={style.editButtons}>
         {!isEditMode && (
-          <div className="selects-block">
-            <FiltersForOrder
-              orderDate={orderDate}
-              setOrderDate={setOrderDate}
-              setShiftsCount={setShiftsCount}
-            />
+        <div className="date-block">
+          <CheckFormOrder
+            items={items}
+            currentDevice={currentDevice}
+            orderDate={orderDate}
+            shiftsCount={shiftsCount}
+            setItemsPreOrder={setItemsPreOrder}
+            itemsPreOrder={itemsPreOrder}
+          />
+        </div>
+        )}
+        <PreOrderTable
+          itemsPreOrder={itemsPreOrder}
+          groups={groups}
+          setItemsPreOrder={setItemsPreOrder}
+          setOrderContent={setOrderContent}
+        />
+        {isEditMode ? (
+          <div>
+            <button
+              type="button"
+              className="reserved-btn"
+              onClick={() => itemsPreOrder[0] && setIsConfirmWindowOpen(true)}
+            >
+              Применить
+            </button>
+            <button
+              type="button"
+              className={style.closeBtn}
+              onClick={() => restoreEditItems()}
+            >
+              Отменить
+            </button>
+          </div>
+        ) : (
+          <div className={style.editButtons}>
+            <button
+              type="button"
+              className={style.reserveBtn}
+              onClick={() => itemsPreOrder[0] && setIsConfirmWindowOpen(true)}
+            >
+              Забронировать и выйти
+            </button>
+            <button
+              type="button"
+              className={style.closeBtn}
+              onClick={() => clearAndChangeMode()}
+            >
+              Сбросить и Закрыть
+            </button>
           </div>
         )}
-        <div className={style.editButtons}>
-          {!isEditMode && (
-            <div className="date-block">
-              <CheckFormOrder
-                items={items}
-                currentDevice={currentDevice}
-                orderDate={orderDate}
-                shiftsCount={shiftsCount}
-                setItemsPreOrder={setItemsPreOrder}
-                itemsPreOrder={itemsPreOrder}
-              />
-            </div>
-          )}
-          <PreOrderTable
-            itemsPreOrder={itemsPreOrder}
-            groups={groups}
-            setItemsPreOrder={setItemsPreOrder}
-            setOrderContent={setOrderContent}
-          />
-          {isEditMode ? (
-            <div>
-              <button
-                className={"reserved-btn"}
-                onClick={() => itemsPreOrder[0] && setIsConfirmWindowOpen(true)}
-              >
-                Применить
-              </button>
-              <button
-                className={style.closeBtn}
-                onClick={() => restoreEditItems()}
-              >
-                Отменить
-              </button>
-            </div>
-          ) : (
-            <div className={style.editButtons}>
-              <button
-                className={style.reserveBtn}
-                onClick={() => itemsPreOrder[0] && setIsConfirmWindowOpen(true)}
-              >
-                Забронировать и выйти
-              </button>
-              <button
-                className={style.closeBtn}
-                onClick={() => clearAndChangeMode()}
-              >
-                Сбросить и Закрыть
-              </button>
-            </div>
-          )}
-        </div>
       </div>
-    </>
+    </div>
   );
-};
+}

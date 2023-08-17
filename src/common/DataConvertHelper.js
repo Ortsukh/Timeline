@@ -1,8 +1,6 @@
 import moment from "moment";
-import { orderStatus } from "../constants/constants";
 import { v4 as uuidv4 } from "uuid";
-
-
+import orderStatus from "../constants/constants";
 
 const createEquipmentObject = (item, elem) => ({
   id: item.id,
@@ -30,17 +28,26 @@ const convertGrid = (length, grid, date) => {
   for (let i = 0; i < 24; i += length) {
     if (arr[i] === "1") {
       times.push({
-        start_time: moment(date + " " + i + ":00").valueOf(),
-        end_time: moment(date + " " + (i + length) + ":00").valueOf(),
+        start_time: moment(`${date} ${i}:00`).valueOf(),
+        end_time: moment(`${date} ${i + length}:00`).valueOf(),
       });
     }
   }
   return times;
 };
 
+export const addGrid = (formatHour, shiftLength) => {
+  const grid = new Array(24).fill(0);
+
+  for (let i = 0; i < shiftLength; i++) {
+    grid[formatHour * shiftLength + i] = 1;
+  }
+
+  return grid.join("");
+};
+
 const createOrderObject = (order, el, shiftLength, interval) => {
-  const statusColor =
-    orderStatus[order.rentOrder.status]?.color || "rgb(39, 128, 252)";
+  const statusColor = orderStatus[order.rentOrder.status]?.color || "rgb(39, 128, 252)";
   const itemProps = { style: { background: statusColor } };
   const hour = moment(el.start_time).hours();
   const formatHour = Math.floor(hour / shiftLength);
@@ -65,10 +72,9 @@ export const createOrderGroup = (orders) => {
   const result = [];
 
   orders.forEach((order) => {
-    if (!order.rentOrder || !order.equipment || !order.equipment.category)
-      return;
+    if (!order.rentOrder || !order.equipment || !order.equipment.category) { return; }
 
-    const shiftLength = order.equipment.category.shiftLength;
+    const { shiftLength } = order.equipment.category;
 
     order.intervals.forEach((interval) => {
       const formInterval = convertGrid(shiftLength, interval.grid, interval.date);
@@ -82,18 +88,7 @@ export const createOrderGroup = (orders) => {
   return result;
 };
 
-export const addGrid = (formatHour, shiftLength) => {
-  const grid = new Array(24).fill(0);
-
-  for (let i = 0; i < shiftLength; i++) {
-    grid[formatHour * shiftLength + i] = 1;
-  }
-
-  return grid.join("");
-};
-
-
-export const formatOrder = (order, orderId) => {
+export const formatOrder = (order) => {
   const equipmentIdArray = {};
   const dateIntervals = [];
   order.forEach((item) => {
@@ -104,16 +99,17 @@ export const formatOrder = (order, orderId) => {
       date: item.date,
       grid: item.grid,
       id: item.intervalId,
-      orderItemId:item.orderItemId
+      orderItemId: item.orderItemId,
     });
   });
-  for (let key in equipmentIdArray) {
+  const keys = Object.keys(equipmentIdArray);
+  keys.forEach((key) => {
     dateIntervals.push({
       equipment: { id: key },
       id: equipmentIdArray[key][0].orderItemId,
       intervals: equipmentIdArray[key],
     });
-  }
+  });
   return dateIntervals;
 };
 
@@ -126,7 +122,8 @@ export const createOrderGrid = (itemsPreOrder) => {
     }
     equipmentIdArray[order.group].push(order);
   });
-  for (let key in equipmentIdArray) {
+  const keys = Object.keys(equipmentIdArray);
+  keys.forEach((key) => {
     const equipmentIdArrayByDate = {};
     equipmentIdArray[key].forEach((order) => {
       if (!equipmentIdArrayByDate[order.date]) {
@@ -138,27 +135,28 @@ export const createOrderGrid = (itemsPreOrder) => {
       equipmentId: key,
       intervals: equipmentIdArrayByDate,
     });
-  }
+  });
   const result = [];
   dateIntervals.forEach((el) => {
-    for (let keyObj in el.intervals) {
+    const keysObj = Object.keys(equipmentIdArray);
+    keysObj.forEach((keyObj) => {
       let partA = 2000000000000;
       let partB = 2000000000000;
       let intervalId;
-      el.intervals[keyObj].map((el) => {
-        partA += Number(el.grid.slice(0, 12));
-        partB += Number(el.grid.slice(12, 24));
-        intervalId = intervalId ? intervalId : el.intervalId;
+      el.intervals[keyObj].forEach((element) => {
+        partA += Number(element.grid.slice(0, 12));
+        partB += Number(element.grid.slice(12, 24));
+        intervalId = intervalId || element.intervalId;
       });
 
       result.push({
-        intervalId: intervalId,
+        intervalId,
         equipmentId: el.equipmentId,
-        orderItemId:  el.intervals[keyObj][0].orderId,
+        orderItemId: el.intervals[keyObj][0].orderId,
         date: keyObj,
         grid: String(partA).slice(1, 13) + String(partB).slice(1, 13),
       });
-    }
+    });
   });
   return result;
 };
@@ -172,8 +170,8 @@ export const groupByDateItems = (items) => {
     }
     dateObj[item.date].push(item.grid);
   });
-
-  for (const key in dateObj) {
+  const keys = Object.keys(dateObj);
+  keys.forEach((key) => {
     let partA = 2000000000000;
     let partB = 2000000000000;
     dateObj[key].forEach((grid) => {
@@ -182,9 +180,7 @@ export const groupByDateItems = (items) => {
     });
 
     dateObj[key] = String(partA).slice(1, 13) + String(partB).slice(1, 13);
-  }
+  });
 
   return dateObj;
 };
-
-

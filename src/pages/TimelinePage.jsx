@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import moment from "moment";
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -18,9 +19,9 @@ import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
 import { getAllEqupments, getAllOrders } from "../Api/API";
 import AlertWindow from "../components/Popup/AlertWindow";
-import { BookingMenu } from "../components/BookingMenuComponents/BookingMenu";
+import BookingMenu from "../components/BookingMenuComponents/BookingMenu";
 
-export default function TimelinePage(props) {
+export default function TimelinePage() {
   const [groups, setGroups] = useState([]);
   const [update, setUpdate] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -77,9 +78,7 @@ export default function TimelinePage(props) {
 
   const handleInputChange = (newInput) => {
     localStorage.setItem("toolsFilter", newInput);
-    setSelectedGroups(() => {
-      return [newInput];
-    });
+    setSelectedGroups(() => [newInput]);
   };
 
   const editMode = (_e, order) => {
@@ -93,12 +92,12 @@ export default function TimelinePage(props) {
   const operAlertWindow = (message) => {
     setIsOpenAlertWindow({
       status: true,
-      message: message,
+      message,
     });
     setTimeout(() => {
       setIsOpenAlertWindow({
         status: false,
-        message: message,
+        message,
       });
     }, 2000);
   };
@@ -106,17 +105,18 @@ export default function TimelinePage(props) {
   const getFormatedDate = (groupId, time) => {
     const date = moment(time).format("YYYY-MM-DD");
     const hour = moment(time).hours();
-    const shiftLength = groups.find(
-      (group) => group.id === groupId
-    ).shiftLength;
+    const { shiftLength } = groups.find(
+      (group) => group.id === groupId,
+    );
     const formatHour = Math.floor(hour / shiftLength);
 
-    let start, end;
+    let start; let
+      end;
 
     start = formatHour * shiftLength;
     end = start + shiftLength;
-    start = date + " " + start + ":00";
-    end = date + " " + end + ":00";
+    start = `${date} ${start}:00`;
+    end = `${date} ${end}:00`;
     return {
       start,
       end,
@@ -127,9 +127,9 @@ export default function TimelinePage(props) {
     if (!isEditMode) return;
     const date = moment(time).format("YYYY-MM-DD");
     const hour = moment(time).hours();
-    const shiftLength = groups.find(
-      (group) => group.id === groupId
-    ).shiftLength;
+    const { shiftLength } = groups.find(
+      (group) => group.id === groupId,
+    );
     const formatHour = Math.floor(hour / shiftLength);
 
     const formatedDate = getFormatedDate(groupId, time);
@@ -139,7 +139,7 @@ export default function TimelinePage(props) {
       group: groupId,
       status: "preOrder",
       canMove: false,
-      date: date,
+      date,
       grid: addGrid(formatHour, shiftLength),
       start_time: moment(formatedDate.start).valueOf(),
       end_time: moment(formatedDate.end).valueOf(),
@@ -163,38 +163,34 @@ export default function TimelinePage(props) {
     setIsActiveDate((current) => !current);
   };
 
-  const mapToolsNames = () => {
-    return [...new Set(groups.map((group) => group.category))];
-  };
+  const mapToolsNames = () => [...new Set(groups.map((group) => group.category))];
 
-  const getGroupsToShow = () => {
-    return selectedGroups.length
-      ? groups.filter((group) => selectedGroups.includes(group.category))
-      : groups;
-  };
+  const getGroupsToShow = () => (selectedGroups.length
+    ? groups.filter((group) => selectedGroups.includes(group.category))
+    : groups);
 
   const clickOnItem = (_time, itemId) => {
     const item = itemId
-      ? itemsPreOrder.find((item) => item.id === itemId)
+      ? itemsPreOrder.find((el) => el.id === itemId)
       : null;
     if (!item) return;
     setItemsPreOrder((pred) => pred.filter((el) => el.id !== itemId));
   };
 
   const openBookingWindow = (time, posX, posY, kindModal, itemId) => {
-    const item = itemId ? items.find((item) => item.id === itemId) : null;
+    const item = itemId ? items.find((el) => el.id === itemId) : null;
     if (!item || item.status === "preOrder" || isEditMode) return;
     setIsActiveMessage((current) => !current);
     const formatedDate = getFormatedDate(item.group, time);
     const date = moment(time).format("YYYY-MM-DD");
-    const result = date + " " + formatedDate.start + " - " + formatedDate.end;
+    const result = `${date} ${formatedDate.start} - ${formatedDate.end}`;
 
     setChosenDate({
       date: result,
-      posX: posX,
-      posY: posY,
+      posX,
+      posY,
       kindModal,
-      item: item,
+      item,
     });
   };
 
@@ -203,7 +199,7 @@ export default function TimelinePage(props) {
       setIsClickingOnEmptyFilter(true);
     } else {
       setCurrentDevice(
-        groups.filter((group) => selectedGroups.includes(group.category))[0]
+        groups.filter((group) => selectedGroups.includes(group.category))[0],
       );
       setIsBookingMenu(true);
     }
@@ -213,7 +209,7 @@ export default function TimelinePage(props) {
   };
 
   return !isLoading && !isLoadingEquipment ? (
-    <>
+    <div>
       {isBookingMenu ? (
         <BookingMenu
           //! Нужные
@@ -269,9 +265,7 @@ export default function TimelinePage(props) {
             </div>
             <div className="sort-box_item">
               {isAdmin ? (
-                <>
-                  <CompaniesSelect companies={companies} />
-                </>
+                <CompaniesSelect companies={companies} />
               ) : null}
 
               <DateFilter
@@ -284,7 +278,7 @@ export default function TimelinePage(props) {
             <div className="sort-box_item">{/* <CountOrderFilter /> */}</div>
             <div className="sort-box_item">
               <div>
-                <button className="reserved-btn" onClick={createBook}>
+                <button type="button" className="reserved-btn" onClick={createBook}>
                   Добавить новый
                 </button>
               </div>
@@ -320,7 +314,7 @@ export default function TimelinePage(props) {
           ) : null}
         </>
       )}
-    </>
+    </div>
   ) : (
     <Spiner />
   );

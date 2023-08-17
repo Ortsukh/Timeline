@@ -16,7 +16,7 @@ export default function ToolsFilter({
   useEffect(() => {
     const value = localStorage.getItem("toolsFilter") || null;
     if (value) {
-      setSelectValue({ value: value, label: value });
+      setSelectValue({ value, label: value });
       onInputChange(value);
     }
   }, []);
@@ -27,11 +27,8 @@ export default function ToolsFilter({
     setCurrentDeviceIndex(0);
   };
 
-  const getOptionsForSearch = (toolNames) => {
-    return toolNames.map((tool) => {
-      return { value: tool, label: tool };
-    });
-  };
+  // eslint-disable-next-line max-len
+  const getOptionsForSearch = (tools) => tools.map((tool) => ({ value: tool, label: tool }));
 
   const handleReset = () => {
     setSelectValue(null);
@@ -52,7 +49,7 @@ export default function ToolsFilter({
         <div className="tooltip">Пожалуйста, выберите группу</div>
       )}
       {showButtonClear && (
-        <button className="clear-button" onClick={handleReset}>
+        <button type="button" className="clear-button" onClick={handleReset}>
           Очистить
         </button>
       )}
