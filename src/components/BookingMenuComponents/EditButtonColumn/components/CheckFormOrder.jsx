@@ -1,6 +1,7 @@
 import moment from "moment/moment";
 import { v4 as uuidv4 } from "uuid";
-import { addGrid } from "../../../../DataConvertHelper";
+import { addGrid, groupByDateItems } from "../../../../common/DataConvertHelper";
+import { generateCheckBox } from "../../../../common/GenerateElementsData";
 
 export const CheckFormOrder = ({
   items,
@@ -12,15 +13,15 @@ export const CheckFormOrder = ({
 }) => {
   const startDate = moment(orderDate.selection1.startDate).startOf("day");
   const endDate = moment(orderDate.selection1.endDate).startOf("day");
-  var now = startDate.clone();
+  var currentDate = startDate.clone();
   const selectedDateSampleGrid = {};
 
-  while (now.isSameOrBefore(endDate)) {
-    selectedDateSampleGrid[now.clone().format("YYYY-MM-DD")] = "".padStart(
+  while (currentDate.isSameOrBefore(endDate)) {
+    selectedDateSampleGrid[currentDate.clone().format("YYYY-MM-DD")] = "".padStart(
       24,
       "0"
     );
-    now.add(1, "days");
+    currentDate.add(1, "days");
   }
   const filteredItems = items.filter(
     (item) =>
@@ -32,29 +33,6 @@ export const CheckFormOrder = ({
     "".padStart(currentDevice.shiftLength, "0") +
     `(?=${"".padStart(currentDevice.shiftLength * shiftsCount, "0")})`;
   const regexp = new RegExp(sampleStr, "g");
-  const groupByDateItems = (items) => {
-    const dateObj = {};
-
-    items.forEach((item) => {
-      if (!dateObj[item.date]) {
-        dateObj[item.date] = [];
-      }
-      dateObj[item.date].push(item.grid);
-    });
-
-    for (const key in dateObj) {
-      let partA = 2000000000000;
-      let partB = 2000000000000;
-      dateObj[key].forEach((grid) => {
-        partA += Number(grid.slice(0, 12));
-        partB += Number(grid.slice(12, 24));
-      });
-
-      dateObj[key] = String(partA).slice(1, 13) + String(partB).slice(1, 13);
-    }
-
-    return dateObj;
-  };
 
   const groupedItems = groupByDateItems(filteredItems);
 
@@ -127,86 +105,5 @@ export const CheckFormOrder = ({
     }
   };
 
-  const generateCheckBox = (selectedDateSampleGrid) => {
-    const result = [];
-
-    for (const key in selectedDateSampleGrid) {
-      result.push(
-        <div className="one-date-string">
-          <p>{key}</p>
-          <div className="checkboxes" key={key}>
-            {selectedDateSampleGrid[key].map((interval) => {
-              return (
-                <label htmlFor={key}>
-                  <input
-                    type="checkbox"
-                    onChange={(e) =>
-                      handleAddPreOrder(e.target.value, e.target.checked)
-                    }
-                    checked={itemsPreOrder.find(
-                      (item) =>
-                        item.checkBoxId ===
-                        key +
-                          " " +
-                          interval +
-                          "-" +
-                          currentDevice.shiftLength * shiftsCount
-                    )}
-                    disabled={itemsPreOrder.find((item) => {
-                
-                      if (
-                        itemsPreOrder.find(
-                            (item) =>
-                              item.checkBoxId ===
-                              key +
-                                " " +
-                                interval +
-                                "-" +
-                                currentDevice.shiftLength * shiftsCount
-                          )
-                      ) {
-                        return false;
-                      }else 
-                      return (
-                        key + " " + interval ===
-                          item.date +
-                            " " +
-                            moment(item.start_time).format("H") ||
-                        key +
-                          " " +
-                          (interval +
-                            currentDevice.shiftLength * shiftsCount) ===
-                          item.date + " " + moment(item.end_time).format("H")
-                      );
-                    })}
-                    id={
-                      key +
-                      " " +
-                      interval +
-                      "-" +
-                      currentDevice.shiftLength * shiftsCount
-                    }
-                    value={JSON.stringify({
-                      date: key,
-                      interval: interval,
-                      shiftLength: currentDevice.shiftLength,
-                    })}
-                  />
-                  <span>
-                    {interval +
-                      "-" +
-                      (Number(interval) +
-                        Number(currentDevice.shiftLength * shiftsCount))}
-                  </span>
-                </label>
-              );
-            })}
-          </div>
-        </div>
-      );
-    }
-    return result;
-  };
-
-  return <>{generateCheckBox(selectedDateSampleGrid)}</>;
+  return <>{generateCheckBox (selectedDateSampleGrid, handleAddPreOrder, itemsPreOrder, currentDevice, shiftsCount)}</>;
 };

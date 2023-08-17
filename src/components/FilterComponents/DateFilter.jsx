@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import "./style.css";
+import "../style.css";
 import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";

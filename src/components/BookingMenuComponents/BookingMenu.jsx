@@ -1,8 +1,8 @@
 import moment from "moment";
 import { useState } from "react";
 import { createOrder, sendEditOrder } from "../../Api/API";
-import { createOrderGrid, formatOrder } from "../../DataConvertHelper";
-import ConfirmWindow from "../ConfirmWindow";
+import { createOrderGrid, formatOrder } from "../../common/DataConvertHelper";
+import ConfirmWindow from "../Popup/ConfirmWindow";
 import { BookingTimeline } from "./BookingDateColumn/BookingTimeline";
 import style from "./BookingMenu.module.css";
 import { EditButtonColumn } from "./EditButtonColumn/EditButtonColumn";
@@ -92,7 +92,7 @@ export const BookingMenu = ({
     });
     const orderItems = createOrderGrid(itemsPreOrderCorrect);
     createOrder(orderItems)
-      .then((response) => {
+      .then(() => {
         operAlertWindow("success");
         setItemsPreOrder([]);
         setIsBookingMenu(false);
@@ -103,7 +103,6 @@ export const BookingMenu = ({
       .catch(operAlertWindow("error"));
   };
 
-  console.log("updatedItems", updatedItems, itemsPreOrder);
   return (
     <>
       <div className={style.container}>
@@ -117,7 +116,6 @@ export const BookingMenu = ({
             setCopyEditItems={setCopyEditItems}
             isEditMode={isEditMode}
             setIsEditMode={setIsEditMode}
-            operAlertWindow={operAlertWindow}
             setCurrentDevice={setCurrentDevice}
             currentDevice={currentDevice}
             items={updatedItems}
@@ -146,26 +144,19 @@ export const BookingMenu = ({
             isEditMode={isEditMode}
             setCurrentDevice={setCurrentDevice}
             currentDevice={currentDevice}
-            selectedGroups={selectedGroups}
             groups={groups}
             itemsPreOrder={itemsPreOrder}
             setItemsPreOrder={setItemsPreOrder}
             setUpdatedItems={setUpdatedItems}
             setCopyEditItems={setCopyEditItems}
-            toolsCount={toolsCount}
-            isActiveDate={isActiveDate}
-            orderDate={orderDate}
-            openBookingWindow={openBookingWindow}
             items={items}
-            clickOnEmptySpace={clickOnEmptySpace}
-            clickOnItem={clickOnItem}
             orderDatePlanning={orderDatePlanning}
             currentDeviceIndex={currentDeviceIndex}
             setCurrentDeviceIndex={setCurrentDeviceIndex}
           />
         </div>
       </div>
-      {isConfirmWindowOpen  && (
+      {isConfirmWindowOpen && (
         <ConfirmWindow
           data={orderContent}
           closeBookingWindow={setIsConfirmWindowOpen}

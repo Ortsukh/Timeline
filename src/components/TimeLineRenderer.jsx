@@ -30,17 +30,7 @@ export default function TimeLineRenderer({
     });
   }, [orderDate.selection1.startDate, isActiveDate]);
 
-  console.log("render", items, groups);
-  // const minTime = moment(orderDate.selection1.startDate).add(-1, "year").valueOf(); //! Прокрутка влево на {1 год}
-  // const maxTime = moment(orderDate.selection1.endDate).add(1, "year").valueOf(); //! Прокрутка вправо на {1 год}
-
-  // const handleCanvasClick = (groupId, time, e) => {
-  //     clickOnEmptySpace(groupId, time);
-  //   console.log(groupId, time, e);
-  // };
-
   const handleItemSelect = (itemId, e, time) => {
-    console.log(itemId);
     openBookingWindow(time, e.clientX, e.clientY, "clickOnOrder", itemId);
     clickOnItem(time, itemId);
   };
@@ -92,7 +82,6 @@ const handleToSelectedGroup = (group, category) => {
       items={items}
       canMove={false}
       defaultTimeStart={moment()}
-      // defaultTimeStart={moment().startOf('day')} //! При загрузке временная шкала отображается с начала дня, а не с текущего времени
       defaultTimeEnd={moment().add(2, "days")}
       visibleTimeStart={isActiveDate ? visibleTimeRange.start : null}
       visibleTimeEnd={isActiveDate ? visibleTimeRange.end : null}
@@ -100,10 +89,7 @@ const handleToSelectedGroup = (group, category) => {
       minZoom={60 * 60 * 1000 * 24 * 2} //! Минимальное зумирование {2} дня
       maxZoom={60 * 60 * 1000 * 24 * 30}
       lineHeight={45}
-      onZoom= {(timelineContext, unit)=>console.log(timelineContext, unit)}
-      // onCanvasClick={handleCanvasClick}
       onItemSelect={handleItemSelect}
-      // onTimeChange={handleTimeChange}
       itemHeightRatio={1}
       canResize={false}
       timeSteps={{

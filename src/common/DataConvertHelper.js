@@ -1,5 +1,5 @@
 import moment from "moment";
-import { orderStatus } from "./constants/constants";
+import { orderStatus } from "../constants/constants";
 import { v4 as uuidv4 } from "uuid";
 
 
@@ -96,7 +96,6 @@ export const addGrid = (formatHour, shiftLength) => {
 export const formatOrder = (order, orderId) => {
   const equipmentIdArray = {};
   const dateIntervals = [];
-  console.log(order);
   order.forEach((item) => {
     if (!equipmentIdArray[item.equipmentId]) {
       equipmentIdArray[item.equipmentId] = [];
@@ -108,7 +107,6 @@ export const formatOrder = (order, orderId) => {
       orderItemId:item.orderItemId
     });
   });
-  console.log(equipmentIdArray);
   for (let key in equipmentIdArray) {
     dateIntervals.push({
       equipment: { id: key },
@@ -120,7 +118,6 @@ export const formatOrder = (order, orderId) => {
 };
 
 export const createOrderGrid = (itemsPreOrder) => {
-  console.log(12,itemsPreOrder);
   const equipmentIdArray = {};
   const dateIntervals = [];
   itemsPreOrder.forEach((order) => {
@@ -166,114 +163,28 @@ export const createOrderGrid = (itemsPreOrder) => {
   return result;
 };
 
+export const groupByDateItems = (items) => {
+  const dateObj = {};
+
+  items.forEach((item) => {
+    if (!dateObj[item.date]) {
+      dateObj[item.date] = [];
+    }
+    dateObj[item.date].push(item.grid);
+  });
+
+  for (const key in dateObj) {
+    let partA = 2000000000000;
+    let partB = 2000000000000;
+    dateObj[key].forEach((grid) => {
+      partA += Number(grid.slice(0, 12));
+      partB += Number(grid.slice(12, 24));
+    });
+
+    dateObj[key] = String(partA).slice(1, 13) + String(partB).slice(1, 13);
+  }
+
+  return dateObj;
+};
 
 
-// export function convertTrucksToTimelineGroups(tools) {
-//   return tools.map((tool, index) => ({
-//     id: index + 1,
-//     title: tool.name,
-//     category: tool.category,
-//   }));
-// }
-
-// export function convertOrdersToTimelineItems(orders, tools, companies) {
-//   const hash = tools.reduce((acc, tool, index) => {
-//     tool.assignedOrderId.forEach((id) => {
-//       acc[id] = index + 1;
-//     });
-//     return acc;
-//   }, {});
-
-//   return orders.map((order) => {
-//     const orderId = createOrderIdNumberFromIdString(order.id);
-//     const group = hash[order.id];
-//     const companie = companies.find(
-//       (companie) => companie.id === order.companieId
-//     );
-//     const statusColor = orderStatus[order.status]?.color || "blue";
-//     const itemProps = { style: { background: statusColor } };
-
-//     return {
-//       id: orderId,
-//       group,
-//       title: order.id,
-//       start_time: order.from,
-//       end_time: order.to,
-//       companie,
-//       status: order.status || null,
-//       itemProps,
-//     };
-//   });
-// }
-
-// function createOrderIdNumberFromIdString(orderId) {
-//   return parseInt(orderId.match(/\d+/)[0], 10);
-// }
-
-// export const createEquipmentGroup = (equipments) => {
-//   console.log(equipments);
-//   const result = [];
-//   equipments.map((elem) => {
-//     if (elem.kitchenEquipment.length > 0) {
-//       elem.kitchenEquipment.forEach((item) => {
-//         result.push({
-//           id: item.id,
-//           title: item.name,
-//           type: item.type,
-//           category: elem.name,
-//           shiftLength: elem.shiftLength
-//         });
-//       });
-//     }
-//   });
-//   console.log(result);
-//   return result;
-// };
-
-// const convertGrid = (length, grid, date) => {
-//   const arr = grid.split("");
-//   const times = [];
-//   for (let i = 0; i < 24; i += length) {
-//     if (arr[i] === "1") {
-//       console.log(date + " " + i + ":00");
-//       times.push({
-//         start_time: moment(date + " " + i + ":00").valueOf(),
-//         end_time: moment(date + " " + (i + length) + ":00").valueOf(),
-//       });
-//     }
-//   }
-//   return times;
-// };
-
-// export const createOrderGroup = (orders) => {
-//   console.log(orders);
-//   const result = [];
-
-//   orders.forEach((order) => {
-
-//     if (!order.rentOrder || !order.equipment || !order.equipment.category) return;
-//     const length = order.equipment.category.shiftLength;
-
-//     order.intervals.map((interval) => {
-//       const statusColor = orderStatus[order.rentOrder.status]?.color || "rgb(39, 128, 252)";
-//       const itemProps = { style: { background: statusColor } };
-//       console.log(interval);
-//       const formInterval = convertGrid(length, interval.grid, interval.date);
-//       console.log(formInterval);
-//       formInterval.forEach((el, index) => {
-//         result.push({
-//           id: order.id + moment() + interval.date + index,
-//           rentOrderId: order.rentOrder.id,
-//           group: order.equipment.id,
-//           start_time: el.start_time,
-//           end_time: el.end_time,
-//           companie: order.rentOrder.company || null,
-//           status: order.rentOrder.status || "accepted",
-//           itemProps,
-//         });
-//       });
-//     });
-//   });
-
-//   return result;
-// };
