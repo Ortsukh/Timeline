@@ -43,6 +43,9 @@ export const BookingMenu = ({
       key: "selection1",
     },
   });
+  const initialCurrentDeviceIndex = groups.map(current => current.id).indexOf(currentDevice.id)
+  const [currentDeviceIndex, setCurrentDeviceIndex] = useState(initialCurrentDeviceIndex);
+
   console.log("updatedItems", updatedItems, itemsPreOrder);
   return (
     <>
@@ -64,6 +67,7 @@ export const BookingMenu = ({
             items={updatedItems}
             orderDate={orderDatePlanning}
             setOrderDate={setOrderDatePlanning}
+            setCurrentDeviceIndex={setCurrentDeviceIndex}
             //! ToolsFilter->
             toolNames={toolNames}
             onInputChange={onInputChange}
@@ -97,6 +101,8 @@ export const BookingMenu = ({
             clickOnEmptySpace={clickOnEmptySpace}
             clickOnItem={clickOnItem}
             orderDatePlanning={orderDatePlanning}
+            currentDeviceIndex={currentDeviceIndex}
+            setCurrentDeviceIndex={setCurrentDeviceIndex}
           />
         </div>
       </div>

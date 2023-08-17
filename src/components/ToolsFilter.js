@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import Select from "react-select";
 import "./style.css";
 
-export default function ToolsFilter({ toolNames, onInputChange, clearFilter, isClickingOnEmptyFilter, setIsClickingOnEmptyFilter, showButtonClear }) {
+export default function ToolsFilter({ toolNames, onInputChange, clearFilter, isClickingOnEmptyFilter, setIsClickingOnEmptyFilter, showButtonClear, setCurrentDeviceIndex }) {
 
   const [selectValue, setSelectValue] = useState(null)
 
@@ -16,6 +16,7 @@ export default function ToolsFilter({ toolNames, onInputChange, clearFilter, isC
   const changeSearch = (e) => {
     setSelectValue(e)
     onInputChange(e.value);
+    setCurrentDeviceIndex(0)
   };
 
   const getOptionsForSearch = (toolNames) => {
@@ -29,7 +30,7 @@ export default function ToolsFilter({ toolNames, onInputChange, clearFilter, isC
     clearFilter()
     setIsClickingOnEmptyFilter(false)
   }
-// console.log("selectValue:", selectValue);
+
   return (
     <div className="tools-filter">
     <span> Выбрать оборудование</span>
