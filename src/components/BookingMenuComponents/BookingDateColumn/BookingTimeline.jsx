@@ -3,8 +3,6 @@ import Timeline, {
   TimelineHeaders,
   SidebarHeader,
   DateHeader,
-  TimelineMarkers,
-  TodayMarker,
 } from "react-calendar-timeline";
 import moment from "moment";
 import "moment/locale/ru";
