@@ -1,4 +1,4 @@
-import { formatOrder } from "../DataConvertHelper.js";
+import { formatOrder } from "../common/DataConvertHelper.js";
 
 
 const backendUrl = "http://freekitchen.loc/admin/manager/";
@@ -4406,7 +4406,6 @@ export async function sendEditOrder(order) {
 export async function createOrder(order) {
   const str = `http://freekitchen.loc/test/save_order`;
   const dateIntervals = formatOrder(order)
- console.log(122222222);
   const body = {
     company: {
       id: 1,
@@ -4425,12 +4424,6 @@ export async function createOrder(order) {
     mode: 'no-cors',
     body: JSON.stringify(body),
   });
-  // let result = await res.json()
-  // console.log(result);
-  // if (!res.ok) {
-  //   throw new Error("Something went wrong. Sorry");
-  // }
 
-  // return await res.json();
   return true
 }

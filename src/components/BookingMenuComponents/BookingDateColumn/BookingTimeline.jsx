@@ -15,7 +15,7 @@ import { v4 as uuidv4 } from "uuid";
 import "react-calendar/dist/Calendar.css"; // удалить для изменения стиля календаря
 import { GroupSwitching } from "./components/GroupSwitching";
 import "../../style.css";
-import { addGrid } from "../../../DataConvertHelper";
+import { addGrid } from "../../../common/DataConvertHelper";
 
 export const BookingTimeline = ({
   groups,
@@ -48,12 +48,10 @@ export const BookingTimeline = ({
 
   const [openGroups, setOpenGroups] = useState(false);
 
-  // console.log("date", currentMonth.format("YYYY-MM"));
   const handleBoundsChange = (visibleTimeStart, visibleTimeEnd) => {
     setVisibleTimeStart(visibleTimeStart);
     setVisibleTimeEnd(visibleTimeEnd);
   };
-  console.log(currentDevice);
   const convertGrid = (length, grid, date) => {
     const arr = grid.split("");
     const orderedTimes = {};
@@ -189,7 +187,6 @@ export const BookingTimeline = ({
 
   const handleCanvasClick = (groupId, time, e) => {
     if (openGroups[groupId]) return;
-    console.log(groupId, time, e);
     clickOnEmptySpace(groupId, time);
   };
 
@@ -244,7 +241,6 @@ export const BookingTimeline = ({
       (item) => item.deviceGroup === currentDevice.id
     );
   };
-  console.log(itemsPreOrder);
   return (
     <div className={style.containerTimeline}>
       <GroupSwitching
