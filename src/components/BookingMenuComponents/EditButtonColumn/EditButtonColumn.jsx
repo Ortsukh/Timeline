@@ -22,6 +22,7 @@ export const EditButtonColumn = ({
   orderDate,
   setOrderDate,
   items,
+  setCurrentDeviceIndex,
   //! ToolsFilter->
   toolNames,
   onInputChange,
@@ -140,6 +141,7 @@ export const EditButtonColumn = ({
             setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
             onDataFromChild={onDataFromChild}
             showButtonClear={showButtonClear}
+            setCurrentDeviceIndex={setCurrentDeviceIndex}
           />
         <div className="selects-block">
           <FiltersForOrder

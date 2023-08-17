@@ -30,7 +30,8 @@ export const BookingTimeline = ({
   currentDevice,
   setCurrentDevice,
   orderDatePlanning,
-   
+  setCurrentDeviceIndex,
+  currentDeviceIndex
 }) => {
   const today = editOrderData?.date ? moment(editOrderData.date) : moment();
   const startOfDay = (day) => moment(day).startOf("day");
@@ -247,11 +248,12 @@ export const BookingTimeline = ({
   console.log(itemsPreOrder);
   return (
     <div className={style.containerTimeline}>
-      {/* <div>{selectedGroups}</div> */} {/* Общее название группы */}
       <GroupSwitching
         groups={groups}
         currentDevice={currentDevice}
         setCurrentDevice={setCurrentDevice}
+        currentDeviceIndex={currentDeviceIndex}
+        setCurrentDeviceIndex={setCurrentDeviceIndex}
       />
       <div className={style.customCalendar}>
         {showCalendar && (
