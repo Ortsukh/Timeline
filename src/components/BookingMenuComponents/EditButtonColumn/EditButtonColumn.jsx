@@ -22,6 +22,7 @@ export const EditButtonColumn = ({
   orderDate,
   setOrderDate,
   items,
+  setCurrentDeviceIndex,
   //! ToolsFilter->
   toolNames,
   onInputChange,
@@ -132,6 +133,16 @@ export const EditButtonColumn = ({
             {back}
           </button>
         </div>
+        <ToolsFilter
+            toolNames={toolNames}
+            onInputChange={onInputChange}
+            clearFilter={clearFilter}
+            isClickingOnEmptyFilter={isClickingOnEmptyFilter}
+            setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
+            onDataFromChild={onDataFromChild}
+            showButtonClear={showButtonClear}
+            setCurrentDeviceIndex={setCurrentDeviceIndex}
+          />
         <div className="selects-block">
           <FiltersForOrder
             orderDate={orderDate}
@@ -140,15 +151,6 @@ export const EditButtonColumn = ({
           />
         </div>
         <div className={style.editButtons}>
-          <ToolsFilter
-            toolNames={toolNames}
-            onInputChange={onInputChange}
-            clearFilter={clearFilter}
-            isClickingOnEmptyFilter={isClickingOnEmptyFilter}
-            setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
-            onDataFromChild={onDataFromChild}
-            showButtonClear={showButtonClear}
-          />
           <div className="date-block">
             <CheckFormOrder
               items={items}
