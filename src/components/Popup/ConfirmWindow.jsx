@@ -9,36 +9,39 @@ export default function ConfirmWindow({
   return (
     <div className="messageWindow ">
       <button
+        type="button"
         className="button-close"
         onClick={() => closeBookingWindow(false)}
       >
         x
       </button>
       <div className="confirmWindow">
-        {data.map((item) => {
-          return (
-            <div>
-              <div className="messageWindow-item">
-                <span>{"Оборудование:"}</span>
-                <span>{item.groupTitle}</span>
-              </div>
-              <div className="messageWindow-item">
-                <span>{"Смена"}:</span>
-                <span>{item.shiftDate}</span>
-              </div>
+        {data.map((item) => (
+          <div>
+            <div className="messageWindow-item">
+              <span>Оборудование:</span>
+              <span>{item.groupTitle}</span>
             </div>
-          );
-        })}
+            <div className="messageWindow-item">
+              <span>
+                Смена
+                :
+              </span>
+              <span>{item.shiftDate}</span>
+            </div>
+          </div>
+        ))}
       </div>
-      <button className="button-submit reserved-btn" onClick={confirmFunc}>
-        {"Применить"}
+      <button type="button" className="button-submit reserved-btn" onClick={confirmFunc}>
+        Применить
       </button>
 
       <button
+        type="button"
         className="button-submit reserved-btn"
         onClick={() => closeBookingWindow(false)}
       >
-        {"Отменить"}
+        Отменить
       </button>
     </div>
   );

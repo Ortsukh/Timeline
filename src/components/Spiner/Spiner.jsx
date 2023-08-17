@@ -1,4 +1,5 @@
 import ClipLoader from "react-spinners/MoonLoader";
+import React from "react";
 
 const override = {
   display: "block",
@@ -12,7 +13,7 @@ export default function Spiner() {
   return (
     <div className="sweet-loading">
       <ClipLoader
-      type="CircleLoader"
+        type="CircleLoader"
         color={color}
         cssOverride={override}
         size={150}

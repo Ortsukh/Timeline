@@ -1,7 +1,7 @@
 import React from "react";
-import "./style.css";
+import "../style.css";
 
-export default function CountOrderFilter({ choseCount, groupsCount }) {
+export default function CountOrderFilter() {
   const maxOrdersPerDay = 12;
 
   return (
@@ -9,13 +9,12 @@ export default function CountOrderFilter({ choseCount, groupsCount }) {
       <span>Количество смен</span>
 
       <select>
-        {new Array(maxOrdersPerDay).fill("").map((_el, index) => {
-          return (
-            <option value={index + 1} key={index}>
-              {index + 1}
-            </option>
-          );
-        })}
+        {new Array(maxOrdersPerDay).fill("").map((_el, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <option value={index + 1} key={index}>
+            {index + 1}
+          </option>
+        ))}
       </select>
     </div>
   );

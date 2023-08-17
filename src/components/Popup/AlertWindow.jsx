@@ -2,7 +2,6 @@ import React from "react";
 import "../style.css";
 
 export default function AlertWindow({ message }) {
-
   return (
     <div
       className="messageWindow"
@@ -10,7 +9,7 @@ export default function AlertWindow({ message }) {
         left: "45%",
         top: "20%",
         height: "50px",
-        alignItems: "center"
+        alignItems: "center",
       }}
     >
       <div className="messageWindow-item">

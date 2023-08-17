@@ -7,7 +7,6 @@ export default function EditWindow({ data, closeBookingWindow, editMode }) {
 
   const isLeftPart = window.innerWidth / 2 - data.posX > 0;
 
-
   return (
     <div
       className="messageWindow"
@@ -16,23 +15,27 @@ export default function EditWindow({ data, closeBookingWindow, editMode }) {
         top: data.posY - heightModal,
       }}
     >
-      <button className="button-close" onClick={closeBookingWindow}>
+      <button type="button" className="button-close" onClick={closeBookingWindow}>
         x
       </button>
       <div className="messageWindow-item">
-        <span>{"Смена"}:</span>
+        <span>
+          Смена
+          :
+        </span>
         <span>{data.date}</span>
       </div>
 
       <div className="messageWindow-item">
-        <span>{"Статус:"}</span>
+        <span>Статус:</span>
         <span>{data.item.status}</span>
       </div>
       <button
+        type="button"
         className="button-submit reserved-btn"
         onClick={(e) => editMode(e, data.item)}
       >
-        {"Редактировать"}
+        Редактировать
       </button>
     </div>
   );

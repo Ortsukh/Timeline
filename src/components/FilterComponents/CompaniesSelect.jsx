@@ -1,37 +1,35 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 import "../style.css";
 
-export default function CompaniesSelect(props) {
-  const [selectValue, setSelectValue] = useState(null)
+export default function CompaniesSelect({ companies }) {
+  const [selectValue, setSelectValue] = useState(null);
 
   const changeSearch = (e) => {
-    setSelectValue(e)
+    setSelectValue(e);
     // onInputChange(e.value);
   };
 
   const handleReset = () => {
-    setSelectValue(null)
+    setSelectValue(null);
     // clearFilter()
-  }
-
-  const getOptionsForSearch = (companies) => {
-    return companies.map((companie) => {
-      return { value: companie.name, label: companie.name };
-    });
   };
+
+  // eslint-disable-next-line max-len
+  const getOptionsForSearch = (allCompanies) => allCompanies.map((companie) => ({ value: companie.name, label: companie.name }));
 
   return (
     <div className="tools-filter">
       <span> Выбрать компанию</span>
 
-      <Select className="select-filter"
-        options={getOptionsForSearch(props.companies)}
+      <Select
+        className="select-filter"
+        options={getOptionsForSearch(companies)}
         onChange={changeSearch}
         value={selectValue}
       />
 
-      <button className="clear-button" onClick={handleReset}>
+      <button type="button" className="clear-button" onClick={handleReset}>
         Отчистить
       </button>
     </div>
