@@ -60,13 +60,6 @@ export default function EditButtonColumn({
     setShowButtonClear(true);
   };
 
-  const clearAndChangeMode = () => {
-    setItemsPreOrder([]);
-    setIsBookingMenu(false);
-    setCurrentDevice([]);
-    setShowButtonClear(true);
-  };
-
   const restoreEditItems = () => {
     setItemsPreOrder(
       copyEditItems.map((el) => ({
@@ -77,7 +70,7 @@ export default function EditButtonColumn({
   };
 
   return (
-    <div className={style.containerEditMenu}>
+    <div>
       <div className={style.backButtonBlock}>
         <button type="button" className={style.backButton} onClick={createBook}>
           {back}
@@ -102,7 +95,7 @@ export default function EditButtonColumn({
         />
       </div>
       )}
-      <div className={style.editButtons}>
+      <div>
         {!isEditMode && (
         <div className="date-block">
           <CheckFormOrder
@@ -137,11 +130,11 @@ export default function EditButtonColumn({
               className={style.closeBtn}
               onClick={() => restoreEditItems()}
             >
-              Отменить
+              Отменить изменения
             </button>
           </div>
         ) : (
-          <div className={style.editButtons}>
+          <div>
             <button
               type="button"
               className={style.reserveBtn}
@@ -149,13 +142,7 @@ export default function EditButtonColumn({
             >
               Подтвердить бронирование
             </button>
-            <button
-              type="button"
-              className={style.closeBtn}
-              onClick={() => clearAndChangeMode()}
-            >
-              Сбросить и Закрыть
-            </button>
+
           </div>
         )}
       </div>

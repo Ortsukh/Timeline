@@ -38,15 +38,7 @@ export default function ConfirmWindow({
       </div>
       <div className="orderBtn">
         <button type="button" className="button-submit reserved-btn" onClick={confirmFunc}>
-          Применить
-        </button>
-
-        <button
-          type="button"
-          className="button-submit closeBtn"
-          onClick={() => closeBookingWindow(false)}
-        >
-          Отменить
+          Подтвердить
         </button>
       </div>
     </div>

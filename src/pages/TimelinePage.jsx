@@ -60,7 +60,7 @@ export default function TimelinePage() {
   useEffect(() => {
     setIsLoadingEquipment(true);
 
-    getAllEqupments1().then((response) => {
+    getAllEqupments().then((response) => {
       setGroups(createEquipmentGroup(response.data));
       setIsLoadingEquipment(false);
     });
@@ -69,7 +69,7 @@ export default function TimelinePage() {
   useEffect(() => {
     setIsLoadingEquipment(true);
 
-    getAllOrders1()
+    getAllOrders()
       .then((response) => {
         setItems(createOrderGroup(response.data));
         setIsLoading(false);
