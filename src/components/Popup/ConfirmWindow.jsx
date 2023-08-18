@@ -7,7 +7,7 @@ export default function ConfirmWindow({
   confirmFunc,
 }) {
   return (
-    <div className="messageWindow ">
+    <div className="messageWindow rentOrderPopup">
       <button
         type="button"
         className="button-close"
@@ -15,34 +15,40 @@ export default function ConfirmWindow({
       >
         x
       </button>
+      <div className="titlePopup">Подтвердите ваш заказ</div>
       <div className="confirmWindow">
         {data.map((item) => (
-          <div>
-            <div className="messageWindow-item">
-              <span>Оборудование:</span>
-              <span>{item.groupTitle}</span>
-            </div>
-            <div className="messageWindow-item">
-              <span>
-                Смена
-                :
-              </span>
-              <span>{item.shiftDate}</span>
+          <div className="order">
+            <div className="numberOrder">#1</div>
+            <div>
+              <div className="messageWindow-item">
+                <span>Оборудование:</span>
+                <span>{item.groupTitle}</span>
+              </div>
+              <div className="messageWindow-item">
+                <span>
+                  Смена
+                  :
+                </span>
+                <span>{item.shiftDate}</span>
+              </div>
             </div>
           </div>
         ))}
       </div>
-      <button type="button" className="button-submit reserved-btn" onClick={confirmFunc}>
-        Применить
-      </button>
+      <div className="orderBtn">
+        <button type="button" className="button-submit reserved-btn" onClick={confirmFunc}>
+          Применить
+        </button>
 
-      <button
-        type="button"
-        className="button-submit reserved-btn"
-        onClick={() => closeBookingWindow(false)}
-      >
-        Отменить
-      </button>
+        <button
+          type="button"
+          className="button-submit closeBtn"
+          onClick={() => closeBookingWindow(false)}
+        >
+          Отменить
+        </button>
+      </div>
     </div>
   );
 }
