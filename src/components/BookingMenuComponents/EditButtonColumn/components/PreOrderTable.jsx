@@ -27,13 +27,13 @@ export default function PreOrderTable({
       orderContent.push(data);
 
       return (
-        <div className="preOrder">
+        <div className="preOrder itemPreOrder">
           <div className="preOrderContent">
             <div>{data.groupTitle}</div>
             <div>{data.shiftDate}</div>
           </div>
 
-          <button type="button" onClick={() => handleRemovePreOrderItem(item)}>x</button>
+          <button className="cross" type="button" onClick={() => handleRemovePreOrderItem(item)}>x</button>
 
         </div>
       );

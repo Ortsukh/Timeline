@@ -345,6 +345,7 @@
     height: 20px;
     line-height: 14px;
     padding: 2px 2px 4px;
+    cursor: pointer;
 }
 
 .preOrder{
@@ -354,6 +355,10 @@
     padding: 5px 7px;
     gap: 10px;
     border-radius: 5px;
+}
+
+.itemPreOrder{
+    width: fit-content;
 }
 
 .preOrderContent div{

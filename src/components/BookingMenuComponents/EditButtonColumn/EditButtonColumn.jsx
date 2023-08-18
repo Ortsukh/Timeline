@@ -115,12 +115,14 @@ export default function EditButtonColumn({
           />
         </div>
         )}
-        <PreOrderTable
-          itemsPreOrder={itemsPreOrder}
-          groups={groups}
-          setItemsPreOrder={setItemsPreOrder}
-          setOrderContent={setOrderContent}
-        />
+        <div className="preOrderTable">
+          <PreOrderTable
+            itemsPreOrder={itemsPreOrder}
+            groups={groups}
+            setItemsPreOrder={setItemsPreOrder}
+            setOrderContent={setOrderContent}
+          />
+        </div>
         {isEditMode ? (
           <div>
             <button
@@ -145,7 +147,7 @@ export default function EditButtonColumn({
               className={style.reserveBtn}
               onClick={() => itemsPreOrder[0] && setIsConfirmWindowOpen(true)}
             >
-              Забронировать и выйти
+              Подтвердить бронирование
             </button>
             <button
               type="button"
