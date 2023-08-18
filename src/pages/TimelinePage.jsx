@@ -227,7 +227,9 @@ export default function TimelinePage() {
           allGroups={groups}
           isEditMode={isEditMode}
           editOrderData={editOrderData}
+          orderDate={orderDate}
           items={items}
+          clickOnEmptySpace={clickOnEmptySpace}
           currentDevice={currentDevice}
           setCurrentDevice={setCurrentDevice}
           setIsEditMode={setIsEditMode}
