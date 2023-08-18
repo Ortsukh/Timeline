@@ -1,4 +1,9 @@
 const path = require("path");
+// TODO-->
+// const HtmlWebpackPlugin = require('html=webpack-plugin') //? https://habr.com/ru/articles/524260/
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin') //? https://github.com/johnagan/clean-webpack-plugin
+// const TerserPlugin = require('terser-webpack-plugin'); //? https://webpack.js.org/plugins/terser-webpack-plugin/
+// TODO <--
 
 module.exports = {
   mode: "development",
@@ -28,8 +33,41 @@ module.exports = {
       },
       {
         test: /\.(scss|css)$/,
-        use: ["style-loader", "css-loader"],
+        use: ["style-loader", "css-loader"], //! Для продакшна следует использовать MiniCssExtractPlugin вместо style-loader https://webpack.js.org/plugins/mini-css-extract-plugin/
       },
     ],
   },
+  // TODO -->
+  // resolve: { //? Resolve Paths
+  //     alias: {
+  //       '@components': path.resolve(__dirname, 'src/components')
+  //!      Заменяет "../../components/Button" на "@components/Button"
+  //     },
+  //   },
+
+  // plugins: [
+  //     new CleanWebpackPlugin(), //! При новой сборке удаляется всё, что больше не используется
+  // ],
+
+  // optimization: {
+  //     minimize: true,
+  //     minimizer: [
+  //         new TerserPlugin({ //! Оптимизация итогового бандла
+  //             terserOptions: {
+  //                 format: {
+  //                     comments: false,
+  //                 },
+  //             },
+  //         }),
+  //     ],
+
+  //     splitChunks: {
+  //         chunks: 'all', //! Webpack автоматически разделяет код на чанки
+  //! по логическим границам (чанки загружаются по надобности)
+  //     },
+
+  //     usedExports: true, //! Активирует Tree Shaking,
+  //! далее в package.json написать "sideEffects": false (только если нет побочных эфектов)
+  // },
+  // TODO <--
 };
