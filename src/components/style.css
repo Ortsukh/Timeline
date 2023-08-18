@@ -324,6 +324,106 @@
     top: 45px;
 }
 .confirmWindow {
-    max-height: 200px;
+    max-height: 300px;
     overflow-y : auto
+}
+
+.preOrderTable{
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.cross{
+    border-radius: 2px;
+    border: 1px solid #777777;
+    background-color: white;
+    color: #f03333;
+    font-size: 14px;
+    width: 20px;
+    height: 20px;
+    line-height: 14px;
+    padding: 2px 2px 4px;
+}
+
+.preOrder{
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #b7b7b7;
+    padding: 5px 7px;
+    gap: 10px;
+    border-radius: 5px;
+}
+
+.preOrderContent div{
+    font-size: 14px;
+}
+
+.preOrderContent div:first-child{
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.messageWindow.rentOrderPopup{
+    width: 400px;
+    right: 40%;
+    top: 25%;
+    min-height: 400px;
+}
+
+.messageWindow.rentOrderPopup .button-close{
+    left: auto;
+    right: 10px;
+}
+
+.titlePopup{
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.messageWindow.rentOrderPopup .messageWindow-item{
+    flex-direction: row;
+    margin-bottom: 5px;
+}
+
+.order{
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: start;
+}
+
+.order .numberOrder{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.orderBtn{
+    display: flex;
+    gap: 20px;
+}
+
+.orderBtn .reserved-btn{
+    margin: 0;
+    width: 50%;
+}
+
+.closeBtn{
+    color: white;
+    background-color: #f03333;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #f03333;
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 50%;
+}
+
+.closeBtn:hover{
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    transition: .3s;
 }
