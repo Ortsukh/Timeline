@@ -18,7 +18,7 @@ export default function ConfirmWindow({
       <div className="titlePopup">Подтвердите ваш заказ</div>
       <div className="confirmWindow">
         {data.map((item) => (
-          <div className="order">
+          <div className="order" key={`${item.item} + ${item.shiftDate}`}>
             <div className="numberOrder">#1</div>
             <div>
               <div className="messageWindow-item">

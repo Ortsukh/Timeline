@@ -81,6 +81,7 @@ export default function TimelinePage() {
   const handleInputChange = (newInput) => {
     localStorage.setItem("toolsFilter", newInput);
     setSelectedGroups(() => [newInput]);
+    setToolsCount(0);
   };
 
   const editMode = (_e, order) => {
@@ -254,16 +255,17 @@ export default function TimelinePage() {
               <ToolsFilter
                 toolNames={mapToolsNames()}
                 onInputChange={handleInputChange}
-                selectedGroups={selectedGroups}
                 clearFilter={clearFilter}
                 isClickingOnEmptyFilter={isClickingOnEmptyFilter}
                 setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
                 showButtonClear={showButtonClear}
+                setCurrentDeviceIndex={() => {}}
               />
               {selectedGroups.length ? (
                 <CountTools
                   choseCount={choseCount}
                   groupsCount={getGroupsToShow()}
+                  toolsCount={toolsCount}
                 />
               ) : null}
             </div>
@@ -279,7 +281,6 @@ export default function TimelinePage() {
                 orderDate={orderDate}
               />
             </div>
-            <div className="sort-box_item">{/* <CountOrderFilter /> */}</div>
             <div className="sort-box_item">
               <div>
                 <button type="button" className="reserved-btn" onClick={createBook}>

@@ -26,10 +26,8 @@ export default function FiltersForOrder({
       />
       <div className="select-count-box">
         <span>Количество смен</span>
-        <select onChange={choseShiftsCount}>
-          <option value={1} selected>
-            {1}
-          </option>
+        <select onChange={choseShiftsCount} defaultValue={1}>
+          <option value={1}>{1}</option>
           <option value={2}>{2}</option>
           <option value={3}>{3}</option>
         </select>
