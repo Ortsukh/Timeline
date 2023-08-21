@@ -197,6 +197,8 @@ export default function TimelinePage() {
   };
 
   const createBook = () => {
+    console.log(123123);
+    console.log(selectedGroups);
     if (selectedGroups.length === 0) {
       setIsClickingOnEmptyFilter(true);
     } else {
@@ -206,6 +208,7 @@ export default function TimelinePage() {
       setIsBookingMenu(true);
     }
   };
+
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };

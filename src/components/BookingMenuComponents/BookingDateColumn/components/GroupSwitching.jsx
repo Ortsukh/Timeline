@@ -1,4 +1,4 @@
-import { useEffect, React } from "react";
+import React, { useEffect } from "react";
 import style from "../BookingTimeline.module.css";
 
 export default function GroupSwitching({

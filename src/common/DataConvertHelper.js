@@ -116,6 +116,7 @@ export const formatOrder = (order) => {
 export const createOrderGrid = (itemsPreOrder) => {
   const equipmentIdArray = {};
   const dateIntervals = [];
+  console.log(itemsPreOrder);
   itemsPreOrder.forEach((order) => {
     if (!equipmentIdArray[order.group]) {
       equipmentIdArray[order.group] = [];
@@ -123,6 +124,7 @@ export const createOrderGrid = (itemsPreOrder) => {
     equipmentIdArray[order.group].push(order);
   });
   const keys = Object.keys(equipmentIdArray);
+  console.log(keys);
   keys.forEach((key) => {
     const equipmentIdArrayByDate = {};
     equipmentIdArray[key].forEach((order) => {
@@ -137,12 +139,14 @@ export const createOrderGrid = (itemsPreOrder) => {
     });
   });
   const result = [];
+  console.log(dateIntervals);
   dateIntervals.forEach((el) => {
-    const keysObj = Object.keys(equipmentIdArray);
+    const keysObj = Object.keys(el.intervals);
     keysObj.forEach((keyObj) => {
       let partA = 2000000000000;
       let partB = 2000000000000;
       let intervalId;
+      console.log(el.intervals[keyObj]);
       el.intervals[keyObj].forEach((element) => {
         partA += Number(element.grid.slice(0, 12));
         partB += Number(element.grid.slice(12, 24));

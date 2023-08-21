@@ -74,6 +74,9 @@ export default function BookingMenu({
         setUpdate((previousUpdate) => !previousUpdate);
         setItemsPreOrder([]);
         setCopyEditItems([]);
+        setIsBookingMenu(false);
+        setCurrentDevice([]);
+        setIsEditMode(false);
       })
       .catch(() => operAlertWindow("error"));
   };
