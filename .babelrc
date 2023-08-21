@@ -1,4 +1,4 @@
 {
-    "presets": ["@babel/preset-env", "@babel/preset-react"]
-    // "plugins": ["@babel/plugin-proposal-class-properties"] //? использование новые возможности классов, которые могут не работать автоматически (должны явно добавить плагины) https://habr.com/ru/articles/524260/
+    "presets": ["@babel/preset-env", "@babel/preset-react"],
+    "plugins": ["@babel/plugin-proposal-class-properties"] //? использование новые возможности классов, которые могут не работать автоматически (должны явно добавить плагины) https://habr.com/ru/articles/524260/
   }

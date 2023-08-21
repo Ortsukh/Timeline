@@ -1,10 +1,9 @@
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
-const TerserPlugin = require("terser-webpack-plugin");
+// const MiniCssExtractPlugin = require("mini-css-extract-plugin"); // ? https://webpack.js.org/plugins/mini-css-extract-plugin/
+const { CleanWebpackPlugin } = require("clean-webpack-plugin"); // ? https://github.com/johnagan/clean-webpack-plugin
+const TerserPlugin = require("terser-webpack-plugin"); // ? https://webpack.js.org/plugins/terser-webpack-plugin/
 // TODO-->
-// const HtmlWebpackPlugin = require("html=webpack-plugin"); // ? https://habr.com/ru/articles/524260/
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin') //? https://github.com/johnagan/clean-webpack-plugin
-// const TerserPlugin = require('terser-webpack-plugin'); //? https://webpack.js.org/plugins/terser-webpack-plugin/
+// const HtmlWebpackPlugin = require('html=webpack-plugin') //? https://habr.com/ru/articles/524260/
 // TODO <--
 
 module.exports = {
@@ -35,14 +34,37 @@ module.exports = {
       },
       {
         test: /\.(scss|css)$/,
-        use: ["style-loader", "css-loader"], //! Для продакшна следует использовать MiniCssExtractPlugin вместо style-loader https://webpack.js.org/plugins/mini-css-extract-plugin/
+        use: ["style-loader", "css-loader"], //! Для продакшна следует использовать MiniCssExtractPlugin вместо style-loader
       },
     ],
   },
-  // TODO -->
   resolve: {
     extensions: [".js", ".jsx", ".json"],
   },
+  plugins: [
+    // new MiniCssExtractPlugin({
+    //   filename: "styles.css", // Имя выходного файла для стилей
+    // }),
+    new CleanWebpackPlugin(), //! При новой сборке удаляется всё, что больше не используется
+  ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({ //! Оптимизация итогового бандла
+        terserOptions: {
+          format: {
+            comments: false,
+          },
+        },
+      }),
+    ],
 
-  // TODO <--
+    usedExports: true, //! Активирует Tree Shaking,
+    //! далее в package.json написать "sideEffects": false (только если нет побочных эфектов)
+
+    // splitChunks: {
+    //   chunks: "all", //! Webpack автоматически разделяет код на чанки
+    //! по логическим границам (чанки загружаются по надобности)
+    // },
+  },
 };
