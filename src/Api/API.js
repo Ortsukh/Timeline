@@ -1,7 +1,10 @@
 import { formatOrder } from "../common/DataConvertHelper";
-
+// dev
 // const backendUrl = "http://freekitchen.loc/admin/manager/";
-const backendUrl = "http://freekitchen.loc/test/";
+// local
+// const backendUrl = "http://freekitchen.loc/test/";
+// prod
+const backendUrl = "/admin/manager/";
 const test = {
   success: true,
   data: [
@@ -4382,7 +4385,7 @@ export async function getAllOrders() {
 export async function sendEditOrder(order) {
   const str = `${backendUrl}edit_order`;
 
-  await fetch(str, {
+  const res = await fetch(str, {
     method: "post",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -4412,15 +4415,19 @@ export async function createOrder(order) {
     equipmentItems: dateIntervals,
   };
 
-  await fetch(str, {
+  const res = await fetch(str, {
     method: "post",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
       "Access-Control-Allow-Origin": "*",
     },
-    mode: "no-cors",
+    // mode: "no-cors",
     body: JSON.stringify(body),
   });
+  if (!res.ok) {
+    throw new Error("Something went wrong. Sorry");
+  }
 
-  return true;
+  return res.json();
+  // return true;
 }

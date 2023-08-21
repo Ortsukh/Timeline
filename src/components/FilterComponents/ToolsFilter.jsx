@@ -12,7 +12,7 @@ export default function ToolsFilter({
   setCurrentDeviceIndex,
 }) {
   const [selectValue, setSelectValue] = useState(null);
-
+  console.log(1231231, setCurrentDeviceIndex);
   useEffect(() => {
     const value = localStorage.getItem("toolsFilter") || null;
     if (value) {
