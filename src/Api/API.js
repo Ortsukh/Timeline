@@ -2,9 +2,9 @@ import { formatOrder } from "../common/DataConvertHelper";
 // dev
 // const backendUrl = "http://freekitchen.loc/admin/manager/";
 // local
-// const backendUrl = "http://freekitchen.loc/test/";
+const backendUrl = "http://freekitchen.loc/test/";
 // prod
-const backendUrl = "/admin/manager/";
+// const backendUrl = "/admin/manager/";
 const test = {
   success: true,
   data: [
