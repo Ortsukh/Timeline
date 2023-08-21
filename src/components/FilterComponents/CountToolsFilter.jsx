@@ -2,25 +2,21 @@
 import React from "react";
 import "../style.css";
 
-export default function CountTools({ choseCount, groupsCount }) {
+export default function CountTools({ choseCount, groupsCount, toolsCount }) {
   return (
     <div className="select-count-box">
       <span>Количество оборудования</span>
-      <select onChange={choseCount}>
+      <select onChange={choseCount} value={toolsCount || groupsCount.length}>
         {new Array(groupsCount.length)
           .fill("")
-          .map((_el, index) => {
-            const last = groupsCount.length - 1;
-            return (
-              <option
-                value={index + 1}
-                key={index}
-                selected={index === last}
-              >
-                {index + 1}
-              </option>
-            );
-          })}
+          .map((_el, index) => (
+            <option
+              value={index + 1}
+              key={index}
+            >
+              {index + 1}
+            </option>
+          ))}
       </select>
     </div>
   );
