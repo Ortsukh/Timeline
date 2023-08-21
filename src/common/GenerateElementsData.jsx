@@ -13,11 +13,11 @@ export default function generateCheckBox(
 
   keys.forEach((key) => {
     result.push(
-      <div className="one-date-string">
+      <div className="one-date-string" key={key}>
         <p>{key}</p>
         <div className="checkboxes" key={key}>
           {selectedDateSampleGrid[key].map((interval) => (
-            <label htmlFor={key}>
+            <label htmlFor={key} key={`${key}-${interval}`}>
               <input
                 type="checkbox"
                 onChange={(e) => handleAddPreOrder(e.target.value, e.target.checked)}

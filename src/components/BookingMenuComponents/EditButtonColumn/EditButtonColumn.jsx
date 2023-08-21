@@ -29,7 +29,6 @@ export default function EditButtonColumn({
   clearFilter,
   isClickingOnEmptyFilter,
   setIsClickingOnEmptyFilter,
-  onDataFromChild,
   setShowButtonClear,
   showButtonClear,
   //! <-ToolsFilter
@@ -82,7 +81,6 @@ export default function EditButtonColumn({
         clearFilter={clearFilter}
         isClickingOnEmptyFilter={isClickingOnEmptyFilter}
         setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
-        onDataFromChild={onDataFromChild}
         showButtonClear={showButtonClear}
         setCurrentDeviceIndex={setCurrentDeviceIndex}
       />

@@ -27,7 +27,7 @@ export default function PreOrderTable({
       orderContent.push(data);
 
       return (
-        <div className="preOrder itemPreOrder">
+        <div className="preOrder itemPreOrder" key={item.id}>
           <div className="preOrderContent">
             <div>{data.groupTitle}</div>
             <div>{data.shiftDate}</div>

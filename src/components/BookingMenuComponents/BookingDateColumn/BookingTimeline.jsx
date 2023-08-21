@@ -38,8 +38,8 @@ export default function BookingTimeline({
     "day",
   );
   const endDate = moment(orderDatePlanning.selection1.endDate).startOf("day");
-  const [visibleTimeStart, setVisibleTimeStart] = useState(startOfDay(today));
-  const [visibleTimeEnd, setVisibleTimeEnd] = useState(endOfDay(today));
+  const [visibleTimeStart, setVisibleTimeStart] = useState(startOfDay(today).valueOf());
+  const [visibleTimeEnd, setVisibleTimeEnd] = useState(endOfDay(today).valueOf());
   const [currentMonth, setCurrentMonth] = useState(
     moment(today).startOf("month"),
   );
@@ -252,7 +252,7 @@ export default function BookingTimeline({
         {showCalendar && (
         <Calendar
           onClickMonth={handleDateChange}
-          value={currentMonth}
+          value={currentMonth.format("YYYY MM")}
           view="year"
         />
         )}

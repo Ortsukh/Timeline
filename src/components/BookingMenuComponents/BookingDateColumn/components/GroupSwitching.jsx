@@ -4,9 +4,11 @@ import style from "../BookingTimeline.module.css";
 export default function GroupSwitching({
   groups: equipments, currentDevice, setCurrentDevice, setCurrentDeviceIndex, currentDeviceIndex,
 }) {
-  if (!equipments.some((item) => item.id === currentDevice.id)) {
-    setCurrentDevice(equipments[0]);
-  }
+  useEffect(() => {
+    if (!equipments.some((item) => item.id === currentDevice.id)) {
+      setCurrentDevice(equipments[0]);
+    }
+  }, [currentDevice, equipments]);
 
   const handlePreviousGroup = () => {
     setCurrentDeviceIndex((prevIndex) => Math.max(prevIndex - 1, 0));
