@@ -343,31 +343,28 @@ export default function BookingTimeline({
               : (
                 <DateHeader
                   unit="hour"
-                  style={{ fontSize: 10 }}
               // eslint-disable-next-line react/no-unstable-nested-components
                   intervalRenderer={({
                     getIntervalProps,
                     intervalContext,
-                  }) => {
-                    console.log(getIntervalProps());
-                    return (
-                      <div {...getIntervalProps()}>
-                        <div
-                          style={{
-                            backgroundColor: "white",
-                            display: "flex",
-                            justifyContent: "center",
-                          }}
-                        >
-                          {`${moment(intervalContext.interval.startTime).format(
-                            "H",
-                          )
-                          }-${
-                            moment(intervalContext.interval.endTime).format("H")}`}
-                        </div>
+                  }) => (
+                    <div {...getIntervalProps()}>
+                      <div
+                        style={{
+                          border: "1px solid rgba(0, 0, 0, 0.15)",
+                          backgroundColor: "white",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        {`${moment(intervalContext.interval.startTime).format(
+                          "H",
+                        )
+                        }-${
+                          moment(intervalContext.interval.endTime).format("H")}`}
                       </div>
-                    );
-                  }}
+                    </div>
+                  )}
                 />
               )}
           </TimelineHeaders>
