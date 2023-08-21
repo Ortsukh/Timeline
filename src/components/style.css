@@ -233,6 +233,7 @@
     border-radius: 5px;
     margin-top: 10px;
     font-size: 14px;
+    opacity: 1 !important; 
 }
 
 .style .rct-header-root {
@@ -311,6 +312,11 @@
     display: flex;
     align-items: center;
     width: fit-content;
+    gap: 5px;
+}
+
+.one-date-string label input{
+    margin: 0;
 }
 
 .one-date-string .checkboxes {
@@ -359,6 +365,7 @@
 
 .itemPreOrder{
     width: fit-content;
+    background-color: white;
 }
 
 .preOrderContent div{
