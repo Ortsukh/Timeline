@@ -342,6 +342,7 @@ export default function BookingTimeline({
             )
               : (
                 <DateHeader
+                  unit="hour"
               // eslint-disable-next-line react/no-unstable-nested-components
                   intervalRenderer={({
                     getIntervalProps,
@@ -350,6 +351,7 @@ export default function BookingTimeline({
                     <div {...getIntervalProps()}>
                       <div
                         style={{
+                          border: "1px solid rgba(0, 0, 0, 0.15)",
                           backgroundColor: "white",
                           display: "flex",
                           justifyContent: "center",
