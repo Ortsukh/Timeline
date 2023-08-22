@@ -14,7 +14,7 @@ export default function generateCheckBox(
   keys.forEach((key) => {
     result.push(
       <div className="one-date-string" key={key}>
-        <p>{key}</p>
+        <p>{moment(key).format("DD-MM-YYYY")}</p>
         <div className="checkboxes" key={key}>
           {selectedDateSampleGrid[key].map((interval) => (
             <label htmlFor={key} key={`${key}-${interval}`}>

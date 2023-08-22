@@ -32,7 +32,7 @@
 
 .customCalendar {
   position: absolute;
-  margin-top: 56px;
+  margin-top: 32px;
   z-index: 101;
   /* макс-ый zIndex у либы calendar-timeline - 100*/
 }
