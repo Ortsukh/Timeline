@@ -254,6 +254,8 @@ export default function BookingTimeline({
           onClickMonth={handleDateChange}
           value={currentMonth.format("YYYY MM")}
           view="year"
+          formatMonth={(locale, date) => date.toLocaleDateString(locale, { month: "long" }).charAt(0).toUpperCase()
+            + date.toLocaleDateString(locale, { month: "long" }).slice(1)}
         />
         )}
       </div>
@@ -318,7 +320,7 @@ export default function BookingTimeline({
                     }}
                     onClick={chooseFromCalendar}
                   >
-                    {currentMonth.format("MMMM")}
+                    {currentMonth.format("MMMM").charAt(0).toUpperCase() + currentMonth.format("MMMM").slice(1)}
                   </button>
                   <button
                     type="button"

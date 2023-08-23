@@ -18,7 +18,7 @@ export default function PreOrderTable({
       const data = {
         groupTitle: group.title,
         shiftDate:
-          `${item.date
+          `${moment(item.date).format("DD-MM-YYYY")
           } ${
             moment(item.start_time).format("HH")
           }-${
