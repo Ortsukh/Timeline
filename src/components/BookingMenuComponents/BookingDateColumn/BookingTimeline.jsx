@@ -159,7 +159,7 @@ export default function BookingTimeline({
     };
   });
 
-  const getFormatedDate = (groupId, time) => {
+  const getFormattedDate = (groupId, time) => {
     const date = moment(time).format("YYYY-MM-DD");
     const hour = moment(time).hours();
     const { shiftLength } = currentDevice;
@@ -183,7 +183,7 @@ export default function BookingTimeline({
     const { shiftLength } = currentDevice;
     const formatHour = Math.floor(hour / shiftLength);
 
-    const formatedDate = getFormatedDate(groupId, time);
+    const formattedDate = getFormattedDate(groupId, time);
 
     const obj = {
       id: uuidv4(),
@@ -192,8 +192,8 @@ export default function BookingTimeline({
       canMove: false,
       date: groupId,
       grid: addGrid(formatHour, shiftLength),
-      start_time: moment(formatedDate.start).valueOf(),
-      end_time: moment(formatedDate.end).valueOf(),
+      start_time: moment(formattedDate.start).valueOf(),
+      end_time: moment(formattedDate.end).valueOf(),
       itemTouchSendsClick: false,
       itemProps: { style: { background: "gray" } },
       deviceGroup: currentDevice.id,

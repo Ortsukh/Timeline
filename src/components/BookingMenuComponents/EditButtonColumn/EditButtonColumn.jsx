@@ -4,6 +4,7 @@ import FiltersForOrder from "./components/FiltersForOrder";
 import PreOrderTable from "./components/PreOrderTable";
 import style from "./EditButtonColumn.module.css";
 import ToolsFilter from "../../FilterComponents/ToolsFilter";
+import CompaniesSelect from "../../FilterComponents/CompaniesSelect";
 
 export default function EditButtonColumn({
   setIsBookingMenu,
@@ -23,6 +24,10 @@ export default function EditButtonColumn({
   groups,
   setIsConfirmWindowOpen,
   setOrderContent,
+  user,
+  companies,
+  setSelectedCompany,
+  selectedCompany,
   //! ToolsFilter->
   toolNames,
   onInputChange,
@@ -34,6 +39,7 @@ export default function EditButtonColumn({
   //! <-ToolsFilter
 }) {
   const [shiftsCount, setShiftsCount] = useState(1);
+  const [isClickedOnConfirm, setIsClickedOnConfirm] = useState(false);
 
   useEffect(() => {
     setShowButtonClear(false);
@@ -84,14 +90,22 @@ export default function EditButtonColumn({
         showButtonClear={showButtonClear}
         setCurrentDeviceIndex={setCurrentDeviceIndex}
       />
+      {user.role === "ROLE_MANAGER"
+                && (
+                <CompaniesSelect
+                  companies={companies}
+                  setSelectedCompany={setSelectedCompany}
+                  isClickedOnConfirm={isClickedOnConfirm}
+                />
+                )}
       {!isEditMode && (
-      <div className="selects-block">
-        <FiltersForOrder
-          orderDate={orderDate}
-          setOrderDate={setOrderDate}
-          setShiftsCount={setShiftsCount}
-        />
-      </div>
+        <div className="selects-block">
+          <FiltersForOrder
+            orderDate={orderDate}
+            setOrderDate={setOrderDate}
+            setShiftsCount={setShiftsCount}
+          />
+        </div>
       )}
       <div>
         {!isEditMode && (
@@ -136,7 +150,11 @@ export default function EditButtonColumn({
             <button
               type="button"
               className={style.reserveBtn}
-              onClick={() => itemsPreOrder[0] && setIsConfirmWindowOpen(true)}
+              onClick={() => {
+                setIsClickedOnConfirm(true);
+                console.log(selectedCompany);
+                return itemsPreOrder[0] && selectedCompany && setIsConfirmWindowOpen(true);
+              }}
             >
               Подтвердить бронирование
             </button>

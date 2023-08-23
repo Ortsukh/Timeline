@@ -7,7 +7,7 @@ const override = {
   borderColor: "aqua",
 };
 
-export default function Spiner() {
+export default function Spinner() {
   const color = ("#36d7b7");
 
   return (

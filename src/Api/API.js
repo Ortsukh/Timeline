@@ -4361,7 +4361,46 @@ export async function getAllOrders1() {
   });
 }
 
-export async function getAllEqupments() {
+export async function getUser() {
+  const str = `${backendUrl}get_current_user`;
+  const res = await fetch(str, {});
+  // if (!res.ok) {
+  //   throw new Error("Something went wrong. Sorry");
+  // }
+  // console.log(res);
+  // return res.json();
+
+  return {
+    role: "ROLE_MANAGER",
+    id: 1,
+    name: "Франчайзи 001",
+  };
+
+  // return {
+  //   role: "ROLE_COMPANY",
+  //   id: 1,
+  //   name: "Суши \"Минск-сити\"",
+  // };
+}
+
+export async function getCompanies() {
+  const str = `${backendUrl}get_lessee_companies/`;
+  const res = await fetch(str, {});
+  // if (!res.ok) {
+  //   throw new Error("Something went wrong. Sorry");
+  // }
+  // console.log(res);
+  // return res.json();
+
+  return [{ id: 1, name: "Суши \"Минск-сити\"" }, { id: 16, name: "Тестовая Компания" }];
+
+  // return {
+  //   role: "ROLE_COMPANY",
+  //   id: 1,
+  //   name: "Суши",
+  // };
+}
+export async function getAllEquipments() {
   const str = `${backendUrl}get_equipment`;
   const res = await fetch(str, {});
   if (!res.ok) {
@@ -4403,13 +4442,14 @@ export async function sendEditOrder(order) {
   // return true;
 }
 
-export async function createOrder(order) {
+export async function createOrder(order, company) {
+  console.log(company);
   const str = `${backendUrl}save_order`;
   const dateIntervals = formatOrder(order);
   const body = {
     company: {
-      id: 1,
-      name: "Суши \"Минск-сити\"",
+      id: company.id,
+      name: company.name,
     },
     status: "pending",
     equipmentItems: dateIntervals,
