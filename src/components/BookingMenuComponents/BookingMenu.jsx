@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createOrder, sendEditOrder } from "../../Api/API";
 import { createOrderGrid, formatOrder } from "../../common/DataConvertHelper";
 import ConfirmWindow from "../Popup/ConfirmWindow";
@@ -20,6 +20,7 @@ export default function BookingMenu({
   setIsEditMode,
   operAlertWindow,
   allGroups,
+  user, companies,
   //! ToolsFilter->
   toolNames,
   onInputChange,
@@ -35,6 +36,7 @@ export default function BookingMenu({
   const [copyEditItems, setCopyEditItems] = useState([]);
   const [isConfirmWindowOpen, setIsConfirmWindowOpen] = useState(false);
   const [orderContent, setOrderContent] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState(null);
   const [orderDatePlanning, setOrderDatePlanning] = useState({
     selection1: {
       startDate: new Date(),
@@ -49,7 +51,11 @@ export default function BookingMenu({
   const [currentDeviceIndex, setCurrentDeviceIndex] = useState(
     initialCurrentDeviceIndex,
   );
-
+  useEffect(() => {
+    if (user.role === "ROLE_COMPANY") {
+      setSelectedCompany(user);
+    }
+  }, []);
   const editOrder = () => {
     if (itemsPreOrder.length < 1) return;
     const itemsPreOrderCorrect = itemsPreOrder.map((item) => {
@@ -88,7 +94,7 @@ export default function BookingMenu({
       return item;
     });
     const orderItems = createOrderGrid(itemsPreOrderCorrect);
-    createOrder(orderItems)
+    createOrder(orderItems, selectedCompany)
       .then(() => {
         operAlertWindow("success");
         setItemsPreOrder([]);
@@ -122,6 +128,9 @@ export default function BookingMenu({
             groups={allGroups}
             setIsConfirmWindowOpen={setIsConfirmWindowOpen}
             setOrderContent={setOrderContent}
+            companies={companies}
+            user={user}
+            selectedCompany={selectedCompany}
             //! ToolsFilter->
             toolNames={toolNames}
             onInputChange={onInputChange}
@@ -131,6 +140,7 @@ export default function BookingMenu({
             selectedGroups={selectedGroups}
             setShowButtonClear={setShowButtonClear}
             showButtonClear={showButtonClear}
+            setSelectedCompany={setSelectedCompany}
             //! <-ToolsFilter
           />
         </div>
@@ -150,6 +160,7 @@ export default function BookingMenu({
             orderDatePlanning={orderDatePlanning}
             currentDeviceIndex={currentDeviceIndex}
             setCurrentDeviceIndex={setCurrentDeviceIndex}
+            selectedCompany={selectedCompany}
           />
         </div>
       </div>

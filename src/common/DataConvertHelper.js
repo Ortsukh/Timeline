@@ -46,8 +46,10 @@ export const addGrid = (formatHour, shiftLength) => {
   return grid.join("");
 };
 
-const createOrderObject = (order, el, shiftLength, interval) => {
-  const statusColor = orderStatus[order.rentOrder.status]?.color || "rgb(39, 128, 252)";
+const createOrderObject = (order, el, shiftLength, interval, user) => {
+  const isCompanyOrder = user.role === "ROLE_COMPANY" && user.id === order.rentOrder.id;
+  const isFranchise = user.role === "ROLE_MANAGER";
+  const statusColor = orderStatus[order.rentOrder.status]?.color || (isFranchise || isCompanyOrder) ? "rgb(39, 128, 252)" : "gray";
   const itemProps = { style: { background: statusColor } };
   const hour = moment(el.start_time).hours();
   const formatHour = Math.floor(hour / shiftLength);
@@ -68,9 +70,8 @@ const createOrderObject = (order, el, shiftLength, interval) => {
   };
 };
 
-export const createOrderGroup = (orders) => {
+export const createOrderGroup = (orders, user) => {
   const result = [];
-
   orders.forEach((order) => {
     if (!order.rentOrder || !order.equipment || !order.equipment.category) { return; }
 
@@ -80,7 +81,7 @@ export const createOrderGroup = (orders) => {
       const formInterval = convertGrid(shiftLength, interval.grid, interval.date);
 
       formInterval.forEach((el) => {
-        result.push(createOrderObject(order, el, shiftLength, interval));
+        result.push(createOrderObject(order, el, shiftLength, interval, user));
       });
     });
   });
@@ -124,7 +125,7 @@ export const createOrderGrid = (itemsPreOrder) => {
     equipmentIdArray[order.group].push(order);
   });
   const keys = Object.keys(equipmentIdArray);
-  console.log(keys);
+
   keys.forEach((key) => {
     const equipmentIdArrayByDate = {};
     equipmentIdArray[key].forEach((order) => {
@@ -139,14 +140,12 @@ export const createOrderGrid = (itemsPreOrder) => {
     });
   });
   const result = [];
-  console.log(dateIntervals);
   dateIntervals.forEach((el) => {
     const keysObj = Object.keys(el.intervals);
     keysObj.forEach((keyObj) => {
       let partA = 2000000000000;
       let partB = 2000000000000;
       let intervalId;
-      console.log(el.intervals[keyObj]);
       el.intervals[keyObj].forEach((element) => {
         partA += Number(element.grid.slice(0, 12));
         partB += Number(element.grid.slice(12, 24));

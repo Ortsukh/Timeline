@@ -2,21 +2,22 @@ import React, { useState } from "react";
 import Select from "react-select";
 import "../style.css";
 
-export default function CompaniesSelect({ companies }) {
+export default function CompaniesSelect({ companies, setSelectedCompany, isClickedOnConfirm }) {
   const [selectValue, setSelectValue] = useState(null);
-
-  const changeSearch = (e) => {
+  console.log(isClickedOnConfirm);
+  const handleChange = (e) => {
     setSelectValue(e);
-    // onInputChange(e.value);
-  };
-
-  const handleReset = () => {
-    setSelectValue(null);
-    // clearFilter()
+    setSelectedCompany({
+      id: e.value,
+      name: e.label,
+    });
   };
 
   // eslint-disable-next-line max-len
-  const getOptionsForSearch = (allCompanies) => allCompanies.map((companie) => ({ value: companie.name, label: companie.name }));
+  const getOptionsForSearch = (allCompanies) => allCompanies.map((company) => ({
+    value: company.id,
+    label: company.name,
+  }));
 
   return (
     <div className="tools-filter">
@@ -25,13 +26,15 @@ export default function CompaniesSelect({ companies }) {
       <Select
         className="select-filter"
         options={getOptionsForSearch(companies)}
-        onChange={changeSearch}
+        onChange={handleChange}
         value={selectValue}
       />
-
-      <button type="button" className="clear-button" onClick={handleReset}>
-        Отчистить
-      </button>
+      {!selectValue && isClickedOnConfirm && (
+        <div className="tooltip">Пожалуйста, выберите компанию</div>
+      )}
+      {/* <button type="button" className="clear-button" onClick={handleReset}> */}
+      {/*  Отчистить */}
+      {/* </button> */}
     </div>
   );
 }

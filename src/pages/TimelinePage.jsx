@@ -11,14 +11,13 @@ import {
 import ToolsFilter from "../components/FilterComponents/ToolsFilter";
 import CountTools from "../components/FilterComponents/CountToolsFilter";
 import DateFilter from "../components/FilterComponents/DateFilter";
-import Spiner from "../components/Spiner/Spiner";
+import Spinner from "../components/Spinner/Spinner";
 import MessageWindow from "../components/Popup/MessageWindow";
 import TimeLineRenderer from "../components/TimeLineRenderer";
-import CompaniesSelect from "../components/FilterComponents/CompaniesSelect";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
 import {
-  getAllEqupments, getAllEqupments1, getAllOrders, getAllOrders1,
+  getAllEquipments, getAllEqupments1, getAllOrders, getAllOrders1, getCompanies, getUser,
 } from "../Api/API";
 import AlertWindow from "../components/Popup/AlertWindow";
 import BookingMenu from "../components/BookingMenuComponents/BookingMenu";
@@ -44,6 +43,7 @@ export default function TimelinePage() {
   const [currentDevice, setCurrentDevice] = useState(groups[0]);
   const [toolsCount, setToolsCount] = useState(0);
   const [chosenDate, setChosenDate] = useState(null);
+  const [user, setUser] = useState(null);
   const [orderDate, setOrderDate] = useState({
     selection1: {
       startDate: new Date(),
@@ -55,28 +55,39 @@ export default function TimelinePage() {
   const [isBookingMenu, setIsBookingMenu] = useState(false);
   const [isClickingOnEmptyFilter, setIsClickingOnEmptyFilter] = useState(false);
   const [showButtonClear, setShowButtonClear] = useState(true);
-  const isAdmin = false;
+
+  useEffect(() => {
+    getUser().then((res) => {
+      setUser(res);
+      console.log(res);
+      if (res.role === "ROLE_MANAGER") {
+        getCompanies().then((response) => {
+          setCompanies(response);
+        });
+      }
+    });
+  }, []);
 
   useEffect(() => {
     setIsLoadingEquipment(true);
 
-    getAllEqupments().then((response) => {
+    getAllEquipments().then((response) => {
       setGroups(createEquipmentGroup(response.data));
       setIsLoadingEquipment(false);
     });
   }, [update]);
 
   useEffect(() => {
-    setIsLoadingEquipment(true);
+    setIsLoading(true);
 
     getAllOrders()
       .then((response) => {
-        setItems(createOrderGroup(response.data));
+        setItems(createOrderGroup(response.data, user));
         setIsLoading(false);
       })
 
       .catch((error) => console.log(error));
-  }, [update]);
+  }, [update, user]);
 
   const handleInputChange = (newInput) => {
     localStorage.setItem("toolsFilter", newInput);
@@ -135,7 +146,7 @@ export default function TimelinePage() {
     );
     const formatHour = Math.floor(hour / shiftLength);
 
-    const formatedDate = getFormatedDate(groupId, time);
+    const formattedDate = getFormatedDate(groupId, time);
 
     const obj = {
       id: uuidv4(),
@@ -144,8 +155,8 @@ export default function TimelinePage() {
       canMove: false,
       date,
       grid: addGrid(formatHour, shiftLength),
-      start_time: moment(formatedDate.start).valueOf(),
-      end_time: moment(formatedDate.end).valueOf(),
+      start_time: moment(formattedDate.start).valueOf(),
+      end_time: moment(formattedDate.end).valueOf(),
       itemTouchSendsClick: false,
       itemProps: { style: { background: "gray" } },
     };
@@ -173,6 +184,7 @@ export default function TimelinePage() {
     : groups);
 
   const clickOnItem = (_time, itemId) => {
+    if (user.role === "ROLE_COMPANY") return;
     const item = itemId
       ? itemsPreOrder.find((el) => el.id === itemId)
       : null;
@@ -184,9 +196,9 @@ export default function TimelinePage() {
     const item = itemId ? items.find((el) => el.id === itemId) : null;
     if (!item || item.status === "preOrder" || isEditMode) return;
     setIsActiveMessage((current) => !current);
-    const formatedDate = getFormatedDate(item.group, time);
+    const formattedDate = getFormatedDate(item.group, time);
     const date = moment(time).format("YYYY-MM-DD");
-    const result = `${date} ${formatedDate.start} - ${formatedDate.end}`;
+    const result = `${date} ${formattedDate.start} - ${formattedDate.end}`;
 
     setChosenDate({
       date: result,
@@ -198,8 +210,6 @@ export default function TimelinePage() {
   };
 
   const createBook = () => {
-    console.log(123123);
-    console.log(selectedGroups);
     if (selectedGroups.length === 0) {
       setIsClickingOnEmptyFilter(true);
     } else {
@@ -213,7 +223,6 @@ export default function TimelinePage() {
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };
-
   return !isLoading && !isLoadingEquipment ? (
     <div>
       {isBookingMenu ? (
@@ -246,6 +255,8 @@ export default function TimelinePage() {
           setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
           setShowButtonClear={setShowButtonClear}
           showButtonClear={showButtonClear}
+          user={user}
+          companies={companies}
           //! <-ToolsFilter
         />
       ) : (
@@ -270,10 +281,6 @@ export default function TimelinePage() {
               ) : null}
             </div>
             <div className="sort-box_item">
-              {isAdmin ? (
-                <CompaniesSelect companies={companies} />
-              ) : null}
-
               <DateFilter
                 showDatePicker={showDatePicker}
                 isActiveDate={isActiveDate}
@@ -321,6 +328,6 @@ export default function TimelinePage() {
       )}
     </div>
   ) : (
-    <Spiner />
+    <Spinner />
   );
 }
