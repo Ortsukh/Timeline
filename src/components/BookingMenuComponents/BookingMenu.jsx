@@ -169,6 +169,7 @@ export default function BookingMenu({
           data={orderContent}
           closeBookingWindow={setIsConfirmWindowOpen}
           confirmFunc={isEditMode ? editOrder : sendNewOrder}
+          selectedCompany={selectedCompany}
         />
       )}
     </>

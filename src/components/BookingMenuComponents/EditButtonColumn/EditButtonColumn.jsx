@@ -133,7 +133,10 @@ export default function EditButtonColumn({
             <button
               type="button"
               className="reserved-btn"
-              onClick={() => itemsPreOrder[0] && setIsConfirmWindowOpen(true)}
+              onClick={() => {
+                setIsClickedOnConfirm(true);
+                return itemsPreOrder[0] && selectedCompany && setIsConfirmWindowOpen(true);
+              }}
             >
               Применить
             </button>

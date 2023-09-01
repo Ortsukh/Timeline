@@ -5,6 +5,7 @@ export default function ConfirmWindow({
   data,
   closeBookingWindow,
   confirmFunc,
+  selectedCompany,
 }) {
   return (
     <div className="messageWindow rentOrderPopup">
@@ -16,6 +17,11 @@ export default function ConfirmWindow({
         x
       </button>
       <div className="titlePopup">Подтвердите ваш заказ</div>
+      <div className="titlePopup">
+        Компания:
+        {" "}
+        {selectedCompany.name}
+      </div>
       <div className="confirmWindow">
         {data.map((item, index) => (
           <div className="order" key={`${item.item} + ${item.shiftDate}`}>

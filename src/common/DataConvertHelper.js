@@ -47,9 +47,9 @@ export const addGrid = (formatHour, shiftLength) => {
 };
 
 const createOrderObject = (order, el, shiftLength, interval, user) => {
-  const isCompanyOrder = user.role === "ROLE_COMPANY" && user.id === order.rentOrder.id;
+  const isCompanyOrder = user.role === "ROLE_COMPANY" && user.id === order.rentOrder.company.id;
   const isFranchise = user.role === "ROLE_MANAGER";
-  const statusColor = orderStatus[order.rentOrder.status]?.color || (isFranchise || isCompanyOrder) ? "rgb(39, 128, 252)" : "gray";
+  const statusColor = orderStatus[order.rentOrder.status]?.color || (isFranchise || isCompanyOrder) ? "rgb(39, 128, 252)" : "rgb(240, 51, 51,1)";
   const itemProps = { style: { background: statusColor } };
   const hour = moment(el.start_time).hours();
   const formatHour = Math.floor(hour / shiftLength);
