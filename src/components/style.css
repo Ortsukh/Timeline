@@ -209,6 +209,10 @@
     z-index: 200;
 }
 
+.select-filter.choose-product{
+    z-index: 300;
+}
+
 .btn-date {
     margin-bottom: 35px;
 }
@@ -289,6 +293,9 @@
     padding: 10px;
     margin-top: 20px;
     border-radius: 5px;
+    max-height: 350px;
+    background-color:#fff ;
+    overflow-y: auto;
 }
 
 .date-block p {
@@ -340,6 +347,9 @@
     gap: 15px;
     flex-wrap: wrap;
     margin-top: 20px;
+    max-height: 190px;
+    overflow-x: auto;
+    background-color: #fff;
 }
 
 .cross{
@@ -383,6 +393,7 @@
     right: 40%;
     top: 25%;
     min-height: 400px;
+    position: fixed;
 }
 
 .messageWindow.rentOrderPopup .button-close{
