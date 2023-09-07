@@ -54,7 +54,7 @@ export default function ToolsFilter({
       <span> Выбрать оборудование</span>
       <Select
         formatOptionLabel={formatOptionLabel}
-        className="select-filter"
+        className="select-filter choose-product"
         options={getOptionsForSearch(toolNames)}
         onChange={changeSearch}
         value={selectValue}
