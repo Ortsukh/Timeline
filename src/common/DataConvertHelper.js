@@ -45,11 +45,17 @@ export const addGrid = (formatHour, shiftLength) => {
 
   return grid.join("");
 };
-
-const createOrderObject = (order, el, shiftLength, interval, user) => {
-  const isCompanyOrder = user.role === "ROLE_COMPANY" && user.id === order.rentOrder.id;
+const getOrderColor = (order, user) => {
+  console.log(order);
+  const isCompanyOrder = user.role === "ROLE_COMPANY" && user.id === order.rentOrder.company?.id;
   const isFranchise = user.role === "ROLE_MANAGER";
-  const statusColor = orderStatus[order.rentOrder.status]?.color || (isFranchise || isCompanyOrder) ? "rgb(39, 128, 252)" : "gray";
+  if (isCompanyOrder) return orderStatus[order.rentOrder.status]?.color;
+  if (isFranchise) return orderStatus.franchise.color;
+  return orderStatus.booked.color;
+};
+const createOrderObject = (order, el, shiftLength, interval, user) => {
+  console.log(orderStatus[order.rentOrder.status]?.color);
+  const statusColor = getOrderColor(order, user);
   const itemProps = { style: { background: statusColor } };
   const hour = moment(el.start_time).hours();
   const formatHour = Math.floor(hour / shiftLength);
@@ -63,7 +69,7 @@ const createOrderObject = (order, el, shiftLength, interval, user) => {
     start_time: el.start_time,
     end_time: el.end_time,
     company: order.rentOrder.company || null,
-    status: order.rentOrder.status || "accepted",
+    status: order.rentOrder.status || "pending",
     itemProps,
     date: interval.date,
     grid: addGrid(formatHour, shiftLength),
