@@ -3,6 +3,7 @@ import moment from "moment";
 import Timeline from "react-calendar-timeline";
 import "./style.css";
 import "react-calendar-timeline/lib/Timeline.css";
+import EQUIPMENT_COLOR from "../common/equipmentColor";
 
 export default function TimeLineRenderer({
   groups,
@@ -33,24 +34,6 @@ export default function TimeLineRenderer({
     clickOnItem(time, itemId);
   };
 
-  // const handleTimeChange = (visibleTimeStart, visibleTimeEnd, updateScrollCanvas) => {
-  //   if (visibleTimeStart < minTime && visibleTimeEnd > maxTime) {
-  //     updateScrollCanvas(minTime, maxTime);
-  //   } else if (visibleTimeStart < minTime) {
-  //     updateScrollCanvas(
-  //       minTime,
-  //       minTime + (visibleTimeEnd - visibleTimeStart)
-  //     );
-  //   } else if (visibleTimeEnd > maxTime) {
-  //     updateScrollCanvas(
-  //       maxTime - (visibleTimeEnd - visibleTimeStart),
-  //       maxTime
-  //     );
-  //   } else {
-  //     updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
-  //   }
-  // }
-
   const handleToSelectedGroup = (group, category) => {
     setIsBookingMenu(true);
     localStorage.setItem("toolsFilter", category);
@@ -58,19 +41,25 @@ export default function TimeLineRenderer({
     setCurrentDevice(group);
   };
 
-  const newGroups = groups.map((group) => ({
-    ...group,
-    title: (
-      <div
-        onClick={() => handleToSelectedGroup(group, group.category)}
-        onKeyDown={() => handleToSelectedGroup(group, group.category)}
-        aria-hidden="true"
-        style={{ cursor: "pointer" }}
-      >
-        {group.title}
-      </div>
-    ),
-  }));
+  const newGroups = groups.map((group) => {
+    const color = EQUIPMENT_COLOR[group.category] || "#622525";
+    return ({
+      ...group,
+      title: (
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{ backgroundColor: color }} className="equipment_color_block" />
+          <div
+            onClick={() => handleToSelectedGroup(group, group.category)}
+            onKeyDown={() => handleToSelectedGroup(group, group.category)}
+            aria-hidden="true"
+            style={{ cursor: "pointer" }}
+          >
+            {group.title}
+          </div>
+        </div>
+      ),
+    });
+  });
 
   return (
     <Timeline
@@ -88,6 +77,7 @@ export default function TimeLineRenderer({
       lineHeight={45}
       onItemSelect={handleItemSelect}
       itemHeightRatio={1}
+      sidebarWidth={200}
       canResize={false}
       timeSteps={{
         hour: 1,

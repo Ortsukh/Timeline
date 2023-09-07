@@ -442,3 +442,9 @@
     color: black;
     transition: .3s;
 }
+
+.equipment_color_block {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}

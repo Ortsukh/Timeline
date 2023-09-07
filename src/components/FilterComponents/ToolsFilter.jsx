@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import "../style.css";
+import EQUIPMENT_COLOR from "../../common/equipmentColor";
 
 export default function ToolsFilter({
   toolNames,
@@ -12,6 +13,7 @@ export default function ToolsFilter({
   setCurrentDeviceIndex,
 }) {
   const [selectValue, setSelectValue] = useState(null);
+  console.log(toolNames);
   useEffect(() => {
     const value = localStorage.getItem("toolsFilter") || null;
     if (value) {
@@ -24,6 +26,18 @@ export default function ToolsFilter({
     setSelectValue(e);
     onInputChange(e.value);
     setCurrentDeviceIndex(0);
+  };
+
+  const formatOptionLabel = ({ label }) => {
+    const color = EQUIPMENT_COLOR[label] || "#622525";
+
+    return (
+      <div style={{ display: "flex" }}>
+        <div style={{ backgroundColor: color }} className="equipment_color_block" />
+        <div>{label }</div>
+
+      </div>
+    );
   };
 
   // eslint-disable-next-line max-len
@@ -39,6 +53,7 @@ export default function ToolsFilter({
     <div className="tools-filter">
       <span> Выбрать оборудование</span>
       <Select
+        formatOptionLabel={formatOptionLabel}
         className="select-filter"
         options={getOptionsForSearch(toolNames)}
         onChange={changeSearch}
