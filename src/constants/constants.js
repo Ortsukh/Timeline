@@ -1,18 +1,24 @@
 const orderStatus = {
   accepted: {
     title: "accepted",
-    color: "rgb(39, 128, 252)",
-    translate: "Подтвердить",
+    color: "#4c7fe5",
+    translate: "Подтвержден",
   },
   rejected: {
     title: "rejected",
     color: "#f03333",
-    translate: "Отменить",
+    translate: "Отклонен",
   },
   pending: {
     title: "pending",
     color: "#ff9900",
-    translate: "Ожидание ",
+    translate: "Ожидание",
+  },
+  booked: {
+    color: "#ee4343",
+  },
+  franchise: {
+    color: "#2780FCFF",
   },
 };
 

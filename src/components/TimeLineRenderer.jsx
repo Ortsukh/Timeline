@@ -3,7 +3,7 @@ import moment from "moment";
 import Timeline from "react-calendar-timeline";
 import "./style.css";
 import "react-calendar-timeline/lib/Timeline.css";
-import EQUIPMENT_COLOR from "../common/equipmentColor";
+import EQUIPMENT_COLOR from "../constants/equipmentColor";
 
 export default function TimeLineRenderer({
   groups,
@@ -17,6 +17,7 @@ export default function TimeLineRenderer({
   setSelectedGroups,
   setCurrentDevice,
 }) {
+  console.log(items);
   const [visibleTimeRange, setVisibleTimeRange] = useState({
     start: moment(),
     end: moment().add(2, "days"),

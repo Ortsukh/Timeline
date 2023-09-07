@@ -17,7 +17,7 @@ import TimeLineRenderer from "../components/TimeLineRenderer";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
 import {
-  getAllEquipments, getAllEqupments1, getAllOrders, getAllOrders1, getCompanies, getUser,
+  getAllEquipments, getAllOrders, getCompanies, getUser,
 } from "../Api/API";
 import AlertWindow from "../components/Popup/AlertWindow";
 import BookingMenu from "../components/BookingMenuComponents/BookingMenu";
@@ -182,7 +182,9 @@ export default function TimelinePage() {
     : groups);
 
   const clickOnItem = (_time, itemId) => {
+    console.log(user, user.role === "ROLE_COMPANY");
     if (user.role === "ROLE_COMPANY") return;
+    console.log(123);
     const item = itemId
       ? itemsPreOrder.find((el) => el.id === itemId)
       : null;
@@ -191,6 +193,8 @@ export default function TimelinePage() {
   };
 
   const openBookingWindow = (time, posX, posY, kindModal, itemId) => {
+    if (user.role === "ROLE_COMPANY") return;
+
     const item = itemId ? items.find((el) => el.id === itemId) : null;
     if (!item || item.status === "preOrder" || isEditMode) return;
     setIsActiveMessage((current) => !current);

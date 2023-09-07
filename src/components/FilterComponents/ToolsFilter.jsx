@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import "../style.css";
-import EQUIPMENT_COLOR from "../../common/equipmentColor";
+import EQUIPMENT_COLOR from "../../constants/equipmentColor";
 
 export default function ToolsFilter({
   toolNames,
