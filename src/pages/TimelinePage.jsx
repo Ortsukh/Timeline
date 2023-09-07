@@ -59,7 +59,7 @@ export default function TimelinePage() {
   useEffect(() => {
     getUser().then((res) => {
       setUser(res);
-      console.log(res);
+      console.log("user", res);
       if (res.role === "ROLE_MANAGER") {
         getCompanies().then((response) => {
           setCompanies(response);
@@ -70,7 +70,6 @@ export default function TimelinePage() {
 
   useEffect(() => {
     setIsLoadingEquipment(true);
-
     getAllEquipments().then((response) => {
       setGroups(createEquipmentGroup(response.data));
       setIsLoadingEquipment(false);
@@ -79,7 +78,6 @@ export default function TimelinePage() {
 
   useEffect(() => {
     setIsLoading(true);
-
     getAllOrders()
       .then((response) => {
         setItems(createOrderGroup(response.data, user));
@@ -103,7 +101,7 @@ export default function TimelinePage() {
     setIsBookingMenu(true);
   };
 
-  const operAlertWindow = (message) => {
+  const openAlertWindow = (message) => {
     setIsOpenAlertWindow({
       status: true,
       message,
@@ -116,7 +114,7 @@ export default function TimelinePage() {
     }, 2000);
   };
 
-  const getFormatedDate = (groupId, time) => {
+  const getFormattedDate = (groupId, time) => {
     const date = moment(time).format("YYYY-MM-DD");
     const hour = moment(time).hours();
     const { shiftLength } = groups.find(
@@ -146,7 +144,7 @@ export default function TimelinePage() {
     );
     const formatHour = Math.floor(hour / shiftLength);
 
-    const formattedDate = getFormatedDate(groupId, time);
+    const formattedDate = getFormattedDate(groupId, time);
 
     const obj = {
       id: uuidv4(),
@@ -196,7 +194,7 @@ export default function TimelinePage() {
     const item = itemId ? items.find((el) => el.id === itemId) : null;
     if (!item || item.status === "preOrder" || isEditMode) return;
     setIsActiveMessage((current) => !current);
-    const formattedDate = getFormatedDate(item.group, time);
+    const formattedDate = getFormattedDate(item.group, time);
     const date = moment(time).format("YYYY-MM-DD");
     const result = `${date} ${formattedDate.start} - ${formattedDate.end}`;
 
@@ -246,7 +244,7 @@ export default function TimelinePage() {
           currentDevice={currentDevice}
           setCurrentDevice={setCurrentDevice}
           setIsEditMode={setIsEditMode}
-          operAlertWindow={operAlertWindow}
+          operAlertWindow={openAlertWindow}
           //! ToolsFilter->
           toolNames={mapToolsNames()}
           onInputChange={handleInputChange}
