@@ -184,8 +184,7 @@ export default function BookingTimeline({
     const formatHour = Math.floor(hour / shiftLength);
 
     const formattedDate = getFormattedDate(groupId, time);
-
-    if (new Date(formattedDate.start) < Date.now()) return;
+    if (moment(`${groupId} ${hour}:00`).isBefore(moment.now())) return;
 
     const obj = {
       id: uuidv4(),
