@@ -30,7 +30,7 @@ export default function FiltersForOrder({
           <option value={2}>{2}</option>
           <option value={3}>{3}</option>
         </select>
-        <span>
+        <span className="price-item">
           Цена за смену:
           {" "}
           {+currentDevice.price}

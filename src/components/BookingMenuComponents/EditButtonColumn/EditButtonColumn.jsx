@@ -94,7 +94,7 @@ export default function EditButtonColumn({
         <span className={style.fullPrice}>
           Общая стоимость:
           {" "}
-          {itemsPreOrder.length * currentDevice.price}
+          <b>{itemsPreOrder.length * currentDevice.price}</b>
           р
         </span>
       </div>
