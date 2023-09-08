@@ -59,7 +59,6 @@ export default function TimelinePage() {
   useEffect(() => {
     getUser().then((res) => {
       setUser(res);
-      console.log("user", res);
       if (res.role === "ROLE_MANAGER") {
         getCompanies().then((response) => {
           setCompanies(response);
@@ -77,6 +76,7 @@ export default function TimelinePage() {
   }, [update]);
 
   useEffect(() => {
+    console.log(user);
     setIsLoading(true);
     getAllOrders()
       .then((response) => {
@@ -182,9 +182,6 @@ export default function TimelinePage() {
     : groups);
 
   const clickOnItem = (_time, itemId) => {
-    console.log(user, user.role === "ROLE_COMPANY");
-    if (user.role === "ROLE_COMPANY") return;
-    console.log(123);
     const item = itemId
       ? itemsPreOrder.find((el) => el.id === itemId)
       : null;
@@ -193,14 +190,13 @@ export default function TimelinePage() {
   };
 
   const openBookingWindow = (time, posX, posY, kindModal, itemId) => {
-    if (user.role === "ROLE_COMPANY") return;
-
     const item = itemId ? items.find((el) => el.id === itemId) : null;
+    if (!(user.role === "ROLE_COMPANY" && user.id === item.company.id && item.status === "pending")) return;
     if (!item || item.status === "preOrder" || isEditMode) return;
     setIsActiveMessage((current) => !current);
     const formattedDate = getFormattedDate(item.group, time);
     const date = moment(time).format("YYYY-MM-DD");
-    const result = `${date} ${formattedDate.start} - ${formattedDate.end}`;
+    const result = `${date} : ${moment(formattedDate.start).format("HH-mm")} - ${moment(formattedDate.end).format("HH-mm")}`;
 
     setChosenDate({
       date: result,

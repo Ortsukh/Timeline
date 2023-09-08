@@ -5,13 +5,12 @@ export default function FiltersForOrder({
   setShiftsCount,
   setOrderDate,
   orderDate,
+  currentDevice,
 }) {
   const [isActiveDate, setIsActiveDate] = useState(false);
-
   const showDatePicker = () => {
     setIsActiveDate((current) => !current);
   };
-
   const choseShiftsCount = (count) => {
     setShiftsCount(count.target.value);
   };
@@ -31,6 +30,13 @@ export default function FiltersForOrder({
           <option value={2}>{2}</option>
           <option value={3}>{3}</option>
         </select>
+        <span>
+          Цена за смену:
+          {" "}
+          {+currentDevice.price}
+          р
+        </span>
+
       </div>
     </>
   );

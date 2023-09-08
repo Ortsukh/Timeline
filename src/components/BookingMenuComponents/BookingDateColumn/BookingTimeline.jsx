@@ -185,6 +185,8 @@ export default function BookingTimeline({
 
     const formattedDate = getFormattedDate(groupId, time);
 
+    if (new Date(formattedDate.start) < Date.now()) return;
+
     const obj = {
       id: uuidv4(),
       group: groupId,
@@ -204,6 +206,7 @@ export default function BookingTimeline({
 
   const handleCanvasClick = (groupId, time) => {
     if (openGroups[groupId]) return;
+    console.log(groupId, time);
     clickOnEmptySpace(groupId, time);
   };
 

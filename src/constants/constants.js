@@ -15,7 +15,10 @@ const orderStatus = {
     translate: "Ожидание",
   },
   booked: {
-    color: "#ee4343",
+    color: "#464040",
+  },
+  otherPending: {
+    color: "#c54343",
   },
   franchise: {
     color: "#2780FCFF",

@@ -12,6 +12,15 @@
   border: 1px solid #f03333;
   margin-bottom: 20px;
 }
+.filterContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 500px;
+}
+.fullPrice {
+padding: 10px;
+}
 
 .backButton:hover {
   cursor: pointer;
