@@ -17,7 +17,6 @@ export default function TimeLineRenderer({
   setSelectedGroups,
   setCurrentDevice,
 }) {
-  console.log(items);
   const [visibleTimeRange, setVisibleTimeRange] = useState({
     start: moment(),
     end: moment().add(2, "days"),
@@ -77,6 +76,7 @@ export default function TimeLineRenderer({
       maxZoom={60 * 60 * 1000 * 24 * 31} // TODO в !проде пропадают последние дни и часы
       lineHeight={45}
       onItemSelect={handleItemSelect}
+      onItemClick={handleItemSelect}
       itemHeightRatio={1}
       sidebarWidth={200}
       canResize={false}

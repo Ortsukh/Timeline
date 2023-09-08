@@ -81,15 +81,23 @@ export default function EditButtonColumn({
           {back}
         </button>
       </div>
-      <ToolsFilter
-        toolNames={toolNames}
-        onInputChange={onInputChange}
-        clearFilter={clearFilter}
-        isClickingOnEmptyFilter={isClickingOnEmptyFilter}
-        setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
-        showButtonClear={showButtonClear}
-        setCurrentDeviceIndex={setCurrentDeviceIndex}
-      />
+      <div className={style.filterContainer}>
+        <ToolsFilter
+          toolNames={toolNames}
+          onInputChange={onInputChange}
+          clearFilter={clearFilter}
+          isClickingOnEmptyFilter={isClickingOnEmptyFilter}
+          setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
+          showButtonClear={showButtonClear}
+          setCurrentDeviceIndex={setCurrentDeviceIndex}
+        />
+        <span className={style.fullPrice}>
+          Общая стоимость:
+          {" "}
+          {itemsPreOrder.length * currentDevice.price}
+          р
+        </span>
+      </div>
       {user.role === "ROLE_MANAGER"
                 && (
                 <CompaniesSelect
@@ -99,26 +107,27 @@ export default function EditButtonColumn({
                 />
                 )}
       {!isEditMode && (
-        <div className="selects-block">
-          <FiltersForOrder
-            orderDate={orderDate}
-            setOrderDate={setOrderDate}
-            setShiftsCount={setShiftsCount}
-          />
-        </div>
+      <div className="selects-block">
+        <FiltersForOrder
+          orderDate={orderDate}
+          setOrderDate={setOrderDate}
+          setShiftsCount={setShiftsCount}
+          currentDevice={currentDevice}
+        />
+      </div>
       )}
       <div>
         {!isEditMode && (
-        <div className="date-block">
-          <CheckFormOrder
-            items={items}
-            currentDevice={currentDevice}
-            orderDate={orderDate}
-            shiftsCount={shiftsCount}
-            setItemsPreOrder={setItemsPreOrder}
-            itemsPreOrder={itemsPreOrder}
-          />
-        </div>
+          <div className="date-block">
+            <CheckFormOrder
+              items={items}
+              currentDevice={currentDevice}
+              orderDate={orderDate}
+              shiftsCount={shiftsCount}
+              setItemsPreOrder={setItemsPreOrder}
+              itemsPreOrder={itemsPreOrder}
+            />
+          </div>
         )}
         <div className="preOrderTable">
           <PreOrderTable

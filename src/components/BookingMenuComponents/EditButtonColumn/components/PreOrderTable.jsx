@@ -12,35 +12,32 @@ export default function PreOrderTable({
   };
   const orderContent = [];
 
-  const generateItemsPreOrderWindow = (items) => {
-    const result = items.map((item) => {
-      const group = groups.find((el) => el.id === item.deviceGroup);
-      const data = {
-        groupTitle: group.title,
-        shiftDate:
-          `${moment(item.date).format("DD-MM-YYYY")
-          } ${
-            moment(item.start_time).format("HH")
-          }-${
-            moment(item.end_time).format("HH")}`,
-      };
-      orderContent.push(data);
+  const generateItemsPreOrderWindow = (items) => items.map((item) => {
+    const group = groups.find((el) => el.id === item.deviceGroup);
+    const data = {
+      groupTitle: group.title,
+      pricePerShift: group.price,
+      shiftDate:
+            `${moment(item.date).format("DD-MM-YYYY")
+            } ${
+              moment(item.start_time).format("HH")
+            }-${
+              moment(item.end_time).format("HH")}`,
+    };
+    orderContent.push(data);
 
-      return (
-        <div className="preOrder itemPreOrder" key={item.id}>
-          <div className="preOrderContent">
-            <div>{data.groupTitle}</div>
-            <div>{data.shiftDate}</div>
-          </div>
-
-          <button className="cross" type="button" onClick={() => handleRemovePreOrderItem(item)}>x</button>
-
+    return (
+      <div className="preOrder itemPreOrder" key={item.id}>
+        <div className="preOrderContent">
+          <div>{data.groupTitle}</div>
+          <div>{data.shiftDate}</div>
         </div>
-      );
-    });
 
-    return result;
-  };
+        <button className="cross" type="button" onClick={() => handleRemovePreOrderItem(item)}>x</button>
+
+      </div>
+    );
+  });
 
   useEffect(() => {
     setOrderContent(orderContent);

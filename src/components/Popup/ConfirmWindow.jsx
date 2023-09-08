@@ -6,6 +6,31 @@ export default function ConfirmWindow({
   closeBookingWindow,
   confirmFunc,
 }) {
+  let fullPrice = 0;
+  const orderItems = [];
+  data.forEach((item, index) => {
+    fullPrice += +item.pricePerShift;
+    orderItems.push(
+      <div className="order" key={`${item.item} + ${item.shiftDate}`}>
+        <div className="numberOrder">
+          {`#${index + 1}`}
+        </div>
+        <div>
+          <div className="messageWindow-item">
+            <span>Оборудование:</span>
+            <span>{item.groupTitle}</span>
+          </div>
+          <div className="messageWindow-item">
+            <span>
+              Смена
+              :
+            </span>
+            <span>{item.shiftDate}</span>
+          </div>
+        </div>
+      </div>,
+    );
+  });
   return (
     <div className="messageWindow rentOrderPopup">
       <button
@@ -16,27 +41,14 @@ export default function ConfirmWindow({
         x
       </button>
       <div className="titlePopup">Подтвердите ваш заказ</div>
+      <span>
+        Общая стоимость:
+        {" "}
+        {fullPrice}
+        р
+      </span>
       <div className="confirmWindow">
-        {data.map((item, index) => (
-          <div className="order" key={`${item.item} + ${item.shiftDate}`}>
-            <div className="numberOrder">
-              {`#${index + 1}`}
-            </div>
-            <div>
-              <div className="messageWindow-item">
-                <span>Оборудование:</span>
-                <span>{item.groupTitle}</span>
-              </div>
-              <div className="messageWindow-item">
-                <span>
-                  Смена
-                  :
-                </span>
-                <span>{item.shiftDate}</span>
-              </div>
-            </div>
-          </div>
-        ))}
+        {orderItems}
       </div>
       <div className="orderBtn">
         <button type="button" className="button-submit reserved-btn" onClick={confirmFunc}>

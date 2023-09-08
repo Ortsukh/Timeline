@@ -8,10 +8,12 @@ const createEquipmentObject = (item, elem) => ({
   type: item.type,
   category: elem.name,
   shiftLength: elem.shiftLength,
+  price: item.price,
 });
 
 export const createEquipmentGroup = (equipments) => {
   const result = [];
+  console.log(equipments);
   equipments.forEach((elem) => {
     if (elem.kitchenEquipment.length > 0) {
       elem.kitchenEquipment.forEach((item) => {
@@ -46,15 +48,14 @@ export const addGrid = (formatHour, shiftLength) => {
   return grid.join("");
 };
 const getOrderColor = (order, user) => {
-  console.log(order);
-  const isCompanyOrder = user.role === "ROLE_COMPANY" && user.id === order.rentOrder.company?.id;
-  const isFranchise = user.role === "ROLE_MANAGER";
+  const isCompanyOrder = user && user.role === "ROLE_COMPANY" && user.id === order.rentOrder.company?.id;
+  const isFranchise = user && user.role === "ROLE_MANAGER";
   if (isCompanyOrder) return orderStatus[order.rentOrder.status]?.color;
   if (isFranchise) return orderStatus.franchise.color;
+  if (order.rentOrder.status === "pending") return orderStatus.otherPending.color;
   return orderStatus.booked.color;
 };
 const createOrderObject = (order, el, shiftLength, interval, user) => {
-  console.log(orderStatus[order.rentOrder.status]?.color);
   const statusColor = getOrderColor(order, user);
   const itemProps = { style: { background: statusColor } };
   const hour = moment(el.start_time).hours();
@@ -123,7 +124,6 @@ export const formatOrder = (order) => {
 export const createOrderGrid = (itemsPreOrder) => {
   const equipmentIdArray = {};
   const dateIntervals = [];
-  console.log(itemsPreOrder);
   itemsPreOrder.forEach((order) => {
     if (!equipmentIdArray[order.group]) {
       equipmentIdArray[order.group] = [];

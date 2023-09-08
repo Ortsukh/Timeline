@@ -4362,8 +4362,8 @@ export async function getAllOrders1() {
 }
 
 export async function getUser() {
-  const str = `${backendUrl}get_current_user`;
-  const res = await fetch(str, {});
+  // const str = `${backendUrl}get_current_user`;
+  // const res = await fetch(str, {});
   // if (!res.ok) {
   //   throw new Error("Something went wrong. Sorry");
   // }
@@ -4384,8 +4384,8 @@ export async function getUser() {
 }
 
 export async function getCompanies() {
-  const str = `${backendUrl}get_lessee_companies/`;
-  const res = await fetch(str, {});
+  // const str = `${backendUrl}get_lessee_companies/`;
+  // const res = await fetch(str, {});
   // if (!res.ok) {
   //   throw new Error("Something went wrong. Sorry");
   // }
