@@ -277,6 +277,7 @@
     align-items: center;
     gap: 20px;
     margin: 20px 0;
+    justify-content: space-between;
 }
 
 .selects-block .select-count-box {
@@ -458,4 +459,11 @@
     width: 20px;
     height: 20px;
     margin-right: 10px;
+}
+
+.price-item{
+    display: block;
+    padding: 8px 10px;
+    border-radius: 5px;
+    background-color: #e6e6e6;
 }

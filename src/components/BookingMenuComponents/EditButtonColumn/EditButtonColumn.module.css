@@ -15,11 +15,12 @@
 .filterContainer{
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  width: 500px;
+  align-items: end;
 }
 .fullPrice {
-padding: 10px;
+  padding: 8px 10px;
+  background-color: #d3e9ff;
+  border-radius: 5px;
 }
 
 .backButton:hover {
