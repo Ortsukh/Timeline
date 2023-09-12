@@ -67,7 +67,7 @@ export default function TimeLineRenderer({
       groups={toolsCount ? newGroups.slice(0, toolsCount) : newGroups}
       items={items}
       canMove={false}
-      defaultTimeStart={moment()}
+      defaultTimeStart={moment()} //! .startOf("day") Начать с начала дня
       defaultTimeEnd={moment().add(2, "days")}
       visibleTimeStart={isActiveDate ? visibleTimeRange.start.valueOf() : null}
       visibleTimeEnd={isActiveDate ? visibleTimeRange.end.valueOf() : null}
