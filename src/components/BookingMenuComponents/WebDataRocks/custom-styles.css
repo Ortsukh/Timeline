@@ -1,0 +1,49 @@
+#wdr-pivot-view > span {
+  display: none !important; /* скрыть рекламу */
+}
+
+/*! Сыкрыть сортировку в ячейках костыльно
+.wdr-sort-icon,
+.wdr-v-sort-icon {
+  display: none !important; 
+} */
+
+/*! Сыкрыть изменения размера столбца и ряда костыльно
+/* .wdr-ui-element .wdr-wrapper > .wdr-handle {
+  display: none !important; 
+} */
+
+/* .wdr-grid-row {
+  min-height: 20px !important;
+  height: 20px !important;
+  min-width: 70px !important;
+  width: 70px !important;
+} */
+/* .siza_cell_custome {
+  min-height: 20px !important;
+  height: 20px !important;
+  min-width: 70px !important;
+  width: 70px !important;
+} */
+
+#wdr-pivot-view #wdr-grid-view div.default {
+
+  color: white;
+}
+
+#wdr-pivot-view #wdr-grid-view div.booked_by_others {
+  background-color: grey;
+  color: grey;
+}
+
+#wdr-pivot-view #wdr-grid-view div.booked_by_me {
+
+  background-color: lightgreen;
+  color: lightgreen;
+}
+
+#wdr-pivot-view #wdr-grid-view div.booking_now_me {
+
+  background-color: lightblue;
+  color: lightblue;
+}

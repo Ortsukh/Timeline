@@ -286,6 +286,8 @@ export default function BookingTimeline({
           onCanvasClick={handleCanvasClick}
           showCursorLine
           onItemSelect={handleItemSelect}
+          // onMouseUp={handleCellMouseUp} //! Выделение нескольки
+          // onMouseDown={handleCellMouseDown} //! Выделение нескольки
           timeSteps={{
             hour: currentDevice.shiftLength,
             day: 1,

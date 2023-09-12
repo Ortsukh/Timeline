@@ -6,6 +6,8 @@ import ConfirmWindow from "../Popup/ConfirmWindow";
 import BookingTimeline from "./BookingDateColumn/BookingTimeline";
 import style from "./BookingMenu.module.css";
 import EditButtonColumn from "./EditButtonColumn/EditButtonColumn";
+import Table from "./WebDataRocks/Table";
+import GroupSwitching from "./BookingDateColumn/components/GroupSwitching";
 
 export default function BookingMenu({
   setIsBookingMenu,
@@ -146,22 +148,34 @@ export default function BookingMenu({
         </div>
 
         <div className={style.bookingDateColumn}>
-          <BookingTimeline
-            editOrderData={editOrderData}
-            isEditMode={isEditMode}
-            setCurrentDevice={setCurrentDevice}
-            currentDevice={currentDevice}
-            groups={groups}
-            itemsPreOrder={itemsPreOrder}
-            setItemsPreOrder={setItemsPreOrder}
-            setUpdatedItems={setUpdatedItems}
-            setCopyEditItems={setCopyEditItems}
-            items={items}
-            orderDatePlanning={orderDatePlanning}
-            currentDeviceIndex={currentDeviceIndex}
-            setCurrentDeviceIndex={setCurrentDeviceIndex}
-            selectedCompany={selectedCompany}
-          />
+          <div>
+            <GroupSwitching
+              groups={groups}
+              currentDevice={currentDevice}
+              setCurrentDevice={setCurrentDevice}
+              currentDeviceIndex={currentDeviceIndex}
+              setCurrentDeviceIndex={setCurrentDeviceIndex}
+            />
+            <Table />
+          </div>
+          <div style={{ display: "none" }}>
+            <BookingTimeline
+              editOrderData={editOrderData}
+              isEditMode={isEditMode}
+              setCurrentDevice={setCurrentDevice}
+              currentDevice={currentDevice}
+              groups={groups}
+              itemsPreOrder={itemsPreOrder}
+              setItemsPreOrder={setItemsPreOrder}
+              setUpdatedItems={setUpdatedItems}
+              setCopyEditItems={setCopyEditItems}
+              items={items}
+              orderDatePlanning={orderDatePlanning}
+              currentDeviceIndex={currentDeviceIndex}
+              setCurrentDeviceIndex={setCurrentDeviceIndex}
+              selectedCompany={selectedCompany}
+            />
+          </div>
         </div>
       </div>
       {isConfirmWindowOpen && (
