@@ -1,4 +1,4 @@
-// /* eslint-disable */
+/* eslint-disable */
 // eslint-disable-next-line
 import React, { useEffect, useState } from "react";
 import * as WebDataRocksReact from "react-webdatarocks";
@@ -6,40 +6,69 @@ import moment from "moment";
 import "moment/locale/ru";
 import "webdatarocks/webdatarocks.css";
 import "./custom-styles.css"; // Подключаем кастомные стили
-import { v4 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
+import Calendar from "react-calendar";
 // import deleteItemToolbar from "./Toolbar/deleteItem";
 // import addThemeToolbar from "./Toolbar/theme";
-
+// eslint-disable-next-line
+// eslint-disable-next-line
 const BookedOthersKey = [
-  { grid: "Hour.1", date: "Date.04-09-2023" },
-  { grid: "Hour.4", date: "Date.08-09-2023" },
-  { grid: "Hour.5", date: "Date.09-09-2023" },
-  { grid: "Hour.3", date: "Date.02-09-2023" },
-  { grid: "Hour.2", date: "Date.11-09-2023" },
-  { grid: "Hour.0", date: "Date.07-09-2023" },
-];
-
-const BookedMeKey = [
-  { grid: "Hour.0", date: "Date.03-09-2023" },
-  { grid: "Hour.2", date: "Date.06-09-2023" },
-  { grid: "Hour.4", date: "Date.09-09-2023" },
-  { grid: "Hour.1", date: "Date.09-09-2023" },
+  // { grid: "Hour.1", date: "Date.04-09-2023" },
+  // { grid: "Hour.4", date: "Date.08-09-2023" },
+  // { grid: "Hour.5", date: "Date.09-09-2023" },
+  // { grid: "Hour.3", date: "Date.02-09-2023" },
+  // { grid: "Hour.2", date: "Date.11-09-2023" },
+  // { grid: "Hour.0", date: "Date.07-09-2023" },
 ];
 // eslint-disable-next-line
-// const BookedOthersKey = [{ grid: "Hour.1", date: "Date.4 ПН" }, { grid: "Hour.4", date: "Date.8 ПТ" }, { grid: "Hour.5", date: "Date.9 СБ" }, { grid: "Hour.3", date: "Date.2 СБ" }, { grid: "Hour.2", date: "Date.11 ПН" }, { grid: "Hour.0", date: "Date.7 ЧТ" }];
-//
-// const BookedMeKey = [{ grid: "Hour.0", date: "Date.3 ВС" },
-// { grid: "Hour.2", date: "Date.6 СР" }, { grid: "Hour.4", date: "Date.9 СБ" }];
+const BookedMeKey = [
+  // { grid: "Hour.0", date: "Date.03-09-2023" },
+  // { grid: "Hour.2", date: "Date.06-09-2023" },
+  // { grid: "Hour.4", date: "Date.09-09-2023" },
+  // { grid: "Hour.1", date: "Date.09-09-2023" },
+];
 
-export default function Table() {
+export default function Table({ items, currentDevice, selectedCompany }) {
+  const BookedOthersKey = [];
+  items.map((item) => {
+    if (item.group === currentDevice.id ) { // TODO Оптимизировать Вернуться позже
+      const company = item.company;
+      const deviceId = item.group;
+      const formateDate = moment(item.date).format("DD-MM-YYYY");
+      const formateTime = [];
+      item.grid.split("").map((number, index) => {
+        if (number === "1") {
+          formateTime.push(index);
+        }
+      });
+      formateTime.map((time) => {
+        BookedOthersKey.push({
+          company: company,
+          deviceId: deviceId,
+          grid: `Hour.${time}`, 
+          date: `Date.${formateDate}`,
+        });
+      })
+    }
+  })
+
+  // console.log("BookedOthersKey", BookedOthersKey);
+  // console.log("selectedCompany", selectedCompany);
+  // console.log("items", items);
+  // console.log("currentDevice", currentDevice.shiftLength);
   const [history, setHistory] = useState([[]]);
   const [bookingTime, setBookingTime] = useState(history[0]);
   const [indexCurentHistory, setIndexCurentHistory] = useState(0);
   const today = moment();
-  // eslint-disable-next-line
   const [viewedMonth, setViewedMonth] = useState(today.startOf("month"));
-  // console.log("viewedMonth", today.day());
-  console.log("ВТ", new Date().getDay());
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [rernderTable, setRernderTable] = useState(0);
+
+  useEffect(() => {
+    setRernderTable((prev) => prev + 1);
+  }, [currentDevice, viewedMonth, selectedCompany]);
+  // console.log("viewedMonth", viewedMonth.format("MMMM"));
+  // console.log("СР", new Date().getDay());
 
   const handleClickOnBack = () => {
     // console.log("!!!!!!!!!!!!!!!! history Back:", history);
@@ -65,29 +94,49 @@ export default function Table() {
   useEffect(() => {
     setBookingTime(history[history.length - 1]);
     setIndexCurentHistory(history.length - 1);
-  }, [history]);
+  }, [history, viewedMonth, selectedCompany]);
 
   useEffect(() => {
     // eslint-disable-next-line
     webdatarocks.removeAllConditions();
     // eslint-disable-next-line
     bookingTime.map((el) => webdatarocks.addCondition({
-      formula: "#value > 0",
+      formula: `#value = ${el.deviceId + parseInt(el.date.split('.')[1].split('-')[1])}`,
       row: el.rowCell,
       column: el.columnCell,
-      id: v4(),
+      id: uuidv4(),
       format: { backgroundColor: "lightblue", color: "lightblue" },
     }));
     // eslint-disable-next-line
     webdatarocks.refresh();
-  }, [bookingTime]);
+  }, [bookingTime, viewedMonth, selectedCompany]);
+
+  const commonWidthColumn = 800;
+  const countColumn = 24 / currentDevice.shiftLength;
+  const arrayEmpty = new Array(countColumn).fill({})
+  const widthMainCell = 100;
+  const widthCell = (commonWidthColumn - widthMainCell) / countColumn;
+  const widthColumnObj = [{ idx: 0, width: widthMainCell }]
+  const addSizeCell = () => {
+    // console.log("HEllo");
+    // widthColumnObj.push({ idx: 0, width: `${widthMainCell}px` })
+    arrayEmpty.forEach((_, ind) => widthColumnObj.push({ idx: ind + 1, width: widthCell }))
+    // for (let hourColumn = 1; hourColumn <= countColumn.length; hourColumn++) {
+      // console.log("HEllo");
+    //   // console.log("widthColumnObject:", { idx: `${hourColumn}px`, width: `${widthCell}px` });
+    //   widthColumnObject.push({ idx: `${hourColumn}px`, width: `${widthCell}px` })
+    // }
+  }
+  addSizeCell()
+
+  console.log("widthColumnObj:", widthColumnObj);
 
   const generateData = () => {
     const data = [];
     const hoursInDay = 24;
     const daysInMonth = viewedMonth.daysInMonth();
-    const nameMonth = viewedMonth.format("MMMM");
-    const smena = 1;
+    // const nameMonth = viewedMonth.format("MMMM");
+    const smena = currentDevice.shiftLength;
 
     for (let day = 1; day <= daysInMonth; day++) {
       for (let hour = 0; hour < hoursInDay; hour += smena) {
@@ -96,15 +145,16 @@ export default function Table() {
         data.push({
           // Date: moment(viewedMonth).date(day).format("D dd").toUpperCase(),
           Date: moment(viewedMonth).date(day).format("DD-MM-YYYY"),
-          Hour: smena !== 1 ? `с ${hour} до ${hour + smena}` : hour,
-          Value: 55,
-          Month: nameMonth,
+          Hour: smena !== 1 ? `${hour}-${hour + smena}` : hour,
+          Value: currentDevice.id + parseInt(moment(viewedMonth).date(day).format("MM")),
+          // Month: nameMonth,
         });
       }
     }
     return data;
   };
 
+  // eslint-disable-next-line
   const updateData = () => {
     // eslint-disable-next-line
     webdatarocks.updateData({
@@ -120,70 +170,130 @@ export default function Table() {
   const isBookedMe = (objectKey) => BookedMeKey.some(
     (obj) => JSON.stringify(obj) === JSON.stringify(objectKey),
   );
-  // eslint-disable-next-line
-  const isBookingNOWMe = (objectKey) => bookingTime.some(
+  const isBookingMeNOW = (objectKey) => bookingTime.some(
     (obj) => JSON.stringify(obj) === JSON.stringify(objectKey),
   );
 
   // eslint-disable-next-line
   const handleCellClick = (cell) => {
     // console.log("Выделена ячейка:", cell);
-    // console.log("getCell", webdatarocks.getCell(cell.rowIndex, cell.columnIndex));
     // console.log("conditions", webdatarocks.getAllConditions());
     // eslint-disable-next-line
     const value = webdatarocks.getSelectedCell(); // Если выделен одная ячейка - Object, несколько - Array
     console.log("Выделенные ячейки:", value);
+    const dataHeaderClick = [];
+    if (value.type === "header") {
+      // console.log("Выделенные ячейки:", generateData());
+      const daysInCells = viewedMonth.daysInMonth();
+      if (value.columns.length) {
+        for (let day = 1; day <= daysInCells + 1; day++) { // 1 + 1 потому что не включая header
+          // eslint-disable-next-line
+          dataHeaderClick.push(webdatarocks.getCell(day, value.columnIndex));
+        }
+      }
+      for (let hour = 1; hour <= 24; hour++) {
+        // eslint-disable-next-line
+        dataHeaderClick.push(webdatarocks.getCell(value.rowIndex, hour));
+      }
+    }
+    // console.log("Выделенные ячейки:", dataHeaderClick);
 
-    if (value.type === "value") {
-      // Проверка на Object
+    if (value.type === "value") { // Проверка на Object
       const selectedCell = {
+        company: {id: selectedCompany.id, name: selectedCompany.name},
+        deviceId: currentDevice.id,
         grid: value.columns.map((column) => column.uniqueName)[0],
         date: value.rows.map((row) => row.uniqueName)[0],
       };
-
       if (!isBookedOthers(selectedCell) && !isBookedMe(selectedCell)) {
-        setHistory((prevHistory) => [
-          ...prevHistory,
-          [
-            ...new Set(
-              [
-                ...prevHistory,
-                { rowCell: value.rowIndex, columnCell: value.columnIndex },
-              ].flat(),
-            ),
-          ],
-        ]);
+        setHistory((prevHistory) => {
+          const even = (element) => (
+            JSON.stringify(element) === JSON.stringify(
+              Object.assign(
+                selectedCell,
+                { rowCell: value.rowIndex, 
+                  columnCell: value.columnIndex,
+                }
+              )
+
+            )
+          );
+
+          if (prevHistory[prevHistory.length - 1].some(even)) {
+            return [
+              ...prevHistory, [...new Set([...prevHistory[prevHistory.length - 1]].flat())].filter(
+                (el) => JSON.stringify(el) !== JSON.stringify(
+                  Object.assign(
+                    selectedCell,
+                    { rowCell: value.rowIndex, 
+                      columnCell: value.columnIndex,
+                    }
+                  ),
+                ),
+              ),
+            ];
+          }
+
+          return [
+            ...prevHistory,
+            [
+              ...new Set(
+                [
+                  ...prevHistory[prevHistory.length - 1],
+                  Object.assign(
+                    selectedCell,
+                    { rowCell: value.rowIndex, 
+                      columnCell: value.columnIndex,
+                    }
+                  ),
+                ].flat(),
+              ),
+            ],
+          ];
+        });
       }
     }
 
-    if (Array.isArray(value)) {
-      // Проверка на Array
-      //   if (indexCurentHistory !== history.length - 1) {
-      //     history.splice(indexCurentHistory + 1);
-      //   }
-      //   const newHistory = history;
+    if (Array.isArray(value) || dataHeaderClick.length) { // Проверка на Array
       const newObjs = [];
-      value.forEach((elCell) => {
+      const arrayValues = dataHeaderClick.length ? dataHeaderClick : value;
+      arrayValues.forEach((elCell) => {
         if (elCell.type === "value") {
           const selectedCells = {
+            company: {id: selectedCompany.id, name: selectedCompany.name},
+            deviceId: currentDevice.id,
             grid: elCell.columns.map((column) => column.uniqueName)[0],
             date: elCell.rows.map((row) => row.uniqueName)[0],
           };
-
+          // eslint-disable-next-line
           if (!isBookedOthers(selectedCells) && !isBookedMe(selectedCells)) {
-            newObjs.push({
-              rowCell: elCell.rowIndex,
-              columnCell: elCell.columnIndex,
-            });
+            newObjs.push(Object.assign(
+              selectedCells,
+              { rowCell: elCell.rowIndex, 
+                columnCell: elCell.columnIndex,
+              }
+            ));
           }
         }
       });
-      if (newObjs.length) {
-        setHistory((prevHistory) => [
-          ...prevHistory,
-          [...new Set([...prevHistory, newObjs].flat())],
-        ]);
-      }
+      setHistory((prevHistory) => {
+        if (newObjs.length
+          // TODO Очень большой костыль !!ИСПРАВИТЬ
+          && JSON.stringify(prevHistory[prevHistory.length - 1]) !== JSON.stringify(
+            [...new Set([[...prevHistory[prevHistory.length - 1], newObjs]]
+              .flat(2)
+              .map(JSON.stringify))]
+              .map(JSON.parse),
+          )) {
+          const result = [[...prevHistory[prevHistory.length - 1], newObjs]].flat(2);
+          return [
+            ...prevHistory,
+            [...new Set(result.map(JSON.stringify))].map(JSON.parse),
+          ];
+        }
+
+        return prevHistory;
+      });
     }
   };
 
@@ -221,8 +331,8 @@ export default function Table() {
       }());
     }
   };
-  console.log("history:", history);
-  console.log("indexCurentHistory:", indexCurentHistory);
+  // console.log("history:", history);
+  // console.log("indexCurentHistory:", indexCurentHistory);
   console.log("bookingTime:", bookingTime);
 
   // const customizeToolbar = (toolbar) => {
@@ -231,6 +341,7 @@ export default function Table() {
   //   addThemeToolbar(toolbar);
   // };
 
+  // eslint-disable-next-line
   const setTitle = () => {
     // eslint-disable-next-line
     webdatarocks.setOptions({
@@ -243,7 +354,12 @@ export default function Table() {
   const customizeCellFunction = (cellBuilder, cellData) => {
     // console.log("cellData", cellData);
     // cellBuilder.addClass("siza_cell_custome");
+    if (cellData.type === "header" && cellData.columns.length) {
+      cellBuilder.addClass("custome_header_columns");
+    }
+
     if (cellData.type === "header" && cellData.rows.length) {
+      cellBuilder.addClass("custome_header_rows");
       const captionInMomentMember = moment(
         cellData.member.caption,
         "DD-MM-YYYY",
@@ -262,20 +378,32 @@ export default function Table() {
 
     if (cellData.type === "value") {
       const ObjectKey = {
+        company: {id: selectedCompany.id, name: selectedCompany.name},
+        deviceId: currentDevice.id,
         grid: cellData.columns.map((column) => column.uniqueName)[0],
         date: cellData.rows.map((row) => row.uniqueName)[0],
       };
-
+      const ObjectKeyForBooking = {
+        company: {id: selectedCompany.id, name: selectedCompany.name},
+        deviceId: currentDevice.id,
+        grid: cellData.columns.map((column) => column.uniqueName)[0],
+        date: cellData.rows.map((row) => row.uniqueName)[0],
+        rowCell: cellData.rowIndex, 
+        columnCell: cellData.columnIndex,
+      };
       if (isBookedOthers(ObjectKey)) {
         cellBuilder.addClass("booked_by_others");
       } else if (isBookedMe(ObjectKey)) {
         cellBuilder.addClass("booked_by_me");
+      } else if (isBookingMeNOW(ObjectKeyForBooking)) {
+        cellBuilder.addClass("booking_me_now");
       } else {
         cellBuilder.addClass("default");
       }
     }
   };
 
+  // eslint-disable-next-line
   const showWebDataRocks = () => {
     console.log(
       "getData",
@@ -313,11 +441,81 @@ export default function Table() {
     webdatarocks.refresh();
   };
 
+  const chooseFromCalendar = () => {
+    setShowCalendar(!showCalendar);
+  };
+
+  const handleDateChange = (value) => {
+    const newDate = moment(value);
+    setViewedMonth(newDate);
+    setShowCalendar(false);
+    setRernderTable((prev) => prev + 1)
+  };
+
+  const addGrid = (formatHour, shiftLength) => {
+    const grid = new Array(24).fill(0);
+    for (let i = 0; i < shiftLength; i++) {
+      grid[formatHour * shiftLength + i] = 1;
+    }
+    return grid.join("");
+  };
+  const handleSendBookingTime = () => {
+    const arrayBook = []
+    const { shiftLength } = currentDevice;
+
+    // const formattedDate = getFormattedDate(groupId, time);
+    // if (moment(`${groupId} ${hour}:00`).isBefore(moment.now())) return;
+
+    bookingTime.map((reservation) => {
+      const reversFormatedDate = reservation.date.split(".")[1];
+      const reversFormatedTime = reservation.grid.split(".")[1];
+      const formatHour = Math.floor(reversFormatedTime / shiftLength);
+      const obj = {
+        company: reservation.company,
+        status: "pending",
+        equipmentItems: [{
+          equipment: {
+            id: reservation.deviceId
+          },
+          intervals: [
+            {
+              date: moment(reversFormatedDate).format("YYYY-MM-DD"),
+              grid: addGrid(formatHour, shiftLength),
+            }
+          ]
+        }],
+      };
+      arrayBook.push(obj)
+    })
+    const groupedData = {};
+
+    arrayBook.forEach(item => {
+      const companyId = item.company.id;
+      const equipmentId = item.equipmentItems[0].equipment.id;
+      
+      const key = `${companyId}-${equipmentId}`;
+      
+      if (!groupedData[key]) {
+        groupedData[key] = { ...item };
+      } else {
+        groupedData[key].equipmentItems[0].intervals.push(...item.equipmentItems[0].intervals);
+      }
+    });
+    
+    // Преобразуем объект сгруппированных данных обратно в массив
+    const resultArray = Object.values(groupedData);
+    
+    console.log("sendArray:", arrayBook);
+    console.log("resultArray:", resultArray);
+    console.log("webdatarocks.getAllConditions():", webdatarocks.getAllConditions());
+    // setItemsPreOrder((pred) => [...pred, obj]);
+  };
+
   const pivotData = generateData();
 
   return (
     <div className="App">
-      <button type="button" className="btn" onClick={setTitle}>
+      {/* <button type="button" className="btn" onClick={setTitle}>
         Change Title
       </button>
       <button type="button" className="btn" onClick={updateData}>
@@ -325,22 +523,51 @@ export default function Table() {
       </button>
       <button type="button" className="btn" onClick={showWebDataRocks}>
         WebDataRocks
-      </button>
-      <button type="button" className="btn" onClick={handleBackHistory}>
-        back
-      </button>
-      <button type="button" className="btn" onClick={handleForwardHistory}>
-        forward
-      </button>
+      </button> */}
+
+      <div>
+        {showCalendar && (
+        <Calendar
+          onClickMonth={handleDateChange}
+          value={viewedMonth.format("YYYY MM")}
+          view="year"
+          formatMonth={(locale, date) => date.toLocaleDateString(locale, { month: "long" }).charAt(0).toUpperCase()
+            + date.toLocaleDateString(locale, { month: "long" }).slice(1)}
+        />
+        )}
+        <button type="button" className="btn" onClick={chooseFromCalendar}>
+          {viewedMonth.format("MMMM").charAt(0).toUpperCase() + viewedMonth.format("MMMM").slice(1)}
+        </button>
+        <button type="button" className="btn" onClick={handleSendBookingTime}>
+          Send
+        </button>
+        <button type="button" className="btn" onClick={handleBackHistory}>
+          Back
+        </button>
+        <button type="button" className="btn" onClick={handleForwardHistory}>
+          Forward
+        </button>
+      </div>
+
+      <div key={rernderTable}>
       <WebDataRocksReact.Pivot
         // toolbar
-        width="100%"
-        // height="1000px"
+        width={`${commonWidthColumn}px`} //860
+        height="600px" //615
         report={{
           dataSource: {
             data: pivotData,
             // filename: "https://cdn.webdatarocks.com/reports/report.json", //! Данные можно получать по ссылке
             // filename: "https://cdn.webdatarocks.com/data/data.csv",
+          },
+          tableSizes: {
+            columns: widthColumnObj,
+            // rows: [
+            //   {
+            //     idx: 3,
+            //     height: 10
+            //   }
+            // ]
           },
           slice: {
             rows: [{ uniqueName: "Date", caption: "Дни", sort: "unsorted" }],
@@ -369,6 +596,72 @@ export default function Table() {
         // beforetoolbarcreated={customizeToolbar}
         customizeCell={customizeCellFunction}
       />
+      </div>
     </div>
   );
 }
+
+// {
+//   "company": {
+//       "id": 1,
+//       "name": "Суши \"Минск-сити\""
+//   },
+//   "status": "pending",
+//   "equipmentItems": [
+//       {
+//           "equipment": {
+//               "id": "11"
+//           },
+//           "intervals": [
+//               {
+//                   "date": "2023-09-16",
+//                   "grid": "001100000000000000000000"
+//               },
+//               {
+//                 "date": "2023-09-16",
+//                 "grid": "001100000000000000000000"
+//             }
+//           ]
+//       }
+//   ]
+// },
+// {
+//   "company": {
+//       "id": 1,
+//       "name": "Суши \"Минск-сити\""
+//   },
+//   "status": "pending",
+//   "equipmentItems": [
+//       {
+//           "equipment": {
+//               "id": "2"
+//           },
+//           "intervals": [
+//               {
+//                   "date": "2023-09-16",
+//                   "grid": "001100000000000000000000"
+//               }
+//           ]
+//       }
+//   ]
+// },
+// {
+//   "company": {
+//       "id": 1,
+//       "name": "Суши \"Минск-сити\""
+//   },
+//   "status": "pending",
+//   "equipmentItems": [
+//       {
+//           "equipment": {
+//               "id": "11"
+//           },
+//           "intervals": [
+//               {
+//                   "date": "2023-09-16",
+//                   "grid": "001100000000000000000000"
+//               }
+//           ]
+//       }
+//   ]
+// }
