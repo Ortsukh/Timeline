@@ -156,7 +156,11 @@ export default function BookingMenu({
               currentDeviceIndex={currentDeviceIndex}
               setCurrentDeviceIndex={setCurrentDeviceIndex}
             />
-            <Table />
+            <Table
+              items={items}
+              currentDevice={currentDevice}
+              selectedCompany={selectedCompany}
+            />
           </div>
           <div style={{ display: "none" }}>
             <BookingTimeline

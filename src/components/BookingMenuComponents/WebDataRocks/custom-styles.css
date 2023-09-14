@@ -13,11 +13,9 @@
   display: none !important; 
 } */
 
-/* .wdr-grid-row {
-  min-height: 20px !important;
-  height: 20px !important;
-  min-width: 70px !important;
-  width: 70px !important;
+/* .wdr-cell.default, .wdr-cell.wdr-header  {
+  min-width: 30px !important;
+  max-width: 30px !important;
 } */
 /* .siza_cell_custome {
   min-height: 20px !important;
@@ -26,8 +24,14 @@
   width: 70px !important;
 } */
 
-#wdr-pivot-view #wdr-grid-view div.default {
+.custome_header_rows {
+  cursor: e-resize;
+}
+.custome_header_columns {
+  cursor: s-resize;
+}
 
+#wdr-pivot-view #wdr-grid-view div.default {
   color: white;
 }
 
@@ -37,13 +41,11 @@
 }
 
 #wdr-pivot-view #wdr-grid-view div.booked_by_me {
-
   background-color: lightgreen;
   color: lightgreen;
 }
 
-#wdr-pivot-view #wdr-grid-view div.booking_now_me {
-
+#wdr-pivot-view #wdr-grid-view div.booking_me_now {
   background-color: lightblue;
   color: lightblue;
 }
