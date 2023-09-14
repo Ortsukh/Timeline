@@ -7,7 +7,6 @@ import BookingTimeline from "./BookingDateColumn/BookingTimeline";
 import style from "./BookingMenu.module.css";
 import EditButtonColumn from "./EditButtonColumn/EditButtonColumn";
 import Table from "./WebDataRocks/Table";
-import GroupSwitching from "./BookingDateColumn/components/GroupSwitching";
 
 export default function BookingMenu({
   setIsBookingMenu,
@@ -149,17 +148,14 @@ export default function BookingMenu({
 
         <div className={style.bookingDateColumn}>
           <div>
-            <GroupSwitching
-              groups={groups}
-              currentDevice={currentDevice}
-              setCurrentDevice={setCurrentDevice}
-              currentDeviceIndex={currentDeviceIndex}
-              setCurrentDeviceIndex={setCurrentDeviceIndex}
-            />
             <Table
               items={items}
               currentDevice={currentDevice}
               selectedCompany={selectedCompany}
+              groups={groups}
+              setCurrentDevice={setCurrentDevice}
+              currentDeviceIndex={currentDeviceIndex}
+              setCurrentDeviceIndex={setCurrentDeviceIndex}
             />
           </div>
           <div style={{ display: "none" }}>

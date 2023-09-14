@@ -8,6 +8,7 @@ import "webdatarocks/webdatarocks.css";
 import "./custom-styles.css"; // Подключаем кастомные стили
 import { v4 as uuidv4 } from "uuid";
 import Calendar from "react-calendar";
+import GroupSwitching from "../BookingDateColumn/components/GroupSwitching";
 // import deleteItemToolbar from "./Toolbar/deleteItem";
 // import addThemeToolbar from "./Toolbar/theme";
 // eslint-disable-next-line
@@ -28,7 +29,9 @@ const BookedMeKey = [
   // { grid: "Hour.1", date: "Date.09-09-2023" },
 ];
 
-export default function Table({ items, currentDevice, selectedCompany }) {
+export default function Table({
+  items, currentDevice, selectedCompany, groups, setCurrentDevice, currentDeviceIndex, setCurrentDeviceIndex
+}) {
   const BookedOthersKey = [];
   items.map((item) => {
     if (item.group === currentDevice.id ) { // TODO Оптимизировать Вернуться позже
@@ -525,7 +528,7 @@ export default function Table({ items, currentDevice, selectedCompany }) {
         WebDataRocks
       </button> */}
 
-      <div>
+      <div className="btn-cont">
         {showCalendar && (
         <Calendar
           onClickMonth={handleDateChange}
@@ -535,18 +538,23 @@ export default function Table({ items, currentDevice, selectedCompany }) {
             + date.toLocaleDateString(locale, { month: "long" }).slice(1)}
         />
         )}
-        <button type="button" className="btn" onClick={chooseFromCalendar}>
+        <button type="button" className="btn btn-calendar" onClick={chooseFromCalendar}>
           {viewedMonth.format("MMMM").charAt(0).toUpperCase() + viewedMonth.format("MMMM").slice(1)}
         </button>
-        <button type="button" className="btn" onClick={handleSendBookingTime}>
+        {/* <button type="button" className="btn" onClick={handleSendBookingTime}>
           Send
-        </button>
-        <button type="button" className="btn" onClick={handleBackHistory}>
-          Back
-        </button>
-        <button type="button" className="btn" onClick={handleForwardHistory}>
-          Forward
-        </button>
+        </button> */}
+        <GroupSwitching 
+          groups={groups}
+          currentDevice={currentDevice}
+          setCurrentDevice={setCurrentDevice}
+          currentDeviceIndex={currentDeviceIndex}
+          setCurrentDeviceIndex={setCurrentDeviceIndex}
+        />
+        <div className="btn-arrow-cont">
+          <button type="button" className="btn btn-back" onClick={handleBackHistory}></button>
+          <button type="button" className="btn btn-forward" onClick={handleForwardHistory}></button>
+        </div>
       </div>
 
       <div key={rernderTable}>
