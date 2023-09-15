@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import CheckFormOrder from "./components/CheckFormOrder";
+// import CheckFormOrder from "./components/CheckFormOrder";
 import FiltersForOrder from "./components/FiltersForOrder";
-import PreOrderTable from "./components/PreOrderTable";
+// import PreOrderTable from "./components/PreOrderTable";
 import style from "./EditButtonColumn.module.css";
 import ToolsFilter from "../../FilterComponents/ToolsFilter";
 import CompaniesSelect from "../../FilterComponents/CompaniesSelect";
@@ -19,15 +19,15 @@ export default function EditButtonColumn({
   currentDevice,
   orderDate,
   setOrderDate,
-  items,
+  // items,
   setCurrentDeviceIndex,
-  groups,
+  // groups,
   setIsConfirmWindowOpen,
-  setOrderContent,
+  // setOrderContent,
   user,
   companies,
   setSelectedCompany,
-  selectedCompany,
+  // selectedCompany,
   //! ToolsFilter->
   toolNames,
   onInputChange,
@@ -36,9 +36,13 @@ export default function EditButtonColumn({
   setIsClickingOnEmptyFilter,
   setShowButtonClear,
   showButtonClear,
-  //! <-ToolsFilter
+  //! <-ToolsFilter,
+  sendNewOrder,
+  sendItemFromeTable,
 }) {
+  // eslint-disable-next-line
   const [shiftsCount, setShiftsCount] = useState(1);
+  // eslint-disable-next-line
   const [isClickedOnConfirm, setIsClickedOnConfirm] = useState(false);
 
   useEffect(() => {
@@ -119,23 +123,23 @@ export default function EditButtonColumn({
       <div>
         {!isEditMode && (
           <div className="date-block">
-            <CheckFormOrder
+            {/* <CheckFormOrder
               items={items}
               currentDevice={currentDevice}
               orderDate={orderDate}
               shiftsCount={shiftsCount}
               setItemsPreOrder={setItemsPreOrder}
               itemsPreOrder={itemsPreOrder}
-            />
+            /> */}
           </div>
         )}
         <div className="preOrderTable">
-          <PreOrderTable
+          {/* <PreOrderTable
             itemsPreOrder={itemsPreOrder}
             groups={groups}
             setItemsPreOrder={setItemsPreOrder}
             setOrderContent={setOrderContent}
-          />
+          /> */}
         </div>
         {isEditMode ? (
           <div>
@@ -160,10 +164,15 @@ export default function EditButtonColumn({
               type="button"
               className={style.reserveBtn}
               onClick={() => {
-                setIsClickedOnConfirm(true);
-                console.log(selectedCompany);
-                return itemsPreOrder[0] && selectedCompany && setIsConfirmWindowOpen(true);
+                console.log("sendItemFromeTable", sendItemFromeTable);
+                setItemsPreOrder(sendItemFromeTable);
+                sendNewOrder();
               }}
+              // onClick={() => {
+              //   setIsClickedOnConfirm(true);
+              //   console.log(selectedCompany);
+              //   return itemsPreOrder[0] && selectedCompany && setIsConfirmWindowOpen(true);
+              // }}
             >
               Подтвердить бронирование
             </button>
