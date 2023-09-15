@@ -46,6 +46,7 @@ export default function BookingMenu({
       key: "selection1",
     },
   });
+  const [sendItemFromeTable, setSendItemFromeTable] = useState([]);
   const initialCurrentDeviceIndex = groups
     .map((current) => current.id)
     .indexOf(currentDevice.id);
@@ -90,12 +91,13 @@ export default function BookingMenu({
 
   const sendNewOrder = () => {
     if (itemsPreOrder.length < 1) return;
-    const itemsPreOrderCorrect = itemsPreOrder.map((item) => {
-      item.group = item.deviceGroup;
-      return item;
-    });
-    const orderItems = createOrderGrid(itemsPreOrderCorrect);
-    createOrder(orderItems, selectedCompany)
+    // const itemsPreOrderCorrect = itemsPreOrder.map((item) => {
+    //   item.group = item.deviceGroup;
+    //   return item;
+    // });
+    // const orderItems = createOrderGrid(itemsPreOrderCorrect);
+    // createOrder(orderItems, selectedCompany)
+    createOrder(itemsPreOrder, selectedCompany)
       .then(() => {
         operAlertWindow("success");
         setItemsPreOrder([]);
@@ -143,6 +145,8 @@ export default function BookingMenu({
             showButtonClear={showButtonClear}
             setSelectedCompany={setSelectedCompany}
             //! <-ToolsFilter
+            sendNewOrder={sendNewOrder}
+            sendItemFromeTable={sendItemFromeTable}
           />
         </div>
 
@@ -156,6 +160,8 @@ export default function BookingMenu({
               setCurrentDevice={setCurrentDevice}
               currentDeviceIndex={currentDeviceIndex}
               setCurrentDeviceIndex={setCurrentDeviceIndex}
+              setItemsPreOrder={setItemsPreOrder}
+              setSendItemFromeTable={setSendItemFromeTable}
             />
           </div>
           <div style={{ display: "none" }}>

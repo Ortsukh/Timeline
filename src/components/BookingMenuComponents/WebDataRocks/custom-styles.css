@@ -51,7 +51,7 @@
 }
 
 #wdr-pivot-view .wdr-grid-layout div.wdr-scroll-pane{
-  overflow-x: hidden !important;
+  /* overflow-x: hidden !important; */
 }
 
 .btn-calendar{
