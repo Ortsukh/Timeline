@@ -4349,7 +4349,7 @@ const testOrderequip = {
   ],
 };
 
-export async function getAllEqupments1() {
+export async function getAllEquipments1() {
   return new Promise((resolve) => {
     resolve(testOrderequip);
   });

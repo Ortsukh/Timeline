@@ -5,6 +5,7 @@ import PreOrderTable from "./components/PreOrderTable";
 import style from "./EditButtonColumn.module.css";
 import ToolsFilter from "../../FilterComponents/ToolsFilter";
 import CompaniesSelect from "../../FilterComponents/CompaniesSelect";
+import BookingCalendar from "./components/BookingCalendar";
 
 export default function EditButtonColumn({
   setIsBookingMenu,
@@ -119,18 +120,18 @@ export default function EditButtonColumn({
       </div>
       )}
       <div>
-        {!isEditMode && (
-          <div className="date-block">
-            <CheckFormOrder
-              items={items}
-              currentDevice={currentDevice}
-              orderDate={orderDate}
-              shiftsCount={shiftsCount}
-              setItemsPreOrder={setItemsPreOrder}
-              itemsPreOrder={itemsPreOrder}
-            />
-          </div>
-        )}
+        {/* {!isEditMode && ( */}
+        {/* <div className="date-block"> */}
+        {/*   <CheckFormOrder */}
+        {/*     items={items} */}
+        {/*     currentDevice={currentDevice} */}
+        {/*     orderDate={orderDate} */}
+        {/*     shiftsCount={shiftsCount} */}
+        {/*     setItemsPreOrder={setItemsPreOrder} */}
+        {/*     itemsPreOrder={itemsPreOrder} */}
+        {/*   /> */}
+        {/* </div> */}
+        {/* )} */}
         <div className="preOrderTable">
           <PreOrderTable
             itemsPreOrder={itemsPreOrder}
@@ -178,6 +179,7 @@ export default function EditButtonColumn({
           </div>
         )}
       </div>
+      <BookingCalendar items={items} currentDevice={currentDevice} />
     </div>
   );
 }
