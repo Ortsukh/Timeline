@@ -130,9 +130,8 @@ export const createOrderGrid = (itemsPreOrder) => {
     }
     equipmentIdArray[order.group].push(order);
   });
-  const keys = Object.keys(equipmentIdArray);
 
-  keys.forEach((key) => {
+  Object.keys(equipmentIdArray).forEach((key) => {
     const equipmentIdArrayByDate = {};
     equipmentIdArray[key].forEach((order) => {
       if (!equipmentIdArrayByDate[order.date]) {
@@ -147,8 +146,7 @@ export const createOrderGrid = (itemsPreOrder) => {
   });
   const result = [];
   dateIntervals.forEach((el) => {
-    const keysObj = Object.keys(el.intervals);
-    keysObj.forEach((keyObj) => {
+    Object.keys(el.intervals).forEach((keyObj) => {
       let partA = 2000000000000;
       let partB = 2000000000000;
       let intervalId;
@@ -179,8 +177,8 @@ export const groupByDateItems = (items) => {
     }
     dateObj[item.date].push(item.grid);
   });
-  const keys = Object.keys(dateObj);
-  keys.forEach((key) => {
+
+  Object.keys(dateObj).forEach((key) => {
     let partA = 2000000000000;
     let partB = 2000000000000;
     dateObj[key].forEach((grid) => {
