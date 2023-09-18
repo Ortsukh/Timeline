@@ -6,7 +6,7 @@ import ConfirmWindow from "../Popup/ConfirmWindow";
 import BookingTimeline from "./BookingDateColumn/BookingTimeline";
 import style from "./BookingMenu.module.css";
 import EditButtonColumn from "./EditButtonColumn/EditButtonColumn";
-import Table from "./WebDataRocks/Table";
+// import Table from "./WebDataRocks/Table";
 
 export default function BookingMenu({
   setIsBookingMenu,
@@ -46,7 +46,7 @@ export default function BookingMenu({
       key: "selection1",
     },
   });
-  const [sendItemFromeTable, setSendItemFromeTable] = useState([]);
+  // const [sendItemFromeTable, setSendItemFromeTable] = useState([]);
   const initialCurrentDeviceIndex = groups
     .map((current) => current.id)
     .indexOf(currentDevice.id);
@@ -91,12 +91,12 @@ export default function BookingMenu({
 
   const sendNewOrder = () => {
     if (itemsPreOrder.length < 1) return;
-    // const itemsPreOrderCorrect = itemsPreOrder.map((item) => {
-    //   item.group = item.deviceGroup;
-    //   return item;
-    // });
-    // const orderItems = createOrderGrid(itemsPreOrderCorrect);
-    // createOrder(orderItems, selectedCompany)
+    const itemsPreOrderCorrect = itemsPreOrder.map((item) => {
+      item.group = item.deviceGroup;
+      return item;
+    });
+    const orderItems = createOrderGrid(itemsPreOrderCorrect);
+    createOrder(orderItems, selectedCompany);
     createOrder(itemsPreOrder, selectedCompany)
       .then(() => {
         operAlertWindow("success");
@@ -145,13 +145,13 @@ export default function BookingMenu({
             showButtonClear={showButtonClear}
             setSelectedCompany={setSelectedCompany}
             //! <-ToolsFilter
-            sendNewOrder={sendNewOrder}
-            sendItemFromeTable={sendItemFromeTable}
+            // sendNewOrder={sendNewOrder}
+            // sendItemFromeTable={sendItemFromeTable}
           />
         </div>
 
         <div className={style.bookingDateColumn}>
-          <div>
+          {/* <div>
             <Table
               items={items}
               currentDevice={currentDevice}
@@ -163,25 +163,25 @@ export default function BookingMenu({
               setItemsPreOrder={setItemsPreOrder}
               setSendItemFromeTable={setSendItemFromeTable}
             />
-          </div>
-          <div style={{ display: "none" }}>
-            <BookingTimeline
-              editOrderData={editOrderData}
-              isEditMode={isEditMode}
-              setCurrentDevice={setCurrentDevice}
-              currentDevice={currentDevice}
-              groups={groups}
-              itemsPreOrder={itemsPreOrder}
-              setItemsPreOrder={setItemsPreOrder}
-              setUpdatedItems={setUpdatedItems}
-              setCopyEditItems={setCopyEditItems}
-              items={items}
-              orderDatePlanning={orderDatePlanning}
-              currentDeviceIndex={currentDeviceIndex}
-              setCurrentDeviceIndex={setCurrentDeviceIndex}
-              selectedCompany={selectedCompany}
-            />
-          </div>
+          </div> */}
+          {/* <div style={{ display: "none" }}> */}
+          <BookingTimeline
+            editOrderData={editOrderData}
+            isEditMode={isEditMode}
+            setCurrentDevice={setCurrentDevice}
+            currentDevice={currentDevice}
+            groups={groups}
+            itemsPreOrder={itemsPreOrder}
+            setItemsPreOrder={setItemsPreOrder}
+            setUpdatedItems={setUpdatedItems}
+            setCopyEditItems={setCopyEditItems}
+            items={items}
+            orderDatePlanning={orderDatePlanning}
+            currentDeviceIndex={currentDeviceIndex}
+            setCurrentDeviceIndex={setCurrentDeviceIndex}
+            selectedCompany={selectedCompany}
+          />
+          {/* </div> */}
         </div>
       </div>
       {isConfirmWindowOpen && (
