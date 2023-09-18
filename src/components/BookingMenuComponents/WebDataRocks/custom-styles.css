@@ -1,0 +1,110 @@
+#wdr-pivot-view > span {
+  display: none !important; /* скрыть рекламу */
+}
+
+/*! Сыкрыть сортировку в ячейках костыльно
+.wdr-sort-icon,
+.wdr-v-sort-icon {
+  display: none !important; 
+} */
+
+/*! Сыкрыть изменения размера столбца и ряда костыльно
+/* .wdr-ui-element .wdr-wrapper > .wdr-handle {
+  display: none !important; 
+} */
+
+/* .wdr-cell.default, .wdr-cell.wdr-header  {
+  min-width: 30px !important;
+  max-width: 30px !important;
+} */
+/* .siza_cell_custome {
+  min-height: 20px !important;
+  height: 20px !important;
+  min-width: 70px !important;
+  width: 70px !important;
+} */
+
+.custome_header_rows {
+  cursor: e-resize;
+}
+.custome_header_columns {
+  cursor: s-resize;
+}
+
+#wdr-pivot-view #wdr-grid-view div.default {
+  color: white;
+}
+
+#wdr-pivot-view #wdr-grid-view div.booked_by_others {
+  background-color: grey;
+  color: grey;
+}
+
+#wdr-pivot-view #wdr-grid-view div.booked_by_me {
+  background-color: lightgreen;
+  color: lightgreen;
+}
+
+#wdr-pivot-view #wdr-grid-view div.booking_me_now {
+  background-color: lightblue;
+  color: lightblue;
+}
+
+#wdr-pivot-view .wdr-grid-layout div.wdr-scroll-pane{
+  /* overflow-x: hidden !important; */
+}
+
+.btn-calendar{
+  background-color: white; 
+  border: 1px solid rgb(39, 128, 252); 
+  cursor: pointer;
+  padding: 7px 15px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.btn-calendar:hover{
+  color: rgb(39, 128, 252);
+}
+
+.btn-back, .btn-forward{
+  background-color: #7B7B7B; 
+  border: none; 
+  cursor: pointer;
+  padding: 0 20px 3px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  height: 32px;
+  background-image: url(../../../back.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 22px;
+}
+
+.btn-forward{
+  background-image: url(../../../forward.svg);
+}
+
+.btn-disabled{
+  opacity: .4;
+}
+
+.react-calendar{
+  position: absolute;
+  z-index: 111;
+  top: 40px;
+}
+
+.btn-cont{
+  width: 800px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.btn-arrow-cont{
+  display: flex;
+  gap: 20px;
+}

@@ -37,7 +37,9 @@ export default function EditButtonColumn({
   setIsClickingOnEmptyFilter,
   setShowButtonClear,
   showButtonClear,
-  //! <-ToolsFilter
+  //! <-ToolsFilter,
+  // sendNewOrder,
+  // sendItemFromeTable,
 }) {
   const [shiftsCount, setShiftsCount] = useState(1);
   const [isClickedOnConfirm, setIsClickedOnConfirm] = useState(false);
@@ -160,10 +162,15 @@ export default function EditButtonColumn({
             <button
               type="button"
               className={style.reserveBtn}
+              // onClick={() => {
+              //   console.log("sendItemFromeTable", sendItemFromeTable);
+              //   setItemsPreOrder(sendItemFromeTable);
+              //   sendNewOrder();
+              // }}
               onClick={() => {
                 setIsClickedOnConfirm(true);
                 console.log(selectedCompany);
-                return itemsPreOrder[0] && selectedCompany && setIsConfirmWindowOpen(true);
+                // return itemsPreOrder[0] && selectedCompany && setIsConfirmWindowOpen(true);
               }}
             >
               Подтвердить бронирование

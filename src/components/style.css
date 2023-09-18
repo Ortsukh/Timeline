@@ -250,12 +250,9 @@
     margin: 0;
 }
 
-.headerSwitch {
-    margin-bottom: 5px;
-}
-
 .headerSwitch div {
     align-items: center;
+    gap: 20px;
 }
 
 .headerSwitch button {
@@ -266,6 +263,7 @@
     background-color: white;
     border-width: 1px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .headerSwitch p {

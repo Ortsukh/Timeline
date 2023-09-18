@@ -6,6 +6,7 @@ import ConfirmWindow from "../Popup/ConfirmWindow";
 import BookingTimeline from "./BookingDateColumn/BookingTimeline";
 import style from "./BookingMenu.module.css";
 import EditButtonColumn from "./EditButtonColumn/EditButtonColumn";
+// import Table from "./WebDataRocks/Table";
 
 export default function BookingMenu({
   setIsBookingMenu,
@@ -45,6 +46,7 @@ export default function BookingMenu({
       key: "selection1",
     },
   });
+  // const [sendItemFromeTable, setSendItemFromeTable] = useState([]);
   const initialCurrentDeviceIndex = groups
     .map((current) => current.id)
     .indexOf(currentDevice.id);
@@ -94,7 +96,8 @@ export default function BookingMenu({
       return item;
     });
     const orderItems = createOrderGrid(itemsPreOrderCorrect);
-    createOrder(orderItems, selectedCompany)
+    createOrder(orderItems, selectedCompany);
+    createOrder(itemsPreOrder, selectedCompany)
       .then(() => {
         operAlertWindow("success");
         setItemsPreOrder([]);
@@ -142,10 +145,26 @@ export default function BookingMenu({
             showButtonClear={showButtonClear}
             setSelectedCompany={setSelectedCompany}
             //! <-ToolsFilter
+            // sendNewOrder={sendNewOrder}
+            // sendItemFromeTable={sendItemFromeTable}
           />
         </div>
 
         <div className={style.bookingDateColumn}>
+          {/* <div>
+            <Table
+              items={items}
+              currentDevice={currentDevice}
+              selectedCompany={selectedCompany}
+              groups={groups}
+              setCurrentDevice={setCurrentDevice}
+              currentDeviceIndex={currentDeviceIndex}
+              setCurrentDeviceIndex={setCurrentDeviceIndex}
+              setItemsPreOrder={setItemsPreOrder}
+              setSendItemFromeTable={setSendItemFromeTable}
+            />
+          </div> */}
+          {/* <div style={{ display: "none" }}> */}
           <BookingTimeline
             editOrderData={editOrderData}
             isEditMode={isEditMode}
@@ -162,6 +181,7 @@ export default function BookingMenu({
             setCurrentDeviceIndex={setCurrentDeviceIndex}
             selectedCompany={selectedCompany}
           />
+          {/* </div> */}
         </div>
       </div>
       {isConfirmWindowOpen && (
