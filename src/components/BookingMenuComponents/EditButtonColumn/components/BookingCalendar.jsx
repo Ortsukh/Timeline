@@ -164,13 +164,14 @@ export default function BookingCalendar({
     >
       <RectangleSelection
         onSelect={() => {}}
-        disabled={isDefaultSelect && !isActiveCalendar}
+        disabled={(isDefaultSelect && isActiveCalendar) || !isActiveCalendar}
         style={{
           backgroundColor: "rgba(0,0,255,0.4)",
           borderColor: "blue",
         }}
       >
         <FullCalendar
+          height={450}
           fixedWeekCount={false}
           ref={calendarRef}
           plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
