@@ -42,6 +42,7 @@ export default function BookingMenu({
 }) {
   // new
   const [baseOrder, setBaseOrder] = useState({ shiftTime: 0, preOrders: [] });
+  const [isActiveCalendar, setIsActiveCalendar] = useState(true);
   const [selectedConflictDate, setSelectedConflictDate] = useState(null);
   const [mapsEquipment, setMapsEquipment] = useState([]);
   const [commonMapsEquipment, setCommonMapsEquipment] = useState([]);
@@ -75,7 +76,12 @@ export default function BookingMenu({
       setSelectedCompany(user);
     }
   }, []);
-
+  const handleClear = () => {
+    setBaseOrder({ shiftTime: 0, preOrders: [] });
+    setCalendarEvent([]);
+    setSelectedConflictDate("");
+    setIsActiveCalendar(true);
+  };
   const handleSetSelectedConflictDate = (date) => {
     setSelectedConflictDate(date);
   };
@@ -85,13 +91,13 @@ export default function BookingMenu({
       id: uuidv4(),
       group: group.id,
       status: "preOrder",
-      canMove: false,
       date,
       grid: addGrid(formatHour, group.shiftLength),
     };
     return obj;
   };
   const generateCalendarEvents = () => {
+    setIsActiveCalendar(false);
     console.log(commonMapsEquipment);
     Object.keys(mapsEquipment).forEach((group) => {
       const conflictDates = [];
@@ -201,14 +207,9 @@ export default function BookingMenu({
   };
 
   const sendNewOrder = () => {
-    if (itemsPreOrder.length < 1) return;
-    // const itemsPreOrderCorrect = itemsPreOrder.map((item) => {
-    //   item.group = item.deviceGroup;
-    //   return item;
-    // });
-    // const orderItems = createOrderGrid(itemsPreOrderCorrect);
-    // createOrder(orderItems, selectedCompany);
-    createOrder(itemsPreOrder, selectedCompany)
+    if (baseOrder.preOrders.length < 1) return;
+    const orderItems = createOrderGrid(baseOrder.preOrders);
+    createOrder(orderItems, selectedCompany)
       .then(() => {
         operAlertWindow("success");
         setItemsPreOrder([]);
@@ -277,6 +278,8 @@ export default function BookingMenu({
             setSelectedDates={setSelectedDates}
             generateCalendarEvents={generateCalendarEvents}
             calendarEvent={calendarEvent}
+            isActiveCalendar={isActiveCalendar}
+            handleClear={handleClear}
             //! <-ToolsFilter
             setShowStartDisplayConflict={setShowStartDisplayConflict}
             // sendNewOrder={sendNewOrder}
