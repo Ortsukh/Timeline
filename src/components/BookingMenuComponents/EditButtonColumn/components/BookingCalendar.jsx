@@ -12,7 +12,8 @@ import style from "../EditButtonColumn.module.css";
 
 const events = [];
 function renderEventContent(eventInfo) {
-  const color = eventInfo.backgroundColor || "red";
+  const color = eventInfo.backgroundColor || "#ffa4a4";
+  console.log(eventInfo);
   const obj = {
     height: 30,
     backgroundColor: color,
@@ -38,6 +39,29 @@ export default function BookingCalendar({
   const [endCoord, setEndCoord] = useState(0);
   const calendarRef = useRef();
   const [event, setEvent] = useState(events);
+  // const currentItems = groupByDateItems(
+  //   items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day"))),
+  // );
+  // const startShift = 8;
+  // console.log(items);
+  // const checkShiftPerDay = (day) => {
+  //   if (moment(day).isBefore(moment().startOf("day"))) {
+  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#c3cddd" }]);
+  //   } else if (!currentItems[day]) {
+  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#90ef90" }]);
+  //   } else if (
+  //     currentItems[day][startShift] === "1"
+  //     && (startShift - currentDevice.shiftLength < 0
+  //       || currentItems[day][startShift - currentDevice.shiftLength] === "1")
+  //     && (startShift - currentDevice.shiftLength > 24
+  //       || currentItems[day][startShift + currentDevice.shiftLength]) === "1"
+  //   ) {
+  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#3a3a3a" }]);
+  //   } else if (currentItems[day][startShift] === "1") {
+  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#ffa4a4" }]);
+  //   } else {
+  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#90ef90" }]);
+  //   }
   const handleEventClick = (clickInfo) => {
     const day = moment(clickInfo.event.start).format("YYYY-MM-DD");
     handleSetSelectedConflictDate(day);
@@ -50,7 +74,7 @@ export default function BookingCalendar({
   useEffect(() => {
     const calendar = calendarRef.current.elRef.current;
     const calendarDayCell = calendar.querySelectorAll(
-      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
+      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)"
     );
     calendarDayCell.forEach((cell) => {
       cell.classList.remove(style.gridActiveBG);
@@ -84,7 +108,7 @@ export default function BookingCalendar({
     if (!calendarRef.current) return;
     const calendar = calendarRef.current.elRef.current;
     const calendarDayCell = calendar.querySelectorAll(
-      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
+      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)"
     );
     console.log(startCoord, endCoord);
     const selectedDays = [];
@@ -93,19 +117,19 @@ export default function BookingCalendar({
       cell.classList.remove(style.gridActiveBG);
       const cellCoord = cell.getBoundingClientRect();
       if (
-        ((cellCoord.right > startCoord[0] && cellCoord.right < endCoord[0])
-          || (cellCoord.left > startCoord[0] && cellCoord.left < endCoord[0])
-          || (cellCoord.right > startCoord[0]
-            && cellCoord.right > endCoord[0]
-            && cellCoord.left < startCoord[0]
-            && cellCoord.left < endCoord[0]))
-        && ((cellCoord.top > startCoord[1] && cellCoord.top < endCoord[1])
-          || (cellCoord.bottom > startCoord[1]
-            && cellCoord.bottom < endCoord[1])
-          || (cellCoord.top < startCoord[1]
-            && cellCoord.top < endCoord[1]
-            && cellCoord.bottom > startCoord[1]
-            && cellCoord.bottom > endCoord[1]))
+        ((cellCoord.right > startCoord[0] && cellCoord.right < endCoord[0]) ||
+          (cellCoord.left > startCoord[0] && cellCoord.left < endCoord[0]) ||
+          (cellCoord.right > startCoord[0] &&
+            cellCoord.right > endCoord[0] &&
+            cellCoord.left < startCoord[0] &&
+            cellCoord.left < endCoord[0])) &&
+        ((cellCoord.top > startCoord[1] && cellCoord.top < endCoord[1]) ||
+          (cellCoord.bottom > startCoord[1] &&
+            cellCoord.bottom < endCoord[1]) ||
+          (cellCoord.top < startCoord[1] &&
+            cellCoord.top < endCoord[1] &&
+            cellCoord.bottom > startCoord[1] &&
+            cellCoord.bottom > endCoord[1]))
       ) {
         checkShiftPerDay(cell);
 
@@ -114,7 +138,9 @@ export default function BookingCalendar({
     });
     setSelectedDates(selectedDays);
   };
-  useEffect(() => { rectangleSelect(); }, [endCoord]);
+  useEffect(() => {
+    rectangleSelect();
+  }, [endCoord]);
   const handleChangeMouse = (e) => {
     if (isDefaultSelect || !isActiveCalendar) {
       return;

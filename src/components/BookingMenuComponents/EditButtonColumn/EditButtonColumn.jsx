@@ -135,6 +135,12 @@ export default function EditButtonColumn({
           </div>
         </>
       )}
+      <BookingCalendar     items={items}
+        currentDevice={currentDevice}
+        handleSetSelectedConflictDate={handleSetSelectedConflictDate}
+        setSelectedDates={setSelectedDates}
+        calendarEvent={calendarEvent}
+        isActiveCalendar={isActiveCalendar} />
       <div>
         {/* {!isEditMode && ( */}
         {/* <div className="date-block"> */}
@@ -224,14 +230,7 @@ export default function EditButtonColumn({
           </div>
         )}
       </div>
-      <BookingCalendar
-        items={items}
-        currentDevice={currentDevice}
-        handleSetSelectedConflictDate={handleSetSelectedConflictDate}
-        setSelectedDates={setSelectedDates}
-        calendarEvent={calendarEvent}
-        isActiveCalendar={isActiveCalendar}
-      />
+     
     </div>
   );
 }
