@@ -1,28 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import "../style.css";
 
 const generateShiftTime = (shift) => {
   const options = [];
   for (let i = 0; i < 24; i += shift) {
-    console.log(i);
     options.push(
       <option
-        value={i + 1}
+        value={i}
         key={i}
       >
-        {i}
+        {`${i} - ${i + shift}`}
       </option>,
     );
   }
   return options;
 };
 
-export default function TimeShift({ currentDevice, choseTime }) {
-  console.log(generateShiftTime(currentDevice.shiftLength), currentDevice);
+export default function TimeShift({ currentDevice, setBaseOrder }) {
+  const [value, setValue] = useState(0);
+  const handleChangeTime = (e) => {
+    setValue(e.target.value);
+    setBaseOrder((prev) => ({
+      ...prev, shiftTime: e.target.value,
+    }));
+  };
   return (
     <div className="select-count-box">
       <span>Время смены</span>
-      <select onChange={choseTime} value={0}>
+      <select onChange={handleChangeTime} value={value}>
         {generateShiftTime(+currentDevice.shiftLength)}
       </select>
     </div>
