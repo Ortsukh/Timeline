@@ -7,7 +7,6 @@ import calenderList from "@fullcalendar/list";
 import interaction from "@fullcalendar/interaction";
 import moment from "moment";
 import RectangleSelection from "react-rectangle-selection";
-import { groupByDateItems } from "../../../../common/DataConvertHelper";
 import style from "../EditButtonColumn.module.css";
 
 const events = [];
@@ -74,7 +73,7 @@ export default function BookingCalendar({
   useEffect(() => {
     const calendar = calendarRef.current.elRef.current;
     const calendarDayCell = calendar.querySelectorAll(
-      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)"
+      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
     );
     calendarDayCell.forEach((cell) => {
       cell.classList.remove(style.gridActiveBG);
@@ -108,7 +107,7 @@ export default function BookingCalendar({
     if (!calendarRef.current) return;
     const calendar = calendarRef.current.elRef.current;
     const calendarDayCell = calendar.querySelectorAll(
-      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)"
+      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
     );
     console.log(startCoord, endCoord);
     const selectedDays = [];
@@ -117,25 +116,26 @@ export default function BookingCalendar({
       cell.classList.remove(style.gridActiveBG);
       const cellCoord = cell.getBoundingClientRect();
       if (
-        ((cellCoord.right > startCoord[0] && cellCoord.right < endCoord[0]) ||
-          (cellCoord.left > startCoord[0] && cellCoord.left < endCoord[0]) ||
-          (cellCoord.right > startCoord[0] &&
-            cellCoord.right > endCoord[0] &&
-            cellCoord.left < startCoord[0] &&
-            cellCoord.left < endCoord[0])) &&
-        ((cellCoord.top > startCoord[1] && cellCoord.top < endCoord[1]) ||
-          (cellCoord.bottom > startCoord[1] &&
-            cellCoord.bottom < endCoord[1]) ||
-          (cellCoord.top < startCoord[1] &&
-            cellCoord.top < endCoord[1] &&
-            cellCoord.bottom > startCoord[1] &&
-            cellCoord.bottom > endCoord[1]))
+        ((cellCoord.right > startCoord[0] && cellCoord.right < endCoord[0])
+          || (cellCoord.left > startCoord[0] && cellCoord.left < endCoord[0])
+          || (cellCoord.right > startCoord[0]
+            && cellCoord.right > endCoord[0]
+            && cellCoord.left < startCoord[0]
+            && cellCoord.left < endCoord[0]))
+        && ((cellCoord.top > startCoord[1] && cellCoord.top < endCoord[1])
+          || (cellCoord.bottom > startCoord[1]
+            && cellCoord.bottom < endCoord[1])
+          || (cellCoord.top < startCoord[1]
+            && cellCoord.top < endCoord[1]
+            && cellCoord.bottom > startCoord[1]
+            && cellCoord.bottom > endCoord[1]))
       ) {
         checkShiftPerDay(cell);
 
         selectedDays.push(cell.dataset.date);
       }
     });
+
     setSelectedDates(selectedDays);
   };
   useEffect(() => {
