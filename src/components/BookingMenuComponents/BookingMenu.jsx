@@ -10,6 +10,7 @@ import {
 } from "../../common/DataConvertHelper";
 import ConfirmWindow from "../Popup/ConfirmWindow";
 import BookingTimeline from "./BookingDateColumn/BookingTimeline";
+import ConfirmBookingWindow from "./BookingDateColumn/ConflictResolutionWindow/ConfirmBookingWindow";
 import style from "./BookingMenu.module.css";
 import EditButtonColumn from "./EditButtonColumn/EditButtonColumn";
 // import Table from "./WebDataRocks/Table";
@@ -46,7 +47,7 @@ export default function BookingMenu({
   const [commonMapsEquipment, setCommonMapsEquipment] = useState([]);
   const [selectedDates, setSelectedDates] = useState([]);
   const [calendarEvent, setCalendarEvent] = useState([]);
-
+  const [showStartDisplayConflict, setShowStartDisplayConflict] = useState(true);
   console.log(currentDevice);
 
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
@@ -219,6 +220,22 @@ export default function BookingMenu({
       .catch(operAlertWindow("error"));
   };
 
+  const pushOrderInBasePreOrder = (newOrder) => {
+    const newPreOrder = [...baseOrder.preOrders, {
+      canMove: newOrder.canMove,
+      date: newOrder.date,
+      grid: newOrder.grid,
+      group: newOrder.group,
+      id: newOrder.id,
+      status: newOrder.status,
+    }]
+    console.log("END newPreOrder", newPreOrder);
+    setBaseOrder((prev) => ({
+      ...prev, preOrders: newPreOrder
+    }))
+  }
+  console.log("END baseOrder", baseOrder);
+
   return (
     <>
       <div className={style.container}>
@@ -261,6 +278,7 @@ export default function BookingMenu({
             generateCalendarEvents={generateCalendarEvents}
             calendarEvent={calendarEvent}
             //! <-ToolsFilter
+            setShowStartDisplayConflict={setShowStartDisplayConflict}
             // sendNewOrder={sendNewOrder}
             // sendItemFromeTable={sendItemFromeTable}
           />
@@ -280,8 +298,25 @@ export default function BookingMenu({
               setSendItemFromeTable={setSendItemFromeTable}
             />
           </div> */}
-          {/* <div style={{ display: "none" }}> */}
-          <BookingTimeline
+          <div style={{ display: "none" }}>
+            <BookingTimeline
+              editOrderData={editOrderData}
+              isEditMode={isEditMode}
+              setCurrentDevice={setCurrentDevice}
+              currentDevice={currentDevice}
+              groups={groups}
+              itemsPreOrder={itemsPreOrder}
+              setItemsPreOrder={setItemsPreOrder}
+              setUpdatedItems={setUpdatedItems}
+              setCopyEditItems={setCopyEditItems}
+              items={items}
+              orderDatePlanning={orderDatePlanning}
+              currentDeviceIndex={currentDeviceIndex}
+              setCurrentDeviceIndex={setCurrentDeviceIndex}
+              selectedCompany={selectedCompany}
+            />
+          </div>
+          <ConfirmBookingWindow
             editOrderData={editOrderData}
             isEditMode={isEditMode}
             setCurrentDevice={setCurrentDevice}
@@ -296,8 +331,12 @@ export default function BookingMenu({
             currentDeviceIndex={currentDeviceIndex}
             setCurrentDeviceIndex={setCurrentDeviceIndex}
             selectedCompany={selectedCompany}
+            selectedConflictDate={selectedConflictDate}
+            setSelectedConflictDate={setSelectedConflictDate}
+            baseOrder={baseOrder}
+            showStartDisplayConflict={showStartDisplayConflict}
+            pushOrderInBasePreOrder={pushOrderInBasePreOrder}
           />
-          {/* </div> */}
         </div>
       </div>
       {isConfirmWindowOpen && (
