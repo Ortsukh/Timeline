@@ -113,6 +113,9 @@ export default function EditButtonColumn({
       {!isEditMode && (
       <>
         <div className="selects-block">
+          <TimeShift
+            currentDevice={currentDevice}
+          />
           <FiltersForOrder
             orderDate={orderDate}
             setOrderDate={setOrderDate}
@@ -120,13 +123,9 @@ export default function EditButtonColumn({
             currentDevice={currentDevice}
           />
         </div>
-        <div className="selects-block">
-          <TimeShift
-            currentDevice={currentDevice}
-          />
-        </div>
       </>
       )}
+      <BookingCalendar items={items} currentDevice={currentDevice} />
       <div>
         {/* {!isEditMode && ( */}
         {/* <div className="date-block"> */}
@@ -187,7 +186,7 @@ export default function EditButtonColumn({
           </div>
         )}
       </div>
-      <BookingCalendar items={items} currentDevice={currentDevice} />
+      {/* <BookingCalendar items={items} currentDevice={currentDevice} /> */}
     </div>
   );
 }

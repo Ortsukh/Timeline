@@ -11,7 +11,7 @@ import { groupByDateItems } from "../../../../common/DataConvertHelper";
 
 const events = [];
 function renderEventContent(eventInfo) {
-  const color = eventInfo.backgroundColor || "red";
+  const color = eventInfo.backgroundColor || "#ffa4a4";
   console.log(eventInfo);
   const obj = {
     height: 30,
@@ -45,9 +45,9 @@ export default function BookingCalendar({ items, currentDevice }) {
   console.log(items);
   const checkShiftPerDay = (day) => {
     if (moment(day).isBefore(moment().startOf("day"))) {
-      setEvent((prev) => [...prev, { start: day, backgroundColor: "gray" }]);
+      setEvent((prev) => [...prev, { start: day, backgroundColor: "#c3cddd" }]);
     } else if (!currentItems[day]) {
-      setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
+      setEvent((prev) => [...prev, { start: day, backgroundColor: "#90ef90" }]);
     } else if (
       currentItems[day][startShift] === "1"
       && (startShift - currentDevice.shiftLength < 0
@@ -55,11 +55,11 @@ export default function BookingCalendar({ items, currentDevice }) {
       && (startShift - currentDevice.shiftLength > 24
         || currentItems[day][startShift + currentDevice.shiftLength]) === "1"
     ) {
-      setEvent((prev) => [...prev, { start: day, backgroundColor: "black" }]);
+      setEvent((prev) => [...prev, { start: day, backgroundColor: "#3a3a3a" }]);
     } else if (currentItems[day][startShift] === "1") {
-      setEvent((prev) => [...prev, { start: day, backgroundColor: "red" }]);
+      setEvent((prev) => [...prev, { start: day, backgroundColor: "#ffa4a4" }]);
     } else {
-      setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
+      setEvent((prev) => [...prev, { start: day, backgroundColor: "#90ef90" }]);
     }
   };
   useEffect(() => {
@@ -104,9 +104,9 @@ export default function BookingCalendar({ items, currentDevice }) {
     }
     selectedDays.forEach((day) => {
       if (moment(day).isBefore(moment().startOf("day"))) {
-        setEvent((prev) => [...prev, { start: day, backgroundColor: "gray" }]);
+        setEvent((prev) => [...prev, { start: day, backgroundColor: "#c3cddd" }]);
       } else if (!currentItems[day]) {
-        setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
+        setEvent((prev) => [...prev, { start: day, backgroundColor: "#90ef90" }]);
       } else if (
         currentItems[day][startShift] === "1"
         && (startShift - currentDevice.shiftLength < 0
@@ -114,11 +114,11 @@ export default function BookingCalendar({ items, currentDevice }) {
         && (startShift - currentDevice.shiftLength > 24
           || currentItems[day][startShift + currentDevice.shiftLength]) === "1"
       ) {
-        setEvent((prev) => [...prev, { start: day, backgroundColor: "black" }]);
+        setEvent((prev) => [...prev, { start: day, backgroundColor: "#3a3a3a" }]);
       } else if (currentItems[day][startShift] === "1") {
-        setEvent((prev) => [...prev, { start: day, backgroundColor: "red" }]);
+        setEvent((prev) => [...prev, { start: day, backgroundColor: "#ffa4a4" }]);
       } else {
-        setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
+        setEvent((prev) => [...prev, { start: day, backgroundColor: "#90ef90" }]);
       }
     });
     console.log(selectedDays);
