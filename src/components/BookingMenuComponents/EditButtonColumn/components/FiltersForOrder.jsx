@@ -1,16 +1,13 @@
-import React, { useState } from "react";
-import DateFilter from "../../../FilterComponents/DateFilter";
+import React from "react";
 
 export default function FiltersForOrder({
   setShiftsCount,
-  setOrderDate,
-  orderDate,
   currentDevice,
 }) {
-  const [isActiveDate, setIsActiveDate] = useState(false);
-  const showDatePicker = () => {
-    setIsActiveDate((current) => !current);
-  };
+  // const [isActiveDate, setIsActiveDate] = useState(false);
+  // const showDatePicker = () => {
+  //   setIsActiveDate((current) => !current);
+  // };
   const choseShiftsCount = (count) => {
     setShiftsCount(count.target.value);
   };

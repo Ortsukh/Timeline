@@ -43,6 +43,8 @@ export default function EditButtonColumn({
   generateCalendarEvents,
   setSelectedDates,
   calendarEvent,
+  isActiveCalendar,
+  handleClear,
   //! <-ToolsFilter,
   // sendNewOrder,
   // sendItemFromeTable,
@@ -208,6 +210,13 @@ export default function EditButtonColumn({
             >
               Рассчитать
             </button>
+            <button
+              type="button"
+              className={style.reserveBtn}
+              onClick={handleClear}
+            >
+              Очистить
+            </button>
           </div>
         )}
       </div>
@@ -217,6 +226,7 @@ export default function EditButtonColumn({
         handleSetSelectedConflictDate={handleSetSelectedConflictDate}
         setSelectedDates={setSelectedDates}
         calendarEvent={calendarEvent}
+        isActiveCalendar={isActiveCalendar}
       />
     </div>
   );

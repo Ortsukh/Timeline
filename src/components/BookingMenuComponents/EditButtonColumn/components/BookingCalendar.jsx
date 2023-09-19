@@ -27,43 +27,36 @@ const handleEvents = (events1) => {
   console.log("handleEvents tıklandı.");
 };
 export default function BookingCalendar({
-  items,
-  currentDevice,
   handleSetSelectedConflictDate,
   setSelectedDates,
   calendarEvent,
+  isActiveCalendar,
 }) {
-  const [isMouseUp, setisMouseUp] = useState(false);
+  const [isMouseUp, setIsMouseUp] = useState(false);
   const [startCoord, setStartCoord] = useState(0);
   const [isDefaultSelect, setIsDefaultSelect] = useState(true);
   const [endCoord, setEndCoord] = useState(0);
   const calendarRef = useRef();
   const [event, setEvent] = useState(events);
-  const currentItems = groupByDateItems(
-    items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day"))),
-  );
-  const startShift = 8;
   const handleEventClick = (clickInfo) => {
     const day = moment(clickInfo.event.start).format("YYYY-MM-DD");
-    console.log(day);
     handleSetSelectedConflictDate(day);
   };
+
   useEffect(() => {
     setEvent(calendarEvent);
   }, [calendarEvent]);
-  const handleChangeMouse = (e) => {
-    console.log(e);
-    if (isDefaultSelect) {
-      return;
-    }
-    if (e.type === "mouseup") {
-      setEndCoord([e.clientX, e.clientY]);
-    }
-    if (e.type === "mousedown") {
-      setStartCoord([e.clientX, e.clientY]);
-    }
-    setisMouseUp((prev) => !prev);
-  };
+
+  useEffect(() => {
+    const calendar = calendarRef.current.elRef.current;
+    const calendarDayCell = calendar.querySelectorAll(
+      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
+    );
+    calendarDayCell.forEach((cell) => {
+      cell.classList.remove(style.gridActiveBG);
+    });
+  }, [isActiveCalendar]);
+
   const checkShiftPerDay = (cell) => {
     console.log(cell);
     cell.classList.add(style.gridActiveBG);
@@ -85,15 +78,15 @@ export default function BookingCalendar({
     //   setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
     // }
   };
-  useEffect(() => {
+  const rectangleSelect = () => {
+    console.log(123);
     setEvent([]);
-    if (isMouseUp) return;
     if (!calendarRef.current) return;
     const calendar = calendarRef.current.elRef.current;
     const calendarDayCell = calendar.querySelectorAll(
       ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
     );
-    console.log(startCoord);
+    console.log(startCoord, endCoord);
     const selectedDays = [];
 
     calendarDayCell.forEach((cell) => {
@@ -120,7 +113,20 @@ export default function BookingCalendar({
       }
     });
     setSelectedDates(selectedDays);
-  }, [isMouseUp]);
+  };
+  useEffect(() => { rectangleSelect(); }, [endCoord]);
+  const handleChangeMouse = (e) => {
+    if (isDefaultSelect || !isActiveCalendar) {
+      return;
+    }
+    if (e.type === "mouseup") {
+      setEndCoord([e.clientX, e.clientY]);
+    }
+    if (e.type === "mousedown") {
+      setStartCoord([e.clientX, e.clientY]);
+    }
+    setIsMouseUp((prev) => !prev);
+  };
   const handleSelect = (data) => {
     setEvent([]);
     const selectedDays = [];
@@ -158,7 +164,7 @@ export default function BookingCalendar({
     >
       <RectangleSelection
         onSelect={() => {}}
-        disabled={isDefaultSelect}
+        disabled={isDefaultSelect && !isActiveCalendar}
         style={{
           backgroundColor: "rgba(0,0,255,0.4)",
           borderColor: "blue",
@@ -170,7 +176,7 @@ export default function BookingCalendar({
           plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
           showNonCurrentDates={false}
           selectHelper
-          selectable={isDefaultSelect}
+          selectable={isDefaultSelect && isActiveCalendar}
           dateClick={(e) => console.log(e)}
           selectMirror
           select={(data) => handleSelect(data)}
