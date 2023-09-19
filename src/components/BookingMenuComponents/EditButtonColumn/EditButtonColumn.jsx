@@ -120,17 +120,15 @@ export default function EditButtonColumn({
       {!isEditMode && (
         <>
           <div className="selects-block">
+          <TimeShift
+              currentDevice={currentDevice}
+              setBaseOrder={setBaseOrder}
+            />
             <FiltersForOrder
               orderDate={orderDate}
               setOrderDate={setOrderDate}
               setShiftsCount={setShiftsCount}
               currentDevice={currentDevice}
-            />
-          </div>
-          <div className="selects-block">
-            <TimeShift
-              currentDevice={currentDevice}
-              setBaseOrder={setBaseOrder}
             />
           </div>
         </>
@@ -190,7 +188,7 @@ export default function EditButtonColumn({
             </button>
           </div>
         ) : (
-          <div>
+          <div className={style.btnCont}>
             {/* <button */}
             {/*  type="button" */}
             {/*  className={style.reserveBtn} */}
@@ -224,7 +222,7 @@ export default function EditButtonColumn({
             </button>
             <button
               type="button"
-              className={style.reserveBtn}
+              className={style.closeBtn}
               onClick={handleClear}
             >
               Очистить
