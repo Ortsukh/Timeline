@@ -8,6 +8,7 @@ import interaction from "@fullcalendar/interaction";
 import moment from "moment";
 import RectangleSelection from "react-rectangle-selection";
 import { groupByDateItems } from "../../../../common/DataConvertHelper";
+import style from "../EditButtonColumn.module.css";
 
 const events = [];
 function renderEventContent(eventInfo) {
@@ -21,79 +22,137 @@ function renderEventContent(eventInfo) {
   return <div style={obj} />;
 }
 
-const handleEventClick = (clickInfo) => {
-  console.log(clickInfo);
-
-  console.log("event tıklandı.");
-};
-
 const handleEvents = (events1) => {
   console.log(events1);
 
   console.log("handleEvents tıklandı.");
 };
-export default function BookingCalendar({ items, currentDevice }) {
+export default function BookingCalendar({
+  handleSetSelectedConflictDate,
+  setSelectedDates,
+  calendarEvent,
+  isActiveCalendar,
+}) {
+  const [isMouseUp, setIsMouseUp] = useState(false);
   const [startCoord, setStartCoord] = useState(0);
   const [isDefaultSelect, setIsDefaultSelect] = useState(true);
   const [endCoord, setEndCoord] = useState(0);
   const calendarRef = useRef();
   const [event, setEvent] = useState(events);
-  const currentItems = groupByDateItems(
-    items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day"))),
-  );
-  const startShift = 8;
-  console.log(items);
-  const checkShiftPerDay = (day) => {
-    if (moment(day).isBefore(moment().startOf("day"))) {
-      setEvent((prev) => [...prev, { start: day, backgroundColor: "#c3cddd" }]);
-    } else if (!currentItems[day]) {
-      setEvent((prev) => [...prev, { start: day, backgroundColor: "#90ef90" }]);
-    } else if (
-      currentItems[day][startShift] === "1"
-      && (startShift - currentDevice.shiftLength < 0
-        || currentItems[day][startShift - currentDevice.shiftLength] === "1")
-      && (startShift - currentDevice.shiftLength > 24
-        || currentItems[day][startShift + currentDevice.shiftLength]) === "1"
-    ) {
-      setEvent((prev) => [...prev, { start: day, backgroundColor: "#3a3a3a" }]);
-    } else if (currentItems[day][startShift] === "1") {
-      setEvent((prev) => [...prev, { start: day, backgroundColor: "#ffa4a4" }]);
-    } else {
-      setEvent((prev) => [...prev, { start: day, backgroundColor: "#90ef90" }]);
-    }
+  // const currentItems = groupByDateItems(
+  //   items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day"))),
+  // );
+  // const startShift = 8;
+  // console.log(items);
+  // const checkShiftPerDay = (day) => {
+  //   if (moment(day).isBefore(moment().startOf("day"))) {
+  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#c3cddd" }]);
+  //   } else if (!currentItems[day]) {
+  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#90ef90" }]);
+  //   } else if (
+  //     currentItems[day][startShift] === "1"
+  //     && (startShift - currentDevice.shiftLength < 0
+  //       || currentItems[day][startShift - currentDevice.shiftLength] === "1")
+  //     && (startShift - currentDevice.shiftLength > 24
+  //       || currentItems[day][startShift + currentDevice.shiftLength]) === "1"
+  //   ) {
+  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#3a3a3a" }]);
+  //   } else if (currentItems[day][startShift] === "1") {
+  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#ffa4a4" }]);
+  //   } else {
+  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#90ef90" }]);
+  //   }
+  const handleEventClick = (clickInfo) => {
+    const day = moment(clickInfo.event.start).format("YYYY-MM-DD");
+    handleSetSelectedConflictDate(day);
   };
-  useEffect(() => {
-    setEvent([]);
 
-    // 👇️ call method in useEffect hook
+  useEffect(() => {
+    setEvent(calendarEvent);
+  }, [calendarEvent]);
+
+  useEffect(() => {
+    const calendar = calendarRef.current.elRef.current;
+    const calendarDayCell = calendar.querySelectorAll(
+      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)"
+    );
+    calendarDayCell.forEach((cell) => {
+      cell.classList.remove(style.gridActiveBG);
+    });
+  }, [isActiveCalendar]);
+
+  const checkShiftPerDay = (cell) => {
+    console.log(cell);
+    cell.classList.add(style.gridActiveBG);
+    // if (moment(day).isBefore(moment().startOf("day"))) {
+    //   setEvent((prev) => [...prev, { start: day, backgroundColor: "gray" }]);
+    // } else if (!currentItems[day]) {
+    //   setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
+    // } else if (
+    //   currentItems[day][startShift] === "1"
+    //   && (startShift - currentDevice.shiftLength < 0
+    //     || currentItems[day][startShift - currentDevice.shiftLength] === "1")
+    //   && (startShift - currentDevice.shiftLength > 24
+    //     || currentItems[day][startShift + currentDevice.shiftLength]) === "1"
+    // ) {
+    //   setEvent((prev) => [...prev, { start: day, backgroundColor: "black" }]);
+    // } else if (currentItems[day][startShift] === "1") {
+    //   setEvent((prev) => [...prev, { start: day, backgroundColor: "red" }]);
+    // } else {
+    //   setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
+    // }
+  };
+  const rectangleSelect = () => {
+    console.log(123);
+    setEvent([]);
     if (!calendarRef.current) return;
     const calendar = calendarRef.current.elRef.current;
     const calendarDayCell = calendar.querySelectorAll(
-      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
+      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)"
     );
-    const SelectedCell = [];
+    console.log(startCoord, endCoord);
+    const selectedDays = [];
+
     calendarDayCell.forEach((cell) => {
+      cell.classList.remove(style.gridActiveBG);
       const cellCoord = cell.getBoundingClientRect();
       if (
-        ((cellCoord.right > startCoord[0] && cellCoord.right < endCoord[0])
-          || (cellCoord.left > startCoord[0] && cellCoord.left < endCoord[0])
-          || (cellCoord.right > startCoord[0]
-            && cellCoord.right > endCoord[0]
-            && cellCoord.left < startCoord[0]
-            && cellCoord.left < endCoord[0]))
-        && (((cellCoord.top > startCoord[1] && cellCoord.top < endCoord[1])
-          || (cellCoord.bottom > startCoord[1] && cellCoord.bottom < endCoord[1]))
-              || (cellCoord.top < startCoord[1]
-              && cellCoord.top < endCoord[1]
-              && cellCoord.bottom > startCoord[1]
-              && cellCoord.bottom > endCoord[1]))
+        ((cellCoord.right > startCoord[0] && cellCoord.right < endCoord[0]) ||
+          (cellCoord.left > startCoord[0] && cellCoord.left < endCoord[0]) ||
+          (cellCoord.right > startCoord[0] &&
+            cellCoord.right > endCoord[0] &&
+            cellCoord.left < startCoord[0] &&
+            cellCoord.left < endCoord[0])) &&
+        ((cellCoord.top > startCoord[1] && cellCoord.top < endCoord[1]) ||
+          (cellCoord.bottom > startCoord[1] &&
+            cellCoord.bottom < endCoord[1]) ||
+          (cellCoord.top < startCoord[1] &&
+            cellCoord.top < endCoord[1] &&
+            cellCoord.bottom > startCoord[1] &&
+            cellCoord.bottom > endCoord[1]))
       ) {
-        checkShiftPerDay(cell.dataset.date);
+        checkShiftPerDay(cell);
+
+        selectedDays.push(cell.dataset.date);
       }
     });
-    console.log(SelectedCell);
+    setSelectedDates(selectedDays);
+  };
+  useEffect(() => {
+    rectangleSelect();
   }, [endCoord]);
-
+  const handleChangeMouse = (e) => {
+    if (isDefaultSelect || !isActiveCalendar) {
+      return;
+    }
+    if (e.type === "mouseup") {
+      setEndCoord([e.clientX, e.clientY]);
+    }
+    if (e.type === "mousedown") {
+      setStartCoord([e.clientX, e.clientY]);
+    }
+    setIsMouseUp((prev) => !prev);
+  };
   const handleSelect = (data) => {
     setEvent([]);
     const selectedDays = [];
@@ -102,78 +161,79 @@ export default function BookingCalendar({ items, currentDevice }) {
       selectedDays.push(moment(date1).format("YYYY-MM-DD"));
       date1 = moment(date1).add(1, "d");
     }
-    selectedDays.forEach((day) => {
-      if (moment(day).isBefore(moment().startOf("day"))) {
-        setEvent((prev) => [...prev, { start: day, backgroundColor: "#c3cddd" }]);
-      } else if (!currentItems[day]) {
-        setEvent((prev) => [...prev, { start: day, backgroundColor: "#90ef90" }]);
-      } else if (
-        currentItems[day][startShift] === "1"
-        && (startShift - currentDevice.shiftLength < 0
-          || currentItems[day][startShift - currentDevice.shiftLength] === "1")
-        && (startShift - currentDevice.shiftLength > 24
-          || currentItems[day][startShift + currentDevice.shiftLength]) === "1"
-      ) {
-        setEvent((prev) => [...prev, { start: day, backgroundColor: "#3a3a3a" }]);
-      } else if (currentItems[day][startShift] === "1") {
-        setEvent((prev) => [...prev, { start: day, backgroundColor: "#ffa4a4" }]);
-      } else {
-        setEvent((prev) => [...prev, { start: day, backgroundColor: "#90ef90" }]);
-      }
-    });
-    console.log(selectedDays);
+    // selectedDays.forEach((day) => {
+    //   if (moment(day).isBefore(moment().startOf("day"))) {
+    //     setEvent((prev) => [...prev, { start: day, backgroundColor: "gray", status: "block" }]);
+    //   } else if (!currentItems[day]) {
+    //     setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
+    //   } else if (
+    //     currentItems[day][startShift] === "1"
+    //     && (startShift - currentDevice.shiftLength < 0
+    //       || currentItems[day][startShift - currentDevice.shiftLength] === "1")
+    //     && (startShift - currentDevice.shiftLength > 24
+    //       || currentItems[day][startShift + currentDevice.shiftLength]) === "1"
+    //   ) {
+    //     setEvent((prev) => [...prev, { start: day, backgroundColor: "black" }]);
+    //   } else if (currentItems[day][startShift] === "1") {
+    //     setEvent((prev) => [...prev, { start: day, backgroundColor: "red" }]);
+    //   } else {
+    //     setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
+    //   }
+    // });
+
+    setSelectedDates(selectedDays);
   };
   return (
-    <RectangleSelection
-      onSelect={(e, coords) => {
-        setStartCoord(coords.origin);
-        setEndCoord(coords.target);
-      }}
-      disabled={isDefaultSelect}
-      style={{
-        backgroundColor: "rgba(0,0,255,0.4)",
-        borderColor: "blue",
-      }}
+    <div
+      onMouseUp={(e) => handleChangeMouse(e)}
+      onMouseDown={(e) => handleChangeMouse(e)}
     >
-      <FullCalendar
-        ref={calendarRef}
-        plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
-        showNonCurrentDates={false}
-        selectHelper
-        selectable={isDefaultSelect}
-        dateClick={(e) => console.log(e)}
-        selectMirror
-        select={(data) => handleSelect(data)}
-        initialView="dayGridMonth"
-        locale="ru"
-        firstDay="1"
-        weekends
-        eventClick={handleEventClick}
-        eventsSet={handleEvents}
-        events={event}
-        eventContent={renderEventContent}
-        // style={{
-        //   MozUserSelect: "none",
-        //   WebkitUserSelect: "none",
-        //   msUserSelect: "none",
-        // }}
-        headerToolbar={
-          {
+      <RectangleSelection
+        onSelect={() => {}}
+        disabled={isDefaultSelect && !isActiveCalendar}
+        style={{
+          backgroundColor: "rgba(0,0,255,0.4)",
+          borderColor: "blue",
+        }}
+      >
+        <FullCalendar
+          fixedWeekCount={false}
+          ref={calendarRef}
+          plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
+          showNonCurrentDates={false}
+          selectHelper
+          selectable={isDefaultSelect && isActiveCalendar}
+          dateClick={(e) => console.log(e)}
+          selectMirror
+          select={(data) => handleSelect(data)}
+          initialView="dayGridMonth"
+          locale="ru"
+          firstDay="1"
+          weekends
+          eventClick={handleEventClick}
+          eventsSet={handleEvents}
+          events={event}
+          eventContent={renderEventContent}
+          // style={{
+          //   MozUserSelect: "none",
+          //   WebkitUserSelect: "none",
+          //   msUserSelect: "none",
+          // }}
+          headerToolbar={{
             left: "today changeSelectType",
             center: "title",
             right: "prev,next",
-          }
-        }
-        customButtons={{
-          changeSelectType: {
-            text: "Изменить тип выделения",
-            click: () => {
-              setIsDefaultSelect((prev) => !prev);
+          }}
+          customButtons={{
+            changeSelectType: {
+              text: "Изменить тип выделения",
+              click: () => {
+                setIsDefaultSelect((prev) => !prev);
+              },
             },
-          },
-        }}
-
-      />
-    </RectangleSelection>
+          }}
+        />
+      </RectangleSelection>
+    </div>
   );
 }

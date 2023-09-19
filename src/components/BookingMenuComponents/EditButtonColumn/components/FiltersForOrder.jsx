@@ -1,28 +1,25 @@
-import React, { useState } from "react";
-import DateFilter from "../../../FilterComponents/DateFilter";
+import React from "react";
 
 export default function FiltersForOrder({
   setShiftsCount,
-  setOrderDate,
-  orderDate,
   currentDevice,
 }) {
-  const [isActiveDate, setIsActiveDate] = useState(false);
-  const showDatePicker = () => {
-    setIsActiveDate((current) => !current);
-  };
+  // const [isActiveDate, setIsActiveDate] = useState(false);
+  // const showDatePicker = () => {
+  //   setIsActiveDate((current) => !current);
+  // };
   const choseShiftsCount = (count) => {
     setShiftsCount(count.target.value);
   };
 
   return (
     <>
-      <DateFilter
-        showDatePicker={showDatePicker}
-        isActiveDate={isActiveDate}
-        setOrderDate={setOrderDate}
-        orderDate={orderDate}
-      />
+      {/* <DateFilter */}
+      {/*  showDatePicker={showDatePicker} */}
+      {/*  isActiveDate={isActiveDate} */}
+      {/*  setOrderDate={setOrderDate} */}
+      {/*  orderDate={orderDate} */}
+      {/* /> */}
       <div className="select-count-box">
         <span>Количество смен</span>
         <select onChange={choseShiftsCount} defaultValue={1}>

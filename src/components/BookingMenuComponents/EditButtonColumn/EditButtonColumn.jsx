@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import CheckFormOrder from "./components/CheckFormOrder";
 import FiltersForOrder from "./components/FiltersForOrder";
 import PreOrderTable from "./components/PreOrderTable";
 import style from "./EditButtonColumn.module.css";
@@ -19,6 +18,7 @@ export default function EditButtonColumn({
   setIsEditMode,
   setCurrentDevice,
   currentDevice,
+  setBaseOrder,
   orderDate,
   setOrderDate,
   items,
@@ -38,7 +38,15 @@ export default function EditButtonColumn({
   setIsClickingOnEmptyFilter,
   setShowButtonClear,
   showButtonClear,
+  baseOrder,
+  handleSetSelectedConflictDate,
+  generateCalendarEvents,
+  setSelectedDates,
+  calendarEvent,
+  isActiveCalendar,
+  handleClear,
   //! <-ToolsFilter,
+  setShowStartDisplayConflict,
   // sendNewOrder,
   // sendItemFromeTable,
 }) {
@@ -55,7 +63,7 @@ export default function EditButtonColumn({
     if (isEditMode) {
       setItems((previousUpdate) => previousUpdate.concat(
         copyEditItems.map((el) => {
-          (el.group = el.deviceGroup);
+          el.group = el.deviceGroup;
           return el;
         }), // хз
       ));
@@ -102,30 +110,37 @@ export default function EditButtonColumn({
           р
         </span>
       </div>
-      {user.role === "ROLE_MANAGER"
-                && (
-                <CompaniesSelect
-                  companies={companies}
-                  setSelectedCompany={setSelectedCompany}
-                  isClickedOnConfirm={isClickedOnConfirm}
-                />
-                )}
-      {!isEditMode && (
-      <>
-        <div className="selects-block">
-          <TimeShift
-            currentDevice={currentDevice}
-          />
-          <FiltersForOrder
-            orderDate={orderDate}
-            setOrderDate={setOrderDate}
-            setShiftsCount={setShiftsCount}
-            currentDevice={currentDevice}
-          />
-        </div>
-      </>
+      {user.role === "ROLE_MANAGER" && (
+        <CompaniesSelect
+          companies={companies}
+          setSelectedCompany={setSelectedCompany}
+          isClickedOnConfirm={isClickedOnConfirm}
+        />
       )}
-      <BookingCalendar items={items} currentDevice={currentDevice} />
+      {!isEditMode && (
+        <>
+          <div className="selects-block">
+            <FiltersForOrder
+              orderDate={orderDate}
+              setOrderDate={setOrderDate}
+              setShiftsCount={setShiftsCount}
+              currentDevice={currentDevice}
+            />
+          </div>
+          <div className="selects-block">
+            <TimeShift
+              currentDevice={currentDevice}
+              setBaseOrder={setBaseOrder}
+            />
+          </div>
+        </>
+      )}
+      <BookingCalendar     items={items}
+        currentDevice={currentDevice}
+        handleSetSelectedConflictDate={handleSetSelectedConflictDate}
+        setSelectedDates={setSelectedDates}
+        calendarEvent={calendarEvent}
+        isActiveCalendar={isActiveCalendar} />
       <div>
         {/* {!isEditMode && ( */}
         {/* <div className="date-block"> */}
@@ -139,6 +154,14 @@ export default function EditButtonColumn({
         {/*   /> */}
         {/* </div> */}
         {/* )} */}
+        {baseOrder.equipment && (
+          <>
+            <div>Выбранное оборудование</div>
+            {": "}
+            <div>{baseOrder.equipment.title}</div>
+          </>
+        )}
+
         <div className="preOrderTable">
           <PreOrderTable
             itemsPreOrder={itemsPreOrder}
@@ -166,6 +189,22 @@ export default function EditButtonColumn({
           </div>
         ) : (
           <div>
+            {/* <button */}
+            {/*  type="button" */}
+            {/*  className={style.reserveBtn} */}
+            {/*  // onClick={() => { */}
+            {/*  //   console.log("sendItemFromeTable", sendItemFromeTable); */}
+            {/*  //   setItemsPreOrder(sendItemFromeTable); */}
+            {/*  //   sendNewOrder(); */}
+            {/*  // }} */}
+            {/*  onClick={() => { */}
+            {/*    setIsClickedOnConfirm(true); */}
+            {/*    console.log(selectedCompany); */}
+            {/*    // return itemsPreOrder[0] && selectedCompany && setIsConfirmWindowOpen(true); */}
+            {/*  }} */}
+            {/* > */}
+            {/*  Подтвердить бронирование */}
+            {/* </button> */}
             <button
               type="button"
               className={style.reserveBtn}
@@ -175,18 +214,23 @@ export default function EditButtonColumn({
               //   sendNewOrder();
               // }}
               onClick={() => {
-                setIsClickedOnConfirm(true);
-                console.log(selectedCompany);
-                // return itemsPreOrder[0] && selectedCompany && setIsConfirmWindowOpen(true);
+                generateCalendarEvents()
+                setShowStartDisplayConflict(false);
               }}
             >
-              Подтвердить бронирование
+              Рассчитать
             </button>
-
+            <button
+              type="button"
+              className={style.reserveBtn}
+              onClick={handleClear}
+            >
+              Очистить
+            </button>
           </div>
         )}
       </div>
-      {/* <BookingCalendar items={items} currentDevice={currentDevice} /> */}
+     
     </div>
   );
 }
