@@ -7,12 +7,12 @@ import calenderList from "@fullcalendar/list";
 import interaction from "@fullcalendar/interaction";
 import moment from "moment";
 import RectangleSelection from "react-rectangle-selection";
-import { groupByDateItems } from "../../../../common/DataConvertHelper";
 import style from "../EditButtonColumn.module.css";
 
 const events = [];
 function renderEventContent(eventInfo) {
-  const color = eventInfo.backgroundColor || "red";
+  const color = eventInfo.backgroundColor || "#ffa4a4";
+  console.log(eventInfo);
   const obj = {
     height: 30,
     backgroundColor: color,
@@ -38,6 +38,29 @@ export default function BookingCalendar({
   const [endCoord, setEndCoord] = useState(0);
   const calendarRef = useRef();
   const [event, setEvent] = useState(events);
+  // const currentItems = groupByDateItems(
+  //   items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day"))),
+  // );
+  // const startShift = 8;
+  // console.log(items);
+  // const checkShiftPerDay = (day) => {
+  //   if (moment(day).isBefore(moment().startOf("day"))) {
+  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#c3cddd" }]);
+  //   } else if (!currentItems[day]) {
+  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#90ef90" }]);
+  //   } else if (
+  //     currentItems[day][startShift] === "1"
+  //     && (startShift - currentDevice.shiftLength < 0
+  //       || currentItems[day][startShift - currentDevice.shiftLength] === "1")
+  //     && (startShift - currentDevice.shiftLength > 24
+  //       || currentItems[day][startShift + currentDevice.shiftLength]) === "1"
+  //   ) {
+  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#3a3a3a" }]);
+  //   } else if (currentItems[day][startShift] === "1") {
+  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#ffa4a4" }]);
+  //   } else {
+  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#90ef90" }]);
+  //   }
   const handleEventClick = (clickInfo) => {
     const day = moment(clickInfo.event.start).format("YYYY-MM-DD");
     handleSetSelectedConflictDate(day);
@@ -112,9 +135,12 @@ export default function BookingCalendar({
         selectedDays.push(cell.dataset.date);
       }
     });
+
     setSelectedDates(selectedDays);
   };
-  useEffect(() => { rectangleSelect(); }, [endCoord]);
+  useEffect(() => {
+    rectangleSelect();
+  }, [endCoord]);
   const handleChangeMouse = (e) => {
     if (isDefaultSelect || !isActiveCalendar) {
       return;
