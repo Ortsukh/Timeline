@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import CheckFormOrder from "./components/CheckFormOrder";
 import FiltersForOrder from "./components/FiltersForOrder";
 import PreOrderTable from "./components/PreOrderTable";
 import style from "./EditButtonColumn.module.css";
@@ -41,6 +40,9 @@ export default function EditButtonColumn({
   showButtonClear,
   baseOrder,
   handleSetSelectedConflictDate,
+  generateCalendarEvents,
+  setSelectedDates,
+  calendarEvent,
   //! <-ToolsFilter,
   // sendNewOrder,
   // sendItemFromeTable,
@@ -58,7 +60,7 @@ export default function EditButtonColumn({
     if (isEditMode) {
       setItems((previousUpdate) => previousUpdate.concat(
         copyEditItems.map((el) => {
-          (el.group = el.deviceGroup);
+          el.group = el.deviceGroup;
           return el;
         }), // хз
       ));
@@ -105,31 +107,30 @@ export default function EditButtonColumn({
           р
         </span>
       </div>
-      {user.role === "ROLE_MANAGER"
-                && (
-                <CompaniesSelect
-                  companies={companies}
-                  setSelectedCompany={setSelectedCompany}
-                  isClickedOnConfirm={isClickedOnConfirm}
-                />
-                )}
+      {user.role === "ROLE_MANAGER" && (
+        <CompaniesSelect
+          companies={companies}
+          setSelectedCompany={setSelectedCompany}
+          isClickedOnConfirm={isClickedOnConfirm}
+        />
+      )}
       {!isEditMode && (
-      <>
-        <div className="selects-block">
-          <FiltersForOrder
-            orderDate={orderDate}
-            setOrderDate={setOrderDate}
-            setShiftsCount={setShiftsCount}
-            currentDevice={currentDevice}
-          />
-        </div>
-        <div className="selects-block">
-          <TimeShift
-            currentDevice={currentDevice}
-            setBaseOrder={setBaseOrder}
-          />
-        </div>
-      </>
+        <>
+          <div className="selects-block">
+            <FiltersForOrder
+              orderDate={orderDate}
+              setOrderDate={setOrderDate}
+              setShiftsCount={setShiftsCount}
+              currentDevice={currentDevice}
+            />
+          </div>
+          <div className="selects-block">
+            <TimeShift
+              currentDevice={currentDevice}
+              setBaseOrder={setBaseOrder}
+            />
+          </div>
+        </>
       )}
       <div>
         {/* {!isEditMode && ( */}
@@ -144,14 +145,13 @@ export default function EditButtonColumn({
         {/*   /> */}
         {/* </div> */}
         {/* )} */}
-        {baseOrder.equipment
-            && (
-            <>
-              <div>Выбранное оборудование</div>
-              {": "}
-              <div>{baseOrder.equipment.title}</div>
-            </>
-            )}
+        {baseOrder.equipment && (
+          <>
+            <div>Выбранное оборудование</div>
+            {": "}
+            <div>{baseOrder.equipment.title}</div>
+          </>
+        )}
 
         <div className="preOrderTable">
           <PreOrderTable
@@ -199,22 +199,25 @@ export default function EditButtonColumn({
             <button
               type="button"
               className={style.reserveBtn}
-                // onClick={() => {
-                //   console.log("sendItemFromeTable", sendItemFromeTable);
-                //   setItemsPreOrder(sendItemFromeTable);
-                //   sendNewOrder();
-                // }}
-              onClick={() => {
-
-                // return itemsPreOrder[0] && selectedCompany && setIsConfirmWindowOpen(true);
-              }}
+              // onClick={() => {
+              //   console.log("sendItemFromeTable", sendItemFromeTable);
+              //   setItemsPreOrder(sendItemFromeTable);
+              //   sendNewOrder();
+              // }}
+              onClick={generateCalendarEvents}
             >
               Рассчитать
             </button>
           </div>
         )}
       </div>
-      <BookingCalendar items={items} currentDevice={currentDevice} handleSetSelectedConflictDate={handleSetSelectedConflictDate} />
+      <BookingCalendar
+        items={items}
+        currentDevice={currentDevice}
+        handleSetSelectedConflictDate={handleSetSelectedConflictDate}
+        setSelectedDates={setSelectedDates}
+        calendarEvent={calendarEvent}
+      />
     </div>
   );
 }

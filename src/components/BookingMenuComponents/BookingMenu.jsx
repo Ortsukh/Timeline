@@ -1,7 +1,13 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { createOrder, sendEditOrder } from "../../Api/API";
-import { createOrderGrid, formatOrder, groupByDateItems } from "../../common/DataConvertHelper";
+import {
+  addGrid,
+  createOrderGrid,
+  formatOrder,
+  groupByDateItems,
+} from "../../common/DataConvertHelper";
 import ConfirmWindow from "../Popup/ConfirmWindow";
 import BookingTimeline from "./BookingDateColumn/BookingTimeline";
 import style from "./BookingMenu.module.css";
@@ -21,7 +27,8 @@ export default function BookingMenu({
   setIsEditMode,
   operAlertWindow,
   allGroups,
-  user, companies,
+  user,
+  companies,
   //! ToolsFilter->
   toolNames,
   onInputChange,
@@ -33,9 +40,13 @@ export default function BookingMenu({
   //! <-ToolsFilter
 }) {
   // new
-  const [baseOrder, setBaseOrder] = useState({ shiftTime: 0 });
+  const [baseOrder, setBaseOrder] = useState({ shiftTime: 0, preOrders: [] });
   const [selectedConflictDate, setSelectedConflictDate] = useState(null);
-  const [mapsOfequipments, setMapsOfequipments] = useState([]);
+  const [mapsEquipment, setMapsEquipment] = useState([]);
+  const [commonMapsEquipment, setCommonMapsEquipment] = useState([]);
+  const [selectedDates, setSelectedDates] = useState([]);
+  const [calendarEvent, setCalendarEvent] = useState([]);
+
   console.log(currentDevice);
 
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
@@ -67,34 +78,91 @@ export default function BookingMenu({
   const handleSetSelectedConflictDate = (date) => {
     setSelectedConflictDate(date);
   };
+  const generatePreOrders = (group, date) => {
+    const formatHour = Math.floor(baseOrder.shiftTime / group.shiftLength);
+    const obj = {
+      id: uuidv4(),
+      group: group.id,
+      status: "preOrder",
+      canMove: false,
+      date,
+      grid: addGrid(formatHour, group.shiftLength),
+    };
+    return obj;
+  };
+  const generateCalendarEvents = () => {
+    console.log(commonMapsEquipment);
+    Object.keys(mapsEquipment).forEach((group) => {
+      const conflictDates = [];
+      selectedDates.forEach((selectedDate) => {
+        if (
+          mapsEquipment[group].dates[selectedDate]
+          && mapsEquipment[group].dates[selectedDate][baseOrder.shiftTime] === "1"
+        ) {
+          conflictDates.push(selectedDate);
+        }
+      });
+
+      mapsEquipment[group].conflicts = conflictDates;
+    });
+    const min = Object.keys(mapsEquipment).reduce((acc, curr) => (mapsEquipment[acc].conflicts.length < mapsEquipment[curr].conflicts.length
+      ? acc
+      : curr));
+
+    setBaseOrder((prev) => ({
+      ...prev,
+      equipment: mapsEquipment[min],
+    }));
+
+    const event = [];
+    selectedDates.forEach((selectedDate) => {
+      if (!mapsEquipment[min].dates[selectedDate] || (mapsEquipment[min].dates[selectedDate]
+          && mapsEquipment[min].dates[selectedDate][baseOrder.shiftTime] === "0")) {
+        event.push({
+          start: selectedDate, backgroundColor: "green",
+        });
+        baseOrder.preOrders.push(generatePreOrders(mapsEquipment[min], selectedDate));
+      } else if (
+        commonMapsEquipment[selectedDate][baseOrder.shiftTime] < groups.length) {
+        event.push({
+          start: selectedDate, backgroundColor: "yellow",
+        });
+      } else {
+        event.push({
+          start: selectedDate, backgroundColor: "red",
+        });
+      }
+    });
+    setCalendarEvent(event);
+  };
 
   const createEquipmentsMap = () => {
     const map = {};
+    const commonMap = {};
     const filteredItemsByDate = items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day")));
     groups.forEach((group) => {
       map[group.id] = {};
-      const datesGreed = groupByDateItems(
+      const dayGrids = groupByDateItems(
         filteredItemsByDate.filter((item) => item.group === group.id),
       );
-      map[group.id].dates = datesGreed;
-      const conflictDates = [];
-      Object.keys(datesGreed).forEach((date) => {
-        console.log(datesGreed[date][baseOrder.shiftTime]);
-        if (datesGreed[date][baseOrder.shiftTime] === "1") {
-          conflictDates.push(date);
+      Object.keys(dayGrids).forEach((day) => {
+        if (!commonMap[day]) {
+          commonMap[day] = dayGrids[day];
+        } else {
+          let partA = 2000000000000;
+          let partB = 2000000000000;
+          partA += Number(commonMap[day].slice(0, 12));
+          partB += Number(commonMap[day].slice(12, 24));
+          partA += Number(dayGrids[day].slice(0, 12));
+          partB += Number(dayGrids[day].slice(12, 24));
+          commonMap[day] = String(partA).slice(1, 13) + String(partB).slice(1, 13);
         }
       });
-      map[group.id].conflicts = conflictDates;
+      map[group.id].dates = dayGrids;
       map[group.id] = { ...map[group.id], ...group };
-      console.log(conflictDates);
     });
-    console.log(map);
-    const min = Object.keys(map).reduce((acc, curr) => (map[acc].conflicts.length < map[curr].conflicts.length ? acc : curr));
-    setBaseOrder((prev) => ({
-      ...prev, equipment: map[min],
-    }));
-    setMapsOfequipments(map);
-    return map;
+    setCommonMapsEquipment(commonMap);
+    setMapsEquipment(map);
   };
   useEffect(() => {
     createEquipmentsMap();
@@ -189,6 +257,9 @@ export default function BookingMenu({
             setShowButtonClear={setShowButtonClear}
             showButtonClear={showButtonClear}
             setSelectedCompany={setSelectedCompany}
+            setSelectedDates={setSelectedDates}
+            generateCalendarEvents={generateCalendarEvents}
+            calendarEvent={calendarEvent}
             //! <-ToolsFilter
             // sendNewOrder={sendNewOrder}
             // sendItemFromeTable={sendItemFromeTable}
