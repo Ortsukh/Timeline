@@ -33,7 +33,8 @@ export default function BookingMenu({
   //! <-ToolsFilter
 }) {
   // new
-  const [baseOrder, setBaseOrder] = useState({});
+  const [baseOrder, setBaseOrder] = useState({ shiftTime: 0 });
+  const [selectedConflictDate, setSelectedConflictDate] = useState(null);
   const [mapsOfequipments, setMapsOfequipments] = useState([]);
   console.log(currentDevice);
 
@@ -62,17 +63,43 @@ export default function BookingMenu({
       setSelectedCompany(user);
     }
   }, []);
+
+  const handleSetSelectedConflictDate = (date) => {
+    setSelectedConflictDate(date);
+  };
+
   const createEquipmentsMap = () => {
     const map = {};
     const filteredItemsByDate = items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day")));
     groups.forEach((group) => {
-      map[group.id] = groupByDateItems(
+      map[group.id] = {};
+      const datesGreed = groupByDateItems(
         filteredItemsByDate.filter((item) => item.group === group.id),
       );
+      map[group.id].dates = datesGreed;
+      const conflictDates = [];
+      Object.keys(datesGreed).forEach((date) => {
+        console.log(datesGreed[date][baseOrder.shiftTime]);
+        if (datesGreed[date][baseOrder.shiftTime] === "1") {
+          conflictDates.push(date);
+        }
+      });
+      map[group.id].conflicts = conflictDates;
+      map[group.id] = { ...map[group.id], ...group };
+      console.log(conflictDates);
     });
+    console.log(map);
+    const min = Object.keys(map).reduce((acc, curr) => (map[acc].conflicts.length < map[curr].conflicts.length ? acc : curr));
+    setBaseOrder((prev) => ({
+      ...prev, equipment: map[min],
+    }));
+    setMapsOfequipments(map);
     return map;
   };
-  console.log(createEquipmentsMap());
+  useEffect(() => {
+    createEquipmentsMap();
+  }, [baseOrder.shiftTime]);
+
   const editOrder = () => {
     if (itemsPreOrder.length < 1) return;
     const itemsPreOrderCorrect = itemsPreOrder.map((item) => {
@@ -129,6 +156,7 @@ export default function BookingMenu({
       <div className={style.container}>
         <div className={style.editButtonColumn}>
           <EditButtonColumn
+            handleSetSelectedConflictDate={handleSetSelectedConflictDate}
             setIsBookingMenu={setIsBookingMenu}
             itemsPreOrder={itemsPreOrder}
             setItemsPreOrder={setItemsPreOrder}
@@ -139,6 +167,8 @@ export default function BookingMenu({
             setIsEditMode={setIsEditMode}
             setCurrentDevice={setCurrentDevice}
             currentDevice={currentDevice}
+            baseOrder={baseOrder}
+            setBaseOrder={setBaseOrder}
             items={updatedItems}
             orderDate={orderDatePlanning}
             setOrderDate={setOrderDatePlanning}

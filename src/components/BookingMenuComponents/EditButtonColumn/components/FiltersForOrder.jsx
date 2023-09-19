@@ -17,12 +17,12 @@ export default function FiltersForOrder({
 
   return (
     <>
-      <DateFilter
-        showDatePicker={showDatePicker}
-        isActiveDate={isActiveDate}
-        setOrderDate={setOrderDate}
-        orderDate={orderDate}
-      />
+      {/* <DateFilter */}
+      {/*  showDatePicker={showDatePicker} */}
+      {/*  isActiveDate={isActiveDate} */}
+      {/*  setOrderDate={setOrderDate} */}
+      {/*  orderDate={orderDate} */}
+      {/* /> */}
       <div className="select-count-box">
         <span>Количество смен</span>
         <select onChange={choseShiftsCount} defaultValue={1}>

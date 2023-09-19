@@ -19,6 +19,7 @@ export default function EditButtonColumn({
   setIsEditMode,
   setCurrentDevice,
   currentDevice,
+  setBaseOrder,
   orderDate,
   setOrderDate,
   items,
@@ -38,6 +39,8 @@ export default function EditButtonColumn({
   setIsClickingOnEmptyFilter,
   setShowButtonClear,
   showButtonClear,
+  baseOrder,
+  handleSetSelectedConflictDate,
   //! <-ToolsFilter,
   // sendNewOrder,
   // sendItemFromeTable,
@@ -123,6 +126,7 @@ export default function EditButtonColumn({
         <div className="selects-block">
           <TimeShift
             currentDevice={currentDevice}
+            setBaseOrder={setBaseOrder}
           />
         </div>
       </>
@@ -140,6 +144,15 @@ export default function EditButtonColumn({
         {/*   /> */}
         {/* </div> */}
         {/* )} */}
+        {baseOrder.equipment
+            && (
+            <>
+              <div>Выбранное оборудование</div>
+              {": "}
+              <div>{baseOrder.equipment.title}</div>
+            </>
+            )}
+
         <div className="preOrderTable">
           <PreOrderTable
             itemsPreOrder={itemsPreOrder}
@@ -167,27 +180,41 @@ export default function EditButtonColumn({
           </div>
         ) : (
           <div>
+            {/* <button */}
+            {/*  type="button" */}
+            {/*  className={style.reserveBtn} */}
+            {/*  // onClick={() => { */}
+            {/*  //   console.log("sendItemFromeTable", sendItemFromeTable); */}
+            {/*  //   setItemsPreOrder(sendItemFromeTable); */}
+            {/*  //   sendNewOrder(); */}
+            {/*  // }} */}
+            {/*  onClick={() => { */}
+            {/*    setIsClickedOnConfirm(true); */}
+            {/*    console.log(selectedCompany); */}
+            {/*    // return itemsPreOrder[0] && selectedCompany && setIsConfirmWindowOpen(true); */}
+            {/*  }} */}
+            {/* > */}
+            {/*  Подтвердить бронирование */}
+            {/* </button> */}
             <button
               type="button"
               className={style.reserveBtn}
-              // onClick={() => {
-              //   console.log("sendItemFromeTable", sendItemFromeTable);
-              //   setItemsPreOrder(sendItemFromeTable);
-              //   sendNewOrder();
-              // }}
+                // onClick={() => {
+                //   console.log("sendItemFromeTable", sendItemFromeTable);
+                //   setItemsPreOrder(sendItemFromeTable);
+                //   sendNewOrder();
+                // }}
               onClick={() => {
-                setIsClickedOnConfirm(true);
-                console.log(selectedCompany);
+
                 // return itemsPreOrder[0] && selectedCompany && setIsConfirmWindowOpen(true);
               }}
             >
-              Подтвердить бронирование
+              Рассчитать
             </button>
-
           </div>
         )}
       </div>
-      <BookingCalendar items={items} currentDevice={currentDevice} />
+      <BookingCalendar items={items} currentDevice={currentDevice} handleSetSelectedConflictDate={handleSetSelectedConflictDate} />
     </div>
   );
 }

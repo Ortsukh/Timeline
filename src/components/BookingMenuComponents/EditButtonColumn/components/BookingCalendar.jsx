@@ -8,11 +8,11 @@ import interaction from "@fullcalendar/interaction";
 import moment from "moment";
 import RectangleSelection from "react-rectangle-selection";
 import { groupByDateItems } from "../../../../common/DataConvertHelper";
+import style from "../EditButtonColumn.module.css";
 
 const events = [];
 function renderEventContent(eventInfo) {
   const color = eventInfo.backgroundColor || "red";
-  console.log(eventInfo);
   const obj = {
     height: 30,
     backgroundColor: color,
@@ -21,18 +21,14 @@ function renderEventContent(eventInfo) {
   return <div style={obj} />;
 }
 
-const handleEventClick = (clickInfo) => {
-  console.log(clickInfo);
-
-  console.log("event tıklandı.");
-};
-
 const handleEvents = (events1) => {
   console.log(events1);
 
   console.log("handleEvents tıklandı.");
 };
-export default function BookingCalendar({ items, currentDevice }) {
+export default function BookingCalendar({ items, currentDevice, handleSetSelectedConflictDate }) {
+  const [isMouseUp, setisMouseUp] = useState(false);
+  const [selectedDates, setSelectedDates] = useState([]);
   const [startCoord, setStartCoord] = useState(0);
   const [isDefaultSelect, setIsDefaultSelect] = useState(true);
   const [endCoord, setEndCoord] = useState(0);
@@ -42,37 +38,58 @@ export default function BookingCalendar({ items, currentDevice }) {
     items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day"))),
   );
   const startShift = 8;
-  console.log(items);
-  const checkShiftPerDay = (day) => {
-    if (moment(day).isBefore(moment().startOf("day"))) {
-      setEvent((prev) => [...prev, { start: day, backgroundColor: "gray" }]);
-    } else if (!currentItems[day]) {
-      setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
-    } else if (
-      currentItems[day][startShift] === "1"
-      && (startShift - currentDevice.shiftLength < 0
-        || currentItems[day][startShift - currentDevice.shiftLength] === "1")
-      && (startShift - currentDevice.shiftLength > 24
-        || currentItems[day][startShift + currentDevice.shiftLength]) === "1"
-    ) {
-      setEvent((prev) => [...prev, { start: day, backgroundColor: "black" }]);
-    } else if (currentItems[day][startShift] === "1") {
-      setEvent((prev) => [...prev, { start: day, backgroundColor: "red" }]);
-    } else {
-      setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
+  const handleEventClick = (clickInfo) => {
+    const day = moment(clickInfo.event.start).format("YYYY-MM-DD");
+    console.log(day);
+    handleSetSelectedConflictDate(day);
+  };
+
+  const handleChangeMouse = (e) => {
+    console.log(e);
+    if (isDefaultSelect) {
+      return;
     }
+    if (e.type === "mouseup") {
+      setEndCoord([e.clientX, e.clientY]);
+    }
+    if (e.type === "mousedown") {
+      setStartCoord([e.clientX, e.clientY]);
+    }
+    setisMouseUp((prev) => !prev);
+  };
+  const checkShiftPerDay = (cell) => {
+    console.log(cell);
+    cell.classList.add(style.gridActiveBG);
+    // if (moment(day).isBefore(moment().startOf("day"))) {
+    //   setEvent((prev) => [...prev, { start: day, backgroundColor: "gray" }]);
+    // } else if (!currentItems[day]) {
+    //   setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
+    // } else if (
+    //   currentItems[day][startShift] === "1"
+    //   && (startShift - currentDevice.shiftLength < 0
+    //     || currentItems[day][startShift - currentDevice.shiftLength] === "1")
+    //   && (startShift - currentDevice.shiftLength > 24
+    //     || currentItems[day][startShift + currentDevice.shiftLength]) === "1"
+    // ) {
+    //   setEvent((prev) => [...prev, { start: day, backgroundColor: "black" }]);
+    // } else if (currentItems[day][startShift] === "1") {
+    //   setEvent((prev) => [...prev, { start: day, backgroundColor: "red" }]);
+    // } else {
+    //   setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
+    // }
   };
   useEffect(() => {
     setEvent([]);
-
-    // 👇️ call method in useEffect hook
+    if (isMouseUp) return;
     if (!calendarRef.current) return;
     const calendar = calendarRef.current.elRef.current;
     const calendarDayCell = calendar.querySelectorAll(
       ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
     );
-    const SelectedCell = [];
+    console.log(startCoord);
+
     calendarDayCell.forEach((cell) => {
+      cell.classList.remove(style.gridActiveBG);
       const cellCoord = cell.getBoundingClientRect();
       if (
         ((cellCoord.right > startCoord[0] && cellCoord.right < endCoord[0])
@@ -88,12 +105,15 @@ export default function BookingCalendar({ items, currentDevice }) {
               && cellCoord.bottom > startCoord[1]
               && cellCoord.bottom > endCoord[1]))
       ) {
-        checkShiftPerDay(cell.dataset.date);
+        checkShiftPerDay(cell);
+
+        setSelectedDates((prev) => {
+          prev.push(cell.dataset.date);
+          return prev;
+        });
       }
     });
-    console.log(SelectedCell);
-  }, [endCoord]);
-
+  }, [isMouseUp]);
   const handleSelect = (data) => {
     setEvent([]);
     const selectedDays = [];
@@ -104,7 +124,7 @@ export default function BookingCalendar({ items, currentDevice }) {
     }
     selectedDays.forEach((day) => {
       if (moment(day).isBefore(moment().startOf("day"))) {
-        setEvent((prev) => [...prev, { start: day, backgroundColor: "gray" }]);
+        setEvent((prev) => [...prev, { start: day, backgroundColor: "gray", status: "block" }]);
       } else if (!currentItems[day]) {
         setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
       } else if (
@@ -124,56 +144,58 @@ export default function BookingCalendar({ items, currentDevice }) {
     console.log(selectedDays);
   };
   return (
-    <RectangleSelection
-      onSelect={(e, coords) => {
-        setStartCoord(coords.origin);
-        setEndCoord(coords.target);
-      }}
-      disabled={isDefaultSelect}
-      style={{
-        backgroundColor: "rgba(0,0,255,0.4)",
-        borderColor: "blue",
-      }}
+    <div
+      onMouseUp={(e) => handleChangeMouse(e)}
+      onMouseDown={(e) => handleChangeMouse(e)}
     >
-      <FullCalendar
-        ref={calendarRef}
-        plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
-        showNonCurrentDates={false}
-        selectHelper
-        selectable={isDefaultSelect}
-        dateClick={(e) => console.log(e)}
-        selectMirror
-        select={(data) => handleSelect(data)}
-        initialView="dayGridMonth"
-        locale="ru"
-        firstDay="1"
-        weekends
-        eventClick={handleEventClick}
-        eventsSet={handleEvents}
-        events={event}
-        eventContent={renderEventContent}
+      <RectangleSelection
+        onSelect={() => {}}
+        disabled={isDefaultSelect}
+        style={{
+          backgroundColor: "rgba(0,0,255,0.4)",
+          borderColor: "blue",
+        }}
+      >
+        <FullCalendar
+          fixedWeekCount={false}
+          ref={calendarRef}
+          plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
+          showNonCurrentDates={false}
+          selectHelper
+          selectable={isDefaultSelect}
+          dateClick={(e) => console.log(e)}
+          selectMirror
+          select={(data) => handleSelect(data)}
+          initialView="dayGridMonth"
+          locale="ru"
+          firstDay="1"
+          weekends
+          eventClick={handleEventClick}
+          eventsSet={handleEvents}
+          events={event}
+          eventContent={renderEventContent}
         // style={{
         //   MozUserSelect: "none",
         //   WebkitUserSelect: "none",
         //   msUserSelect: "none",
         // }}
-        headerToolbar={
+          headerToolbar={
           {
             left: "today changeSelectType",
             center: "title",
             right: "prev,next",
           }
         }
-        customButtons={{
-          changeSelectType: {
-            text: "Изменить тип выделения",
-            click: () => {
-              setIsDefaultSelect((prev) => !prev);
+          customButtons={{
+            changeSelectType: {
+              text: "Изменить тип выделения",
+              click: () => {
+                setIsDefaultSelect((prev) => !prev);
+              },
             },
-          },
-        }}
-
-      />
-    </RectangleSelection>
+          }}
+        />
+      </RectangleSelection>
+    </div>
   );
 }
