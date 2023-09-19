@@ -6,6 +6,7 @@ import style from "./EditButtonColumn.module.css";
 import ToolsFilter from "../../FilterComponents/ToolsFilter";
 import CompaniesSelect from "../../FilterComponents/CompaniesSelect";
 import BookingCalendar from "./components/BookingCalendar";
+import TimeShift from "../../FilterComponents/timeShiftFilter";
 
 export default function EditButtonColumn({
   setIsBookingMenu,
@@ -43,7 +44,7 @@ export default function EditButtonColumn({
 }) {
   const [shiftsCount, setShiftsCount] = useState(1);
   const [isClickedOnConfirm, setIsClickedOnConfirm] = useState(false);
-
+  console.log(currentDevice);
   useEffect(() => {
     setShowButtonClear(false);
   }, []);
@@ -110,14 +111,21 @@ export default function EditButtonColumn({
                 />
                 )}
       {!isEditMode && (
-      <div className="selects-block">
-        <FiltersForOrder
-          orderDate={orderDate}
-          setOrderDate={setOrderDate}
-          setShiftsCount={setShiftsCount}
-          currentDevice={currentDevice}
-        />
-      </div>
+      <>
+        <div className="selects-block">
+          <FiltersForOrder
+            orderDate={orderDate}
+            setOrderDate={setOrderDate}
+            setShiftsCount={setShiftsCount}
+            currentDevice={currentDevice}
+          />
+        </div>
+        <div className="selects-block">
+          <TimeShift
+            currentDevice={currentDevice}
+          />
+        </div>
+      </>
       )}
       <div>
         {/* {!isEditMode && ( */}

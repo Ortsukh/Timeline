@@ -27,8 +27,8 @@ export default function FiltersForOrder({
         <span>Количество смен</span>
         <select onChange={choseShiftsCount} defaultValue={1}>
           <option value={1}>{1}</option>
-          <option value={2}>{2}</option>
-          <option value={3}>{3}</option>
+          {/* <option value={2}>{2}</option> */}
+          {/* <option value={3}>{3}</option> */}
         </select>
         <span className="price-item">
           Цена за смену:

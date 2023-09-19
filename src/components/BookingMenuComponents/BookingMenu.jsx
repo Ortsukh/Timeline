@@ -1,7 +1,7 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { createOrder, sendEditOrder } from "../../Api/API";
-import { createOrderGrid, formatOrder } from "../../common/DataConvertHelper";
+import { createOrderGrid, formatOrder, groupByDateItems } from "../../common/DataConvertHelper";
 import ConfirmWindow from "../Popup/ConfirmWindow";
 import BookingTimeline from "./BookingDateColumn/BookingTimeline";
 import style from "./BookingMenu.module.css";
@@ -32,6 +32,11 @@ export default function BookingMenu({
   showButtonClear,
   //! <-ToolsFilter
 }) {
+  // new
+  const [baseOrder, setBaseOrder] = useState({});
+  const [mapsOfequipments, setMapsOfequipments] = useState([]);
+  console.log(currentDevice);
+
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
   const [updatedItems, setUpdatedItems] = useState(items);
   const [copyEditItems, setCopyEditItems] = useState([]);
@@ -41,7 +46,6 @@ export default function BookingMenu({
   const [orderDatePlanning, setOrderDatePlanning] = useState({
     selection1: {
       startDate: new Date(),
-
       endDate: new Date(moment().add(2, "days").valueOf()),
       key: "selection1",
     },
@@ -58,6 +62,17 @@ export default function BookingMenu({
       setSelectedCompany(user);
     }
   }, []);
+  const createEquipmentsMap = () => {
+    const map = {};
+    const filteredItemsByDate = items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day")));
+    groups.forEach((group) => {
+      map[group.id] = groupByDateItems(
+        filteredItemsByDate.filter((item) => item.group === group.id),
+      );
+    });
+    return map;
+  };
+  console.log(createEquipmentsMap());
   const editOrder = () => {
     if (itemsPreOrder.length < 1) return;
     const itemsPreOrderCorrect = itemsPreOrder.map((item) => {
@@ -91,12 +106,12 @@ export default function BookingMenu({
 
   const sendNewOrder = () => {
     if (itemsPreOrder.length < 1) return;
-    const itemsPreOrderCorrect = itemsPreOrder.map((item) => {
-      item.group = item.deviceGroup;
-      return item;
-    });
-    const orderItems = createOrderGrid(itemsPreOrderCorrect);
-    createOrder(orderItems, selectedCompany);
+    // const itemsPreOrderCorrect = itemsPreOrder.map((item) => {
+    //   item.group = item.deviceGroup;
+    //   return item;
+    // });
+    // const orderItems = createOrderGrid(itemsPreOrderCorrect);
+    // createOrder(orderItems, selectedCompany);
     createOrder(itemsPreOrder, selectedCompany)
       .then(() => {
         operAlertWindow("success");
