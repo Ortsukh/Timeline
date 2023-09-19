@@ -44,6 +44,7 @@ export default function EditButtonColumn({
   setSelectedDates,
   calendarEvent,
   //! <-ToolsFilter,
+  setShowStartDisplayConflict,
   // sendNewOrder,
   // sendItemFromeTable,
 }) {
@@ -204,7 +205,10 @@ export default function EditButtonColumn({
               //   setItemsPreOrder(sendItemFromeTable);
               //   sendNewOrder();
               // }}
-              onClick={generateCalendarEvents}
+              onClick={() => {
+                generateCalendarEvents()
+                setShowStartDisplayConflict(false);
+              }}
             >
               Рассчитать
             </button>
