@@ -12,7 +12,6 @@ import style from "../EditButtonColumn.module.css";
 const events = [];
 function renderEventContent(eventInfo) {
   const color = eventInfo.backgroundColor || "#ffa4a4";
-  console.log(eventInfo);
   const obj = {
     height: 30,
     backgroundColor: color,
@@ -22,8 +21,6 @@ function renderEventContent(eventInfo) {
 }
 
 const handleEvents = (events1) => {
-  console.log(events1);
-
   console.log("handleEvents tıklandı.");
 };
 export default function BookingCalendar({
