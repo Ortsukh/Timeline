@@ -253,7 +253,10 @@ export default function EditButtonColumn({
             <button
               type="button"
               className={style.closeBtn}
-              onClick={handleClear}
+              onClick={() => {
+                handleClear();
+                setShowStartDisplayConflict(true);
+              }}
             >
               Очистить
             </button>

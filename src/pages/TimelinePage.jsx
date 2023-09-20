@@ -17,7 +17,7 @@ import TimeLineRenderer from "../components/TimeLineRenderer";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
 import {
-  getAllEquipments, getAllEquipments1, getAllOrders, getAllOrders1, getCompanies, getUser,
+  getAllEquipments, getAllOrders, getCompanies, getUser,
 } from "../Api/API";
 import AlertWindow from "../components/Popup/AlertWindow";
 import BookingMenu from "../components/BookingMenuComponents/BookingMenu";
@@ -70,7 +70,6 @@ export default function TimelinePage() {
   useEffect(() => {
     setIsLoadingEquipment(true);
     getAllEquipments().then((response) => {
-      console.log(response);
       setGroups(createEquipmentGroup(response.data));
       setIsLoadingEquipment(false);
     });

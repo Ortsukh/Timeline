@@ -12,23 +12,23 @@ import { v4 as uuidv4 } from "uuid";
 import style from "../BookingTimeline.module.css";
 import "../../../style.css";
 import { addGrid } from "../../../../common/DataConvertHelper";
+import styleConflict from "./Conflict.module.css";
 
 export default function WindowTimeline({
   items,
   groups,
-
   setItemsPreOrder,
   editOrderData,
   setCopyEditItems,
   setUpdatedItems,
   isEditMode,
-
   selectedConflictDate,
   setSelectedConflictDate,
   baseOrder,
   pushOrderInBasePreOrder,
 }) {
-  console.log("baseOrder!!!", baseOrder);
+  // console.log("baseOrder!!!", baseOrder);
+  // console.log("groups!!!", groups);
   const currentIdDevice = baseOrder.equipment.id;
   const currentShift = baseOrder.equipment.shiftLength;
   const currentTime = baseOrder.shiftTime;
@@ -37,9 +37,12 @@ export default function WindowTimeline({
   // const [indexCurrentConflictDate, setIndexCurrentConflictDate] = useState(0);
   // const [showButtonNextConflict, setShowButtonNextConflict] = useState(true);
   // console.log("resolvedConflicts", resolvedConflicts);
-  console.log("consideredCell", consideredCell);
 
-  const today = moment(selectedConflictDate, "YYYY-MM-DD");
+  const [today, setToday] = useState(moment(selectedConflictDate, "YYYY-MM-DD"));
+  // useEffect(() => {
+  //   setToday(moment(selectedConflictDate, "YYYY-MM-DD"));
+  // }, [selectedConflictDate]);
+  // const today = moment(selectedConflictDate, "YYYY-MM-DD");
   const startOfDay = (day) => day.startOf("day");
   const endOfDay = (day) => day.endOf("day");
   const startDate = today.startOf("day");
@@ -50,7 +53,29 @@ export default function WindowTimeline({
   //   setVisibleTimeStart(startOfDay(today).valueOf());
   //   setVisibleTimeEnd(endOfDay(today).valueOf());
   // }, [today])
-  const filteredItems = items.filter((item) => today.format("YYYY-MM-DD") === item.date);
+
+  // let filteredItems = items;
+  let filteredItems = items.filter((item) => today.format("YYYY-MM-DD") === item.date);
+  filteredItems.push({
+    id: uuidv4(),
+    group: currentIdDevice,
+    title: "X",
+    start_time: today.clone().set("hour", currentTime).startOf("hour"),
+    end_time: today.clone().set("hour", currentTime).startOf("hour").add(currentShift, "hour"),
+    itemProps: { style: { background: "rgba(255,255,255,0)", color: "red", fontWidth: "bold", fontSize: "20px", display: "flex",
+    justifyContent: "center",
+    alignItems: "center",} },
+    // date: selectedConflictDate,
+    // grid: addGrid(formatHour, currentShift),
+    // start_time: moment(formattedDate.start).valueOf(),
+    // end_time: moment(formattedDate.end).valueOf(),
+    // itemTouchSendsClick: false,
+    // deviceGroup: currentIdDevice,
+    // checkBoxId: `${groupId} ${formatHour}`,
+  })
+
+  // console.log("filteredItems!!!", filteredItems);
+  console.log("today!!!", today);
 
   // const today = editOrderData?.date ? moment(editOrderData.date) : moment();
   // const startOfDay = (day) => moment(day).startOf("day");
@@ -257,40 +282,44 @@ export default function WindowTimeline({
   //   (item) => item.deviceGroup === currentDevice.id,
   // );
 
-  useEffect(() => {
-    
-    const pressedSelected = filteredItems.filter((el) => {
-      const formateTime = [];
-      const arrayGrid = el.grid.split("")
-      for (let hourGrid = 0; hourGrid < arrayGrid.length - 1; hourGrid += currentShift) {
-        if (arrayGrid[hourGrid] === "1") {
-          const fullTime = currentShift !== 1 ? `${hourGrid}-${hourGrid + currentShift}` : hourGrid;
-          formateTime.push(fullTime);
-        }
-      }
-      // console.log('AAAAAAAAAAAAAA', formateTime[0], +currentTime);
-      // console.log('BBBBBBBBBBB', groups, currentIdDevice);
-      return (el.group === currentIdDevice && formateTime[0] === +currentTime)
-    })
-    // console.log("Hello ----", pressedSelected);
+  // useEffect(() => {
+  // const pressedSelected = filteredItems.filter((el) => {
+  //     const formateTime = [];
+  //     const arrayGrid = el.grid.split("")
+  //     for (let hourGrid = 0; hourGrid < arrayGrid.length - 1; hourGrid += currentShift) {
+  //       if (arrayGrid[hourGrid] === "1") {
+  //         const fullTime = currentShift !== 1 ? `${hourGrid}-${hourGrid + currentShift}` : hourGrid;
+  //         formateTime.push(fullTime);
+  //       }
+  //     }
+  //     // console.log('AAAAAAAAAAAAAA', formateTime[0], +currentTime);
+  //     // console.log('BBBBBBBBBBB', groups, currentIdDevice);
+  //     return (el.group === currentIdDevice && formateTime[0] === +currentTime)
+  //   })
+  //   // console.log("Hello ----", pressedSelected);
 
-    // handleItemSelect(pressedSelected[0]?.id);
+  //   // handleItemSelect(pressedSelected[0]?.id);
+  // }, []);
 
-  }, [filteredItems]);
-
-  const hadleNextConflict = () => {
+  const hadleResolveConflict = () => {
     // console.log("Hello", consideredCell);
     setSelectedConflictDate(null);
-    pushOrderInBasePreOrder(consideredCell);
+
+    const formatedConsideredCell = {
+      canMove: consideredCell.canMove,
+      date: consideredCell.date,
+      grid: consideredCell.grid,
+      group: consideredCell.group,
+      id: consideredCell.id,
+      status: consideredCell.status,
+    }
+    pushOrderInBasePreOrder(formatedConsideredCell);
   }
+
+  // const disableReserveBtn = !consideredCell.id ? reserveBtn : reserveBtnDisable;
 
   return (
     <>
-    {false &&
-    <div className={style.containerTimeline} style={{ width: "45vw", height: "50vh", backgroundColor: "gray", zIndex: "500", border: "1px solid gray" }}>
-      
-    </div>}
-    {selectedConflictDate &&
     <div className={style.containerTimeline}>
       <div className="style">
         <Timeline
@@ -309,6 +338,8 @@ export default function WindowTimeline({
           // items={filteredItems.concat(getCurrentDevicePreOrderedItems())}
           items={filteredItems.concat(consideredCell)}
           // items={items.concat(consideredCell)}
+          canMove={false}
+          canResize={false}
           visibleTimeStart={visibleTimeStart}
           visibleTimeEnd={visibleTimeEnd}
           // sidebarWidth={150} // ширина левой панели по дефолту - 150px
@@ -339,9 +370,13 @@ export default function WindowTimeline({
                     backgroundColor: "white",
                     border: "1px solid rgb(39, 128, 252)",
                     cursor: "pointer",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    // fontWeight: "bold"
                   }}
                 >
-                  {today.format("DD") + " " + today.format("MMMM").charAt(0).toUpperCase() + today.format("MMMM").slice(1)}
+                  {today.format("D") + " " + today.format("MMMM").charAt(0).toUpperCase() + today.format("MMMM").slice(1)}
                 </div>
               )}
             </SidebarHeader>
@@ -378,9 +413,11 @@ export default function WindowTimeline({
           </TimelineHeaders>
         </Timeline>
       </div>
-      <button disabled={!consideredCell.id} onClick={hadleNextConflict}>Подтвердить</button>
     </div>
-    }
+    <div style={{ display: "flex", justifyContent: "space-between", padding: "0 17px 0 17px" }}>
+      <button className={styleConflict.reserveBtn} disabled={!consideredCell.id} onClick={hadleResolveConflict}>Подтвердить</button>
+      <button className={styleConflict.closeBtn} onClick={() => setSelectedConflictDate(null)}>Пропустить</button>
+    </div>
     </>
   );
 }
