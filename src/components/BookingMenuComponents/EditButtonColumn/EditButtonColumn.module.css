@@ -79,3 +79,9 @@
 .gridActiveBG {
 background-color: rgba(188,232,241,.3) !important
 }
+
+.btnCont{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
