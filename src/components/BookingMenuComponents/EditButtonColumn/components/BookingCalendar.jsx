@@ -103,7 +103,7 @@ export default function BookingCalendar({
     const calendarDayCell = calendar.querySelectorAll(
       ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
     );
-    console.log(startCoord, endCoord);
+    // console.log(startCoord, endCoord);
     const selectedDays = [];
 
     calendarDayCell.forEach((cell) => {
@@ -130,7 +130,7 @@ export default function BookingCalendar({
       }
     });
 
-    setSelectedDates((prev) => [...prev, selectedDays]);
+    setSelectedDates([selectedDays]);
   };
   useEffect(() => {
     rectangleSelect();
@@ -206,7 +206,6 @@ export default function BookingCalendar({
             ref={calendarRef}
             plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
             showNonCurrentDates={false}
-            selectHelper
             selectable={isDefaultSelect && isActiveCalendar}
             dateClick={(e) => console.log(e)}
             selectMirror
