@@ -27,7 +27,7 @@ export default function WindowTimeline({
   baseOrder,
   pushOrderInBasePreOrder,
 }) {
-  // console.log("baseOrder!!!", baseOrder);
+  console.log("baseOrder!!!", baseOrder);
   // console.log("groups!!!", groups);
   const currentIdDevice = baseOrder.equipment.id;
   const currentShift = baseOrder.equipment.shiftLength;
@@ -338,11 +338,13 @@ export default function WindowTimeline({
     pushOrderInBasePreOrder(formatedConsideredCell);
   }
 
-  // const disableReserveBtn = !consideredCell.id ? reserveBtn : reserveBtnDisable;
+
+  const disableReserveBtn = !consideredCell.id ? styleConflict.reserveBtnDisable : styleConflict.reserveBtn;
+  // style={{ backgroundColor: !consideredCell.id ? 'gray' : 'rgb(39, 128, 252)' }} 
 
   return (
     <>
-    <div className={style.containerTimeline}>
+    <div className={style.containerTimeline} style={{ marginTop: "20px"}}>
       <div className="style">
         <Timeline
           className={style.tableTimeline}
@@ -437,7 +439,7 @@ export default function WindowTimeline({
       </div>
     </div>
     <div style={{ display: "flex", justifyContent: "space-between", padding: "0 17px 0 17px" }}>
-      <button className={styleConflict.reserveBtn} disabled={!consideredCell.id} onClick={hadleResolveConflict}>Подтвердить</button>
+      <button className={disableReserveBtn} disabled={!consideredCell.id} onClick={hadleResolveConflict}>Подтвердить</button>
       <button className={styleConflict.closeBtn} onClick={() => setSelectedConflictDate(null)}>Пропустить</button>
     </div>
     </>

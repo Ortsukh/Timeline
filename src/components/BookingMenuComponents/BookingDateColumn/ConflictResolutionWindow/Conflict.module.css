@@ -52,6 +52,11 @@
   width: 200px;
   margin-top: 20px;
 }
+.reserveBtn:hover {
+  transition: .5s;
+  background-color: white;
+  color: rgb(4, 20, 42);
+}
 
 .reserveBtnDisable {
   border: 1px solid gray;
@@ -65,10 +70,9 @@
   width: 200px;
   margin-top: 20px;
 }
-
-.reserveBtn:hover {
+.reserveBtnDisable:hover {
   transition: .5s;
-  background-color: white;
+  background-color: rgb(209, 209, 209);
   color: rgb(4, 20, 42);
 }
 
