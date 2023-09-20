@@ -112,9 +112,12 @@ export default function BookingMenu({
 
       mapsEquipment[group].conflicts = conflictDates;
     });
-    const min = Object.keys(mapsEquipment).reduce((acc, curr) => (mapsEquipment[acc].conflicts.length < mapsEquipment[curr].conflicts.length
-      ? acc
-      : curr));
+    const min = Object.keys(mapsEquipment).reduce(
+      (acc, curr) => (mapsEquipment[acc].conflicts.length < mapsEquipment[curr].conflicts.length
+        ? acc
+        : curr
+      ),
+    );
 
     setBaseOrder((prev) => ({
       ...prev,
@@ -226,20 +229,13 @@ export default function BookingMenu({
   };
 
   const pushOrderInBasePreOrder = (newOrder) => {
-    const newPreOrder = [...baseOrder.preOrders, {
-      canMove: newOrder.canMove,
-      date: newOrder.date,
-      grid: newOrder.grid,
-      group: newOrder.group,
-      id: newOrder.id,
-      status: newOrder.status,
-    }];
-    console.log("END newPreOrder", newPreOrder);
+    const newPreOrder = [...baseOrder.preOrders, newOrder];
     setBaseOrder((prev) => ({
       ...prev,
       preOrders: newPreOrder,
       equipment: {
-        ...prev.equipment, conflicts: prev.equipment.conflicts.filter((conflict) => conflict !== newOrder.date),
+        ...prev.equipment,
+        conflicts: prev.equipment.conflicts.filter((conflict) => conflict !== newOrder.date),
       },
     }));
     setCalendarEvent((prev) => prev.map((el) => {

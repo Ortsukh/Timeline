@@ -7,7 +7,7 @@ const TerserPlugin = require("terser-webpack-plugin"); // ? https://webpack.js.o
 // TODO <--
 
 module.exports = {
-  mode: "development",
+  mode: "production",
   entry: "./src/index.jsx", // входная точка - исходный файл
   output: {
     filename: "bundle.js",
