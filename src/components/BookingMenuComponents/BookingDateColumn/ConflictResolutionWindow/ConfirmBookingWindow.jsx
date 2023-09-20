@@ -33,13 +33,33 @@ export default function ConfirmBookingWindow({
 }) {
 
 console.log("selectedConflictDate", selectedConflictDate);
+  const textCountConflict = baseOrder.equipment?.conflicts.length !== 0 
+  ? `У Вас на данный момент ${baseOrder.equipment?.conflicts.length} 
+  конфликтов. Нажмите на нужные даты в календаре и разрешите их.`
+  : `Подсчет дат прошло успешно. Вы можете завершить бронирование нажав на кнопку 
+  "Подтвердить" или внести изменения нажав на день в календаре.`;
+
   return (
     <>
       {showStartDisplayConflict &&
-        <div className={style.containerTimeline} style={{ width: "45vw", height: "50vh", backgroundColor: "gray", zIndex: "2", border: "1px solid gray" }}>
-          
+        // <div className={style.containerTimeline} style=
+        //{{ width: "45vw", height: "50vh", backgroundColor: "gray", zIndex: "2", border: "1px solid gray" }}>
+        <div style={{ width: "45vw", margin: "0 auto", padding: "0 0 0 20px", fontSize: "20px" }}>
+          <h3>Для начала бронирования выполните следующия шаги:</h3>
+          <p>1. Выберите подходящее Вам оборудования;</p>
+          <p>2. Укажите подходящие Вам время и колличество смен;</p>
+          <p>3. Выделите нужные даты;</p>
+          <p>4. Нажмите "Рассчитать";</p>
+          <p>5. Если вы ошибочно выбрали даты, нажмите "Очистить".</p>
+          <h4>После этого, если выбранные Вами даты были заняты, вы иожете разрешить эти конфликты выбором других смен.</h4>
+          <h4>При успешном бронировании вы можете подтвердить его.</h4>
         </div>
       }
+
+      {!showStartDisplayConflict &&
+        <div style={{ width: "45vw", margin: "0 auto", padding: "0 10px 0 20px", fontSize: "20px" }}>
+          {textCountConflict}
+        </div>}
 
       {selectedConflictDate && <WindowTimeline
         items={items}
@@ -54,11 +74,10 @@ console.log("selectedConflictDate", selectedConflictDate);
         baseOrder={baseOrder}
         pushOrderInBasePreOrder={pushOrderInBasePreOrder}
       />}
-
-      {!selectedConflictDate &&
+      {/* {!selectedConflictDate &&
         <div className={style.containerTimeline} style={{ width: "45vw", height: "50vh", backgroundColor: "gray", border: "1px solid gray" }}>
           {`Конфликтов ${baseOrder.equipment?.conflicts.length}`}
-        </div>}
+        </div>} */}
     </>
   );
 }

@@ -6,7 +6,7 @@
   border: 1px solid #c52020;
   border-radius: 5px;
   padding: 2px 2px 0 2px;
-  position: fixed;
+  /* position: fixed; */
   right: 2%;
   top: 13%;
 }

@@ -1,0 +1,100 @@
+
+.backButtonBlock {
+  width: 100%;
+}
+
+.backButton {
+  padding: 5px 10px;
+  color: white;
+  background-color: #f03333;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #f03333;
+  margin-bottom: 20px;
+}
+.filterContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+.fullPrice {
+  padding: 8px 10px;
+  background-color: #d3e9ff;
+  border-radius: 5px;
+}
+
+.backButton:hover {
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  transition: .3s;
+}
+
+.editButtonColumn {
+  /* grid-area: 1 / 1 / 2 / 2; */
+  border: 1px solid green;
+}
+
+.bookingDateColumn {
+  /* grid-area: 1 / 2 / 2 / 3; */
+  border: 1px solid blue;
+}
+
+.reserveBtn {
+  border: 1px solid rgb(39, 128, 252);
+  background-color: rgb(39, 128, 252);
+  padding: 10px 5px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: 14px;
+  width: 200px;
+  margin-top: 20px;
+}
+
+.reserveBtnDisable {
+  border: 1px solid gray;
+  background-color: gray;
+  padding: 10px 5px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: 14px;
+  width: 200px;
+  margin-top: 20px;
+}
+
+.reserveBtn:hover {
+  transition: .5s;
+  background-color: white;
+  color: rgb(4, 20, 42);
+}
+
+.closeBtn {
+  padding: 10px 5px;
+  color: white;
+  background-color: #f03333;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #f03333;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.closeBtn:hover {
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  transition: .3s;
+}
+.gridActiveBG {
+background-color: rgba(188,232,241,.3) !important
+}
+
+.btnCont{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
