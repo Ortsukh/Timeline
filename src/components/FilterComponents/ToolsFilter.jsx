@@ -11,6 +11,7 @@ export default function ToolsFilter({
   setIsClickingOnEmptyFilter,
   showButtonClear,
   setCurrentDeviceIndex,
+  isActiveCalendar = true,
 }) {
   const [selectValue, setSelectValue] = useState(null);
   console.log(toolNames);
@@ -53,6 +54,7 @@ export default function ToolsFilter({
     <div className="tools-filter">
       <span> Выбрать оборудование</span>
       <Select
+        isDisabled={!isActiveCalendar}
         formatOptionLabel={formatOptionLabel}
         className="select-filter choose-product"
         options={getOptionsForSearch(toolNames)}

@@ -47,10 +47,11 @@ export default function EditButtonColumn({
   handleClear,
   //! <-ToolsFilter,
   setShowStartDisplayConflict,
-  // sendNewOrder,
+  sendNewOrder,
   // sendItemFromeTable,
 }) {
   const [shiftsCount, setShiftsCount] = useState(1);
+  const [isShowConflictNotification, setIsShowConflictNotification] = useState(false);
   const [isClickedOnConfirm, setIsClickedOnConfirm] = useState(false);
   console.log(currentDevice);
   useEffect(() => {
@@ -59,6 +60,10 @@ export default function EditButtonColumn({
 
   const back = "< Назад";
 
+  const showNotification = () => {
+    setIsShowConflictNotification(true);
+    setTimeout(() => { setIsShowConflictNotification(false); }, 2000);
+  };
   const createBook = () => {
     if (isEditMode) {
       setItems((previousUpdate) => previousUpdate.concat(
@@ -71,6 +76,7 @@ export default function EditButtonColumn({
       setCopyEditItems([]);
       setIsEditMode(false);
     }
+    handleClear();
     setIsBookingMenu(false);
     setCurrentDevice([]);
     // очистить текущий выбор, для верноного отображения при клике на "Добавить новый"
@@ -85,7 +91,7 @@ export default function EditButtonColumn({
       })),
     );
   };
-
+  console.log();
   return (
     <div>
       <div className={style.backButtonBlock}>
@@ -95,6 +101,7 @@ export default function EditButtonColumn({
       </div>
       <div className={style.filterContainer}>
         <ToolsFilter
+          isActiveCalendar={isActiveCalendar}
           toolNames={toolNames}
           onInputChange={onInputChange}
           clearFilter={clearFilter}
@@ -118,20 +125,31 @@ export default function EditButtonColumn({
         />
       )}
       {!isEditMode && (
-        <>
-          <div className="selects-block">
-          <TimeShift
-              currentDevice={currentDevice}
-              setBaseOrder={setBaseOrder}
-            />
-            <FiltersForOrder
-              orderDate={orderDate}
-              setOrderDate={setOrderDate}
-              setShiftsCount={setShiftsCount}
-              currentDevice={currentDevice}
-            />
-          </div>
-        </>
+        <div className="selects-block">
+
+          <FiltersForOrder
+            baseOrder={baseOrder}
+            setBaseOrder={setBaseOrder}
+            isActiveCalendar={isActiveCalendar}
+            orderDate={orderDate}
+            setOrderDate={setOrderDate}
+            setShiftsCount={setShiftsCount}
+            currentDevice={currentDevice}
+          />
+        </div>
+      )}
+      {baseOrder.equipment && (
+      <>
+        <div>
+          Выбранное оборудование
+          {": "}
+          {" "}
+          {baseOrder.equipment.title}
+          {" "}
+        </div>
+
+        <div />
+      </>
       )}
       <BookingCalendar
         items={items}
@@ -154,13 +172,6 @@ export default function EditButtonColumn({
         {/*   /> */}
         {/* </div> */}
         {/* )} */}
-        {baseOrder.equipment && (
-          <>
-            <div>Выбранное оборудование</div>
-            {": "}
-            <div>{baseOrder.equipment.title}</div>
-          </>
-        )}
 
         <div className="preOrderTable">
           <PreOrderTable
@@ -170,6 +181,15 @@ export default function EditButtonColumn({
             setOrderContent={setOrderContent}
           />
         </div>
+        {isShowConflictNotification && (
+        <div style={{ color: "red" }}>
+          У вас осталось
+          {" "}
+          {baseOrder.equipment.conflicts.length}
+          {" "}
+          конфликт(ов)
+        </div>
+        )}
         {isEditMode ? (
           <div>
             <button
@@ -189,37 +209,47 @@ export default function EditButtonColumn({
           </div>
         ) : (
           <div className={style.btnCont}>
-            {/* <button */}
-            {/*  type="button" */}
-            {/*  className={style.reserveBtn} */}
-            {/*  // onClick={() => { */}
-            {/*  //   console.log("sendItemFromeTable", sendItemFromeTable); */}
-            {/*  //   setItemsPreOrder(sendItemFromeTable); */}
-            {/*  //   sendNewOrder(); */}
-            {/*  // }} */}
-            {/*  onClick={() => { */}
-            {/*    setIsClickedOnConfirm(true); */}
-            {/*    console.log(selectedCompany); */}
-            {/*    // return itemsPreOrder[0] && selectedCompany && setIsConfirmWindowOpen(true); */}
-            {/*  }} */}
-            {/* > */}
-            {/*  Подтвердить бронирование */}
-            {/* </button> */}
-            <button
-              type="button"
-              className={style.reserveBtn}
+
+            {isActiveCalendar ? (
+              <button
+                type="button"
+                className={style.reserveBtn}
               // onClick={() => {
               //   console.log("sendItemFromeTable", sendItemFromeTable);
               //   setItemsPreOrder(sendItemFromeTable);
               //   sendNewOrder();
               // }}
-              onClick={() => {
-                generateCalendarEvents();
-                setShowStartDisplayConflict(false);
-              }}
-            >
-              Рассчитать
-            </button>
+                onClick={() => {
+                  generateCalendarEvents();
+                  setShowStartDisplayConflict(false);
+                }}
+              >
+                Рассчитать
+              </button>
+            ) : (
+              <button
+                type="button"
+                className={style.reserveBtn}
+            // onClick={() => {
+            //   console.log("sendItemFromeTable", sendItemFromeTable);
+            //   setItemsPreOrder(sendItemFromeTable);
+            //   sendNewOrder();
+            // }}
+                onClick={() => {
+                  if (baseOrder.equipment.conflicts.length > 0) {
+                    showNotification();
+                    return;
+                  }
+
+                  setIsClickedOnConfirm(true);
+                  console.log(selectedCompany);
+                  sendNewOrder();
+                  // return itemsPreOrder[0] && selectedCompany && setIsConfirmWindowOpen(true);
+                }}
+              >
+                Подтвердить бронирование
+              </button>
+            ) }
             <button
               type="button"
               className={style.closeBtn}

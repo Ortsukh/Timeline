@@ -64,6 +64,7 @@ export default function BookingMenu({
       key: "selection1",
     },
   });
+  console.log(items);
   // const [sendItemFromeTable, setSendItemFromeTable] = useState([]);
   const initialCurrentDeviceIndex = groups
     .map((current) => current.id)
@@ -99,6 +100,7 @@ export default function BookingMenu({
   const generateCalendarEvents = () => {
     setIsActiveCalendar(false);
     console.log(commonMapsEquipment);
+    console.log(mapsEquipment);
     Object.keys(mapsEquipment).forEach((group) => {
       const conflictDates = [];
       selectedDates.forEach((selectedDate) => {
@@ -112,16 +114,14 @@ export default function BookingMenu({
 
       mapsEquipment[group].conflicts = conflictDates;
     });
-    const min = Object.keys(mapsEquipment).reduce(
-      (acc, curr) => (mapsEquipment[acc].conflicts.length < mapsEquipment[curr].conflicts.length
-        ? acc
-        : curr
-      ),
-    );
-
+    console.log(mapsEquipment);
+    const min = Object.keys(mapsEquipment).reduce((acc, curr) => (mapsEquipment[acc].conflicts.length < mapsEquipment[curr].conflicts.length
+      ? acc
+      : curr));
+    console.log(mapsEquipment[min]);
     setBaseOrder((prev) => ({
       ...prev,
-      equipment: mapsEquipment[min],
+      equipment: { ...mapsEquipment[min] },
     }));
 
     const event = [];
@@ -155,7 +155,7 @@ export default function BookingMenu({
     const commonMap = {};
     const filteredItemsByDate = items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day")));
     groups.forEach((group) => {
-      map.equipment = {};
+      map[group.id] = {};
       const dayGrids = groupByDateItems(
         filteredItemsByDate.filter((item) => item.group === group.id),
       );
@@ -172,8 +172,8 @@ export default function BookingMenu({
           commonMap[day] = String(partA).slice(1, 13) + String(partB).slice(1, 13);
         }
       });
-      map.equipment.dates = dayGrids;
-      map.equipment = { ...map.equipment, ...group };
+      map[group.id].dates = dayGrids;
+      map[group.id] = { ...map[group.id], ...group };
     });
     setCommonMapsEquipment(commonMap);
     setMapsEquipment(map);
@@ -292,7 +292,7 @@ export default function BookingMenu({
             handleClear={handleClear}
             //! <-ToolsFilter
             setShowStartDisplayConflict={setShowStartDisplayConflict}
-            // sendNewOrder={sendNewOrder}
+            sendNewOrder={sendNewOrder}
             // sendItemFromeTable={sendItemFromeTable}
           />
         </div>

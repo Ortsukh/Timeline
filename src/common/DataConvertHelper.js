@@ -21,6 +21,7 @@ export const createEquipmentGroup = (equipments) => {
       });
     }
   });
+  console.log(result);
   return result;
 };
 
