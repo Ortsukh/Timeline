@@ -82,6 +82,8 @@ export default function BookingMenu({
     setCalendarEvent([]);
     setSelectedConflictDate("");
     setIsActiveCalendar(true);
+    setMapsEquipment([]);
+    setCommonMapsEquipment([]);
   };
   const handleSetSelectedConflictDate = (date) => {
     setSelectedConflictDate(date);
@@ -114,11 +116,9 @@ export default function BookingMenu({
 
       mapsEquipment[group].conflicts = conflictDates;
     });
-    console.log(mapsEquipment);
     const min = Object.keys(mapsEquipment).reduce((acc, curr) => (mapsEquipment[acc].conflicts.length < mapsEquipment[curr].conflicts.length
       ? acc
       : curr));
-    console.log(mapsEquipment[min]);
     setBaseOrder((prev) => ({
       ...prev,
       equipment: { ...mapsEquipment[min] },
@@ -180,7 +180,7 @@ export default function BookingMenu({
   };
   useEffect(() => {
     createEquipmentsMap();
-  }, [baseOrder.shiftTime]);
+  }, [groups]);
 
   const editOrder = () => {
     if (itemsPreOrder.length < 1) return;

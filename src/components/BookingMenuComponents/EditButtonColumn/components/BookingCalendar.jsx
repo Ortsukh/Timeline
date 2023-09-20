@@ -130,7 +130,7 @@ export default function BookingCalendar({
       }
     });
 
-    setSelectedDates([selectedDays]);
+    setSelectedDates(selectedDays);
   };
   useEffect(() => {
     rectangleSelect();
