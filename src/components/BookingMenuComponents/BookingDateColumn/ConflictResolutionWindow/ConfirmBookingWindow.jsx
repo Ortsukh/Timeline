@@ -30,6 +30,7 @@ export default function ConfirmBookingWindow({
   baseOrder,
   showStartDisplayConflict,
   pushOrderInBasePreOrder,
+  keyRerenderConflictResolutionWindow,
 }) {
 
 console.log("selectedConflictDate", selectedConflictDate);
@@ -62,6 +63,7 @@ console.log("selectedConflictDate", selectedConflictDate);
         </div>}
 
       {selectedConflictDate && <WindowTimeline
+        key={keyRerenderConflictResolutionWindow}
         items={items}
         groups={groups}
         setItemsPreOrder={setItemsPreOrder}
