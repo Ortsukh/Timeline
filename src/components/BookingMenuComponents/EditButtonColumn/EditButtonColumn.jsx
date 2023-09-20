@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Select from "react-select";
 import FiltersForOrder from "./components/FiltersForOrder";
 import PreOrderTable from "./components/PreOrderTable";
 import style from "./EditButtonColumn.module.css";
@@ -39,6 +40,7 @@ export default function EditButtonColumn({
   setShowButtonClear,
   showButtonClear,
   baseOrder,
+  selectedDates,
   handleSetSelectedConflictDate,
   generateCalendarEvents,
   setSelectedDates,
@@ -48,6 +50,7 @@ export default function EditButtonColumn({
   //! <-ToolsFilter,
   setShowStartDisplayConflict,
   sendNewOrder,
+  handleChangeEquipment,
   // sendItemFromeTable,
 }) {
   const [shiftsCount, setShiftsCount] = useState(1);
@@ -91,7 +94,11 @@ export default function EditButtonColumn({
       })),
     );
   };
-  console.log();
+  const getOptionsForSearch = (groups) => groups.map((group) => ({
+    value: group.id,
+    label: group.title,
+  }));
+
   return (
     <div>
       <div className={style.backButtonBlock}>
@@ -113,7 +120,7 @@ export default function EditButtonColumn({
         <span className={style.fullPrice}>
           Общая стоимость:
           {" "}
-          <b>{itemsPreOrder.length * currentDevice.price}</b>
+          <b>{baseOrder.preOrders.length * currentDevice.price}</b>
           р
         </span>
       </div>
@@ -148,11 +155,19 @@ export default function EditButtonColumn({
           {" "}
         </div>
 
-        <div />
+        <span> Выбрать компанию</span>
+
+        <Select
+          className="select-filter"
+          options={getOptionsForSearch(groups)}
+          onChange={handleChangeEquipment}
+          value={{ value: baseOrder.equipment.id, label: baseOrder.equipment.title }}
+        />
       </>
       )}
       <BookingCalendar
         items={items}
+        selectedDates={selectedDates}
         currentDevice={currentDevice}
         handleSetSelectedConflictDate={handleSetSelectedConflictDate}
         setSelectedDates={setSelectedDates}
@@ -220,6 +235,9 @@ export default function EditButtonColumn({
               //   sendNewOrder();
               // }}
                 onClick={() => {
+                  if (selectedDates.length < 1) {
+                    return;
+                  }
                   generateCalendarEvents();
                   setShowStartDisplayConflict(false);
                 }}

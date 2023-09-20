@@ -85,9 +85,10 @@ export default function BookingMenu({
     setIsActiveCalendar(true);
     setMapsEquipment([]);
     setCommonMapsEquipment([]);
+    setSelectedDates([]);
   };
   const handleSetSelectedConflictDate = (date) => {
-    setKeyRerenderConflictResolutionWindow((prev) => prev + 1)
+    setKeyRerenderConflictResolutionWindow((prev) => prev + 1);
     setSelectedConflictDate(date);
   };
   const generatePreOrders = (group, date) => {
@@ -101,7 +102,33 @@ export default function BookingMenu({
     };
     return obj;
   };
-  const generateCalendarEvents = () => {
+  const generateEvents = (equipmentId) => {
+    const event = [];
+    selectedDates.forEach((selectedDate) => {
+      if (moment(selectedDate).isBefore(moment().startOf("day"))) {
+        event.push({
+          start: selectedDate, backgroundColor: "#c3cddd",
+        });
+      } else if (!mapsEquipment[equipmentId].dates[selectedDate] || (mapsEquipment[equipmentId].dates[selectedDate]
+          && mapsEquipment[equipmentId].dates[selectedDate][baseOrder.shiftTime] === "0")) {
+        event.push({
+          start: selectedDate, backgroundColor: "#90ef90",
+        });
+        baseOrder.preOrders.push(generatePreOrders(mapsEquipment[equipmentId], selectedDate));
+      } else if (
+        commonMapsEquipment[selectedDate][baseOrder.shiftTime] < groups.length) {
+        event.push({
+          start: selectedDate, backgroundColor: "#ffd884",
+        });
+      } else {
+        event.push({
+          start: selectedDate, backgroundColor: "#ffa4a4",
+        });
+      }
+    });
+    setCalendarEvent(event);
+  };
+  const calcBestMap = () => {
     setIsActiveCalendar(false);
     console.log(commonMapsEquipment);
     console.log(mapsEquipment);
@@ -110,7 +137,7 @@ export default function BookingMenu({
       selectedDates.forEach((selectedDate) => {
         if (
           mapsEquipment[group].dates[selectedDate]
-          && mapsEquipment[group].dates[selectedDate][baseOrder.shiftTime] === "1"
+            && mapsEquipment[group].dates[selectedDate][baseOrder.shiftTime] === "1"
         ) {
           conflictDates.push(selectedDate);
         }
@@ -125,31 +152,7 @@ export default function BookingMenu({
       ...prev,
       equipment: { ...mapsEquipment[min] },
     }));
-
-    const event = [];
-    selectedDates.forEach((selectedDate) => {
-      if (moment(selectedDate).isBefore(moment().startOf("day"))) {
-        event.push({
-          start: selectedDate, backgroundColor: "#c3cddd",
-        });
-      } else if (!mapsEquipment[min].dates[selectedDate] || (mapsEquipment[min].dates[selectedDate]
-          && mapsEquipment[min].dates[selectedDate][baseOrder.shiftTime] === "0")) {
-        event.push({
-          start: selectedDate, backgroundColor: "#90ef90",
-        });
-        baseOrder.preOrders.push(generatePreOrders(mapsEquipment[min], selectedDate));
-      } else if (
-        commonMapsEquipment[selectedDate][baseOrder.shiftTime] < groups.length) {
-        event.push({
-          start: selectedDate, backgroundColor: "#ffd884",
-        });
-      } else {
-        event.push({
-          start: selectedDate, backgroundColor: "#ffa4a4",
-        });
-      }
-    });
-    setCalendarEvent(event);
+    generateEvents(min);
   };
 
   const createEquipmentsMap = () => {
@@ -182,7 +185,7 @@ export default function BookingMenu({
   };
   useEffect(() => {
     createEquipmentsMap();
-  }, [groups]);
+  }, [groups, baseOrder.equipment]);
 
   const editOrder = () => {
     if (itemsPreOrder.length < 1) return;
@@ -230,6 +233,11 @@ export default function BookingMenu({
       .catch(operAlertWindow("error"));
   };
 
+  const handleChangeEquipment = (selectValue) => {
+    console.log(mapsEquipment);
+    setBaseOrder((prev) => ({ ...prev, equipment: { ...mapsEquipment[selectValue.value] } }));
+    generateEvents(selectValue.value);
+  };
   const pushOrderInBasePreOrder = (newOrder) => {
     const newPreOrder = [...baseOrder.preOrders, newOrder];
     setBaseOrder((prev) => ({
@@ -271,7 +279,7 @@ export default function BookingMenu({
             orderDate={orderDatePlanning}
             setOrderDate={setOrderDatePlanning}
             setCurrentDeviceIndex={setCurrentDeviceIndex}
-            groups={allGroups}
+            groups={groups}
             setIsConfirmWindowOpen={setIsConfirmWindowOpen}
             setOrderContent={setOrderContent}
             companies={companies}
@@ -288,10 +296,12 @@ export default function BookingMenu({
             showButtonClear={showButtonClear}
             setSelectedCompany={setSelectedCompany}
             setSelectedDates={setSelectedDates}
-            generateCalendarEvents={generateCalendarEvents}
+            generateCalendarEvents={calcBestMap}
+            handleChangeEquipment={handleChangeEquipment}
             calendarEvent={calendarEvent}
             isActiveCalendar={isActiveCalendar}
             handleClear={handleClear}
+            selectedDates={selectedDates}
             //! <-ToolsFilter
             setShowStartDisplayConflict={setShowStartDisplayConflict}
             sendNewOrder={sendNewOrder}

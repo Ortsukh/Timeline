@@ -25,6 +25,8 @@ export default function BookingCalendar({
   handleSetSelectedConflictDate,
   setSelectedDates,
   calendarEvent,
+
+  selectedDates,
   isActiveCalendar,
 }) {
   const [isMouseUp, setIsMouseUp] = useState(false);
@@ -107,7 +109,7 @@ export default function BookingCalendar({
     const selectedDays = [];
 
     calendarDayCell.forEach((cell) => {
-      cell.classList.remove(style.gridActiveBG);
+      // cell.classList.remove(style.gridActiveBG);
       const cellCoord = cell.getBoundingClientRect();
       if (
         ((cellCoord.right > startCoord[0] && cellCoord.right < endCoord[0])
@@ -125,12 +127,19 @@ export default function BookingCalendar({
             && cellCoord.bottom > endCoord[1]))
       ) {
         checkShiftPerDay(cell);
-
-        selectedDays.push(cell.dataset.date);
+        if (selectedDates.find((date) => date === cell.dataset.date) || moment(cell.dataset.date).isBefore(moment().startOf("day"))) {
+          cell.classList.remove(style.gridActiveBG);
+          setSelectedDates((prev) => prev.filter((date) => date !== cell.dataset.date));
+        } else {
+          selectedDays.push(cell.dataset.date);
+        }
       }
     });
-
-    setSelectedDates(selectedDays);
+    console.log(selectedDays);
+    setSelectedDates((prev) => {
+      console.log(prev);
+      return prev.concat(selectedDays);
+    });
   };
   useEffect(() => {
     rectangleSelect();
@@ -152,8 +161,12 @@ export default function BookingCalendar({
     const selectedDays = [];
     let date1 = data.start;
     while (moment(date1).isBefore(data.end)) {
-      selectedDays.push(moment(date1).format("YYYY-MM-DD"));
-      date1 = moment(date1).add(1, "d");
+      if (moment(date1).isBefore(moment().startOf("day"))) {
+        date1 = moment(date1).add(1, "d");
+      } else {
+        selectedDays.push(moment(date1).format("YYYY-MM-DD"));
+        date1 = moment(date1).add(1, "d");
+      }
     }
     // selectedDays.forEach((day) => {
     //   if (moment(day).isBefore(moment().startOf("day"))) {
@@ -177,14 +190,17 @@ export default function BookingCalendar({
 
     setSelectedDates(selectedDays);
   };
+  const handleChangeSelect = () => {
+    setIsDefaultSelect((prev) => !prev);
+    setSelectedDates([]);
+  };
   return (
     <>
       <label>
         <span>Выделение по календарю</span>
         <Switch
-          onChange={() => {
-            setIsDefaultSelect((prev) => !prev);
-          }}
+          disabled={!isActiveCalendar}
+          onChange={handleChangeSelect}
           checked={isDefaultSelect}
         />
       </label>
@@ -214,6 +230,13 @@ export default function BookingCalendar({
             locale="ru"
             firstDay="1"
             weekends
+            selectAllow={(date) => {
+              if (moment(date.start).isSameOrAfter(moment().startOf("day"))) {
+                console.log(true);
+                return true;
+              }
+              return false;
+            }}
             eventClick={handleEventClick}
             events={event}
             eventContent={renderEventContent}
