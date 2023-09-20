@@ -12,7 +12,6 @@ import style from "../EditButtonColumn.module.css";
 const events = [];
 function renderEventContent(eventInfo) {
   const color = eventInfo.backgroundColor || "#ffa4a4";
-  console.log(eventInfo);
   const obj = {
     height: 30,
     backgroundColor: color,
@@ -22,8 +21,6 @@ function renderEventContent(eventInfo) {
 }
 
 const handleEvents = (events1) => {
-  console.log(events1);
-
   console.log("handleEvents tıklandı.");
 };
 export default function BookingCalendar({
@@ -190,13 +187,14 @@ export default function BookingCalendar({
     >
       <RectangleSelection
         onSelect={() => {}}
-        disabled={isDefaultSelect && !isActiveCalendar}
+        disabled={(isDefaultSelect && isActiveCalendar) || !isActiveCalendar}
         style={{
           backgroundColor: "rgba(0,0,255,0.4)",
           borderColor: "blue",
         }}
       >
         <FullCalendar
+          height={450}
           fixedWeekCount={false}
           ref={calendarRef}
           plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}

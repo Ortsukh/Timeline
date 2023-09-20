@@ -123,20 +123,24 @@ export default function BookingMenu({
 
     const event = [];
     selectedDates.forEach((selectedDate) => {
-      if (!mapsEquipment[min].dates[selectedDate] || (mapsEquipment[min].dates[selectedDate]
+      if (moment(selectedDate).isBefore(moment().startOf("day"))) {
+        event.push({
+          start: selectedDate, backgroundColor: "#c3cddd",
+        });
+      } else if (!mapsEquipment[min].dates[selectedDate] || (mapsEquipment[min].dates[selectedDate]
           && mapsEquipment[min].dates[selectedDate][baseOrder.shiftTime] === "0")) {
         event.push({
-          start: selectedDate, backgroundColor: "green",
+          start: selectedDate, backgroundColor: "#90ef90",
         });
         baseOrder.preOrders.push(generatePreOrders(mapsEquipment[min], selectedDate));
       } else if (
         commonMapsEquipment[selectedDate][baseOrder.shiftTime] < groups.length) {
         event.push({
-          start: selectedDate, backgroundColor: "yellow",
+          start: selectedDate, backgroundColor: "#ffd884",
         });
       } else {
         event.push({
-          start: selectedDate, backgroundColor: "red",
+          start: selectedDate, backgroundColor: "#ffa4a4",
         });
       }
     });
@@ -148,7 +152,7 @@ export default function BookingMenu({
     const commonMap = {};
     const filteredItemsByDate = items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day")));
     groups.forEach((group) => {
-      map[group.id] = {};
+      map.equipment = {};
       const dayGrids = groupByDateItems(
         filteredItemsByDate.filter((item) => item.group === group.id),
       );
@@ -165,8 +169,8 @@ export default function BookingMenu({
           commonMap[day] = String(partA).slice(1, 13) + String(partB).slice(1, 13);
         }
       });
-      map[group.id].dates = dayGrids;
-      map[group.id] = { ...map[group.id], ...group };
+      map.equipment.dates = dayGrids;
+      map.equipment = { ...map.equipment, ...group };
     });
     setCommonMapsEquipment(commonMap);
     setMapsEquipment(map);
@@ -229,12 +233,22 @@ export default function BookingMenu({
       group: newOrder.group,
       id: newOrder.id,
       status: newOrder.status,
-    }]
+    }];
     console.log("END newPreOrder", newPreOrder);
     setBaseOrder((prev) => ({
-      ...prev, preOrders: newPreOrder
-    }))
-  }
+      ...prev,
+      preOrders: newPreOrder,
+      equipment: {
+        ...prev.equipment, conflicts: prev.equipment.conflicts.filter((conflict) => conflict !== newOrder.date),
+      },
+    }));
+    setCalendarEvent((prev) => prev.map((el) => {
+      if (el.start === newOrder.date) {
+        return { ...el, backgroundColor: "#90ef90" };
+      }
+      return el;
+    }));
+  };
   console.log("END baseOrder", baseOrder);
 
   return (
