@@ -1,8 +1,11 @@
 import React from "react";
+import TimeShift from "../../../FilterComponents/timeShiftFilter";
 
 export default function FiltersForOrder({
   setShiftsCount,
   currentDevice,
+  isActiveCalendar,
+  setBaseOrder,
 }) {
   // const [isActiveDate, setIsActiveDate] = useState(false);
   // const showDatePicker = () => {
@@ -14,6 +17,11 @@ export default function FiltersForOrder({
 
   return (
     <>
+      <TimeShift
+        isActiveCalendar={isActiveCalendar}
+        currentDevice={currentDevice}
+        setBaseOrder={setBaseOrder}
+      />
       {/* <DateFilter */}
       {/*  showDatePicker={showDatePicker} */}
       {/*  isActiveDate={isActiveDate} */}
@@ -22,7 +30,7 @@ export default function FiltersForOrder({
       {/* /> */}
       <div className="select-count-box">
         <span>Количество смен</span>
-        <select onChange={choseShiftsCount} defaultValue={1}>
+        <select onChange={choseShiftsCount} defaultValue={1} disabled={!isActiveCalendar}>
           <option value={1}>{1}</option>
           {/* <option value={2}>{2}</option> */}
           {/* <option value={3}>{3}</option> */}

@@ -16,7 +16,7 @@ const generateShiftTime = (shift) => {
   return options;
 };
 
-export default function TimeShift({ currentDevice, setBaseOrder }) {
+export default function TimeShift({ currentDevice, setBaseOrder, isActiveCalendar }) {
   const [value, setValue] = useState(0);
   const handleChangeTime = (e) => {
     setValue(e.target.value);
@@ -27,7 +27,7 @@ export default function TimeShift({ currentDevice, setBaseOrder }) {
   return (
     <div className="select-count-box">
       <span>Время смены</span>
-      <select onChange={handleChangeTime} value={value}>
+      <select onChange={handleChangeTime} value={value} disabled={!isActiveCalendar}>
         {generateShiftTime(+currentDevice.shiftLength)}
       </select>
     </div>

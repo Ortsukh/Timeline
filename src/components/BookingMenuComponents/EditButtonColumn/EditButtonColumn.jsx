@@ -47,7 +47,7 @@ export default function EditButtonColumn({
   handleClear,
   //! <-ToolsFilter,
   setShowStartDisplayConflict,
-  // sendNewOrder,
+  sendNewOrder,
   // sendItemFromeTable,
 }) {
   const [shiftsCount, setShiftsCount] = useState(1);
@@ -95,6 +95,7 @@ export default function EditButtonColumn({
       </div>
       <div className={style.filterContainer}>
         <ToolsFilter
+          isActiveCalendar={isActiveCalendar}
           toolNames={toolNames}
           onInputChange={onInputChange}
           clearFilter={clearFilter}
@@ -118,20 +119,30 @@ export default function EditButtonColumn({
         />
       )}
       {!isEditMode && (
-        <>
-          <div className="selects-block">
-          <TimeShift
-              currentDevice={currentDevice}
-              setBaseOrder={setBaseOrder}
-            />
-            <FiltersForOrder
-              orderDate={orderDate}
-              setOrderDate={setOrderDate}
-              setShiftsCount={setShiftsCount}
-              currentDevice={currentDevice}
-            />
-          </div>
-        </>
+        <div className="selects-block">
+
+          <FiltersForOrder
+            setBaseOrder={setBaseOrder}
+            isActiveCalendar={isActiveCalendar}
+            orderDate={orderDate}
+            setOrderDate={setOrderDate}
+            setShiftsCount={setShiftsCount}
+            currentDevice={currentDevice}
+          />
+        </div>
+      )}
+      {baseOrder.equipment && (
+      <>
+        <div>
+          Выбранное оборудование
+          {": "}
+          {" "}
+          {baseOrder.equipment.title}
+          {" "}
+        </div>
+
+        <div />
+      </>
       )}
       <BookingCalendar
         items={items}
@@ -154,13 +165,6 @@ export default function EditButtonColumn({
         {/*   /> */}
         {/* </div> */}
         {/* )} */}
-        {baseOrder.equipment && (
-          <>
-            <div>Выбранное оборудование</div>
-            {": "}
-            <div>{baseOrder.equipment.title}</div>
-          </>
-        )}
 
         <div className="preOrderTable">
           <PreOrderTable
@@ -189,37 +193,43 @@ export default function EditButtonColumn({
           </div>
         ) : (
           <div className={style.btnCont}>
-            {/* <button */}
-            {/*  type="button" */}
-            {/*  className={style.reserveBtn} */}
-            {/*  // onClick={() => { */}
-            {/*  //   console.log("sendItemFromeTable", sendItemFromeTable); */}
-            {/*  //   setItemsPreOrder(sendItemFromeTable); */}
-            {/*  //   sendNewOrder(); */}
-            {/*  // }} */}
-            {/*  onClick={() => { */}
-            {/*    setIsClickedOnConfirm(true); */}
-            {/*    console.log(selectedCompany); */}
-            {/*    // return itemsPreOrder[0] && selectedCompany && setIsConfirmWindowOpen(true); */}
-            {/*  }} */}
-            {/* > */}
-            {/*  Подтвердить бронирование */}
-            {/* </button> */}
-            <button
-              type="button"
-              className={style.reserveBtn}
+
+            {isActiveCalendar ? (
+              <button
+                type="button"
+                className={style.reserveBtn}
               // onClick={() => {
               //   console.log("sendItemFromeTable", sendItemFromeTable);
               //   setItemsPreOrder(sendItemFromeTable);
               //   sendNewOrder();
               // }}
-              onClick={() => {
-                generateCalendarEvents();
-                setShowStartDisplayConflict(false);
-              }}
-            >
-              Рассчитать
-            </button>
+                onClick={() => {
+                  generateCalendarEvents();
+                  setShowStartDisplayConflict(false);
+                }}
+              >
+                Рассчитать
+              </button>
+            ) : (
+              <button
+                type="button"
+                className={style.reserveBtn}
+                disabled={baseOrder.equipment.conflicts.length > 0}
+            // onClick={() => {
+            //   console.log("sendItemFromeTable", sendItemFromeTable);
+            //   setItemsPreOrder(sendItemFromeTable);
+            //   sendNewOrder();
+            // }}
+                onClick={() => {
+                  setIsClickedOnConfirm(true);
+                  console.log(selectedCompany);
+                  sendNewOrder();
+                  // return itemsPreOrder[0] && selectedCompany && setIsConfirmWindowOpen(true);
+                }}
+              >
+                Подтвердить бронирование
+              </button>
+            ) }
             <button
               type="button"
               className={style.closeBtn}

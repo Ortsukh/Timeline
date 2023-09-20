@@ -11,6 +11,7 @@ export default function ToolsFilter({
   setIsClickingOnEmptyFilter,
   showButtonClear,
   setCurrentDeviceIndex,
+  isActiveCalendar,
 }) {
   const [selectValue, setSelectValue] = useState(null);
   console.log(toolNames);

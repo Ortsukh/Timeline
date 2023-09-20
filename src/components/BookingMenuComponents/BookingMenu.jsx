@@ -64,6 +64,7 @@ export default function BookingMenu({
       key: "selection1",
     },
   });
+  console.log(items);
   // const [sendItemFromeTable, setSendItemFromeTable] = useState([]);
   const initialCurrentDeviceIndex = groups
     .map((current) => current.id)
@@ -296,7 +297,7 @@ export default function BookingMenu({
             handleClear={handleClear}
             //! <-ToolsFilter
             setShowStartDisplayConflict={setShowStartDisplayConflict}
-            // sendNewOrder={sendNewOrder}
+            sendNewOrder={sendNewOrder}
             // sendItemFromeTable={sendItemFromeTable}
           />
         </div>

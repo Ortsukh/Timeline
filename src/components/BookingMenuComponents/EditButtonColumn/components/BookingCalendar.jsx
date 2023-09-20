@@ -99,7 +99,6 @@ export default function BookingCalendar({
     // }
   };
   const rectangleSelect = () => {
-    console.log(123);
     setEvent([]);
     if (!calendarRef.current) return;
     const calendar = calendarRef.current.elRef.current;
@@ -194,7 +193,7 @@ export default function BookingCalendar({
         }}
       >
         <FullCalendar
-          height={450}
+          height={475}
           fixedWeekCount={false}
           ref={calendarRef}
           plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
