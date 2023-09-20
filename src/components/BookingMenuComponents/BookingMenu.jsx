@@ -44,6 +44,7 @@ export default function BookingMenu({
   const [baseOrder, setBaseOrder] = useState({ shiftTime: 0, preOrders: [] });
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
   const [selectedConflictDate, setSelectedConflictDate] = useState(null);
+  const [keyRerenderConflictResolutionWindow, setKeyRerenderConflictResolutionWindow] = useState(0);
   const [mapsEquipment, setMapsEquipment] = useState([]);
   const [commonMapsEquipment, setCommonMapsEquipment] = useState([]);
   const [selectedDates, setSelectedDates] = useState([]);
@@ -84,6 +85,7 @@ export default function BookingMenu({
     setIsActiveCalendar(true);
   };
   const handleSetSelectedConflictDate = (date) => {
+    setKeyRerenderConflictResolutionWindow((prev) => prev + 1)
     setSelectedConflictDate(date);
   };
   const generatePreOrders = (group, date) => {
@@ -349,6 +351,7 @@ export default function BookingMenu({
             baseOrder={baseOrder}
             showStartDisplayConflict={showStartDisplayConflict}
             pushOrderInBasePreOrder={pushOrderInBasePreOrder}
+            keyRerenderConflictResolutionWindow={keyRerenderConflictResolutionWindow}
           />
         </div>
       </div>

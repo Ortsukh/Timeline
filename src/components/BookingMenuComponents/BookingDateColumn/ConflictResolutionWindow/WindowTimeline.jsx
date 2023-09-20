@@ -27,7 +27,7 @@ export default function WindowTimeline({
   baseOrder,
   pushOrderInBasePreOrder,
 }) {
-  // console.log("baseOrder!!!", baseOrder);
+  console.log("baseOrder!!!", baseOrder);
   // console.log("groups!!!", groups);
   const currentIdDevice = baseOrder.equipment.id;
   const currentShift = baseOrder.equipment.shiftLength;
@@ -319,7 +319,6 @@ export default function WindowTimeline({
 
   const disableReserveBtn = !consideredCell.id ? styleConflict.reserveBtnDisable : styleConflict.reserveBtn;
   // style={{ backgroundColor: !consideredCell.id ? 'gray' : 'rgb(39, 128, 252)' }} 
-  console.log("disableReserveBtn", disableReserveBtn);
 
   return (
     <>
