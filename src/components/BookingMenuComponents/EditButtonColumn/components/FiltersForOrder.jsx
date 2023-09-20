@@ -6,6 +6,7 @@ export default function FiltersForOrder({
   currentDevice,
   isActiveCalendar,
   setBaseOrder,
+  baseOrder,
 }) {
   // const [isActiveDate, setIsActiveDate] = useState(false);
   // const showDatePicker = () => {
@@ -21,6 +22,7 @@ export default function FiltersForOrder({
         isActiveCalendar={isActiveCalendar}
         currentDevice={currentDevice}
         setBaseOrder={setBaseOrder}
+        baseOrder={baseOrder}
       />
       {/* <DateFilter */}
       {/*  showDatePicker={showDatePicker} */}

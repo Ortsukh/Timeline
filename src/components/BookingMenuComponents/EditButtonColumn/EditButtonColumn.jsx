@@ -51,6 +51,7 @@ export default function EditButtonColumn({
   // sendItemFromeTable,
 }) {
   const [shiftsCount, setShiftsCount] = useState(1);
+  const [isShowConflictNotification, setIsShowConflictNotification] = useState(false);
   const [isClickedOnConfirm, setIsClickedOnConfirm] = useState(false);
   console.log(currentDevice);
   useEffect(() => {
@@ -59,6 +60,10 @@ export default function EditButtonColumn({
 
   const back = "< Назад";
 
+  const showNotification = () => {
+    setIsShowConflictNotification(true);
+    setTimeout(() => { setIsShowConflictNotification(false); }, 2000);
+  };
   const createBook = () => {
     if (isEditMode) {
       setItems((previousUpdate) => previousUpdate.concat(
@@ -71,6 +76,7 @@ export default function EditButtonColumn({
       setCopyEditItems([]);
       setIsEditMode(false);
     }
+    handleClear();
     setIsBookingMenu(false);
     setCurrentDevice([]);
     // очистить текущий выбор, для верноного отображения при клике на "Добавить новый"
@@ -85,7 +91,7 @@ export default function EditButtonColumn({
       })),
     );
   };
-
+  console.log();
   return (
     <div>
       <div className={style.backButtonBlock}>
@@ -122,6 +128,7 @@ export default function EditButtonColumn({
         <div className="selects-block">
 
           <FiltersForOrder
+            baseOrder={baseOrder}
             setBaseOrder={setBaseOrder}
             isActiveCalendar={isActiveCalendar}
             orderDate={orderDate}
@@ -174,6 +181,15 @@ export default function EditButtonColumn({
             setOrderContent={setOrderContent}
           />
         </div>
+        {isShowConflictNotification && (
+        <div style={{ color: "red" }}>
+          У вас осталось
+          {" "}
+          {baseOrder.equipment.conflicts.length}
+          {" "}
+          конфликт(ов)
+        </div>
+        )}
         {isEditMode ? (
           <div>
             <button
@@ -214,13 +230,17 @@ export default function EditButtonColumn({
               <button
                 type="button"
                 className={style.reserveBtn}
-                disabled={baseOrder.equipment.conflicts.length > 0}
             // onClick={() => {
             //   console.log("sendItemFromeTable", sendItemFromeTable);
             //   setItemsPreOrder(sendItemFromeTable);
             //   sendNewOrder();
             // }}
                 onClick={() => {
+                  if (baseOrder.equipment.conflicts.length > 0) {
+                    showNotification();
+                    return;
+                  }
+
                   setIsClickedOnConfirm(true);
                   console.log(selectedCompany);
                   sendNewOrder();

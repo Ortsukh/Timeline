@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../style.css";
 
 const generateShiftTime = (shift) => {
@@ -16,8 +16,14 @@ const generateShiftTime = (shift) => {
   return options;
 };
 
-export default function TimeShift({ currentDevice, setBaseOrder, isActiveCalendar }) {
+export default function TimeShift({
+  currentDevice, setBaseOrder, isActiveCalendar, baseOrder,
+}) {
   const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    setValue(baseOrder.shiftTime);
+  }, [baseOrder.shiftTime]);
   const handleChangeTime = (e) => {
     setValue(e.target.value);
     setBaseOrder((prev) => ({
