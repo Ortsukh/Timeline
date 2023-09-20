@@ -27,7 +27,7 @@ export default function WindowTimeline({
   baseOrder,
   pushOrderInBasePreOrder,
 }) {
-  console.log("baseOrder!!!", baseOrder);
+  // console.log("baseOrder!!!", baseOrder);
   // console.log("groups!!!", groups);
   const currentIdDevice = baseOrder.equipment.id;
   const currentShift = baseOrder.equipment.shiftLength;
@@ -37,8 +37,11 @@ export default function WindowTimeline({
   // const [indexCurrentConflictDate, setIndexCurrentConflictDate] = useState(0);
   // const [showButtonNextConflict, setShowButtonNextConflict] = useState(true);
   // console.log("resolvedConflicts", resolvedConflicts);
-  let filteredItems
+
   const [today, setToday] = useState(moment(selectedConflictDate, "YYYY-MM-DD"));
+  // useEffect(() => {
+  //   setToday(moment(selectedConflictDate, "YYYY-MM-DD"));
+  // }, [selectedConflictDate]);
   // const today = moment(selectedConflictDate, "YYYY-MM-DD");
   const startOfDay = (day) => day.startOf("day");
   const endOfDay = (day) => day.endOf("day");
@@ -52,33 +55,7 @@ export default function WindowTimeline({
   // }, [today])
 
   // let filteredItems = items;
-  // let filteredItems = items.filter((item) => today.format("YYYY-MM-DD") === item.date);
-  useEffect(() => {
-    let currentday = moment(selectedConflictDate, "YYYY-MM-DD")
-    setToday(moment(selectedConflictDate, "YYYY-MM-DD"));
-    setVisibleTimeStart(startOfDay(moment(selectedConflictDate, "YYYY-MM-DD")).valueOf())
-    setVisibleTimeEnd(endOfDay(moment(selectedConflictDate, "YYYY-MM-DD")).valueOf())
-    filteredItems = items.filter((item) => currentday.format("YYYY-MM-DD") === item.date);
-    filteredItems.push({
-      id: uuidv4(),
-      group: currentIdDevice,
-      title: "X",
-      start_time: currentday.clone().set("hour", currentTime).startOf("hour"),
-      end_time: currentday.clone().set("hour", currentTime).startOf("hour").add(currentShift, "hour"),
-      itemProps: { style: { background: "rgba(255,255,255,0)", color: "red", fontWidth: "bold", fontSize: "20px", display: "flex",
-          justifyContent: "center",
-          alignItems: "center",} },
-      // date: selectedConflictDate,
-      // grid: addGrid(formatHour, currentShift),
-      // start_time: moment(formattedDate.start).valueOf(),
-      // end_time: moment(formattedDate.end).valueOf(),
-      // itemTouchSendsClick: false,
-      // deviceGroup: currentIdDevice,
-      // checkBoxId: `${groupId} ${formatHour}`,
-    })
-  }, [selectedConflictDate]);
-
-  filteredItems = items.filter((item) => today.format("YYYY-MM-DD") === item.date);
+  let filteredItems = items.filter((item) => today.format("YYYY-MM-DD") === item.date);
   filteredItems.push({
     id: uuidv4(),
     group: currentIdDevice,
@@ -86,8 +63,8 @@ export default function WindowTimeline({
     start_time: today.clone().set("hour", currentTime).startOf("hour"),
     end_time: today.clone().set("hour", currentTime).startOf("hour").add(currentShift, "hour"),
     itemProps: { style: { background: "rgba(255,255,255,0)", color: "red", fontWidth: "bold", fontSize: "20px", display: "flex",
-        justifyContent: "center",
-        alignItems: "center",} },
+    justifyContent: "center",
+    alignItems: "center",} },
     // date: selectedConflictDate,
     // grid: addGrid(formatHour, currentShift),
     // start_time: moment(formattedDate.start).valueOf(),
@@ -96,7 +73,8 @@ export default function WindowTimeline({
     // deviceGroup: currentIdDevice,
     // checkBoxId: `${groupId} ${formatHour}`,
   })
-  console.log("filteredItems!!!", filteredItems);
+
+  // console.log("filteredItems!!!", filteredItems);
   console.log("today!!!", today);
 
   // const today = editOrderData?.date ? moment(editOrderData.date) : moment();
@@ -338,13 +316,11 @@ export default function WindowTimeline({
     pushOrderInBasePreOrder(formatedConsideredCell);
   }
 
-
-  const disableReserveBtn = !consideredCell.id ? styleConflict.reserveBtnDisable : styleConflict.reserveBtn;
-  // style={{ backgroundColor: !consideredCell.id ? 'gray' : 'rgb(39, 128, 252)' }} 
+  // const disableReserveBtn = !consideredCell.id ? reserveBtn : reserveBtnDisable;
 
   return (
     <>
-    <div className={style.containerTimeline} style={{ marginTop: "20px"}}>
+    <div className={style.containerTimeline}>
       <div className="style">
         <Timeline
           className={style.tableTimeline}
@@ -439,7 +415,7 @@ export default function WindowTimeline({
       </div>
     </div>
     <div style={{ display: "flex", justifyContent: "space-between", padding: "0 17px 0 17px" }}>
-      <button className={disableReserveBtn} disabled={!consideredCell.id} onClick={hadleResolveConflict}>Подтвердить</button>
+      <button className={styleConflict.reserveBtn} disabled={!consideredCell.id} onClick={hadleResolveConflict}>Подтвердить</button>
       <button className={styleConflict.closeBtn} onClick={() => setSelectedConflictDate(null)}>Пропустить</button>
     </div>
     </>
