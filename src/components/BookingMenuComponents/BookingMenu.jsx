@@ -50,6 +50,7 @@ export default function BookingMenu({
   const [selectedDates, setSelectedDates] = useState([]);
   const [calendarEvent, setCalendarEvent] = useState([]);
   const [showStartDisplayConflict, setShowStartDisplayConflict] = useState(true);
+  const [selectedPreferredDevice, setSelectedPreferredDevice] = useState(null);
   console.log(currentDevice);
 
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
@@ -148,11 +149,13 @@ export default function BookingMenu({
     const min = Object.keys(mapsEquipment).reduce((acc, curr) => (mapsEquipment[acc].conflicts.length < mapsEquipment[curr].conflicts.length
       ? acc
       : curr));
+    const selectedOrMinDevice = selectedPreferredDevice ? selectedPreferredDevice.value : min;
     setBaseOrder((prev) => ({
       ...prev,
-      equipment: { ...mapsEquipment[min] },
+      equipment: { ...mapsEquipment[selectedOrMinDevice] },
     }));
-    generateEvents(min);
+    generateEvents(selectedOrMinDevice);
+    setSelectedPreferredDevice(null);
   };
 
   const createEquipmentsMap = () => {
@@ -238,6 +241,9 @@ export default function BookingMenu({
     setBaseOrder((prev) => ({ ...prev, equipment: { ...mapsEquipment[selectValue.value] } }));
     generateEvents(selectValue.value);
   };
+  const handleChangeEquipmentBeforeCalculation = (selectValueBeforeCalculation) => {
+    setSelectedPreferredDevice(selectValueBeforeCalculation);
+  };
   const pushOrderInBasePreOrder = (newOrder) => {
     const newPreOrder = [...baseOrder.preOrders, newOrder];
     setBaseOrder((prev) => ({
@@ -305,6 +311,7 @@ export default function BookingMenu({
             //! <-ToolsFilter
             setShowStartDisplayConflict={setShowStartDisplayConflict}
             sendNewOrder={sendNewOrder}
+            handleChangeEquipmentBeforeCalculation={handleChangeEquipmentBeforeCalculation}
             // sendItemFromeTable={sendItemFromeTable}
           />
         </div>
