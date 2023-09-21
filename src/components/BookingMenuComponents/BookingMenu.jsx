@@ -27,6 +27,7 @@ export default function BookingMenu({
   setCurrentDevice,
   setIsEditMode,
   operAlertWindow,
+  // eslint-disable-next-line
   allGroups,
   user,
   companies,
@@ -111,7 +112,8 @@ export default function BookingMenu({
         event.push({
           start: selectedDate, backgroundColor: "#c3cddd",
         });
-      } else if (!mapsEquipment[equipmentId].dates[selectedDate] || (mapsEquipment[equipmentId].dates[selectedDate]
+      } else if (!mapsEquipment[equipmentId].dates[selectedDate]
+          || (mapsEquipment[equipmentId].dates[selectedDate]
           && mapsEquipment[equipmentId].dates[selectedDate][baseOrder.shiftTime] === "0")) {
         event.push({
           start: selectedDate, backgroundColor: "#90ef90",
@@ -147,9 +149,12 @@ export default function BookingMenu({
 
       mapsEquipment[group].conflicts = conflictDates;
     });
-    const min = Object.keys(mapsEquipment).reduce((acc, curr) => (mapsEquipment[acc].conflicts.length < mapsEquipment[curr].conflicts.length
-      ? acc
-      : curr));
+    const min = Object.keys(mapsEquipment).reduce(
+      (acc, curr) => (mapsEquipment[acc].conflicts.length < mapsEquipment[curr].conflicts.length
+        ? acc
+        : curr
+      ),
+    );
     const selectedOrMinDevice = selectedPreferredDevice ? selectedPreferredDevice.value : min;
     setBaseOrder((prev) => ({
       ...prev,
