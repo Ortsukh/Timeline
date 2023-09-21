@@ -26,24 +26,20 @@ export default function WindowTimeline({
   setSelectedConflictDate,
   baseOrder,
   pushOrderInBasePreOrder,
+  statusCheckboxSelected,
 }) {
   // console.log("baseOrder!!!", baseOrder);
   // console.log("groups!!!", groups);
   const currentIdDevice = baseOrder.equipment.id;
   const currentShift = baseOrder.equipment.shiftLength;
   const currentTime = baseOrder.shiftTime;
-  // const [resolvedConflicts, setResolvedConflicts] = useState([]);
   const [consideredCell, setConsideredCell] = useState({});
-  // const [indexCurrentConflictDate, setIndexCurrentConflictDate] = useState(0);
-  // const [showButtonNextConflict, setShowButtonNextConflict] = useState(true);
-  // console.log("resolvedConflicts", resolvedConflicts);
-
-  const [today, setToday] = useState(moment(selectedConflictDate, "YYYY-MM-DD"));
-  // const today = moment(selectedConflictDate, "YYYY-MM-DD");
+  // const [today, setToday] = useState(moment(selectedConflictDate, "YYYY-MM-DD"));
+  const today = moment(selectedConflictDate, "YYYY-MM-DD");
   const startOfDay = (day) => day.startOf("day");
   const endOfDay = (day) => day.endOf("day");
-  const startDate = today.startOf("day");
-  const endDate = today.startOf("day");
+  // const startDate = today.startOf("day");
+  // const endDate = today.startOf("day");
   const [visibleTimeStart, setVisibleTimeStart] = useState(startOfDay(today).valueOf());
   const [visibleTimeEnd, setVisibleTimeEnd] = useState(endOfDay(today).valueOf());
   const startTimeSelectedItem = today.clone().set("hour", currentTime).startOf("hour");
@@ -66,35 +62,15 @@ export default function WindowTimeline({
       justifyContent: "center",
       alignItems: "center"
     }},
-    // date: selectedConflictDate,
-    // grid: addGrid(formatHour, currentShift),
-    // start_time: moment(formattedDate.start).valueOf(),
-    // end_time: moment(formattedDate.end).valueOf(),
-    // itemTouchSendsClick: false,
-    // deviceGroup: currentIdDevice,
-    // checkBoxId: `${groupId} ${formatHour}`,
   })
 
-  // const today = editOrderData?.date ? moment(editOrderData.date) : moment();
-  // const startOfDay = (day) => moment(day).startOf("day");
-  // const endOfDay = (day) => moment(day).endOf("day");
-  // const startDate = moment(orderDatePlanning.selection1.startDate).startOf(
-  //   "day",
-  // );
-  // const endDate = moment(orderDatePlanning.selection1.endDate).startOf("day");
-  // const [visibleTimeStart, setVisibleTimeStart] = useState(startOfDay(today).valueOf());
-  // const [visibleTimeEnd, setVisibleTimeEnd] = useState(endOfDay(today).valueOf());
-  // eslint-disable-next-line
-  // const [currentMonth, setCurrentMonth] = useState(
-  //   moment(today).startOf("month"),
-  // );
-
-  const [openGroups, setOpenGroups] = useState(false);
-// console.log("openGroups", openGroups);
+//   const [openGroups, setOpenGroups] = useState(false);
+// // console.log("openGroups", openGroups);
   const handleBoundsChange = (timeStart, timeEnd) => {
     setVisibleTimeStart(timeStart);
     setVisibleTimeEnd(timeEnd);
   };
+
   // const convertGrid = (length, grid, date) => {
   //   const arr = grid.split("");
   //   const orderedTimes = {};
@@ -164,6 +140,18 @@ export default function WindowTimeline({
     })
   }
   const elInGroup = generateGroup();
+
+  const newElInGroup = elInGroup.map((el) => {
+    const selectedElInGroup = el.id === currentIdDevice;
+    return {
+      ...el,
+      title: (
+        <div className={selectedElInGroup ? styleConflict.highlightRow : ""}>
+          {el.title}
+        </div>
+      ),
+    };
+  });
 
   // const generateDaysOfMonth = () => {
   //   const daysInMonth = moment(currentMonth).daysInMonth();
@@ -262,8 +250,7 @@ export default function WindowTimeline({
   };
 
   const handleCanvasClick = (groupId, time) => {
-    // if (openGroups[groupId]) return;
-    // console.log("handleCanvasClick: groupId, time", groupId, time);
+    if (statusCheckboxSelected === "MYSELF" && groupId !== currentIdDevice) return;
     clickOnEmptySpace(groupId, time);
   };
 
@@ -300,9 +287,7 @@ export default function WindowTimeline({
   // }, []);
 
   const hadleResolveConflict = () => {
-    // console.log("Hello", consideredCell);
     setSelectedConflictDate(null);
-
     const formatedConsideredCell = {
       canMove: consideredCell.canMove,
       date: consideredCell.date,
@@ -314,22 +299,25 @@ export default function WindowTimeline({
     pushOrderInBasePreOrder(formatedConsideredCell);
   }
 
-  const disableReserveBtn = !consideredCell.id ? styleConflict.reserveBtnDisable : styleConflict.reserveBtn;
-
   return (
     <>
     <div className={style.containerTimeline}>
       <div className="style">
         <Timeline
           className={style.tableTimeline}
-          groups={elInGroup}
+          groups={statusCheckboxSelected === "AUTO" ? elInGroup : newElInGroup}
           lineHeight={18}
           itemHeightRatio={1}
           verticalLineClassNamesForTime={(timeStart, timeEnd) => {
             const currentTimeStart = moment(timeStart);
             const currentTimeEnd = moment(timeEnd);
             const selectedTime = currentTimeStart.isSame(startTimeSelectedItem, "hours") && currentTimeEnd.isSame(endTimeSelectedItem, "hours");
-            return [selectedTime ? styleConflict.highlight : ""];
+            return [selectedTime && statusCheckboxSelected === "AUTO" ? styleConflict.highlightColumn : ""];
+          }}
+          horizontalLineClassNamesForGroup={(group) => {
+            if (statusCheckboxSelected === "AUTO") return;
+            const selectedGroup = group.id === currentIdDevice;
+            return [selectedGroup ? styleConflict.highlightRow : ""];
           }}
           items={filteredItems.concat(consideredCell)}
           canMove={false}
@@ -357,7 +345,6 @@ export default function WindowTimeline({
             <SidebarHeader>
               {({ getRootProps }) => (
                 <div
-                  // type="button"
                   {...getRootProps()}
                   style={{
                     width: "150px",
@@ -367,7 +354,6 @@ export default function WindowTimeline({
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    // fontWeight: "bold"
                   }}
                 >
                   {today.format("D") + " " + today.format("MMMM").charAt(0).toUpperCase() + today.format("MMMM").slice(1)}
@@ -409,7 +395,13 @@ export default function WindowTimeline({
       </div>
     </div>
     <div style={{ display: "flex", justifyContent: "space-between", padding: "0 17px 0 17px" }}>
-      <button className={disableReserveBtn} disabled={!consideredCell.id} onClick={hadleResolveConflict}>Подтвердить</button>
+      <button
+        className={!consideredCell.id ? styleConflict.reserveBtnDisable : styleConflict.reserveBtn}
+        disabled={!consideredCell.id}
+        onClick={hadleResolveConflict}
+      >
+        Подтвердить
+      </button>
       <button className={styleConflict.closeBtn} onClick={() => setSelectedConflictDate(null)}>Пропустить</button>
     </div>
     </>

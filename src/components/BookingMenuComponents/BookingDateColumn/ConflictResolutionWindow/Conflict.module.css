@@ -1,7 +1,14 @@
-.highlight {
+.highlightColumn {
   background-color: #cef1f3 !important;
-  border-left:  1px solid red !important;
-  border-right: 1px solid red !important;
+  border: 1px solid red !important;
+  /* border-left: 1px solid red !important;
+  border-right: 1px solid red !important; */
+}
+.highlightRow {
+  background-color: #acecf0 !important;
+  border: 1px solid red !important;
+  /* border-top: 1px solid red !important;
+  border-bottom: 1px solid red !important; */
 }
 
 .reserveBtn {
@@ -38,6 +45,7 @@
   transition: .5s;
   background-color: rgb(209, 209, 209);
   color: rgb(4, 20, 42);
+  cursor: not-allowed;
 }
 
 .closeBtn {
@@ -56,4 +64,24 @@
   background-color: white;
   color: black;
   transition: .3s;
+}
+
+.reserveBtnForText {
+  width: 110px;
+  font-size: 16px;
+  padding: 10px 5px;
+  color: white;
+  background-color: rgb(39, 128, 252);
+  border: 1px solid rgb(39, 128, 252);
+  border-radius: 5px;
+}
+
+.closeBtnForText {
+  width: 110px;
+  font-size: 16px;
+  padding: 10px 5px;
+  color: white;
+  background-color: #f03333;
+  border: 1px solid #f03333;
+  border-radius: 5px;
 }
