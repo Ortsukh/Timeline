@@ -39,9 +39,6 @@ export default function WindowTimeline({
   // console.log("resolvedConflicts", resolvedConflicts);
 
   const [today, setToday] = useState(moment(selectedConflictDate, "YYYY-MM-DD"));
-  // useEffect(() => {
-  //   setToday(moment(selectedConflictDate, "YYYY-MM-DD"));
-  // }, [selectedConflictDate]);
   // const today = moment(selectedConflictDate, "YYYY-MM-DD");
   const startOfDay = (day) => day.startOf("day");
   const endOfDay = (day) => day.endOf("day");
@@ -49,22 +46,26 @@ export default function WindowTimeline({
   const endDate = today.startOf("day");
   const [visibleTimeStart, setVisibleTimeStart] = useState(startOfDay(today).valueOf());
   const [visibleTimeEnd, setVisibleTimeEnd] = useState(endOfDay(today).valueOf());
-  // useEffect(() => {
-  //   setVisibleTimeStart(startOfDay(today).valueOf());
-  //   setVisibleTimeEnd(endOfDay(today).valueOf());
-  // }, [today])
+  const startTimeSelectedItem = today.clone().set("hour", currentTime).startOf("hour");
+  const endTimeSelectedItem = today.clone().set("hour", currentTime).startOf("hour").add(currentShift, "hour").subtract(1, "seconds");
 
-  // let filteredItems = items;
   let filteredItems = items.filter((item) => today.format("YYYY-MM-DD") === item.date);
   filteredItems.push({
     id: uuidv4(),
     group: currentIdDevice,
     title: "X",
-    start_time: today.clone().set("hour", currentTime).startOf("hour"),
-    end_time: today.clone().set("hour", currentTime).startOf("hour").add(currentShift, "hour"),
-    itemProps: { style: { background: "rgba(255,255,255,0)", color: "red", fontWidth: "bold", fontSize: "20px", display: "flex",
-    justifyContent: "center",
-    alignItems: "center",} },
+    start_time: startTimeSelectedItem,
+    end_time: endTimeSelectedItem,
+    itemProps: { style: { 
+      background: "rgba(255,255,255,0)",
+      borderRight:  "1px solid red",
+      borderLeft:  "1px solid red",
+      color: "red",
+      fontSize: "20px",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center"
+    }},
     // date: selectedConflictDate,
     // grid: addGrid(formatHour, currentShift),
     // start_time: moment(formattedDate.start).valueOf(),
@@ -73,9 +74,6 @@ export default function WindowTimeline({
     // deviceGroup: currentIdDevice,
     // checkBoxId: `${groupId} ${formatHour}`,
   })
-
-  // console.log("filteredItems!!!", filteredItems);
-  console.log("today!!!", today);
 
   // const today = editOrderData?.date ? moment(editOrderData.date) : moment();
   // const startOfDay = (day) => moment(day).startOf("day");
@@ -316,7 +314,7 @@ export default function WindowTimeline({
     pushOrderInBasePreOrder(formatedConsideredCell);
   }
 
-  // const disableReserveBtn = !consideredCell.id ? reserveBtn : reserveBtnDisable;
+  const disableReserveBtn = !consideredCell.id ? styleConflict.reserveBtnDisable : styleConflict.reserveBtn;
 
   return (
     <>
@@ -327,17 +325,13 @@ export default function WindowTimeline({
           groups={elInGroup}
           lineHeight={18}
           itemHeightRatio={1}
-          horizontalLineClassNamesForGroup={(group) => {
-            const selectedDate = moment(group.date).isSameOrAfter(startDate)
-              && moment(group.date).isSameOrBefore(endDate);
-            return [
-              openGroups[group.id] ? style.blocked : "",
-              selectedDate ? style.highlight : "",
-            ];
+          verticalLineClassNamesForTime={(timeStart, timeEnd) => {
+            const currentTimeStart = moment(timeStart);
+            const currentTimeEnd = moment(timeEnd);
+            const selectedTime = currentTimeStart.isSame(startTimeSelectedItem, "hours") && currentTimeEnd.isSame(endTimeSelectedItem, "hours");
+            return [selectedTime ? styleConflict.highlight : ""];
           }}
-          // items={filteredItems.concat(getCurrentDevicePreOrderedItems())}
           items={filteredItems.concat(consideredCell)}
-          // items={items.concat(consideredCell)}
           canMove={false}
           canResize={false}
           visibleTimeStart={visibleTimeStart}
@@ -415,7 +409,7 @@ export default function WindowTimeline({
       </div>
     </div>
     <div style={{ display: "flex", justifyContent: "space-between", padding: "0 17px 0 17px" }}>
-      <button className={styleConflict.reserveBtn} disabled={!consideredCell.id} onClick={hadleResolveConflict}>Подтвердить</button>
+      <button className={disableReserveBtn} disabled={!consideredCell.id} onClick={hadleResolveConflict}>Подтвердить</button>
       <button className={styleConflict.closeBtn} onClick={() => setSelectedConflictDate(null)}>Пропустить</button>
     </div>
     </>
