@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import FiltersForOrder from "./components/FiltersForOrder";
@@ -128,12 +130,20 @@ export default function EditButtonColumn({
           showButtonClear={showButtonClear}
           setCurrentDeviceIndex={setCurrentDeviceIndex}
         />
-        <span className={style.fullPrice}>
-          Общая стоимость:
-          {" "}
-          <b>{baseOrder.preOrders.length * currentDevice.price}</b>
-          р
-        </span>
+        <div className="select-count-box">
+          <span className="price-item">
+            Цена за смену:
+            {" "}
+            {+currentDevice.price}
+            р
+          </span>
+          <span className={style.fullPrice}>
+            Общая стоимость:
+            {" "}
+            <b>{baseOrder.preOrders.length * currentDevice.price}</b>
+            р
+          </span>
+        </div>
       </div>
       {user.role === "ROLE_MANAGER" && (
         <CompaniesSelect
@@ -144,7 +154,6 @@ export default function EditButtonColumn({
       )}
       {!isEditMode && (
         <div className="selects-block">
-
           <FiltersForOrder
             baseOrder={baseOrder}
             setBaseOrder={setBaseOrder}
@@ -178,25 +187,29 @@ export default function EditButtonColumn({
       )} */}
       {!baseOrder.equipment && (
         <>
-          <div>
-            <input type="checkbox" id="auto" name="auto"
-              checked={statusCheckboxSelected === "AUTO"}
-              onChange={() => handleChangeSelectedStatus("AUTO")} />
-            <label for="auto">Автоматический выбор</label>
+          <div className="input-count-box">
+            <div className="input-checkbox">
+              <input type="checkbox" id="auto" name="auto"
+                checked={statusCheckboxSelected === "AUTO"}
+                onChange={() => handleChangeSelectedStatus("AUTO")} />
+              <label for="auto">Автоматический выбор</label>
+            </div>
+            <div className="select-count-box">
+              <div className="input-checkbox">
+                <input type="checkbox" id="myself" name="myself"
+                  checked={statusCheckboxSelected === "MYSELF"}
+                  onChange={() => handleChangeSelectedStatus("MYSELF")} />
+                <label className="label-checkbox" for="myself">Выбрать оборудование самостоятельно</label>
+              </div>
+              <Select
+                isDisabled={statusCheckboxSelected !== "MYSELF"}
+                className="select-filter"
+                options={getOptionsForSearch(groups)}
+                onChange={handleChangeEquipmentBeforeCalculation}
+                defaultValue={getOptionsForSearch(groups)[0]}
+              />
+            </div>
           </div>
-          <div>
-            <input type="checkbox" id="myself" name="myself"
-              checked={statusCheckboxSelected === "MYSELF"}
-              onChange={() => handleChangeSelectedStatus("MYSELF")} />
-            <label for="myself">Выбрать оборудование самостоятельно</label>
-          </div>
-          <Select
-            isDisabled={statusCheckboxSelected !== "MYSELF"}
-            className="select-filter"
-            options={getOptionsForSearch(groups)}
-            onChange={handleChangeEquipmentBeforeCalculation}
-            defaultValue={getOptionsForSearch(groups)[0]}
-          />
         </>
       )}
       <BookingCalendar

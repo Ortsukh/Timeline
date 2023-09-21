@@ -102,7 +102,7 @@
     width: auto;
 }
 
-.css-b62m3t-container {
+.select-filter.choose-product.css-b62m3t-container {
     margin-top: 5px;
 }
 
@@ -279,7 +279,7 @@
 }
 
 .selects-block .select-count-box {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .selects-block .select-count-box,
@@ -464,4 +464,37 @@
     padding: 8px 10px;
     border-radius: 5px;
     background-color: #e6e6e6;
+}
+
+.fc-toolbar-chunk button.fc-today-button{
+    display: none !important;
+}
+
+.label-checkbox{
+    display: block;
+    max-width: 175px;
+}
+
+.input-checkbox{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-checkbox input{
+    width: 25px;
+    height: 25px;
+    border: 1px solid hsl(0, 0%, 80%);
+    border-radius: 3px;
+}
+
+.input-count-box{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    justify-content: space-between;
+}
+
+.input-count-box .select-count-box{
+    margin: 0;
 }
