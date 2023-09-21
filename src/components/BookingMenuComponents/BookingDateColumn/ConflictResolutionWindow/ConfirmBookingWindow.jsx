@@ -30,15 +30,15 @@ export default function ConfirmBookingWindow({
       {showStartDisplayConflict &&
         // <div className={style.containerTimeline} style=
         //{{ width: "45vw", height: "50vh", backgroundColor: "gray", zIndex: "2", border: "1px solid gray" }}>
-        <div style={{ width: "45vw", margin: "0 auto", padding: "0 0 0 20px", fontSize: "20px", backgroundColor: "rgb(215, 215, 215)", border: "1px solid gray", borderRadius: "5%" }}>
-          <h3>Для начала бронирования выполните следующия шаги:</h3>
-          <p>1. Выберите подходящее Вам оборудования;</p>
-          <p>2. Укажите подходящие Вам время и колличество смен;</p>
-          <p>3. Выделите нужные даты;</p>
-          <p>4. Нажмите <span style={{ fontStyle: "italic" }}>`Рассчитать`</span>;</p>
-          <p>5. Если вы ошибочно выбрали даты, нажмите <span style={{ fontStyle: "italic" }}>`Очистить`</span>.</p>
-          <h4>После этого, если выбранные Вами даты были заняты, вы иожете разрешить эти конфликты выбором других смен.</h4>
-          <h4>При успешном бронировании вы можете подтвердить его.</h4>
+        <div style={{ width: "45vw", margin: "0 auto", padding: "0 30px", fontSize: "20px", backgroundColor: "white", border: "1px solid #c1c1c1", borderRadius: "30px" }}>
+          <h3>Для начала бронирования выполните следующие шаги:</h3>
+          <p style={{marginLeft: "20px"}}>1. Выберите подходящее Вам оборудование;</p>
+          <p style={{marginLeft: "20px"}}>2. Укажите подходящее Вам время и количество смен;</p>
+          <p style={{marginLeft: "20px"}}>3. Выделите нужные даты;</p>
+          <p style={{marginLeft: "20px"}}>4. Нажмите <span style={{ fontStyle: "italic", fontWeight: "700", color: "#2780fc" }}>`Рассчитать`</span>;</p>
+          <p style={{marginLeft: "20px"}}>5. Если вы ошибочно выбрали даты, нажмите <span style={{ fontStyle: "italic", fontWeight: "700", color: "#f03333" }}>`Очистить`</span>.</p>
+          <h4 style={{fontWeight: "400", marginBottom:"0"}}>После этого, если <span style={{fontWeight: "700"}}>выбранные Вами смены были заняты</span>, вы можете <span style={{fontWeight: "700"}}>разрешить эти конфликты</span> путем выбора других смен.</h4>
+          <h4 style={{marginTop:"10px"}}>При успешном бронировании вы можете подтвердить его.</h4>
         </div>
       }
 
