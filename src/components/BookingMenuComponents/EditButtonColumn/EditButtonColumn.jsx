@@ -51,11 +51,17 @@ export default function EditButtonColumn({
   setShowStartDisplayConflict,
   sendNewOrder,
   handleChangeEquipment,
+  handleChangeEquipmentBeforeCalculation,
   // sendItemFromeTable,
 }) {
   const [shiftsCount, setShiftsCount] = useState(1);
   const [isShowConflictNotification, setIsShowConflictNotification] = useState(false);
   const [isClickedOnConfirm, setIsClickedOnConfirm] = useState(false);
+  const statusesSelected = {
+    auto: "AUTO",
+    myself: "MYSELF"
+  }
+  const [statusCheckboxSelected, setStatusCheckboxSelected] = useState(statusesSelected.auto);
   console.log(currentDevice);
   useEffect(() => {
     setShowButtonClear(false);
@@ -98,6 +104,14 @@ export default function EditButtonColumn({
     value: group.id,
     label: group.title,
   }));
+
+  const handleChangeSelectedStatus = (status) => {
+    if (status === "AUTO") {
+      setStatusCheckboxSelected(statusesSelected.auto);
+    } else {
+      setStatusCheckboxSelected(statusesSelected.myself);
+    }
+  }
 
   return (
     <div>
@@ -145,7 +159,7 @@ export default function EditButtonColumn({
           />
         </div>
       )}
-      {baseOrder.equipment && (
+      {/* {baseOrder.equipment && (
       <>
         <div>
           Выбранное оборудование
@@ -164,6 +178,29 @@ export default function EditButtonColumn({
           value={{ value: baseOrder.equipment.id, label: baseOrder.equipment.title }}
         />
       </>
+      )} */}
+      {!baseOrder.equipment && (
+        <>
+          <div>
+            <input type="checkbox" id="auto" name="auto"
+              checked={statusCheckboxSelected === "AUTO"}
+              onChange={() => handleChangeSelectedStatus("AUTO")} />
+            <label for="auto">Автоматический выбор</label>
+          </div>
+          <div>
+            <input type="checkbox" id="myself" name="myself"
+              checked={statusCheckboxSelected === "MYSELF"}
+              onChange={() => handleChangeSelectedStatus("MYSELF")} />
+            <label for="myself">Выбрать оборудование самостоятельно</label>
+          </div>
+          <Select
+            isDisabled={statusCheckboxSelected === "AUTO"}
+            className="select-filter"
+            options={getOptionsForSearch(groups)}
+            onChange={handleChangeEquipmentBeforeCalculation}
+            defaultValue={getOptionsForSearch(groups)[0]}
+          />
+        </>
       )}
       <BookingCalendar
         items={items}
@@ -200,7 +237,8 @@ export default function EditButtonColumn({
         <div style={{ color: "red" }}>
           У вас осталось
           {" "}
-          {baseOrder.equipment.conflicts.length}
+          {/* {baseOrder.equipment.conflicts.length} */}
+          //! ВЕРНУТЬ baseOrder.equipment.conflicts.length !!!!!!!!!!!!!!!!!!!!!
           {" "}
           конфликт(ов)
         </div>
