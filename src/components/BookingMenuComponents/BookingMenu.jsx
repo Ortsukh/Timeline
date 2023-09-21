@@ -53,8 +53,6 @@ export default function BookingMenu({
   const [showStartDisplayConflict, setShowStartDisplayConflict] = useState(true);
   const [selectedPreferredDevice, setSelectedPreferredDevice] = useState(null);
   const [statusCheckboxSelected, setStatusCheckboxSelected] = useState("AUTO");
-  console.log(currentDevice);
-
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
   const [updatedItems, setUpdatedItems] = useState(items);
   const [copyEditItems, setCopyEditItems] = useState([]);
@@ -134,8 +132,8 @@ export default function BookingMenu({
   };
   const calcBestMap = () => {
     setIsActiveCalendar(false);
-    console.log(commonMapsEquipment);
-    console.log(mapsEquipment);
+    // console.log(commonMapsEquipment);
+    // console.log(mapsEquipment);
     Object.keys(mapsEquipment).forEach((group) => {
       const conflictDates = [];
       selectedDates.forEach((selectedDate) => {
@@ -243,7 +241,7 @@ export default function BookingMenu({
   };
 
   const handleChangeEquipment = (selectValue) => {
-    console.log(mapsEquipment);
+    // console.log(mapsEquipment);
     setBaseOrder((prev) => ({ ...prev, equipment: { ...mapsEquipment[selectValue.value] } }));
     generateEvents(selectValue.value);
   };
@@ -378,6 +376,7 @@ export default function BookingMenu({
             pushOrderInBasePreOrder={pushOrderInBasePreOrder}
             keyRerenderConflictResolutionWindow={keyRerenderConflictResolutionWindow}
             statusCheckboxSelected={statusCheckboxSelected}
+            handleSetSelectedConflictDate={handleSetSelectedConflictDate}
           />
         </div>
       </div>

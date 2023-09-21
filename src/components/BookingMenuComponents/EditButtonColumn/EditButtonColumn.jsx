@@ -206,7 +206,7 @@ export default function EditButtonColumn({
                 className="select-filter"
                 options={getOptionsForSearch(groups)}
                 onChange={handleChangeEquipmentBeforeCalculation}
-                defaultValue={getOptionsForSearch(groups)[0]}
+                defaultValue={getOptionsForSearch(groups)[groups.length - 1]}
               />
             </div>
           </div>
