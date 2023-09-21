@@ -1,6 +1,6 @@
 /* eslint-disable */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
@@ -17,19 +17,14 @@ import styleConflict from "./Conflict.module.css";
 export default function WindowTimeline({
   items,
   groups,
-  setItemsPreOrder,
-  editOrderData,
-  setCopyEditItems,
-  setUpdatedItems,
-  isEditMode,
   selectedConflictDate,
   setSelectedConflictDate,
   baseOrder,
   pushOrderInBasePreOrder,
   statusCheckboxSelected,
+  // handleSetSelectedConflictDate,
 }) {
   // console.log("baseOrder!!!", baseOrder);
-  // console.log("groups!!!", groups);
   const currentIdDevice = baseOrder.equipment.id;
   const currentShift = baseOrder.equipment.shiftLength;
   const currentTime = baseOrder.shiftTime;
@@ -64,70 +59,10 @@ export default function WindowTimeline({
     }},
   })
 
-//   const [openGroups, setOpenGroups] = useState(false);
-// // console.log("openGroups", openGroups);
   const handleBoundsChange = (timeStart, timeEnd) => {
     setVisibleTimeStart(timeStart);
     setVisibleTimeEnd(timeEnd);
   };
-
-  // const convertGrid = (length, grid, date) => {
-  //   const arr = grid.split("");
-  //   const orderedTimes = {};
-  //   for (let i = 0; i < 24; i += length) {
-  //     if (arr[i] === "1") {
-  //       orderedTimes.start_time = moment(`${date} ${i}:00`).valueOf();
-  //       orderedTimes.end_time = moment(
-  //         `${date} ${i + length}:00`,
-  //       ).valueOf();
-  //     }
-  //   }
-  //   return orderedTimes;
-  // };
-
-  // const convertItemsData = (data) => data
-  //   .filter((item) => (
-  //     item.group === currentDevice.id
-  //         && item.date.startsWith(currentMonth.format("YYYY-MM"))
-  //   ))
-  //   .map((item) => {
-  //     item.deviceGroup = item.group;
-  //     item.group = item.date;
-  //     const orderedTimes = convertGrid(
-  //       currentDevice.shiftLength,
-  //       item.grid,
-  //       today.format("YYYY-MM-DD"),
-  //     );
-  //     item.start_time = orderedTimes.start_time;
-  //     item.end_time = orderedTimes.end_time;
-  //     return item;
-  //   });
-
-  // useEffect(() => {
-  //   if (isEditMode) {
-  //     const selectedItems = items.filter(
-  //       (item) => item.rentOrderId === editOrderData.rentOrderId,
-  //     );
-  //     const allItems = items.filter(
-  //       (item) => item.rentOrderId !== editOrderData.rentOrderId,
-  //     );
-
-  //     const selectedItemsWithColor = convertItemsData(selectedItems).map(
-  //       (el) => ({
-  //         ...el,
-  //         group: el.date,
-  //         itemProps: { style: { background: "gray" } },
-  //       }),
-  //     );
-  //     setUpdatedItems(allItems);
-  //     setItemsPreOrder(selectedItemsWithColor);
-  //     setCopyEditItems(selectedItems);
-  //   }
-  // }, [editOrderData, isEditMode]);
-
-  // const copyItems = items.map((item) => ({ ...item }));
-
-  // const filteredItems = convertItemsData(copyItems);
 
   const generateGroup = () => {
     return groups.map((el) => {
@@ -135,7 +70,7 @@ export default function WindowTimeline({
         id: el.id,
         title: el.title,
         date: el.category,
-        height: 18, // высота строчки
+        height: 36,
       }
     })
   }
@@ -152,55 +87,6 @@ export default function WindowTimeline({
       ),
     };
   });
-
-  // const generateDaysOfMonth = () => {
-  //   const daysInMonth = moment(currentMonth).daysInMonth();
-  //   const days = [];
-  //   // eslint-disable-next-line no-plusplus
-  //   for (let i = 0; i <= daysInMonth; i++) {
-  //     const date = moment(currentMonth).date(i);
-  //     days.push({
-  //       id: date.format("YYYY-MM-DD"), // дата в качестве ID
-  //       title: date.format("D dd").toUpperCase(), // день месяца числом - D, сокращенная абривиатура - dd
-  //       date, // объект `moment(today).date(i)` для использования в items
-  //       height: 18, // высота строчки
-  //     });
-  //   }
-
-  //   return days;
-  // };
-  // const daysOfMonth = generateDaysOfMonth();
-
-  // const toggleGroup = (id) => {
-  //   setOpenGroups((prev) => ({
-  //     ...prev,
-  //     [id]: !prev[id],
-  //   }));
-  //   setItemsPreOrder((pred) => pred.filter((el) => el.group !== id));
-  // };
-
-  // const newGroups = daysOfMonth.map((group) => {
-  //   const selectedDate = moment(group.date).isSameOrAfter(startDate)
-  //     && moment(group.date).isSameOrBefore(endDate);
-  //   return {
-  //     ...group,
-  //     title: (
-  //       <div
-  //         className={`${openGroups[group.id] ? style.blocked : ""}  ${
-  //           selectedDate ? style.highlight : ""
-  //         }`}
-  //         onClick={() => toggleGroup(group.id)}
-  //         onKeyDown={() => toggleGroup(group.id)}
-  //         aria-hidden="true"
-  //         style={{ cursor: "pointer" }}
-  //       >
-  //         {openGroups[group.id] ? "+" : "-"}
-  //         {" "}
-  //         {group.title}
-  //       </div>
-  //     ),
-  //   };
-  // });
 
   const getFormattedDate = (groupId, time) => {
     const date = moment(time).format("YYYY-MM-DD");
@@ -222,15 +108,9 @@ export default function WindowTimeline({
   };
 
   const clickOnEmptySpace = (groupId, time) => {
-    // console.log("clickOnEmptySpace: groupId, time", groupId, time);
     const hour = moment(time).hours();
-    // const { shiftLength } = currentDevice;
     const formatHour = Math.floor(hour / currentShift);
-
     const formattedDate = getFormattedDate(groupId, time);
-    // // console.log("formattedDate", formattedDate);
-    // // if (moment(`${groupId} ${hour}:00`).isBefore(moment.now())) return;
-
     const obj = {
       id: uuidv4(),
       group: groupId,
@@ -246,7 +126,6 @@ export default function WindowTimeline({
       checkBoxId: `${groupId} ${formatHour}`,
     };
     setConsideredCell(obj)
-    // setItemsPreOrder((pred) => [...pred, obj]);
   };
 
   const handleCanvasClick = (groupId, time) => {
@@ -262,29 +141,6 @@ export default function WindowTimeline({
     // if (!item) return;
     // setItemsPreOrder((pred) => pred.filter((el) => el.id !== itemId));
   };
-
-  // const getCurrentDevicePreOrderedItems = () => itemsPreOrder.filter(
-  //   (item) => item.deviceGroup === currentDevice.id,
-  // );
-
-  // useEffect(() => {
-  // const pressedSelected = filteredItems.filter((el) => {
-  //     const formateTime = [];
-  //     const arrayGrid = el.grid.split("")
-  //     for (let hourGrid = 0; hourGrid < arrayGrid.length - 1; hourGrid += currentShift) {
-  //       if (arrayGrid[hourGrid] === "1") {
-  //         const fullTime = currentShift !== 1 ? `${hourGrid}-${hourGrid + currentShift}` : hourGrid;
-  //         formateTime.push(fullTime);
-  //       }
-  //     }
-  //     // console.log('AAAAAAAAAAAAAA', formateTime[0], +currentTime);
-  //     // console.log('BBBBBBBBBBB', groups, currentIdDevice);
-  //     return (el.group === currentIdDevice && formateTime[0] === +currentTime)
-  //   })
-  //   // console.log("Hello ----", pressedSelected);
-
-  //   // handleItemSelect(pressedSelected[0]?.id);
-  // }, []);
 
   const hadleResolveConflict = () => {
     setSelectedConflictDate(null);
@@ -306,7 +162,7 @@ export default function WindowTimeline({
         <Timeline
           className={style.tableTimeline}
           groups={statusCheckboxSelected === "AUTO" ? elInGroup : newElInGroup}
-          lineHeight={18}
+          lineHeight={36}
           itemHeightRatio={1}
           verticalLineClassNamesForTime={(timeStart, timeEnd) => {
             const currentTimeStart = moment(timeStart);
@@ -360,11 +216,40 @@ export default function WindowTimeline({
                 </div>
               )}
             </SidebarHeader>
-            {currentShift < 2 ? (
-              <DateHeader unit="hour" labelFormat="H" />
-            )
-              : (
-                <DateHeader
+            {currentShift < 2 
+              ? (<DateHeader unit="hour" labelFormat="H"
+                // intervalRenderer={({
+                //   getIntervalProps,
+                //   intervalContext,
+                // }) => (
+                //   <div {...getIntervalProps()}>
+                //     {/* {console.log("!!!!!!!!!!!", moment(), getIntervalProps().key)} */}
+                //     {moment(+getIntervalProps().key.slice(6)).isSame(startTimeSelectedItem, "hours") &&
+                //     statusCheckboxSelected === "AUTO"
+                //       ? <div
+                //         style={{
+                //           border: "1px solid rgba(0, 0, 0, 0.15)",
+                //           display: "flex",
+                //           justifyContent: "center",
+                //         }}
+                //         className={styleConflict.highlightColumn}
+                //       >
+                //         {moment(intervalContext.interval.startTime).format("H")}
+                //       </div>
+                //       : <div
+                //       style={{
+                //         border: "1px solid rgba(0, 0, 0, 0.15)",
+                //         display: "flex",
+                //         justifyContent: "center",
+                //       }}
+                //     >
+                //       {moment(intervalContext.interval.startTime).format("H")}
+                //     </div>
+                //     }
+                //   </div>
+                // )} // ! Выглядит очень некрасиво
+              />)
+              : (<DateHeader
                   unit="hour"
               // eslint-disable-next-line react/no-unstable-nested-components
                   intervalRenderer={({
@@ -372,24 +257,39 @@ export default function WindowTimeline({
                     intervalContext,
                   }) => (
                     <div {...getIntervalProps()}>
-                      <div
-                        style={{
-                          border: "1px solid rgba(0, 0, 0, 0.15)",
-                          backgroundColor: "white",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        {`${moment(intervalContext.interval.startTime).format(
-                          "H",
-                        )
-                        }-${
-                          moment(intervalContext.interval.endTime).format("H")}`}
-                      </div>
+                      {moment(+getIntervalProps().key.slice(6)).isSame(startTimeSelectedItem, "hours") &&
+                      statusCheckboxSelected === "AUTO"
+                        ? <div
+                          style={{
+                            border: "1px solid rgba(0, 0, 0, 0.15)",
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                          className={styleConflict.highlightColumn}
+                        >
+                          {
+                            `${moment(intervalContext.interval.startTime).format("H")}-${
+                              moment(intervalContext.interval.endTime).format("H")}`
+                          }
+                        </div>
+                        : <div
+                          style={{
+                            border: "1px solid rgba(0, 0, 0, 0.15)",
+                            backgroundColor: "white",
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {
+                            `${moment(intervalContext.interval.startTime).format("H")}-${
+                              moment(intervalContext.interval.endTime).format("H")}`
+                          }
+                        </div>
+                      }
                     </div>
                   )}
-                />
-              )}
+              />)
+            }
           </TimelineHeaders>
         </Timeline>
       </div>
@@ -402,7 +302,18 @@ export default function WindowTimeline({
       >
         Подтвердить
       </button>
-      <button className={styleConflict.closeBtn} onClick={() => setSelectedConflictDate(null)}>Пропустить</button>
+      <button
+        className={styleConflict.closeBtn}
+        onClick={() => {
+          setSelectedConflictDate(null);
+          // TODO ЛОГИКА для перехода к следующему конкликту после нажатия на `Пропустить` 
+          // const curIndConflInArray = baseOrder.equipment?.conflicts.indexOf(selectedConflictDate);
+          // const nextIndexConfl = curIndConflInArray < baseOrder.equipment?.conflicts.length - 1 ? curIndConflInArray + 1 : 0;
+          // handleSetSelectedConflictDate(baseOrder.equipment?.conflicts[nextIndexConfl]);
+        }}
+      >
+        Пропустить
+      </button>
     </div>
     </>
   );
