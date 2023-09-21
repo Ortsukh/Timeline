@@ -52,17 +52,14 @@ export default function EditButtonColumn({
   sendNewOrder,
   handleChangeEquipment,
   handleChangeEquipmentBeforeCalculation,
+  statusCheckboxSelected,
+  setStatusCheckboxSelected,
   // sendItemFromeTable,
 }) {
   const [shiftsCount, setShiftsCount] = useState(1);
   const [isShowConflictNotification, setIsShowConflictNotification] = useState(false);
   const [isClickedOnConfirm, setIsClickedOnConfirm] = useState(false);
-  const statusesSelected = {
-    auto: "AUTO",
-    myself: "MYSELF"
-  }
-  const [statusCheckboxSelected, setStatusCheckboxSelected] = useState(statusesSelected.auto);
-  console.log(currentDevice);
+
   useEffect(() => {
     setShowButtonClear(false);
   }, []);
@@ -107,9 +104,9 @@ export default function EditButtonColumn({
 
   const handleChangeSelectedStatus = (status) => {
     if (status === "AUTO") {
-      setStatusCheckboxSelected(statusesSelected.auto);
+      setStatusCheckboxSelected(status);
     } else {
-      setStatusCheckboxSelected(statusesSelected.myself);
+      setStatusCheckboxSelected(status);
     }
   }
 
@@ -194,7 +191,7 @@ export default function EditButtonColumn({
             <label for="myself">Выбрать оборудование самостоятельно</label>
           </div>
           <Select
-            isDisabled={statusCheckboxSelected === "AUTO"}
+            isDisabled={statusCheckboxSelected !== "MYSELF"}
             className="select-filter"
             options={getOptionsForSearch(groups)}
             onChange={handleChangeEquipmentBeforeCalculation}

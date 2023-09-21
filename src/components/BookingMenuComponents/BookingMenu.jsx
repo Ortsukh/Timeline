@@ -51,6 +51,7 @@ export default function BookingMenu({
   const [calendarEvent, setCalendarEvent] = useState([]);
   const [showStartDisplayConflict, setShowStartDisplayConflict] = useState(true);
   const [selectedPreferredDevice, setSelectedPreferredDevice] = useState(null);
+  const [statusCheckboxSelected, setStatusCheckboxSelected] = useState("AUTO");
   console.log(currentDevice);
 
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
@@ -312,6 +313,8 @@ export default function BookingMenu({
             setShowStartDisplayConflict={setShowStartDisplayConflict}
             sendNewOrder={sendNewOrder}
             handleChangeEquipmentBeforeCalculation={handleChangeEquipmentBeforeCalculation}
+            statusCheckboxSelected={statusCheckboxSelected}
+            setStatusCheckboxSelected={setStatusCheckboxSelected}
             // sendItemFromeTable={sendItemFromeTable}
           />
         </div>
