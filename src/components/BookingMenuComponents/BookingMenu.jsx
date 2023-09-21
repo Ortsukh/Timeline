@@ -377,6 +377,7 @@ export default function BookingMenu({
             showStartDisplayConflict={showStartDisplayConflict}
             pushOrderInBasePreOrder={pushOrderInBasePreOrder}
             keyRerenderConflictResolutionWindow={keyRerenderConflictResolutionWindow}
+            statusCheckboxSelected={statusCheckboxSelected}
           />
         </div>
       </div>

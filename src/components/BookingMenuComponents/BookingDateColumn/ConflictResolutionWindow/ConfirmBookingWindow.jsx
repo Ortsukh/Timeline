@@ -23,6 +23,7 @@ export default function ConfirmBookingWindow({
   showStartDisplayConflict,
   pushOrderInBasePreOrder,
   keyRerenderConflictResolutionWindow,
+  statusCheckboxSelected,
 }) {
 // console.log("selectedConflictDate", selectedConflictDate);
 
@@ -70,6 +71,7 @@ export default function ConfirmBookingWindow({
         setSelectedConflictDate={setSelectedConflictDate}
         baseOrder={baseOrder}
         pushOrderInBasePreOrder={pushOrderInBasePreOrder}
+        statusCheckboxSelected={statusCheckboxSelected}
       />}
       {/* {!selectedConflictDate &&
         <div className={style.containerTimeline} style={{ width: "45vw", height: "50vh", backgroundColor: "gray", border: "1px solid gray" }}>
