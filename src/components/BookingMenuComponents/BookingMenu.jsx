@@ -106,31 +106,57 @@ export default function BookingMenu({
     return obj;
   };
   const generateEvents = (equipmentId) => {
-    const event = [];
+    const events = [];
+
     selectedDates.forEach((selectedDate) => {
-      if (moment(selectedDate).isBefore(moment().startOf("day"))) {
-        event.push({
-          start: selectedDate, backgroundColor: "#c3cddd",
+      const currentDate = moment(selectedDate);
+      const baseOrderShiftTime = baseOrder.shiftTime;
+      const currentEquipment = mapsEquipment[equipmentId];
+
+      if (currentDate.isBefore(moment().startOf("day"))) {
+        events.push({
+          start: selectedDate,
+          backgroundColor: "#c3cddd",
         });
-      } else if (!mapsEquipment[equipmentId].dates[selectedDate]
-          || (mapsEquipment[equipmentId].dates[selectedDate]
-          && mapsEquipment[equipmentId].dates[selectedDate][baseOrder.shiftTime] === "0")) {
-        event.push({
-          start: selectedDate, backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
+      } else if (!currentEquipment.dates[selectedDate] || (currentEquipment.dates[selectedDate] && currentEquipment.dates[selectedDate][baseOrderShiftTime] === "0")) {
+        events.push({
+          start: selectedDate,
+          backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
         });
-        baseOrder.preOrders.push(generatePreOrders(mapsEquipment[equipmentId], selectedDate));
-      } else if (
-        commonMapsEquipment[selectedDate][baseOrder.shiftTime] < groups.length) {
-        event.push({
-          start: selectedDate, backgroundColor: ITEMS_PREORDER_COLOR.orderedButFreeInOtherEquipment.backgroundColor,
-        });
+        baseOrder.preOrders.push(generatePreOrders(currentEquipment, selectedDate));
       } else {
-        event.push({
-          start: selectedDate, backgroundColor: ITEMS_PREORDER_COLOR.orderedInAllEquipment.backgroundColor,
-        });
+        const commonMapsEquipmentSelectedDate = commonMapsEquipment[selectedDate];
+        const { shiftTime } = baseOrder;
+        const { shiftLength } = currentEquipment;
+        const groupsLength = groups.length;
+
+        if (
+          commonMapsEquipmentSelectedDate[shiftTime] === groupsLength.toString()
+          && (
+            (shiftTime === 0 && commonMapsEquipmentSelectedDate[shiftTime + shiftLength] === groupsLength.toString())
+            || (commonMapsEquipmentSelectedDate[shiftTime - shiftLength] === groupsLength.toString() && shiftTime === (24 - shiftLength))
+            || (commonMapsEquipmentSelectedDate[shiftTime - shiftLength] === groupsLength.toString() && commonMapsEquipmentSelectedDate[shiftTime + shiftLength] === groupsLength.toString())
+          )
+        ) {
+          events.push({
+            start: selectedDate,
+            backgroundColor: ITEMS_PREORDER_COLOR.orderedInThisShiftAndNear.backgroundColor,
+          });
+        } else if (commonMapsEquipmentSelectedDate[shiftTime] < groupsLength) {
+          events.push({
+            start: selectedDate,
+            backgroundColor: ITEMS_PREORDER_COLOR.orderedButFreeInOtherEquipment.backgroundColor,
+          });
+        } else {
+          events.push({
+            start: selectedDate,
+            backgroundColor: ITEMS_PREORDER_COLOR.orderedInAllEquipment.backgroundColor,
+          });
+        }
       }
     });
-    setCalendarEvent(event);
+
+    setCalendarEvent(events);
   };
   const calcBestMap = () => {
     setIsActiveCalendar(false);
