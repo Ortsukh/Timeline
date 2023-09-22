@@ -112,7 +112,7 @@ export default function EditButtonColumn({
 
         <div className="select-count-box">
           <span className="price-item">
-            {`Цена за смену: ${+currentDevice.price}р`}`
+            {`Цена за смену: ${+currentDevice.price}р`}
           </span>
           <span className={style.fullPrice}>
             {`Общая стоимость: `}

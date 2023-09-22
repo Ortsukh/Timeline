@@ -5,7 +5,6 @@ import ITEMS_PREORDER_COLOR from "../constants/itemsPreOrderColor";
 export const generateClue = () => {
   const clueContent = [];
   Object.keys(ITEMS_PREORDER_COLOR).forEach((status) => {
-    console.log(ITEMS_PREORDER_COLOR[status].backgroundColor);
     clueContent.push(
       <div className="clueItem" key={status}>
         <div

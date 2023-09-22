@@ -79,7 +79,6 @@ export default function TimelinePage() {
   }, [update]);
 
   useEffect(() => {
-    console.log(user);
     setIsLoading(true);
     getAllOrders()
       .then((response) => {

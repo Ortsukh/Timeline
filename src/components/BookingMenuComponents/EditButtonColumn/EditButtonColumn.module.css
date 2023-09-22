@@ -77,8 +77,9 @@
   color: black;
   transition: .3s;
 }
+
 .gridActiveBG {
-background-color: rgba(188,232,241,.3) !important
+  background: repeating-linear-gradient(-60deg, #555 0, #555 1px, transparent 1px, transparent 5px);
 }
 
 .btnCont{
