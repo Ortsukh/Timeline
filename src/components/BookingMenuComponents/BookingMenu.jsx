@@ -50,7 +50,13 @@ export default function BookingMenu({
   const [isConfirmWindowOpen, setIsConfirmWindowOpen] = useState(false);
   const [orderContent, setOrderContent] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState(null);
-
+  const [orderDatePlanning, setOrderDatePlanning] = useState({
+    selection1: {
+      startDate: new Date(),
+      endDate: new Date(moment().add(2, "days").valueOf()),
+      key: "selection1",
+    },
+  });
   const initialCurrentDeviceIndex = groups
     .map((current) => current.id)
     .indexOf(currentDevice.id);
@@ -326,7 +332,7 @@ export default function BookingMenu({
               setUpdatedItems={setUpdatedItems}
               setCopyEditItems={setCopyEditItems}
               items={items}
-              // orderDatePlanning={orderDatePlanning}
+              orderDatePlanning={orderDatePlanning}
               currentDeviceIndex={currentDeviceIndex}
               setCurrentDeviceIndex={setCurrentDeviceIndex}
               selectedCompany={selectedCompany}
@@ -343,7 +349,7 @@ export default function BookingMenu({
             setUpdatedItems={setUpdatedItems}
             setCopyEditItems={setCopyEditItems}
             items={items}
-            // orderDatePlanning={orderDatePlanning}
+            orderDatePlanning={orderDatePlanning}
             currentDeviceIndex={currentDeviceIndex}
             setCurrentDeviceIndex={setCurrentDeviceIndex}
             selectedCompany={selectedCompany}
