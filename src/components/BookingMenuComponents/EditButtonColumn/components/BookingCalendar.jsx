@@ -196,70 +196,72 @@ export default function BookingCalendar({
   };
   return (
     <>
-      <label>
-        <span>Выделение по календарю</span>
-        <Switch
-          disabled={!isActiveCalendar}
-          onChange={handleChangeSelect}
-          checked={isDefaultSelect}
-        />
-      </label>
-      <div
-        onMouseUp={(e) => handleChangeMouse(e)}
-        onMouseDown={(e) => handleChangeMouse(e)}
-      >
-        <RectangleSelection
-          onSelect={() => {}}
-          disabled={(isDefaultSelect && isActiveCalendar) || !isActiveCalendar}
-          style={{
-            backgroundColor: "rgba(0,0,255,0.4)",
-            borderColor: "blue",
-          }}
-        >
-          <FullCalendar
-            height={475}
-            fixedWeekCount={false}
-            ref={calendarRef}
-            plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
-            showNonCurrentDates={false}
-            selectable={isDefaultSelect && isActiveCalendar}
-            dateClick={(e) => console.log(e)}
-            selectMirror
-            select={(data) => handleSelect(data)}
-            initialView="dayGridMonth"
-            locale="ru"
-            firstDay="1"
-            weekends
-            selectAllow={(date) => {
-              if (moment(date.start).isSameOrAfter(moment().startOf("day"))) {
-                console.log(true);
-                return true;
-              }
-              return false;
-            }}
-            eventClick={handleEventClick}
-            events={event}
-            eventContent={renderEventContent}
-          // style={{
-          //   MozUserSelect: "none",
-          //   WebkitUserSelect: "none",
-          //   msUserSelect: "none",
-          // }}
-            headerToolbar={{
-              left: "today",
-              center: "title",
-              right: "prev,next",
-            }}
-            customButtons={{
-              changeSelectType: {
-                text: "Изменить тип выделения",
-                click: () => {
-                  setIsDefaultSelect((prev) => !prev);
-                },
-              },
-            }}
+    <div className="calendar-count">
+        <label className="switch">
+          <span>Выделение по календарю</span>
+          <Switch
+            disabled={!isActiveCalendar}
+            onChange={handleChangeSelect}
+            checked={isDefaultSelect}
           />
-        </RectangleSelection>
+        </label>
+        <div
+          onMouseUp={(e) => handleChangeMouse(e)}
+          onMouseDown={(e) => handleChangeMouse(e)}
+        >
+          <RectangleSelection
+            onSelect={() => {}}
+            disabled={(isDefaultSelect && isActiveCalendar) || !isActiveCalendar}
+            style={{
+              backgroundColor: "rgba(0,0,255,0.4)",
+              borderColor: "blue",
+            }}
+          >
+            <FullCalendar
+              height={475}
+              fixedWeekCount={false}
+              ref={calendarRef}
+              plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
+              showNonCurrentDates={false}
+              selectable={isDefaultSelect && isActiveCalendar}
+              dateClick={(e) => console.log(e)}
+              selectMirror
+              select={(data) => handleSelect(data)}
+              initialView="dayGridMonth"
+              locale="ru"
+              firstDay="1"
+              weekends
+              selectAllow={(date) => {
+                if (moment(date.start).isSameOrAfter(moment().startOf("day"))) {
+                  console.log(true);
+                  return true;
+                }
+                return false;
+              }}
+              eventClick={handleEventClick}
+              events={event}
+              eventContent={renderEventContent}
+            // style={{
+            //   MozUserSelect: "none",
+            //   WebkitUserSelect: "none",
+            //   msUserSelect: "none",
+            // }}
+              headerToolbar={{
+                left: "today",
+                center: "title",
+                right: "prev,next",
+              }}
+              customButtons={{
+                changeSelectType: {
+                  text: "Изменить тип выделения",
+                  click: () => {
+                    setIsDefaultSelect((prev) => !prev);
+                  },
+                },
+              }}
+            />
+          </RectangleSelection>
+        </div>
       </div>
     </>
   );
