@@ -15,7 +15,6 @@ import ConfirmBookingWindow from "./BookingDateColumn/ConflictResolutionWindow/C
 import style from "./BookingMenu.module.css";
 import EditButtonColumn from "./EditButtonColumn/EditButtonColumn";
 import ITEMS_PREORDER_COLOR from "../../constants/itemsPreOrderColor";
-import ClueWindow from "../Popup/ClueWindow";
 
 export default function BookingMenu({
   setIsBookingMenu,
