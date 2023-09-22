@@ -33,7 +33,7 @@ export default function BookingMenu({
   setShowButtonClear,
 }) {
   // new
-  const [baseOrder, setBaseOrder] = useState({ shiftTime: 0, preOrders: [] });
+  const [baseOrder, setBaseOrder] = useState({ shiftTime: 0, preOrders: [], equipment: {} });
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
   const [selectedConflictDate, setSelectedConflictDate] = useState(null);
   const [keyRerenderConflictResolutionWindow, setKeyRerenderConflictResolutionWindow] = useState(0);
@@ -50,6 +50,7 @@ export default function BookingMenu({
   const [isConfirmWindowOpen, setIsConfirmWindowOpen] = useState(false);
   const [orderContent, setOrderContent] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState(null);
+  // eslint-disable-next-line
   const [orderDatePlanning, setOrderDatePlanning] = useState({
     selection1: {
       startDate: new Date(),
@@ -69,7 +70,7 @@ export default function BookingMenu({
     }
   }, []);
   const handleClear = () => {
-    setBaseOrder({ shiftTime: 0, preOrders: [] });
+    setBaseOrder({ shiftTime: 0, preOrders: [], equipment: {} });
     setCalendarEvent([]);
     setSelectedConflictDate("");
     setIsActiveCalendar(true);

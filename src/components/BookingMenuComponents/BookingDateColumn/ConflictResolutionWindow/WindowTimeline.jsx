@@ -13,6 +13,8 @@ import style from "../BookingTimeline.module.css";
 import "../../../style.css";
 import { addGrid } from "../../../../common/DataConvertHelper";
 import styleConflict from "./Conflict.module.css";
+import { Tooltip } from "react-tooltip";
+import { generateClue } from "../../../../common/GenerateElementsData";
 
 export default function WindowTimeline({
   items,
@@ -302,6 +304,10 @@ export default function WindowTimeline({
       >
         Подтвердить
       </button>
+      <div id="riddler" className={styleConflict.riddler}>?</div>
+      <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
+        {generateClue("WINDOW_TIMELINE")}
+      </Tooltip>
       <button
         className={styleConflict.closeBtn}
         onClick={() => {

@@ -194,7 +194,7 @@ export default function BookingCalendar({
             }}
           />
           <Tooltip anchorSelect=".fc-clue-button" openOnClick place="right">
-            {generateClue()}
+            {generateClue("BOOKING_CALENDAR")}
           </Tooltip>
         </RectangleSelection>
       </div>

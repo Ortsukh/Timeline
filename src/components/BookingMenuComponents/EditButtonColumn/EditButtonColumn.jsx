@@ -139,7 +139,7 @@ export default function EditButtonColumn({
           />
         </div>
       )}
-      {!baseOrder.equipment && (
+      {!baseOrder.equipment.id && (
         <>
           <div className="input-count-box">
             <div className="input-checkbox">
