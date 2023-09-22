@@ -8,7 +8,9 @@ import interaction from "@fullcalendar/interaction";
 import moment from "moment";
 import RectangleSelection from "react-rectangle-selection";
 import Switch from "react-switch";
+import { Tooltip } from "react-tooltip";
 import style from "../EditButtonColumn.module.css";
+import { generateClue } from "../../../../common/GenerateElementsData";
 
 const events = [];
 function renderEventContent(eventInfo) {
@@ -139,8 +141,8 @@ export default function BookingCalendar({
     });
   };
   return (
-    <>
-      <label>
+    <div className="calendar-count">
+      <label className="switch">
         <span>Выделение по календарю</span>
         {" "}
         <Switch
@@ -193,14 +195,15 @@ export default function BookingCalendar({
             customButtons={{
               clue: {
                 text: "?",
-                click: () => {
-                  setIsDefaultSelect((prev) => !prev);
-                },
+
               },
             }}
           />
+          <Tooltip anchorSelect=".fc-clue-button" openOnClick place="right">
+            {generateClue()}
+          </Tooltip>
         </RectangleSelection>
       </div>
-    </>
+    </div>
   );
 }
