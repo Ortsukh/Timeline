@@ -190,6 +190,7 @@ export default function BookingCalendar({
             events={event}
             eventContent={renderEventContent}
             headerToolbar={{
+              left: "",
               center: "title",
               right: "prev,next, clue",
             }}
