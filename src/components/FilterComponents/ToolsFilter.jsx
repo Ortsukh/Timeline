@@ -52,7 +52,7 @@ export default function ToolsFilter({
 
   return (
     <div className="tools-filter">
-      <span> Выбрать оборудование</span>
+      <span> Выбрать категорию оборудования</span>
       <Select
         isDisabled={!isActiveCalendar}
         formatOptionLabel={formatOptionLabel}

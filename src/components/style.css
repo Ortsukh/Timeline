@@ -498,3 +498,24 @@
 .input-count-box .select-count-box{
     margin: 0;
 }
+
+.calendar-count{
+    position: relative;
+    margin-top: 40px;
+}
+
+.switch{
+    position: absolute;
+    top: 14px;
+    left: 0;
+}
+
+.switch span{
+    position: relative;
+    bottom: 8px;
+    margin-right: 10px;
+}
+
+.fc .fc-toolbar-title{
+    margin-left: 150px;
+}
