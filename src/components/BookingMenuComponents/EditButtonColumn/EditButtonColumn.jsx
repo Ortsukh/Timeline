@@ -242,7 +242,7 @@ export default function EditButtonColumn({
         <div style={{ color: "red" }}>
           У вас осталось
           {" "}
-          {/* {baseOrder.equipment.conflicts.length} */}
+           {baseOrder.equipment.conflicts.length}
           //! ВЕРНУТЬ baseOrder.equipment.conflicts.length !!!!!!!!!!!!!!!!!!!!!
           {" "}
           конфликт(ов)
