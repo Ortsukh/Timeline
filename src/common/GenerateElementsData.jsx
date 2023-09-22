@@ -5,6 +5,7 @@ import ITEMS_PREORDER_COLOR from "../constants/itemsPreOrderColor";
 export const generateClue = () => {
   const clueContent = [];
   Object.keys(ITEMS_PREORDER_COLOR).forEach((status) => {
+    console.log(ITEMS_PREORDER_COLOR[status].backgroundColor);
     clueContent.push(
       <div className="clueItem" key={status}>
         <div
@@ -14,8 +15,7 @@ export const generateClue = () => {
           }}
         />
         <span style={{ maxWidth: 250 }}>
-          {" "}
-          {ITEMS_PREORDER_COLOR[status].text}
+          {` ${ITEMS_PREORDER_COLOR[status].text}`}
         </span>
       </div>,
     );

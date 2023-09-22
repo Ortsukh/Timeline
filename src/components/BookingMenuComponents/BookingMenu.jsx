@@ -27,20 +27,10 @@ export default function BookingMenu({
   currentDevice,
   setCurrentDevice,
   setIsEditMode,
-  operAlertWindow,
-  // eslint-disable-next-line
-  allGroups,
+  openAlertWindow,
   user,
   companies,
-  //! ToolsFilter->
-  toolNames,
-  onInputChange,
-  clearFilter,
-  isClickingOnEmptyFilter,
-  setIsClickingOnEmptyFilter,
   setShowButtonClear,
-  showButtonClear,
-  //! <-ToolsFilter
 }) {
   // new
   const [baseOrder, setBaseOrder] = useState({ shiftTime: 0, preOrders: [] });
@@ -60,15 +50,7 @@ export default function BookingMenu({
   const [isConfirmWindowOpen, setIsConfirmWindowOpen] = useState(false);
   const [orderContent, setOrderContent] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState(null);
-  const [orderDatePlanning, setOrderDatePlanning] = useState({
-    selection1: {
-      startDate: new Date(),
-      endDate: new Date(moment().add(2, "days").valueOf()),
-      key: "selection1",
-    },
-  });
-  console.log(items);
-  // const [sendItemFromeTable, setSendItemFromeTable] = useState([]);
+
   const initialCurrentDeviceIndex = groups
     .map((current) => current.id)
     .indexOf(currentDevice.id);
@@ -159,32 +141,29 @@ export default function BookingMenu({
   };
   const calcBestMap = () => {
     setIsActiveCalendar(false);
-    // console.log(commonMapsEquipment);
-    // console.log(mapsEquipment);
-    Object.keys(mapsEquipment).forEach((group) => {
-      const conflictDates = [];
-      selectedDates.forEach((selectedDate) => {
-        if (
-          mapsEquipment[group].dates[selectedDate]
-            && mapsEquipment[group].dates[selectedDate][baseOrder.shiftTime] === "1"
-        ) {
-          conflictDates.push(selectedDate);
-        }
-      });
 
-      mapsEquipment[group].conflicts = conflictDates;
+    Object.keys(mapsEquipment).forEach((group) => {
+      mapsEquipment[group].conflicts = selectedDates.filter((selectedDate) => {
+        const equipment = mapsEquipment[group];
+        return (
+          equipment.dates[selectedDate]
+            && equipment.dates[selectedDate][baseOrder.shiftTime] === "1"
+        );
+      });
     });
-    const min = Object.keys(mapsEquipment).reduce(
-      (acc, curr) => (mapsEquipment[acc].conflicts.length < mapsEquipment[curr].conflicts.length
-        ? acc
-        : curr
-      ),
-    );
+
+    const min = Object.keys(mapsEquipment).reduce((acc, curr) => {
+      const accConflictsLength = mapsEquipment[acc].conflicts.length;
+      const currConflictsLength = mapsEquipment[curr].conflicts.length;
+      return accConflictsLength < currConflictsLength ? acc : curr;
+    });
+
     const selectedOrMinDevice = selectedPreferredDevice ? selectedPreferredDevice.value : min;
     setBaseOrder((prev) => ({
       ...prev,
       equipment: { ...mapsEquipment[selectedOrMinDevice] },
     }));
+
     generateEvents(selectedOrMinDevice);
     setSelectedPreferredDevice(null);
   };
@@ -193,30 +172,35 @@ export default function BookingMenu({
     const map = {};
     const commonMap = {};
     const filteredItemsByDate = items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day")));
+
     groups.forEach((group) => {
       map[group.id] = {};
       const dayGrids = groupByDateItems(
         filteredItemsByDate.filter((item) => item.group === group.id),
       );
+
       Object.keys(dayGrids).forEach((day) => {
         if (!commonMap[day]) {
           commonMap[day] = dayGrids[day];
         } else {
-          let partA = 2000000000000;
-          let partB = 2000000000000;
-          partA += Number(commonMap[day].slice(0, 12));
-          partB += Number(commonMap[day].slice(12, 24));
+          let partA = 2000000000000 + Number(commonMap[day].slice(0, 12));
+          let partB = 2000000000000 + Number(commonMap[day].slice(12, 24));
           partA += Number(dayGrids[day].slice(0, 12));
           partB += Number(dayGrids[day].slice(12, 24));
           commonMap[day] = String(partA).slice(1, 13) + String(partB).slice(1, 13);
         }
       });
-      map[group.id].dates = dayGrids;
-      map[group.id] = { ...map[group.id], ...group };
+
+      map[group.id] = {
+        ...group,
+        dates: dayGrids,
+      };
     });
+
     setCommonMapsEquipment(commonMap);
     setMapsEquipment(map);
   };
+
   useEffect(() => {
     createEquipmentsMap();
   }, [groups, baseOrder.equipment]);
@@ -241,7 +225,7 @@ export default function BookingMenu({
 
     sendEditOrder(editedOrder)
       .then(() => {
-        operAlertWindow("success");
+        openAlertWindow("success");
         setUpdate((previousUpdate) => !previousUpdate);
         setItemsPreOrder([]);
         setCopyEditItems([]);
@@ -249,7 +233,7 @@ export default function BookingMenu({
         setCurrentDevice([]);
         setIsEditMode(false);
       })
-      .catch(() => operAlertWindow("error"));
+      .catch(() => openAlertWindow("error"));
   };
 
   const sendNewOrder = () => {
@@ -257,21 +241,16 @@ export default function BookingMenu({
     const orderItems = createOrderGrid(baseOrder.preOrders);
     createOrder(orderItems, selectedCompany)
       .then(() => {
-        operAlertWindow("success");
+        openAlertWindow("success");
         setItemsPreOrder([]);
         setIsBookingMenu(false);
         setCurrentDevice([]);
         setShowButtonClear(true);
         setUpdate((previousUpdate) => !previousUpdate);
       })
-      .catch(operAlertWindow("error"));
+      .catch(openAlertWindow("error"));
   };
 
-  const handleChangeEquipment = (selectValue) => {
-    // console.log(mapsEquipment);
-    setBaseOrder((prev) => ({ ...prev, equipment: { ...mapsEquipment[selectValue.value] } }));
-    generateEvents(selectValue.value);
-  };
   const handleChangeEquipmentBeforeCalculation = (selectValueBeforeCalculation) => {
     setSelectedPreferredDevice(selectValueBeforeCalculation);
   };
@@ -292,7 +271,6 @@ export default function BookingMenu({
       return el;
     }));
   };
-  console.log("END baseOrder", baseOrder);
 
   return (
     <>
@@ -313,56 +291,29 @@ export default function BookingMenu({
             baseOrder={baseOrder}
             setBaseOrder={setBaseOrder}
             items={updatedItems}
-            orderDate={orderDatePlanning}
-            setOrderDate={setOrderDatePlanning}
-            setCurrentDeviceIndex={setCurrentDeviceIndex}
             groups={groups}
             setIsConfirmWindowOpen={setIsConfirmWindowOpen}
             setOrderContent={setOrderContent}
             companies={companies}
             user={user}
-            selectedCompany={selectedCompany}
-            //! ToolsFilter->
-            toolNames={toolNames}
-            onInputChange={onInputChange}
-            clearFilter={clearFilter}
-            isClickingOnEmptyFilter={isClickingOnEmptyFilter}
-            setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
             selectedGroups={selectedGroups}
             setShowButtonClear={setShowButtonClear}
-            showButtonClear={showButtonClear}
             setSelectedCompany={setSelectedCompany}
             setSelectedDates={setSelectedDates}
             generateCalendarEvents={calcBestMap}
-            handleChangeEquipment={handleChangeEquipment}
             calendarEvent={calendarEvent}
             isActiveCalendar={isActiveCalendar}
             handleClear={handleClear}
             selectedDates={selectedDates}
-            //! <-ToolsFilter
             setShowStartDisplayConflict={setShowStartDisplayConflict}
             sendNewOrder={sendNewOrder}
             handleChangeEquipmentBeforeCalculation={handleChangeEquipmentBeforeCalculation}
             statusCheckboxSelected={statusCheckboxSelected}
             setStatusCheckboxSelected={setStatusCheckboxSelected}
-            // sendItemFromeTable={sendItemFromeTable}
           />
         </div>
 
         <div className={style.bookingDateColumn}>
-          {/* <div>
-            <Table
-              items={items}
-              currentDevice={currentDevice}
-              selectedCompany={selectedCompany}
-              groups={groups}
-              setCurrentDevice={setCurrentDevice}
-              currentDeviceIndex={currentDeviceIndex}
-              setCurrentDeviceIndex={setCurrentDeviceIndex}
-              setItemsPreOrder={setItemsPreOrder}
-              setSendItemFromeTable={setSendItemFromeTable}
-            />
-          </div> */}
           <div style={{ display: "none" }}>
             <BookingTimeline
               editOrderData={editOrderData}
@@ -375,7 +326,7 @@ export default function BookingMenu({
               setUpdatedItems={setUpdatedItems}
               setCopyEditItems={setCopyEditItems}
               items={items}
-              orderDatePlanning={orderDatePlanning}
+              // orderDatePlanning={orderDatePlanning}
               currentDeviceIndex={currentDeviceIndex}
               setCurrentDeviceIndex={setCurrentDeviceIndex}
               selectedCompany={selectedCompany}
@@ -392,7 +343,7 @@ export default function BookingMenu({
             setUpdatedItems={setUpdatedItems}
             setCopyEditItems={setCopyEditItems}
             items={items}
-            orderDatePlanning={orderDatePlanning}
+            // orderDatePlanning={orderDatePlanning}
             currentDeviceIndex={currentDeviceIndex}
             setCurrentDeviceIndex={setCurrentDeviceIndex}
             selectedCompany={selectedCompany}
@@ -407,7 +358,6 @@ export default function BookingMenu({
           />
         </div>
       </div>
-      {/* <ClueWindow /> */}
       {isConfirmWindowOpen && (
         <ConfirmWindow
           data={orderContent}

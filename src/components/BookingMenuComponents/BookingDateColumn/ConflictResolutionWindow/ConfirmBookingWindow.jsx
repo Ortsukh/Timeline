@@ -16,7 +16,6 @@ export default function ConfirmBookingWindow({
   setUpdatedItems,
   isEditMode,
   currentDevice,
-  orderDatePlanning,
   selectedConflictDate,
   setSelectedConflictDate,
   baseOrder,
@@ -26,7 +25,6 @@ export default function ConfirmBookingWindow({
   statusCheckboxSelected,
   handleSetSelectedConflictDate,
 }) {
-// console.log("selectedConflictDate", selectedConflictDate);
 
   return (
     <>

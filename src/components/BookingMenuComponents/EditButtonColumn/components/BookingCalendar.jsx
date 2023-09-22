@@ -28,7 +28,6 @@ export default function BookingCalendar({
   handleSetSelectedConflictDate,
   setSelectedDates,
   calendarEvent,
-
   selectedDates,
   isActiveCalendar,
 }) {

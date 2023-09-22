@@ -22,25 +22,14 @@ export default function EditButtonColumn({
   setCurrentDevice,
   currentDevice,
   setBaseOrder,
-  orderDate,
-  setOrderDate,
   items,
-  setCurrentDeviceIndex,
   groups,
   setIsConfirmWindowOpen,
   setOrderContent,
   user,
   companies,
   setSelectedCompany,
-  selectedCompany,
-  //! ToolsFilter->
-  toolNames,
-  onInputChange,
-  clearFilter,
-  isClickingOnEmptyFilter,
-  setIsClickingOnEmptyFilter,
   setShowButtonClear,
-  showButtonClear,
   baseOrder,
   selectedDates,
   handleSetSelectedConflictDate,
@@ -49,15 +38,11 @@ export default function EditButtonColumn({
   calendarEvent,
   isActiveCalendar,
   handleClear,
-  //! <-ToolsFilter,
-                                           selectedGroups,
   setShowStartDisplayConflict,
   sendNewOrder,
-  handleChangeEquipment,
   handleChangeEquipmentBeforeCalculation,
   statusCheckboxSelected,
-  setStatusCheckboxSelected,
-  // sendItemFromeTable,
+  setStatusCheckboxSelected, selectedGroups,
 }) {
   const [shiftsCount, setShiftsCount] = useState(1);
   const [isShowConflictNotification, setIsShowConflictNotification] = useState(false);
@@ -88,7 +73,6 @@ export default function EditButtonColumn({
     handleClear();
     setIsBookingMenu(false);
     setCurrentDevice([]);
-    // очистить текущий выбор, для верноного отображения при клике на "Добавить новый"
     setShowButtonClear(true);
   };
 
@@ -100,6 +84,7 @@ export default function EditButtonColumn({
       })),
     );
   };
+
   const getOptionsForSearch = (groups) => groups.map((group) => ({
     value: group.id,
     label: group.title,
@@ -127,14 +112,10 @@ export default function EditButtonColumn({
 
         <div className="select-count-box">
           <span className="price-item">
-            Цена за смену:
-            {" "}
-            {+currentDevice.price}
-            р
+            {`Цена за смену: ${+currentDevice.price}р`}`
           </span>
           <span className={style.fullPrice}>
-            Общая стоимость:
-            {" "}
+            {`Общая стоимость: `}
             <b>{baseOrder.preOrders.length * currentDevice.price}</b>
             р
           </span>
@@ -153,33 +134,11 @@ export default function EditButtonColumn({
             baseOrder={baseOrder}
             setBaseOrder={setBaseOrder}
             isActiveCalendar={isActiveCalendar}
-            orderDate={orderDate}
-            setOrderDate={setOrderDate}
             setShiftsCount={setShiftsCount}
             currentDevice={currentDevice}
           />
         </div>
       )}
-      {/* {baseOrder.equipment && (
-      <>
-        <div>
-          Выбранное оборудование
-          {": "}
-          {" "}
-          {baseOrder.equipment.title}
-          {" "}
-        </div>
-
-        <span> Выбрать компанию</span>
-
-        <Select
-          className="select-filter"
-          options={getOptionsForSearch(groups)}
-          onChange={handleChangeEquipment}
-          value={{ value: baseOrder.equipment.id, label: baseOrder.equipment.title }}
-        />
-      </>
-      )} */}
       {!baseOrder.equipment && (
         <>
           <div className="input-count-box">
@@ -217,19 +176,6 @@ export default function EditButtonColumn({
         isActiveCalendar={isActiveCalendar}
       />
       <div>
-        {/* {!isEditMode && ( */}
-        {/* <div className="date-block"> */}
-        {/*   <CheckFormOrder */}
-        {/*     items={items} */}
-        {/*     currentDevice={currentDevice} */}
-        {/*     orderDate={orderDate} */}
-        {/*     shiftsCount={shiftsCount} */}
-        {/*     setItemsPreOrder={setItemsPreOrder} */}
-        {/*     itemsPreOrder={itemsPreOrder} */}
-        {/*   /> */}
-        {/* </div> */}
-        {/* )} */}
-
         <div className="preOrderTable">
           <PreOrderTable
             itemsPreOrder={itemsPreOrder}
@@ -240,13 +186,10 @@ export default function EditButtonColumn({
         </div>
         {isShowConflictNotification && (
         <div style={{ color: "red" }}>
-          У вас осталось
-          {" "}
-           {baseOrder.equipment.conflicts.length}
-          {" "}
-          конфликт(ов)
+          {`У вас осталось ${baseOrder.equipment.conflicts.length} конфликт(ов)`}
         </div>
         )}
+
         {isEditMode ? (
           <div>
             <button
@@ -271,11 +214,6 @@ export default function EditButtonColumn({
               <button
                 type="button"
                 className={style.reserveBtn}
-              // onClick={() => {
-              //   console.log("sendItemFromeTable", sendItemFromeTable);
-              //   setItemsPreOrder(sendItemFromeTable);
-              //   sendNewOrder();
-              // }}
                 onClick={() => {
                   if (selectedDates.length < 1) {
                     return;
@@ -290,11 +228,6 @@ export default function EditButtonColumn({
               <button
                 type="button"
                 className={style.reserveBtn}
-            // onClick={() => {
-            //   console.log("sendItemFromeTable", sendItemFromeTable);
-            //   setItemsPreOrder(sendItemFromeTable);
-            //   sendNewOrder();
-            // }}
                 onClick={() => {
                   if (baseOrder.equipment.conflicts.length > 0) {
                     showNotification();
@@ -302,9 +235,7 @@ export default function EditButtonColumn({
                   }
 
                   setIsClickedOnConfirm(true);
-                  console.log(selectedCompany);
                   sendNewOrder();
-                  // return itemsPreOrder[0] && selectedCompany && setIsConfirmWindowOpen(true);
                 }}
               >
                 Подтвердить бронирование
