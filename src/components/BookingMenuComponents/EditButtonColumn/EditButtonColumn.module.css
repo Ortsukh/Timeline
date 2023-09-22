@@ -1,6 +1,7 @@
 
 .backButtonBlock {
   width: 100%;
+  display: flex;
 }
 
 .backButton {

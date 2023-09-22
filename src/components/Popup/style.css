@@ -1,0 +1,39 @@
+
+.clueWindow {
+    width: 300px;
+    height: 230px;
+    position: absolute;
+    background-color: rgb(252, 253, 253);
+    top: 50%;
+    right: 50%;
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid rgb(156, 156, 156);
+    padding: 10px;
+    border-radius: 5px;
+}
+.button-close {
+    background-color: #f03333;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 2px;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    left: 85%;
+    cursor: pointer;
+    line-height: 11px;
+}
+.clueItem{
+    display: flex;
+    max-width: 280px;
+
+}
+.clueItemColor {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}

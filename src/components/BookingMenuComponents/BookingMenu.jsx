@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -13,7 +14,8 @@ import BookingTimeline from "./BookingDateColumn/BookingTimeline";
 import ConfirmBookingWindow from "./BookingDateColumn/ConflictResolutionWindow/ConfirmBookingWindow";
 import style from "./BookingMenu.module.css";
 import EditButtonColumn from "./EditButtonColumn/EditButtonColumn";
-// import Table from "./WebDataRocks/Table";
+import ITEMS_PREORDER_COLOR from "../../constants/itemsPreOrderColor";
+import ClueWindow from "../Popup/ClueWindow";
 
 export default function BookingMenu({
   setIsBookingMenu,
@@ -114,17 +116,17 @@ export default function BookingMenu({
           || (mapsEquipment[equipmentId].dates[selectedDate]
           && mapsEquipment[equipmentId].dates[selectedDate][baseOrder.shiftTime] === "0")) {
         event.push({
-          start: selectedDate, backgroundColor: "#90ef90",
+          start: selectedDate, backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
         });
         baseOrder.preOrders.push(generatePreOrders(mapsEquipment[equipmentId], selectedDate));
       } else if (
         commonMapsEquipment[selectedDate][baseOrder.shiftTime] < groups.length) {
         event.push({
-          start: selectedDate, backgroundColor: "#ffd884",
+          start: selectedDate, backgroundColor: ITEMS_PREORDER_COLOR.orderedButFreeInOtherEquipment.backgroundColor,
         });
       } else {
         event.push({
-          start: selectedDate, backgroundColor: "#ffa4a4",
+          start: selectedDate, backgroundColor: ITEMS_PREORDER_COLOR.orderedInAllEquipment.backgroundColor,
         });
       }
     });
@@ -260,7 +262,7 @@ export default function BookingMenu({
     }));
     setCalendarEvent((prev) => prev.map((el) => {
       if (el.start === newOrder.date) {
-        return { ...el, backgroundColor: "#90ef90" };
+        return { ...el, backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor };
       }
       return el;
     }));
@@ -380,6 +382,7 @@ export default function BookingMenu({
           />
         </div>
       </div>
+      {/* <ClueWindow /> */}
       {isConfirmWindowOpen && (
         <ConfirmWindow
           data={orderContent}

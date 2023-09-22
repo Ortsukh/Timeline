@@ -50,6 +50,7 @@ export default function EditButtonColumn({
   isActiveCalendar,
   handleClear,
   //! <-ToolsFilter,
+                                           selectedGroups,
   setShowStartDisplayConflict,
   sendNewOrder,
   handleChangeEquipment,
@@ -118,18 +119,12 @@ export default function EditButtonColumn({
         <button type="button" className={style.backButton} onClick={createBook}>
           {back}
         </button>
+        <div>
+          <span> Выбранная категория: {selectedGroups}</span>
+        </div>
       </div>
       <div className={style.filterContainer}>
-        <ToolsFilter
-          isActiveCalendar={isActiveCalendar}
-          toolNames={toolNames}
-          onInputChange={onInputChange}
-          clearFilter={clearFilter}
-          isClickingOnEmptyFilter={isClickingOnEmptyFilter}
-          setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
-          showButtonClear={showButtonClear}
-          setCurrentDeviceIndex={setCurrentDeviceIndex}
-        />
+
         <div className="select-count-box">
           <span className="price-item">
             Цена за смену:
