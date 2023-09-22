@@ -29,35 +29,11 @@ export default function BookingCalendar({
   selectedDates,
   isActiveCalendar,
 }) {
-  const [isMouseUp, setIsMouseUp] = useState(false);
   const [startCoord, setStartCoord] = useState(0);
   const [isDefaultSelect, setIsDefaultSelect] = useState(true);
   const [endCoord, setEndCoord] = useState(0);
   const calendarRef = useRef();
   const [event, setEvent] = useState(events);
-  // const currentItems = groupByDateItems(
-  //   items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day"))),
-  // );
-  // const startShift = 8;
-  // console.log(items);
-  // const checkShiftPerDay = (day) => {
-  //   if (moment(day).isBefore(moment().startOf("day"))) {
-  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#c3cddd" }]);
-  //   } else if (!currentItems[day]) {
-  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#90ef90" }]);
-  //   } else if (
-  //     currentItems[day][startShift] === "1"
-  //     && (startShift - currentDevice.shiftLength < 0
-  //       || currentItems[day][startShift - currentDevice.shiftLength] === "1")
-  //     && (startShift - currentDevice.shiftLength > 24
-  //       || currentItems[day][startShift + currentDevice.shiftLength]) === "1"
-  //   ) {
-  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#3a3a3a" }]);
-  //   } else if (currentItems[day][startShift] === "1") {
-  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#ffa4a4" }]);
-  //   } else {
-  //     setEvent((prev) => [...prev, { start: day, backgroundColor: "#90ef90" }]);
-  //   }
   const handleEventClick = (clickInfo) => {
     const day = moment(clickInfo.event.start).format("YYYY-MM-DD");
     handleSetSelectedConflictDate(day);
@@ -75,29 +51,12 @@ export default function BookingCalendar({
     calendarDayCell.forEach((cell) => {
       cell.classList.remove(style.gridActiveBG);
     });
-  }, [isActiveCalendar, isDefaultSelect]);
+  }, [isActiveCalendar]);
 
   const checkShiftPerDay = (cell) => {
-    console.log(cell);
     cell.classList.add(style.gridActiveBG);
-    // if (moment(day).isBefore(moment().startOf("day"))) {
-    //   setEvent((prev) => [...prev, { start: day, backgroundColor: "gray" }]);
-    // } else if (!currentItems[day]) {
-    //   setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
-    // } else if (
-    //   currentItems[day][startShift] === "1"
-    //   && (startShift - currentDevice.shiftLength < 0
-    //     || currentItems[day][startShift - currentDevice.shiftLength] === "1")
-    //   && (startShift - currentDevice.shiftLength > 24
-    //     || currentItems[day][startShift + currentDevice.shiftLength]) === "1"
-    // ) {
-    //   setEvent((prev) => [...prev, { start: day, backgroundColor: "black" }]);
-    // } else if (currentItems[day][startShift] === "1") {
-    //   setEvent((prev) => [...prev, { start: day, backgroundColor: "red" }]);
-    // } else {
-    //   setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
-    // }
   };
+
   const rectangleSelect = () => {
     setEvent([]);
     if (!calendarRef.current) return;
@@ -105,28 +64,27 @@ export default function BookingCalendar({
     const calendarDayCell = calendar.querySelectorAll(
       ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
     );
-    // console.log(startCoord, endCoord);
     const selectedDays = [];
 
     calendarDayCell.forEach((cell) => {
-      // cell.classList.remove(style.gridActiveBG);
       const cellCoord = cell.getBoundingClientRect();
       if (
         ((cellCoord.right > startCoord[0] && cellCoord.right < endCoord[0])
-          || (cellCoord.left > startCoord[0] && cellCoord.left < endCoord[0])
-          || (cellCoord.right > startCoord[0]
-            && cellCoord.right > endCoord[0]
-            && cellCoord.left < startCoord[0]
-            && cellCoord.left < endCoord[0]))
-        && ((cellCoord.top > startCoord[1] && cellCoord.top < endCoord[1])
-          || (cellCoord.bottom > startCoord[1]
-            && cellCoord.bottom < endCoord[1])
-          || (cellCoord.top < startCoord[1]
-            && cellCoord.top < endCoord[1]
-            && cellCoord.bottom > startCoord[1]
-            && cellCoord.bottom > endCoord[1]))
+              || (cellCoord.left > startCoord[0] && cellCoord.left < endCoord[0])
+              || (cellCoord.right > startCoord[0]
+                  && cellCoord.right > endCoord[0]
+                  && cellCoord.left < startCoord[0]
+                  && cellCoord.left < endCoord[0]))
+          && ((cellCoord.top > startCoord[1] && cellCoord.top < endCoord[1])
+              || (cellCoord.bottom > startCoord[1]
+                  && cellCoord.bottom < endCoord[1])
+              || (cellCoord.top < startCoord[1]
+                  && cellCoord.top < endCoord[1]
+                  && cellCoord.bottom > startCoord[1]
+                  && cellCoord.bottom > endCoord[1]))
       ) {
         checkShiftPerDay(cell);
+
         if (selectedDates.find((date) => date === cell.dataset.date) || moment(cell.dataset.date).isBefore(moment().startOf("day"))) {
           cell.classList.remove(style.gridActiveBG);
           setSelectedDates((prev) => prev.filter((date) => date !== cell.dataset.date));
@@ -135,15 +93,14 @@ export default function BookingCalendar({
         }
       }
     });
-    console.log(selectedDays);
-    setSelectedDates((prev) => {
-      console.log(prev);
-      return prev.concat(selectedDays);
-    });
+
+    setSelectedDates((prev) => prev.concat(selectedDays));
   };
+
   useEffect(() => {
     rectangleSelect();
   }, [endCoord]);
+
   const handleChangeMouse = (e) => {
     if (isDefaultSelect || !isActiveCalendar) {
       return;
@@ -154,7 +111,6 @@ export default function BookingCalendar({
     if (e.type === "mousedown") {
       setStartCoord([e.clientX, e.clientY]);
     }
-    setIsMouseUp((prev) => !prev);
   };
   const handleSelect = (data) => {
     setEvent([]);
@@ -168,100 +124,82 @@ export default function BookingCalendar({
         date1 = moment(date1).add(1, "d");
       }
     }
-    // selectedDays.forEach((day) => {
-    //   if (moment(day).isBefore(moment().startOf("day"))) {
-    //     setEvent((prev) => [...prev, { start: day, backgroundColor: "gray", status: "block" }]);
-    //   } else if (!currentItems[day]) {
-    //     setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
-    //   } else if (
-    //     currentItems[day][startShift] === "1"
-    //     && (startShift - currentDevice.shiftLength < 0
-    //       || currentItems[day][startShift - currentDevice.shiftLength] === "1")
-    //     && (startShift - currentDevice.shiftLength > 24
-    //       || currentItems[day][startShift + currentDevice.shiftLength]) === "1"
-    //   ) {
-    //     setEvent((prev) => [...prev, { start: day, backgroundColor: "black" }]);
-    //   } else if (currentItems[day][startShift] === "1") {
-    //     setEvent((prev) => [...prev, { start: day, backgroundColor: "red" }]);
-    //   } else {
-    //     setEvent((prev) => [...prev, { start: day, backgroundColor: "green" }]);
-    //   }
-    // });
 
     setSelectedDates(selectedDays);
   };
-  const handleChangeSelect = () => {
+  const handleSwitchChange = () => {
     setIsDefaultSelect((prev) => !prev);
     setSelectedDates([]);
+    const calendar = calendarRef.current.elRef.current;
+    const calendarDayCell = calendar.querySelectorAll(
+      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
+    );
+    calendarDayCell.forEach((cell) => {
+      cell.classList.remove(style.gridActiveBG);
+    });
   };
   return (
     <>
-    <div className="calendar-count">
-        <label className="switch">
-          <span>Выделение по календарю</span>
-          <Switch
-            disabled={!isActiveCalendar}
-            onChange={handleChangeSelect}
-            checked={isDefaultSelect}
-          />
-        </label>
-        <div
-          onMouseUp={(e) => handleChangeMouse(e)}
-          onMouseDown={(e) => handleChangeMouse(e)}
+      <label>
+        <span>Выделение по календарю</span>
+        {" "}
+        <Switch
+          disabled={!isActiveCalendar}
+          checked={isDefaultSelect}
+          onChange={handleSwitchChange}
+        />
+      </label>
+      <div
+        onMouseUp={(e) => handleChangeMouse(e)}
+        onMouseDown={(e) => handleChangeMouse(e)}
+      >
+        <RectangleSelection
+          onSelect={() => {}}
+          disabled={(isDefaultSelect && isActiveCalendar) || !isActiveCalendar}
+          style={{
+            backgroundColor: "rgba(0,0,255,0.4)",
+            borderColor: "blue",
+          }}
         >
-          <RectangleSelection
-            onSelect={() => {}}
-            disabled={(isDefaultSelect && isActiveCalendar) || !isActiveCalendar}
-            style={{
-              backgroundColor: "rgba(0,0,255,0.4)",
-              borderColor: "blue",
+          <FullCalendar
+            height={475}
+            fixedWeekCount={false}
+            ref={calendarRef}
+            plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
+            showNonCurrentDates={false}
+            selectable={isDefaultSelect && isActiveCalendar}
+            dateClick={(e) => console.log(e)}
+            selectMirror
+            select={(data) => handleSelect(data)}
+            initialView="dayGridMonth"
+            locale="ru"
+            firstDay="1"
+            weekends
+            selectAllow={(date) => {
+              if (moment(date.start).isSameOrAfter(moment().startOf("day"))) {
+                console.log(true);
+                return true;
+              }
+              return false;
             }}
-          >
-            <FullCalendar
-              height={475}
-              fixedWeekCount={false}
-              ref={calendarRef}
-              plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
-              showNonCurrentDates={false}
-              selectable={isDefaultSelect && isActiveCalendar}
-              dateClick={(e) => console.log(e)}
-              selectMirror
-              select={(data) => handleSelect(data)}
-              initialView="dayGridMonth"
-              locale="ru"
-              firstDay="1"
-              weekends
-              selectAllow={(date) => {
-                if (moment(date.start).isSameOrAfter(moment().startOf("day"))) {
-                  console.log(true);
-                  return true;
-                }
-                return false;
-              }}
-              eventClick={handleEventClick}
-              events={event}
-              eventContent={renderEventContent}
-            // style={{
-            //   MozUserSelect: "none",
-            //   WebkitUserSelect: "none",
-            //   msUserSelect: "none",
-            // }}
-              headerToolbar={{
-                left: "today",
-                center: "title",
-                right: "prev,next",
-              }}
-              customButtons={{
-                changeSelectType: {
-                  text: "Изменить тип выделения",
-                  click: () => {
-                    setIsDefaultSelect((prev) => !prev);
-                  },
+            eventClick={handleEventClick}
+            events={event}
+            eventContent={renderEventContent}
+            headerToolbar={{
+              left: "today",
+              center: "title",
+              right: "prev,next, clue",
+            }}
+            customButtons={{
+              clue: {
+                text: "?",
+                click: () => {
+                  setIsDefaultSelect((prev) => !prev);
                 },
-              }}
-            />
-          </RectangleSelection>
-        </div>
+              },
+            }}
+          />
+        </RectangleSelection>
       </div>
     </>
   );

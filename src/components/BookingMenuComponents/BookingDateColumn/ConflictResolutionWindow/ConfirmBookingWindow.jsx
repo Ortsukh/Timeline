@@ -49,7 +49,7 @@ export default function ConfirmBookingWindow({
 
       {!showStartDisplayConflict &&
         <div style={{ width: "45vw", margin: "0 auto", padding: "10px 30px", fontSize: "20px", backgroundColor: "white", border: "1px solid #c1c1c1", borderRadius: "20px", textAlign: "center" }}>
-          {baseOrder.equipment.hasOwnProperty("conflicts") //КОСТЫЛЬ
+          {baseOrder.equipment.hasOwnProperty("conflicts") && baseOrder.equipment?.conflicts.length
           ? <p>
               У Вас на данный момент <span style={{ fontWeight: "bold", color: "#f03333" }}>{baseOrder.equipment?.conflicts.length}</span> конфликтов. Нажмите на нужные даты в календаре и разрешите их.
           </p>
