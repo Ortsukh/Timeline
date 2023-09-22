@@ -122,8 +122,6 @@ export default function EditButtonColumn({
               baseOrder={baseOrder}
               setBaseOrder={setBaseOrder}
               isActiveCalendar={isActiveCalendar}
-              orderDate={orderDate}
-              setOrderDate={setOrderDate}
               setShiftsCount={setShiftsCount}
               currentDevice={currentDevice}
             />
