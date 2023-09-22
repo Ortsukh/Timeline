@@ -104,13 +104,32 @@ export default function EditButtonColumn({
         <button type="button" className={style.backButton} onClick={createBook}>
           {back}
         </button>
-        <div>
-          <span> Выбранная категория: {selectedGroups}</span>
+        <div className="choose-category">
+          <span> Выбранная категория: <span className="choose-category_item">{selectedGroups}</span> </span>
         </div>
       </div>
       <div className={style.filterContainer}>
-
-        <div className="select-count-box">
+        {user.role === "ROLE_MANAGER" && (
+          <CompaniesSelect
+            companies={companies}
+            setSelectedCompany={setSelectedCompany}
+            isClickedOnConfirm={isClickedOnConfirm}
+          />
+        )}
+        {!isEditMode && (
+          <div className="selects-block">
+            <FiltersForOrder
+              baseOrder={baseOrder}
+              setBaseOrder={setBaseOrder}
+              isActiveCalendar={isActiveCalendar}
+              orderDate={orderDate}
+              setOrderDate={setOrderDate}
+              setShiftsCount={setShiftsCount}
+              currentDevice={currentDevice}
+            />
+          </div>
+        )}
+        <div className="select-count-box price-count">
           <span className="price-item">
             {`Цена за смену: ${+currentDevice.price}р`}
           </span>
