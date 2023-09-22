@@ -1,20 +1,32 @@
 import moment from "moment";
 import React from "react";
 import ITEMS_PREORDER_COLOR from "../constants/itemsPreOrderColor";
+import orderStatus from "../constants/constants";
 
-export const generateClue = () => {
+export const generateClue = (statusPage) => {
+  let colorConstant = "";
+  switch (statusPage) {
+    case "BOOKING_CALENDAR":
+      colorConstant = ITEMS_PREORDER_COLOR;
+      break;
+    case "WINDOW_TIMELINE":
+      colorConstant = orderStatus;
+      break;
+    default:
+      colorConstant = "";
+  }
   const clueContent = [];
-  Object.keys(ITEMS_PREORDER_COLOR).forEach((status) => {
+  Object.keys(colorConstant).forEach((status) => {
     clueContent.push(
       <div className="clueItem" key={status}>
         <div
           className="clueItemColor"
           style={{
-            backgroundColor: ITEMS_PREORDER_COLOR[status].backgroundColor,
+            backgroundColor: colorConstant[status].backgroundColor,
           }}
         />
         <span style={{ maxWidth: 250 }}>
-          {` ${ITEMS_PREORDER_COLOR[status].text}`}
+          {` ${colorConstant[status].text}`}
         </span>
       </div>,
     );
