@@ -187,14 +187,14 @@ export default function EditButtonColumn({
               <input type="checkbox" id="auto" name="auto"
                 checked={statusCheckboxSelected === "AUTO"}
                 onChange={() => handleChangeSelectedStatus("AUTO")} />
-              <label for="auto">Автоматический выбор</label>
+              <label htmlFor="auto">Автоматический выбор</label>
             </div>
             <div className="select-count-box">
               <div className="input-checkbox">
                 <input type="checkbox" id="myself" name="myself"
                   checked={statusCheckboxSelected === "MYSELF"}
                   onChange={() => handleChangeSelectedStatus("MYSELF")} />
-                <label className="label-checkbox" for="myself">Выбрать оборудование самостоятельно</label>
+                <label className="label-checkbox" htmlFor="myself">Выбрать оборудование самостоятельно</label>
               </div>
               <Select
                 isDisabled={statusCheckboxSelected !== "MYSELF"}
@@ -243,7 +243,6 @@ export default function EditButtonColumn({
           У вас осталось
           {" "}
            {baseOrder.equipment.conflicts.length}
-          //! ВЕРНУТЬ baseOrder.equipment.conflicts.length !!!!!!!!!!!!!!!!!!!!!
           {" "}
           конфликт(ов)
         </div>

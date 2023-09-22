@@ -13,6 +13,7 @@ import style from "../EditButtonColumn.module.css";
 import { generateClue } from "../../../../common/GenerateElementsData";
 
 const events = [];
+
 function renderEventContent(eventInfo) {
   const color = eventInfo.backgroundColor || "#ffa4a4";
   const obj = {
@@ -142,7 +143,7 @@ export default function BookingCalendar({
   };
   return (
     <div className="calendar-count">
-      <label className="switch">
+      <div className="switch">
         <span>Выделение по календарю</span>
         {" "}
         <Switch
@@ -150,8 +151,9 @@ export default function BookingCalendar({
           checked={isDefaultSelect}
           onChange={handleSwitchChange}
         />
-      </label>
+      </div>
       <div
+        role="presentation"
         onMouseUp={(e) => handleChangeMouse(e)}
         onMouseDown={(e) => handleChangeMouse(e)}
       >
@@ -188,7 +190,6 @@ export default function BookingCalendar({
             events={event}
             eventContent={renderEventContent}
             headerToolbar={{
-              left: "today",
               center: "title",
               right: "prev,next, clue",
             }}

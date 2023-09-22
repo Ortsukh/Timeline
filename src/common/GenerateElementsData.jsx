@@ -6,7 +6,7 @@ export const generateClue = () => {
   const clueContent = [];
   Object.keys(ITEMS_PREORDER_COLOR).forEach((status) => {
     clueContent.push(
-      <div className="clueItem">
+      <div className="clueItem" key={status}>
         <div
           className="clueItemColor"
           style={{
