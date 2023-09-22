@@ -17,7 +17,10 @@ import TimeLineRenderer from "../components/TimeLineRenderer";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
 import {
-  getAllEquipments, getAllOrders, getCompanies, getUser,
+  getAllEquipments,
+  getAllOrders,
+  getCompanies,
+  getUser,
 } from "../Api/API";
 import AlertWindow from "../components/Popup/AlertWindow";
 import BookingMenu from "../components/BookingMenuComponents/BookingMenu";
@@ -76,7 +79,6 @@ export default function TimelinePage() {
   }, [update]);
 
   useEffect(() => {
-    console.log(user);
     setIsLoading(true);
     getAllOrders()
       .then((response) => {
@@ -117,13 +119,11 @@ export default function TimelinePage() {
   const getFormattedDate = (groupId, time) => {
     const date = moment(time).format("YYYY-MM-DD");
     const hour = moment(time).hours();
-    const { shiftLength } = groups.find(
-      (group) => group.id === groupId,
-    );
+    const { shiftLength } = groups.find((group) => group.id === groupId);
     const formatHour = Math.floor(hour / shiftLength);
 
-    let start; let
-      end;
+    let start;
+    let end;
 
     start = formatHour * shiftLength;
     end = start + shiftLength;
@@ -139,9 +139,7 @@ export default function TimelinePage() {
     if (!isEditMode) return;
     const date = moment(time).format("YYYY-MM-DD");
     const hour = moment(time).hours();
-    const { shiftLength } = groups.find(
-      (group) => group.id === groupId,
-    );
+    const { shiftLength } = groups.find((group) => group.id === groupId);
     const formatHour = Math.floor(hour / shiftLength);
 
     const formattedDate = getFormattedDate(groupId, time);
@@ -175,28 +173,37 @@ export default function TimelinePage() {
     setIsActiveDate((current) => !current);
   };
 
-  const mapToolsNames = () => [...new Set(groups.map((group) => group.category))];
+  const mapToolsNames = () => [
+    ...new Set(groups.map((group) => group.category)),
+  ];
 
   const getGroupsToShow = () => (selectedGroups.length
     ? groups.filter((group) => selectedGroups.includes(group.category))
     : groups);
 
   const clickOnItem = (_time, itemId) => {
-    const item = itemId
-      ? itemsPreOrder.find((el) => el.id === itemId)
-      : null;
+    const item = itemId ? itemsPreOrder.find((el) => el.id === itemId) : null;
     if (!item) return;
     setItemsPreOrder((pred) => pred.filter((el) => el.id !== itemId));
   };
 
   const openBookingWindow = (time, posX, posY, kindModal, itemId) => {
     const item = itemId ? items.find((el) => el.id === itemId) : null;
-    if (!(user.role === "ROLE_COMPANY" && user.id === item.company.id && item.status === "pending")) return;
+    if (
+      !(
+        user.role === "ROLE_COMPANY"
+        && user.id === item.company.id
+        && item.status === "pending"
+      )
+    ) return;
+
     if (!item || item.status === "preOrder" || isEditMode) return;
     setIsActiveMessage((current) => !current);
     const formattedDate = getFormattedDate(item.group, time);
     const date = moment(time).format("YYYY-MM-DD");
-    const result = `${date} : ${moment(formattedDate.start).format("HH-mm")} - ${moment(formattedDate.end).format("HH-mm")}`;
+    const result = `${date} : ${moment(formattedDate.start).format(
+      "HH-mm",
+    )} - ${moment(formattedDate.end).format("HH-mm")}`;
 
     setChosenDate({
       date: result,
@@ -244,7 +251,7 @@ export default function TimelinePage() {
           currentDevice={currentDevice}
           setCurrentDevice={setCurrentDevice}
           setIsEditMode={setIsEditMode}
-          operAlertWindow={openAlertWindow}
+          openAlertWindow={openAlertWindow}
           //! ToolsFilter->
           toolNames={mapToolsNames()}
           onInputChange={handleInputChange}
@@ -288,7 +295,11 @@ export default function TimelinePage() {
             </div>
             <div className="sort-box_item">
               <div>
-                <button type="button" className="reserved-btn" onClick={createBook}>
+                <button
+                  type="button"
+                  className="reserved-btn"
+                  onClick={createBook}
+                >
                   Добавить новый
                 </button>
               </div>

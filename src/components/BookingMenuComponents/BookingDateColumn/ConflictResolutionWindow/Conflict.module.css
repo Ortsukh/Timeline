@@ -4,6 +4,7 @@
   /* border-left: 1px solid red !important;
   border-right: 1px solid red !important; */
 }
+
 .highlightRow {
   background-color: #acecf0 !important;
   border: 1px solid red !important;
@@ -23,6 +24,7 @@
   width: 200px;
   margin-top: 20px;
 }
+
 .reserveBtn:hover {
   transition: .5s;
   background-color: white;
@@ -41,6 +43,7 @@
   width: 200px;
   margin-top: 20px;
 }
+
 .reserveBtnDisable:hover {
   transition: .5s;
   background-color: rgb(209, 209, 209);
@@ -84,4 +87,34 @@
   background-color: #f03333;
   border: 1px solid #f03333;
   border-radius: 5px;
+}
+
+.closeBtn {
+  padding: 10px 5px;
+  color: white;
+  background-color: #f03333;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #f03333;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.riddler {
+  width: 30px;
+  height: 30px;
+  cursor: help;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: rgb(26, 54, 87);
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 15px;
+  margin-top: 20px;
+}
+
+.riddler:hover {
+  background-color: rgb(12, 27, 44);
 }

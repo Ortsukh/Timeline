@@ -9,6 +9,7 @@ const createEquipmentObject = (item, elem) => ({
   category: elem.name,
   shiftLength: elem.shiftLength,
   price: item.price,
+
 });
 
 export const createEquipmentGroup = (equipments) => {

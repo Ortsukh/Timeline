@@ -28,7 +28,6 @@ export default function BookingCalendar({
   handleSetSelectedConflictDate,
   setSelectedDates,
   calendarEvent,
-
   selectedDates,
   isActiveCalendar,
 }) {
@@ -158,7 +157,7 @@ export default function BookingCalendar({
         onMouseDown={(e) => handleChangeMouse(e)}
       >
         <RectangleSelection
-          onSelect={() => {}}
+          onSelect={(e) => { console.log(e); }}
           disabled={(isDefaultSelect && isActiveCalendar) || !isActiveCalendar}
           style={{
             backgroundColor: "rgba(0,0,255,0.4)",
@@ -172,27 +171,20 @@ export default function BookingCalendar({
             plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
             showNonCurrentDates={false}
             selectable={isDefaultSelect && isActiveCalendar}
-            dateClick={(e) => console.log(e)}
             selectMirror
             select={(data) => handleSelect(data)}
             initialView="dayGridMonth"
             locale="ru"
             firstDay="1"
             weekends
-            selectAllow={(date) => {
-              if (moment(date.start).isSameOrAfter(moment().startOf("day"))) {
-                console.log(true);
-                return true;
-              }
-              return false;
-            }}
+            selectAllow={(date) => (!!moment(date.start).isSameOrAfter(moment().startOf("day")))}
             eventClick={handleEventClick}
             events={event}
             eventContent={renderEventContent}
             headerToolbar={{
               left: "",
               center: "title",
-              right: "prev,next, clue",
+              right: "prev,next clue",
             }}
             customButtons={{
               clue: {
@@ -202,7 +194,7 @@ export default function BookingCalendar({
             }}
           />
           <Tooltip anchorSelect=".fc-clue-button" openOnClick place="right">
-            {generateClue()}
+            {generateClue("BOOKING_CALENDAR")}
           </Tooltip>
         </RectangleSelection>
       </div>

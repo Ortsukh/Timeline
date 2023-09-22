@@ -209,7 +209,7 @@
     z-index: 200;
 }
 
-.select-filter.choose-product{
+.select-filter.choose-product {
     z-index: 300;
 }
 
@@ -292,7 +292,7 @@
     margin-top: 20px;
     border-radius: 5px;
     max-height: 350px;
-    background-color:#fff ;
+    background-color: #fff;
     overflow-y: auto;
 }
 
@@ -321,7 +321,7 @@
     gap: 5px;
 }
 
-.one-date-string label input{
+.one-date-string label input {
     margin: 0;
 }
 
@@ -335,12 +335,13 @@
 .selects-block .active {
     top: 45px;
 }
+
 .confirmWindow {
     max-height: 300px;
-    overflow-y : auto
+    overflow-y: auto
 }
 
-.preOrderTable{
+.preOrderTable {
     display: flex;
     gap: 15px;
     flex-wrap: wrap;
@@ -350,7 +351,7 @@
     background-color: #fff;
 }
 
-.cross{
+.cross {
     border-radius: 2px;
     border: 1px solid #777777;
     background-color: white;
@@ -363,7 +364,7 @@
     cursor: pointer;
 }
 
-.preOrder{
+.preOrder {
     display: flex;
     justify-content: space-between;
     border: 1px solid #b7b7b7;
@@ -372,21 +373,21 @@
     border-radius: 5px;
 }
 
-.itemPreOrder{
+.itemPreOrder {
     width: fit-content;
     background-color: white;
 }
 
-.preOrderContent div{
+.preOrderContent div {
     font-size: 14px;
 }
 
-.preOrderContent div:first-child{
+.preOrderContent div:first-child {
     font-weight: 600;
     margin-bottom: 2px;
 }
 
-.messageWindow.rentOrderPopup{
+.messageWindow.rentOrderPopup {
     width: 400px;
     right: 40%;
     top: 25%;
@@ -394,47 +395,47 @@
     position: fixed;
 }
 
-.messageWindow.rentOrderPopup .button-close{
+.messageWindow.rentOrderPopup .button-close {
     left: auto;
     right: 10px;
 }
 
-.titlePopup{
+.titlePopup {
     font-size: 18px;
     font-weight: 600;
     text-align: center;
 }
 
-.messageWindow.rentOrderPopup .messageWindow-item{
+.messageWindow.rentOrderPopup .messageWindow-item {
     flex-direction: row;
     margin-bottom: 5px;
 }
 
-.order{
+.order {
     margin-bottom: 10px;
     display: flex;
     gap: 10px;
     align-items: start;
 }
 
-.order .numberOrder{
+.order .numberOrder {
     font-size: 16px;
     font-weight: 600;
 }
 
-.orderBtn{
+.orderBtn {
     display: flex;
     justify-content: center;
 
     gap: 20px;
 }
 
-.orderBtn .reserved-btn{
+.orderBtn .reserved-btn {
     margin: 0;
     width: 100%;
 }
 
-.closeBtn{
+.closeBtn {
     color: white;
     background-color: #f03333;
     font-size: 14px;
@@ -445,7 +446,7 @@
     width: 50%;
 }
 
-.closeBtn:hover{
+.closeBtn:hover {
     cursor: pointer;
     background-color: white;
     color: black;
@@ -458,110 +459,115 @@
     margin-right: 10px;
 }
 
-.price-item{
+.price-item {
     display: block;
     padding: 8px 10px;
     border-radius: 5px;
     background-color: #e6e6e6;
 }
 
-.fc-toolbar-chunk button.fc-today-button{
+.fc-toolbar-chunk button.fc-today-button {
     display: none !important;
 }
 
-.label-checkbox{
+.label-checkbox {
     display: block;
     max-width: 175px;
 }
 
-.input-checkbox{
+.input-checkbox {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.input-checkbox input{
+.input-checkbox input {
     width: 25px;
     height: 25px;
     border: 1px solid hsl(0, 0%, 80%);
     border-radius: 3px;
 }
 
-.input-count-box{
+.input-count-box {
     display: flex;
     align-items: center;
     gap: 30px;
     justify-content: space-between;
 }
 
-.input-count-box .select-count-box{
+.input-count-box .select-count-box {
     margin: 0;
 }
 
-.calendar-count{
+.calendar-count {
     position: relative;
     margin-top: 40px;
 }
 
-.switch{
+.switch {
     position: absolute;
     top: 10px;
     left: 0;
 }
 
-.switch span{
+.switch span {
     position: relative;
     bottom: 8px;
     margin-right: 10px;
 }
 
-.fc .fc-toolbar-title{
+.fc .fc-toolbar-title {
     margin-left: 180px;
     font-size: 20px;
 }
 
-.choose-category{
+.choose-category {
     padding: 5px 10px;
     border-radius: 5px;
     border: 1px solid #2780fc;
     font-size: 16px;
 }
 
-.choose-category_item{
+.choose-category_item {
     font-weight: 700;
 }
 
-.price-count{
+.price-count {
     margin-top: 0;
 }
 
-.fc-button-group .fc-button:last-child{
+.fc-button-group .fc-button:last-child {
     display: none;
 }
 
-.fc-next-button{
+.fc-next-button {
     border-radius: 0 5px 5px 0 !important;
 }
 
-.fc-toolbar-chunk button:last-child{
+.fc-toolbar-chunk button:last-child {
     background-color: #00a65a;
-    border-color: #00a65a ;
+    border-color: #00a65a;
 }
 
-.clueItemColor{
+.clueItemColor {
     height: 15px;
     width: 15px;
     margin-top: 5px;
     border-radius: 5px;
 }
 
-.clueItem{
+.clueItem {
     display: flex;
     gap: 10px;
     align-items: start;
     margin-bottom: 15px;
 }
 
-.react-tooltip{
+.react-tooltip {
     background: #484848 !important;
+}
+
+.fc .fc-highlight {
+    background: repeating-linear-gradient(-60deg, #555 0, #555 1px, transparent 1px, transparent 5px);
+
 }
