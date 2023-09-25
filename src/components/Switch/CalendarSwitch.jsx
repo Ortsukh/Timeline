@@ -2,17 +2,13 @@ import React, { useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import Switch from "react-switch";
 
-function CalendarSwitch({ isActiveCalendar, setIsDefaultSelect, isDefaultSelect }) {
+function CalendarSwitch({ isActiveCalendar, handleSwitchChange, isDefaultSelect }) {
   const containerRef = useRef(null);
 
   useEffect(() => {
     const container = document.querySelector(".fc-header-toolbar.fc-toolbar.fc-toolbar-ltr");
     if (container) containerRef.current = container;
   }, []);
-
-  const handleSwitchChange = () => {
-    setIsDefaultSelect(!isDefaultSelect);
-  };
 
   const toRender = (
     <div className="switch">

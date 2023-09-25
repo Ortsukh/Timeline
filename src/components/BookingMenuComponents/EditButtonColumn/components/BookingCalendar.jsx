@@ -143,19 +143,10 @@ export default function BookingCalendar({
   };
   return (
     <div className="calendar-count">
-      {/* <div className="switch"> */}
-      {/*  <span>Выделение по календарю</span> */}
-      {/*  {" "} */}
-      {/*  <Switch */}
-      {/*    disabled={!isActiveCalendar} */}
-      {/*    checked={isDefaultSelect} */}
-      {/*    onChange={handleSwitchChange} */}
-      {/*  /> */}
-      {/* </div> */}
       <CalendarSwitch
         isActiveCalendar={isActiveCalendar}
         isDefaultSelect={isDefaultSelect}
-        setIsDefaultSelect={setIsDefaultSelect}
+        handleSwitchChange={handleSwitchChange}
       />
       <div
         role="presentation"
@@ -163,15 +154,6 @@ export default function BookingCalendar({
         onMouseDown={(e) => handleChangeMouse(e)}
         className="presentation"
       >
-        <div className="switch">
-          <span>Выделение по календарю</span>
-          {" "}
-          <Switch
-            disabled={!isActiveCalendar}
-            checked={isDefaultSelect}
-            onChange={handleSwitchChange}
-          />
-        </div>
         <RectangleSelection
           onSelect={(e) => { console.log(e); }}
           disabled={(isDefaultSelect && isActiveCalendar) || !isActiveCalendar}
@@ -181,7 +163,7 @@ export default function BookingCalendar({
           }}
         >
           <FullCalendar
-            // height={475}
+            height={475}
             fixedWeekCount={false}
             ref={calendarRef}
             plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
