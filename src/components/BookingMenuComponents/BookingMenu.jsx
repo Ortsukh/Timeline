@@ -343,9 +343,7 @@ export default function BookingMenu({
             editOrderData={editOrderData}
             isEditMode={isEditMode}
             setCurrentDevice={setCurrentDevice}
-            currentDevice={currentDevice}
             groups={groups}
-            itemsPreOrder={itemsPreOrder}
             setItemsPreOrder={setItemsPreOrder}
             setUpdatedItems={setUpdatedItems}
             setCopyEditItems={setCopyEditItems}
