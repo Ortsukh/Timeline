@@ -1,7 +1,7 @@
 import moment from "moment";
 import React from "react";
 import ITEMS_PREORDER_COLOR from "../constants/itemsPreOrderColor";
-import orderStatus from "../constants/constants";
+import ITEM_CONFLICT_COLOR from "../constants/itemConflictColor";
 
 export const generateClue = (statusPage) => {
   let colorConstant = "";
@@ -10,7 +10,7 @@ export const generateClue = (statusPage) => {
       colorConstant = ITEMS_PREORDER_COLOR;
       break;
     case "WINDOW_TIMELINE":
-      colorConstant = orderStatus;
+      colorConstant = ITEM_CONFLICT_COLOR;
       break;
     default:
       colorConstant = "";
