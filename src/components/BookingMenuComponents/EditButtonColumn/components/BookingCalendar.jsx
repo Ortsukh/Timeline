@@ -163,7 +163,7 @@ export default function BookingCalendar({
           }}
         >
           <FullCalendar
-            height={475}
+            height={485}
             fixedWeekCount={false}
             ref={calendarRef}
             plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}

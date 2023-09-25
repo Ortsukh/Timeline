@@ -273,7 +273,7 @@ export default function WindowTimeline({
           </Timeline>
         </div>
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between", padding: "0 17px 0 17px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", width: "45vw", margin: "0 auto" }}>
         <button
           type="button"
           className={!consideredCell.id

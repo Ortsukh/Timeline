@@ -82,8 +82,8 @@
 
 
 .gridActiveBG {
- background: repeating-linear-gradient(-45deg, #555 0, #555 1px, transparent 0px, transparent 17px);
-  border: 1px solid red !important;
+  background: repeating-linear-gradient(-45deg, #9cbbe4 0, #9cbbe4 1px, transparent 0px, transparent 17px);
+  border: 1px solid #2684ff !important;
   box-sizing: border-box;
 }
 
