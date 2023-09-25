@@ -18,6 +18,7 @@
     "fullcalendar-scheduler": "^6.1.8",
     "interactjs": "^1.10.17",
     "moment": "^2.29.4",
+    "queue-microtask": "^1.2.3",
     "react": "^18.2.0",
     "react-calendar": "^4.6.0",
     "react-calendar-timeline": "^0.28.0",
