@@ -31,9 +31,9 @@ export default function BookingCalendar({
   selectedDates,
   isActiveCalendar,
 }) {
-  const [startCoord, setStartCoord] = useState(0);
+  const [startCoord, setStartCoord] = useState([0, 0]);
   const [isDefaultSelect, setIsDefaultSelect] = useState(true);
-  const [endCoord, setEndCoord] = useState(0);
+  const [endCoord, setEndCoord] = useState([0, 0]);
   const calendarRef = useRef();
   const [event, setEvent] = useState(events);
   const handleEventClick = (clickInfo) => {
@@ -46,20 +46,40 @@ export default function BookingCalendar({
   }, [calendarEvent]);
 
   useEffect(() => {
-    const calendar = calendarRef.current.elRef.current;
-    const calendarDayCell = calendar.querySelectorAll(
-      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
-    );
-    calendarDayCell.forEach((cell) => {
-      cell.firstChild.classList.remove(style.gridActiveBG);
-    });
-  }, [isActiveCalendar]);
+    if (!selectedDates.length || !isActiveCalendar) {
+      const calendar = calendarRef.current.elRef.current;
+      const calendarDayCell = calendar.querySelectorAll(
+        ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
+      );
+      calendarDayCell.forEach((cell) => {
+        cell.firstChild.classList.remove(style.gridActiveBG);
+      });
+    }
+  }, [isActiveCalendar, selectedDates]);
 
   const checkShiftPerDay = (cell) => {
     cell.firstChild.classList.add(style.gridActiveBG);
   };
 
   const rectangleSelect = () => {
+    let startX;
+    let startY;
+    let endX;
+    let endY;
+    if (startCoord[0] < endCoord[0]) {
+      [startX] = startCoord;
+      [endX] = endCoord;
+    } else {
+      [endX] = startCoord;
+      [startX] = endCoord;
+    }
+    if (startCoord[1] < endCoord[1]) {
+      [, startY] = startCoord;
+      [, endY] = endCoord;
+    } else {
+      [, endY] = startCoord;
+      [, startY] = endCoord;
+    }
     setEvent([]);
     if (!calendarRef.current) return;
     const calendar = calendarRef.current.elRef.current;
@@ -67,37 +87,29 @@ export default function BookingCalendar({
       ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
     );
     const selectedDays = [];
-
+    const cells = [];
     calendarDayCell.forEach((cell) => {
       const cellCoord = cell.getBoundingClientRect();
       if (
-        ((cellCoord.right > startCoord[0] && cellCoord.right < endCoord[0])
-              || (cellCoord.left > startCoord[0] && cellCoord.left < endCoord[0])
-              || (cellCoord.right > startCoord[0]
-                  && cellCoord.right > endCoord[0]
-                  && cellCoord.left < startCoord[0]
-                  && cellCoord.left < endCoord[0]))
-          && ((cellCoord.top > startCoord[1] && cellCoord.top < endCoord[1])
-              || (cellCoord.bottom > startCoord[1]
-                  && cellCoord.bottom < endCoord[1])
-              || (cellCoord.top < startCoord[1]
-                  && cellCoord.top < endCoord[1]
-                  && cellCoord.bottom > startCoord[1]
-                  && cellCoord.bottom > endCoord[1]))
+        ((cellCoord.right > startX && cellCoord.right < endX)
+              || (cellCoord.left > startX && cellCoord.left < endX)
+              || (cellCoord.right > startX
+                  && cellCoord.right > endX
+                  && cellCoord.left < startX
+                  && cellCoord.left < endX))
+          && ((cellCoord.top > startY && cellCoord.top < endY)
+              || (cellCoord.bottom > startY
+                  && cellCoord.bottom < endY)
+              || (cellCoord.top < startY
+                  && cellCoord.top < endY
+                  && cellCoord.bottom > startY
+                  && cellCoord.bottom > endY))
       ) {
-        checkShiftPerDay(cell);
-
-        if (selectedDates.find((date) => date === cell.dataset.date)
-            || moment(cell.dataset.date).isBefore(moment().startOf("day"))) {
-          cell.firstChild.classList.remove(style.gridActiveBG);
-          setSelectedDates((prev) => prev.filter((date) => date !== cell.dataset.date));
-        } else {
-          selectedDays.push(cell.dataset.date);
-        }
+        cells.push(cell);
       }
     });
-
-    setSelectedDates((prev) => prev.concat(selectedDays));
+    checkAndActiveCell(cells);
+    // setSelectedDates((prev) => prev.concat(selectedDays));
   };
 
   useEffect(() => {
@@ -141,6 +153,33 @@ export default function BookingCalendar({
       cell.firstChild.classList.remove(style.gridActiveBG);
     });
   };
+  const checkAndActiveCell = (days) => {
+    const selectedDays = [];
+    days.forEach((cell) => {
+      checkShiftPerDay(cell);
+      if (selectedDates.find((date) => date === cell.dataset.date)
+          || moment(cell.dataset.date).isBefore(moment().startOf("day"))) {
+        cell.firstChild.classList.remove(style.gridActiveBG);
+        setSelectedDates((prev) => prev.filter((date) => date !== cell.dataset.date));
+      } else {
+        selectedDays.push(cell.dataset.date);
+      }
+    });
+    setSelectedDates((prev) => prev.concat(selectedDays));
+  };
+  const selectAllSimilarDayInMonth = (day) => {
+    if (isDefaultSelect) return;
+    const calendar = calendarRef.current.elRef.current;
+    const days = calendar.querySelectorAll(
+      `.fc-day.fc-day-${day.toLowerCase()}.fc-daygrid-day:not(.fc-day-disabled)`,
+    );
+    checkAndActiveCell(days);
+  };
+  const injectDayHeaderContent = (args) => (
+    <span style={{ cursor: "pointer" }} onClick={() => selectAllSimilarDayInMonth(moment(args.date).locale("en").format("ddd"))}>
+      {moment(args.date).format("ddd")}
+    </span>
+  );
   return (
     <div className="calendar-count">
       <CalendarSwitch
@@ -155,7 +194,7 @@ export default function BookingCalendar({
         className="presentation"
       >
         <RectangleSelection
-          onSelect={(e) => { console.log(e); }}
+          onSelect={() => { }}
           disabled={(isDefaultSelect && isActiveCalendar) || !isActiveCalendar}
           style={{
             backgroundColor: "rgba(0,0,255,0.4)",
@@ -163,7 +202,7 @@ export default function BookingCalendar({
           }}
         >
           <FullCalendar
-            height={475}
+            height={485}
             fixedWeekCount={false}
             ref={calendarRef}
             plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
@@ -171,7 +210,8 @@ export default function BookingCalendar({
             selectable={isDefaultSelect && isActiveCalendar}
             selectMirror
             select={(data) => handleSelect(data)}
-            initialView="dayGridMonth"
+            // initialView="dayGridMonth"
+            dayHeaderContent={injectDayHeaderContent}
             locale="ru"
             firstDay="1"
             weekends
