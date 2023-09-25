@@ -13,8 +13,8 @@ import ConfirmWindow from "../Popup/ConfirmWindow";
 import BookingTimeline from "./BookingDateColumn/BookingTimeline";
 import ConfirmBookingWindow from "./BookingDateColumn/ConflictResolutionWindow/ConfirmBookingWindow";
 import style from "./BookingMenu.module.css";
-import EditButtonColumn from "./EditButtonColumn/EditButtonColumn";
 import ITEMS_PREORDER_COLOR from "../../constants/itemsPreOrderColor";
+import EditButtonColumn from "./EditButtonColumn/EditButtonColumn";
 
 export default function BookingMenu({
   setIsBookingMenu,

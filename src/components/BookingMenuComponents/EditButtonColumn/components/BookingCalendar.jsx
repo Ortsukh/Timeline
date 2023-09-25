@@ -7,7 +7,6 @@ import calenderList from "@fullcalendar/list";
 import interaction from "@fullcalendar/interaction";
 import moment from "moment";
 import RectangleSelection from "react-rectangle-selection";
-import Switch from "react-switch";
 import { Tooltip } from "react-tooltip";
 import style from "../EditButtonColumn.module.css";
 import { generateClue } from "../../../../common/GenerateElementsData";
@@ -52,12 +51,12 @@ export default function BookingCalendar({
       ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
     );
     calendarDayCell.forEach((cell) => {
-      cell.classList.remove(style.gridActiveBG);
+      cell.firstChild.classList.remove(style.gridActiveBG);
     });
   }, [isActiveCalendar]);
 
   const checkShiftPerDay = (cell) => {
-    cell.classList.add(style.gridActiveBG);
+    cell.firstChild.classList.add(style.gridActiveBG);
   };
 
   const rectangleSelect = () => {
@@ -88,8 +87,9 @@ export default function BookingCalendar({
       ) {
         checkShiftPerDay(cell);
 
-        if (selectedDates.find((date) => date === cell.dataset.date) || moment(cell.dataset.date).isBefore(moment().startOf("day"))) {
-          cell.classList.remove(style.gridActiveBG);
+        if (selectedDates.find((date) => date === cell.dataset.date)
+            || moment(cell.dataset.date).isBefore(moment().startOf("day"))) {
+          cell.firstChild.classList.remove(style.gridActiveBG);
           setSelectedDates((prev) => prev.filter((date) => date !== cell.dataset.date));
         } else {
           selectedDays.push(cell.dataset.date);
@@ -138,7 +138,7 @@ export default function BookingCalendar({
       ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
     );
     calendarDayCell.forEach((cell) => {
-      cell.classList.remove(style.gridActiveBG);
+      cell.firstChild.classList.remove(style.gridActiveBG);
     });
   };
   return (
