@@ -11,6 +11,7 @@ import Switch from "react-switch";
 import { Tooltip } from "react-tooltip";
 import style from "../EditButtonColumn.module.css";
 import { generateClue } from "../../../../common/GenerateElementsData";
+import CalendarSwitch from "../../../Switch/CalendarSwitch";
 
 const events = [];
 
@@ -142,15 +143,20 @@ export default function BookingCalendar({
   };
   return (
     <div className="calendar-count">
-      <div className="switch">
-        <span>Выделение по календарю</span>
-        {" "}
-        <Switch
-          disabled={!isActiveCalendar}
-          checked={isDefaultSelect}
-          onChange={handleSwitchChange}
-        />
-      </div>
+      {/* <div className="switch"> */}
+      {/*  <span>Выделение по календарю</span> */}
+      {/*  {" "} */}
+      {/*  <Switch */}
+      {/*    disabled={!isActiveCalendar} */}
+      {/*    checked={isDefaultSelect} */}
+      {/*    onChange={handleSwitchChange} */}
+      {/*  /> */}
+      {/* </div> */}
+      <CalendarSwitch
+        isActiveCalendar={isActiveCalendar}
+        isDefaultSelect={isDefaultSelect}
+        setIsDefaultSelect={setIsDefaultSelect}
+      />
       <div
         role="presentation"
         onMouseUp={(e) => handleChangeMouse(e)}
@@ -165,7 +171,7 @@ export default function BookingCalendar({
           }}
         >
           <FullCalendar
-            height={475}
+            // height={475}
             fixedWeekCount={false}
             ref={calendarRef}
             plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
@@ -193,10 +199,10 @@ export default function BookingCalendar({
               },
             }}
           />
-          <Tooltip anchorSelect=".fc-clue-button" openOnClick place="right">
-            {generateClue("BOOKING_CALENDAR")}
-          </Tooltip>
         </RectangleSelection>
+        <Tooltip anchorSelect=".fc-clue-button" openOnClick place="right">
+          {generateClue("BOOKING_CALENDAR")}
+        </Tooltip>
       </div>
     </div>
   );
