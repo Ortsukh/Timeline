@@ -80,7 +80,6 @@
   transition: .3s;
 }
 
-
 .gridActiveBG {
  background: repeating-linear-gradient(-45deg, #555 0, #555 1px, transparent 0px, transparent 17px);
   border: 1px solid red !important;
