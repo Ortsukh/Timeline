@@ -9,7 +9,7 @@
 
 .editButtonColumn {
   grid-area: 1 / 1 / 2 / 2;
-  width: 80%;
+  width: 95%;
 }
 
 .bookingDateColumn {

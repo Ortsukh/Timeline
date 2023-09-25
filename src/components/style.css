@@ -274,7 +274,6 @@
     display: flex;
     align-items: center;
     gap: 20px;
-    margin: 20px 0;
     justify-content: space-between;
 }
 
@@ -500,16 +499,16 @@
     margin: 0;
 }
 
-.calendar-count {
-    position: relative;
+.presentation {
+    /* position: relative; */
     margin-top: 40px;
 }
 
-.switch {
+/* .switch {
     position: absolute;
-    top: 14px;
+    top: 10px;
     left: 0;
-}
+} */
 
 .switch span {
     position: relative;
@@ -518,10 +517,53 @@
 }
 
 .fc .fc-toolbar-title {
-    margin-left: 150px;
+    /* margin-left: 180px; */
+    font-size: 20px;
+}
+
+.choose-category {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #2780fc;
+    font-size: 16px;
+}
+
+.choose-category_item {
+    font-weight: 700;
+}
+
+.price-count {
+    margin-top: 0;
+}
+
+.fc-next-button {
+    border-radius: 0 5px 5px 0 !important;
+}
+
+.fc-toolbar-chunk .fc-clue-button {
+    background-color: #00a65a;
+    border-color: #00a65a;
+}
+
+.clueItemColor {
+    height: 15px;
+    width: 15px;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+.clueItem {
+    display: flex;
+    gap: 10px;
+    align-items: start;
+    margin-bottom: 15px;
+}
+
+.react-tooltip {
+    background: #484848 !important;
 }
 
 .fc .fc-highlight {
-      background: repeating-linear-gradient(-60deg, #555 0, #555 1px, transparent 1px, transparent 5px);
+    background: repeating-linear-gradient(-60deg, #555 0, #555 1px, transparent 1px, transparent 5px);
 
 }

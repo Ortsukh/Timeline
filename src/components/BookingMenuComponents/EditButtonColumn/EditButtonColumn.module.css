@@ -2,6 +2,8 @@
 .backButtonBlock {
   width: 100%;
   display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .backButton {
@@ -11,12 +13,12 @@
   font-size: 14px;
   border-radius: 5px;
   border: 1px solid #f03333;
-  margin-bottom: 20px;
 }
 .filterContainer{
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  align-items: center;
+  margin: 40px 0;
 }
 .fullPrice {
   padding: 8px 10px;

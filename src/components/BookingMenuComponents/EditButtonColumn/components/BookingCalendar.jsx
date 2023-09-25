@@ -161,7 +161,17 @@ export default function BookingCalendar({
         role="presentation"
         onMouseUp={(e) => handleChangeMouse(e)}
         onMouseDown={(e) => handleChangeMouse(e)}
+        className="presentation"
       >
+        <div className="switch">
+          <span>Выделение по календарю</span>
+          {" "}
+          <Switch
+            disabled={!isActiveCalendar}
+            checked={isDefaultSelect}
+            onChange={handleSwitchChange}
+          />
+        </div>
         <RectangleSelection
           onSelect={(e) => { console.log(e); }}
           disabled={(isDefaultSelect && isActiveCalendar) || !isActiveCalendar}
