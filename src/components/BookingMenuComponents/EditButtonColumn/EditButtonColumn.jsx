@@ -145,17 +145,6 @@ export default function EditButtonColumn({
           isClickedOnConfirm={isClickedOnConfirm}
         />
       )}
-      {!isEditMode && (
-        <div className="selects-block">
-          <FiltersForOrder
-            baseOrder={baseOrder}
-            setBaseOrder={setBaseOrder}
-            isActiveCalendar={isActiveCalendar}
-            setShiftsCount={setShiftsCount}
-            currentDevice={currentDevice}
-          />
-        </div>
-      )}
       {!baseOrder.equipment.id && (
         <>
           <div className="input-count-box">

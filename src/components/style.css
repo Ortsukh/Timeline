@@ -499,16 +499,16 @@
     margin: 0;
 }
 
-.calendar-count {
-    position: relative;
+.presentation {
+    /* position: relative; */
     margin-top: 40px;
 }
 
-.switch {
+/* .switch {
     position: absolute;
     top: 10px;
     left: 0;
-}
+} */
 
 .switch span {
     position: relative;
@@ -517,7 +517,7 @@
 }
 
 .fc .fc-toolbar-title {
-    margin-left: 180px;
+    /* margin-left: 180px; */
     font-size: 20px;
 }
 
@@ -536,15 +536,11 @@
     margin-top: 0;
 }
 
-.fc-button-group .fc-button:last-child {
-    display: none;
-}
-
 .fc-next-button {
     border-radius: 0 5px 5px 0 !important;
 }
 
-.fc-toolbar-chunk button:last-child {
+.fc-toolbar-chunk .fc-clue-button {
     background-color: #00a65a;
     border-color: #00a65a;
 }
