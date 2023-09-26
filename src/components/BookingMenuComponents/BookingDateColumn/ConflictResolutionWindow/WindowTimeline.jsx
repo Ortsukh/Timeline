@@ -7,12 +7,10 @@ import Timeline, {
 import moment from "moment";
 import "moment/locale/ru";
 import { v4 as uuidv4 } from "uuid";
-import { Tooltip } from "react-tooltip";
 import style from "../BookingTimeline.module.css";
 import "../../../style.css";
 import { addGrid } from "../../../../common/DataConvertHelper";
 import styleConflict from "./Conflict.module.css";
-import { generateClue } from "../../../../common/GenerateElementsData";
 import EquipmentDescription from "../components/EquipmentDescription";
 
 export default function WindowTimeline({
@@ -290,10 +288,6 @@ export default function WindowTimeline({
         >
           Подтвердить
         </button>
-        <div id="riddler" className={styleConflict.riddler}>?</div>
-        <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
-          {generateClue("WINDOW_TIMELINE")}
-        </Tooltip>
         <button
           type="button"
           className={styleConflict.closeBtn}
