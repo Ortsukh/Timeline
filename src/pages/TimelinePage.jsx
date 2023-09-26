@@ -3,6 +3,7 @@ import moment from "moment";
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
+import { Tooltip } from "react-tooltip";
 import {
   addGrid,
   createEquipmentGroup,
@@ -24,6 +25,9 @@ import {
 } from "../Api/API";
 import AlertWindow from "../components/Popup/AlertWindow";
 import BookingMenu from "../components/BookingMenuComponents/BookingMenu";
+import styleConflict
+  from "../components/BookingMenuComponents/BookingDateColumn/ConflictResolutionWindow/Conflict.module.css";
+import { generateClue } from "../common/GenerateElementsData";
 
 export default function TimelinePage() {
   const [groups, setGroups] = useState([]);
@@ -104,6 +108,7 @@ export default function TimelinePage() {
   };
 
   const openAlertWindow = (message) => {
+    console.log(message);
     setIsOpenAlertWindow({
       status: true,
       message,
@@ -224,7 +229,6 @@ export default function TimelinePage() {
       setIsBookingMenu(true);
     }
   };
-
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };
@@ -277,13 +281,13 @@ export default function TimelinePage() {
                 showButtonClear={showButtonClear}
                 setCurrentDeviceIndex={() => {}}
               />
-              {selectedGroups.length ? (
+              {selectedGroups.length && (
                 <CountTools
                   choseCount={choseCount}
                   groupsCount={getGroupsToShow()}
                   toolsCount={toolsCount}
                 />
-              ) : null}
+              ) }
             </div>
             <div className="sort-box_item">
               <DateFilter
@@ -304,8 +308,12 @@ export default function TimelinePage() {
                 </button>
               </div>
             </div>
-          </div>
 
+          </div>
+          <div id="riddler" className={styleConflict.riddler}>?</div>
+          <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
+            {generateClue("WINDOW_TIMELINE")}
+          </Tooltip>
           <TimeLineRenderer
             groups={
               toolsCount
@@ -330,11 +338,12 @@ export default function TimelinePage() {
               editMode={editMode}
             />
           )}
-          {isOpenAlertWindow.status ? (
-            <AlertWindow message={isOpenAlertWindow.message} />
-          ) : null}
+
         </>
       )}
+      {isOpenAlertWindow.status ? (
+        <AlertWindow message={isOpenAlertWindow.message} />
+      ) : null}
     </div>
   ) : (
     <Spinner />

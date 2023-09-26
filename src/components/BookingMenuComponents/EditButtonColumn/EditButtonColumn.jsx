@@ -42,10 +42,12 @@ export default function EditButtonColumn({
   sendNewOrder,
   handleChangeEquipmentBeforeCalculation,
   statusCheckboxSelected,
-  setStatusCheckboxSelected, selectedGroups,
+  setStatusCheckboxSelected,
+  selectedGroups,
 }) {
   const [shiftsCount, setShiftsCount] = useState(1);
-  const [isShowConflictNotification, setIsShowConflictNotification] = useState(false);
+  const [isShowConflictNotification, setIsShowConflictNotification] =
+    useState(false);
   const [isClickedOnConfirm, setIsClickedOnConfirm] = useState(false);
 
   useEffect(() => {
@@ -56,16 +58,20 @@ export default function EditButtonColumn({
 
   const showNotification = () => {
     setIsShowConflictNotification(true);
-    setTimeout(() => { setIsShowConflictNotification(false); }, 2000);
+    setTimeout(() => {
+      setIsShowConflictNotification(false);
+    }, 2000);
   };
   const createBook = () => {
     if (isEditMode) {
-      setItems((previousUpdate) => previousUpdate.concat(
-        copyEditItems.map((el) => {
-          el.group = el.deviceGroup;
-          return el;
-        }), // хз
-      ));
+      setItems((previousUpdate) =>
+        previousUpdate.concat(
+          copyEditItems.map((el) => {
+            el.group = el.deviceGroup;
+            return el;
+          }) // хз
+        )
+      );
       setItemsPreOrder([]);
       setCopyEditItems([]);
       setIsEditMode(false);
@@ -81,14 +87,15 @@ export default function EditButtonColumn({
       copyEditItems.map((el) => ({
         ...el,
         itemProps: { style: { background: "gray" } },
-      })),
+      }))
     );
   };
 
-  const getOptionsForSearch = (groups) => groups.map((group) => ({
-    value: group.id,
-    label: group.title,
-  }));
+  const getOptionsForSearch = (groups) =>
+    groups.map((group) => ({
+      value: group.id,
+      label: group.title,
+    }));
 
   const handleChangeSelectedStatus = (status) => {
     if (status === "AUTO") {
@@ -96,7 +103,7 @@ export default function EditButtonColumn({
     } else {
       setStatusCheckboxSelected(status);
     }
-  }
+  };
 
   return (
     <div>
@@ -105,7 +112,11 @@ export default function EditButtonColumn({
           {back}
         </button>
         <div className="choose-category">
-          <span> Выбранная категория: <span className="choose-category_item">{selectedGroups}</span> </span>
+          <span>
+            {" "}
+            Выбранная категория:{" "}
+            <span className="choose-category_item">{selectedGroups}</span>{" "}
+          </span>
         </div>
       </div>
       <div className={style.filterContainer}>
@@ -133,8 +144,7 @@ export default function EditButtonColumn({
           </span>
           <span className={style.fullPrice}>
             {`Общая стоимость: `}
-            <b>{baseOrder.preOrders.length * currentDevice.price}</b>
-            р
+            <b>{(isEditMode ? itemsPreOrder.length : baseOrder.preOrders.length) * currentDevice.price}</b>р
           </span>
         </div>
       </div>
@@ -145,43 +155,8 @@ export default function EditButtonColumn({
           isClickedOnConfirm={isClickedOnConfirm}
         />
       )}
-      {!baseOrder.equipment.id && (
-        <>
-          <div className="input-count-box">
-            <div className="input-checkbox">
-              <input type="checkbox" id="auto" name="auto"
-                checked={statusCheckboxSelected === "AUTO"}
-                onChange={() => handleChangeSelectedStatus("AUTO")} />
-              <label htmlFor="auto">Автоматический выбор</label>
-            </div>
-            <div className="select-count-box">
-              <div className="input-checkbox">
-                <input type="checkbox" id="myself" name="myself"
-                  checked={statusCheckboxSelected === "MYSELF"}
-                  onChange={() => handleChangeSelectedStatus("MYSELF")} />
-                <label className="label-checkbox" htmlFor="myself">Выбрать оборудование самостоятельно</label>
-              </div>
-              <Select
-                isDisabled={statusCheckboxSelected !== "MYSELF"}
-                className="select-filter"
-                options={getOptionsForSearch(groups)}
-                onChange={handleChangeEquipmentBeforeCalculation}
-                defaultValue={getOptionsForSearch(groups)[groups.length - 1]}
-              />
-            </div>
-          </div>
-        </>
-      )}
-      <BookingCalendar
-        items={items}
-        selectedDates={selectedDates}
-        currentDevice={currentDevice}
-        handleSetSelectedConflictDate={handleSetSelectedConflictDate}
-        setSelectedDates={setSelectedDates}
-        calendarEvent={calendarEvent}
-        isActiveCalendar={isActiveCalendar}
-      />
-      <div>
+
+      {isEditMode ? (
         <div className="preOrderTable">
           <PreOrderTable
             itemsPreOrder={itemsPreOrder}
@@ -190,10 +165,63 @@ export default function EditButtonColumn({
             setOrderContent={setOrderContent}
           />
         </div>
+      ) : (
+        <>
+          {!baseOrder.equipment.id && (
+            <>
+              <div className="input-count-box">
+                <div className="input-checkbox">
+                  <input
+                    type="checkbox"
+                    id="auto"
+                    name="auto"
+                    checked={statusCheckboxSelected === "AUTO"}
+                    onChange={() => handleChangeSelectedStatus("AUTO")}
+                  />
+                  <label htmlFor="auto">Автоматический выбор</label>
+                </div>
+                <div className="select-count-box">
+                  <div className="input-checkbox">
+                    <input
+                      type="checkbox"
+                      id="myself"
+                      name="myself"
+                      checked={statusCheckboxSelected === "MYSELF"}
+                      onChange={() => handleChangeSelectedStatus("MYSELF")}
+                    />
+                    <label className="label-checkbox" htmlFor="myself">
+                      Выбрать оборудование самостоятельно
+                    </label>
+                  </div>
+                  <Select
+                    isDisabled={statusCheckboxSelected !== "MYSELF"}
+                    className="select-filter"
+                    options={getOptionsForSearch(groups)}
+                    onChange={handleChangeEquipmentBeforeCalculation}
+                    defaultValue={
+                      getOptionsForSearch(groups)[groups.length - 1]
+                    }
+                  />
+                </div>
+              </div>
+            </>
+          )}
+          <BookingCalendar
+            items={items}
+            selectedDates={selectedDates}
+            currentDevice={currentDevice}
+            handleSetSelectedConflictDate={handleSetSelectedConflictDate}
+            setSelectedDates={setSelectedDates}
+            calendarEvent={calendarEvent}
+            isActiveCalendar={isActiveCalendar}
+          />
+        </>
+      )}
+      <div>
         {isShowConflictNotification && (
-        <div style={{ color: "red" }}>
-          {`У вас осталось ${baseOrder.equipment.conflicts.length} конфликт(ов)`}
-        </div>
+          <div style={{ color: "red" }}>
+            {`У вас осталось ${baseOrder.equipment.conflicts.length} конфликт(ов)`}
+          </div>
         )}
 
         {isEditMode ? (
@@ -215,7 +243,6 @@ export default function EditButtonColumn({
           </div>
         ) : (
           <div className={style.btnCont}>
-
             {isActiveCalendar ? (
               <button
                 type="button"
@@ -246,7 +273,7 @@ export default function EditButtonColumn({
               >
                 Подтвердить бронирование
               </button>
-            ) }
+            )}
             <button
               type="button"
               className={style.closeBtn}
@@ -260,7 +287,6 @@ export default function EditButtonColumn({
           </div>
         )}
       </div>
-
     </div>
   );
 }

@@ -9,12 +9,15 @@ import moment from "moment";
 import "moment/locale/ru";
 import Calendar from "react-calendar";
 import { v4 as uuidv4 } from "uuid";
+import { Tooltip } from "react-tooltip";
 import style from "./BookingTimeline.module.css";
 import "react-calendar-timeline/lib/Timeline.css";
 import "react-calendar/dist/Calendar.css"; // удалить для изменения стиля календаря
 import GroupSwitching from "./components/GroupSwitching";
 import "../../style.css";
 import { addGrid } from "../../../common/DataConvertHelper";
+import styleConflict from "./ConflictResolutionWindow/Conflict.module.css";
+import { generateClue } from "../../../common/GenerateElementsData";
 
 export default function BookingTimeline({
   groups,
@@ -236,146 +239,154 @@ export default function BookingTimeline({
     setCurrentMonth(newDate);
     setShowCalendar(false);
   };
+  console.log(itemsPreOrder);
 
   const getCurrentDevicePreOrderedItems = () => itemsPreOrder.filter(
     (item) => item.deviceGroup === currentDevice.id,
   );
 
   return (
-    <div className={style.containerTimeline}>
-      <GroupSwitching
-        groups={groups}
-        currentDevice={currentDevice}
-        setCurrentDevice={setCurrentDevice}
-        currentDeviceIndex={currentDeviceIndex}
-        setCurrentDeviceIndex={setCurrentDeviceIndex}
-      />
-      <div className={style.customCalendar}>
-        {showCalendar && (
-        <Calendar
-          onClickMonth={handleDateChange}
-          value={currentMonth.format("YYYY MM")}
-          view="year"
-          formatMonth={(locale, date) => date.toLocaleDateString(locale, { month: "long" }).charAt(0).toUpperCase()
-            + date.toLocaleDateString(locale, { month: "long" }).slice(1)}
+    <>
+      <div id="riddler" className={styleConflict.riddler}>?</div>
+      <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
+        {generateClue("WINDOW_TIMELINE")}
+      </Tooltip>
+      <div className={style.containerTimeline}>
+        <GroupSwitching
+          groups={groups}
+          currentDevice={currentDevice}
+          setCurrentDevice={setCurrentDevice}
+          currentDeviceIndex={currentDeviceIndex}
+          setCurrentDeviceIndex={setCurrentDeviceIndex}
         />
-        )}
-      </div>
-      <div className="style">
-        <Timeline
-          className={style.tableTimeline}
-          groups={newGroups}
-          lineHeight={18}
-          itemHeightRatio={1}
-          horizontalLineClassNamesForGroup={(group) => {
-            const selectedDate = moment(group.date).isSameOrAfter(startDate)
+        <div className={style.customCalendar}>
+          {showCalendar && (
+            <Calendar
+              onClickMonth={handleDateChange}
+              value={currentMonth.format("YYYY MM")}
+              view="year"
+              formatMonth={(locale, date) => date.toLocaleDateString(locale, { month: "long" }).charAt(0).toUpperCase()
+            + date.toLocaleDateString(locale, { month: "long" }).slice(1)}
+            />
+          )}
+        </div>
+        <div className="style">
+          <Timeline
+            className={style.tableTimeline}
+            groups={newGroups}
+            lineHeight={18}
+            itemHeightRatio={1}
+            horizontalLineClassNamesForGroup={(group) => {
+              const selectedDate = moment(group.date).isSameOrAfter(startDate)
               && moment(group.date).isSameOrBefore(endDate);
-            return [
-              openGroups[group.id] ? style.blocked : "",
-              selectedDate ? style.highlight : "",
-            ];
-          }}
-          items={filteredItems.concat(getCurrentDevicePreOrderedItems())}
-          visibleTimeStart={visibleTimeStart}
-          visibleTimeEnd={visibleTimeEnd}
+              return [
+                openGroups[group.id] ? style.blocked : "",
+                selectedDate ? style.highlight : "",
+              ];
+            }}
+            items={filteredItems.concat(getCurrentDevicePreOrderedItems())}
+            visibleTimeStart={visibleTimeStart}
+            visibleTimeEnd={visibleTimeEnd}
           // sidebarWidth={150} // ширина левой панели по дефолту - 150px
           // rightSidebarWidth={80} // задать ширину правой панели
-          buffer={1} // убрать прокрутку на колесико (день вперед/назад)
-          onBoundsChange={handleBoundsChange} // границы показа времени
-          maxZoom={24 * 60 * 60 * 1000} // ограничение масштаба до 1 дня
-          onCanvasClick={handleCanvasClick}
-          showCursorLine
-          onItemSelect={handleItemSelect}
+            buffer={1} // убрать прокрутку на колесико (день вперед/назад)
+            onBoundsChange={handleBoundsChange} // границы показа времени
+            maxZoom={24 * 60 * 60 * 1000} // ограничение масштаба до 1 дня
+            onCanvasClick={handleCanvasClick}
+            showCursorLine
+            onItemSelect={handleItemSelect}
           // onMouseUp={handleCellMouseUp} //! Выделение нескольки
           // onMouseDown={handleCellMouseDown} //! Выделение нескольки
-          timeSteps={{
-            hour: currentDevice.shiftLength,
-            day: 1,
-            month: 1,
-            year: 1,
-          }}
-        >
-          <TimelineHeaders>
-            <SidebarHeader>
-              {({ getRootProps }) => (
-                <>
-                  <button
-                    type="button"
-                    {...getRootProps()}
-                    style={{
-                      width: "40px",
-                      color: "rgb(39, 128, 252)",
-                      border: "1px solid rgb(39, 128, 252)",
-                      cursor: "pointer",
-                      backgroundColor: "white",
-                    }}
-                    onClick={onPreviousMonth}
-                  >
-                    &#9668;
-                  </button>
-                  <button
-                    type="button"
-                    {...getRootProps()}
-                    style={{
-                      width: "70px",
-                      backgroundColor: "white",
-                      border: "1px solid rgb(39, 128, 252)",
-                      cursor: "pointer",
-                    }}
-                    onClick={chooseFromCalendar}
-                  >
-                    {currentMonth.format("MMMM").charAt(0).toUpperCase() + currentMonth.format("MMMM").slice(1)}
-                  </button>
-                  <button
-                    type="button"
-                    {...getRootProps()}
-                    style={{
-                      width: "40px",
-                      color: "rgb(39, 128, 252)",
-                      border: "1px solid rgb(39, 128, 252)",
-                      cursor: "pointer",
-                      backgroundColor: "white",
-                    }}
-                    onClick={onNextMonth}
-                  >
-                    &#9658;
-                  </button>
-                </>
-              )}
-            </SidebarHeader>
-            {currentDevice.shiftLength < 2 ? (
-              <DateHeader unit="hour" labelFormat="H" />
-            )
-              : (
-                <DateHeader
-                  unit="hour"
+            timeSteps={{
+              hour: currentDevice.shiftLength,
+              day: 1,
+              month: 1,
+              year: 1,
+            }}
+          >
+            <TimelineHeaders>
+              <SidebarHeader>
+                {({ getRootProps }) => (
+                  <>
+                    <button
+                      type="button"
+                      {...getRootProps()}
+                      style={{
+                        width: "40px",
+                        color: "rgb(39, 128, 252)",
+                        border: "1px solid rgb(39, 128, 252)",
+                        cursor: "pointer",
+                        backgroundColor: "white",
+                      }}
+                      onClick={onPreviousMonth}
+                    >
+                      &#9668;
+                    </button>
+                    <button
+                      type="button"
+                      {...getRootProps()}
+                      style={{
+                        width: "70px",
+                        backgroundColor: "white",
+                        border: "1px solid rgb(39, 128, 252)",
+                        cursor: "pointer",
+                      }}
+                      onClick={chooseFromCalendar}
+                    >
+                      {currentMonth.format("MMMM").charAt(0).toUpperCase() + currentMonth.format("MMMM").slice(1)}
+                    </button>
+                    <button
+                      type="button"
+                      {...getRootProps()}
+                      style={{
+                        width: "40px",
+                        color: "rgb(39, 128, 252)",
+                        border: "1px solid rgb(39, 128, 252)",
+                        cursor: "pointer",
+                        backgroundColor: "white",
+                      }}
+                      onClick={onNextMonth}
+                    >
+                      &#9658;
+                    </button>
+                  </>
+                )}
+              </SidebarHeader>
+              {currentDevice.shiftLength < 2 ? (
+                <DateHeader unit="hour" labelFormat="H" />
+              )
+                : (
+                  <DateHeader
+                    unit="hour"
               // eslint-disable-next-line react/no-unstable-nested-components
-                  intervalRenderer={({
-                    getIntervalProps,
-                    intervalContext,
-                  }) => (
-                    <div {...getIntervalProps()}>
-                      <div
-                        style={{
-                          border: "1px solid rgba(0, 0, 0, 0.15)",
-                          backgroundColor: "white",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        {`${moment(intervalContext.interval.startTime).format(
-                          "H",
-                        )
-                        }-${
-                          moment(intervalContext.interval.endTime).format("H")}`}
+                    intervalRenderer={({
+                      getIntervalProps,
+                      intervalContext,
+                    }) => (
+                      <div {...getIntervalProps()}>
+                        <div
+                          style={{
+                            border: "1px solid rgba(0, 0, 0, 0.15)",
+                            backgroundColor: "white",
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {`${moment(intervalContext.interval.startTime).format(
+                            "H",
+                          )
+                          }-${
+                            moment(intervalContext.interval.endTime).format("H")}`}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                />
-              )}
-          </TimelineHeaders>
-        </Timeline>
+                    )}
+                  />
+                )}
+            </TimelineHeaders>
+          </Timeline>
+        </div>
+
       </div>
-    </div>
+    </>
   );
 }
