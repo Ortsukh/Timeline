@@ -7,12 +7,10 @@ import Timeline, {
 import moment from "moment";
 import "moment/locale/ru";
 import { v4 as uuidv4 } from "uuid";
-import { Tooltip } from "react-tooltip";
 import style from "../BookingTimeline.module.css";
 import "../../../style.css";
 import { addGrid } from "../../../../common/DataConvertHelper";
 import styleConflict from "./Conflict.module.css";
-import { generateClue } from "../../../../common/GenerateElementsData";
 import EquipmentDescription from "../components/EquipmentDescription";
 
 export default function WindowTimeline({
@@ -29,13 +27,14 @@ export default function WindowTimeline({
   const currentIdDevice = baseOrder.equipment.id;
   const currentShift = baseOrder.equipment.shiftLength;
   const currentTime = baseOrder.shiftTime;
-  const [consideredCell, setConsideredCell] = useState({});
+
   // const [today, setToday] = useState(moment(selectedConflictDate, "YYYY-MM-DD"));
   const today = moment(selectedConflictDate, "YYYY-MM-DD");
   const startOfDay = (day) => day.startOf("day");
   const endOfDay = (day) => day.endOf("day");
   // const startDate = today.startOf("day");
   // const endDate = today.startOf("day");
+  const isDayWithConflict = baseOrder.equipment.conflicts.includes(selectedConflictDate);
   const [visibleTimeStart, setVisibleTimeStart] = useState(startOfDay(today).valueOf());
   const [visibleTimeEnd, setVisibleTimeEnd] = useState(endOfDay(today).valueOf());
   const startTimeSelectedItem = today.clone().set("hour", currentTime).startOf("hour");
@@ -44,7 +43,7 @@ export default function WindowTimeline({
 
   const filteredItems = items.filter((item) => today.format("YYYY-MM-DD") === item.date);
   filteredItems.push({
-    id: uuidv4(),
+    id: "X_MARK",
     group: currentIdDevice,
     title: "X",
     start_time: startTimeSelectedItem,
@@ -52,9 +51,12 @@ export default function WindowTimeline({
     itemProps:
       {
         style: {
-          background: "rgba(255,255,255,0)",
-          borderRight: "1px solid red",
-          borderLeft: "1px solid red",
+          // background: isDayWithConflict ? "rgba(128,128,128,0)" : "rgba(128,128,128)",
+          background: "rgba(128,128,128,0)",
+          border: "1px solid red",
+          // zIndex: 100,
+          // borderRight: "1px solid red",
+          // borderLeft: "1px solid red",
           color: "red",
           fontSize: "20px",
           display: "flex",
@@ -63,6 +65,33 @@ export default function WindowTimeline({
         },
       },
   });
+  const selectedShiftObj = {
+    title: "X",
+    id: uuidv4(),
+    group: currentIdDevice,
+    status: "preOrder",
+    canMove: false,
+    date: selectedConflictDate,
+    grid: addGrid(Math.floor(+currentTime / currentShift), currentShift),
+    start_time: startTimeSelectedItem,
+    end_time: endTimeSelectedItem,
+    itemTouchSendsClick: false,
+    itemProps: {
+      style: {
+        background: "gray",
+        border: "1px solid red",
+        color: "red",
+        fontSize: "20px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      },
+    },
+    deviceGroup: currentIdDevice,
+    checkBoxId: `${currentIdDevice} ${Math.floor(+currentTime / currentShift)}`,
+  };
+
+  const [consideredCell, setConsideredCell] = useState(isDayWithConflict ? {} : selectedShiftObj);
 
   const handleBoundsChange = (timeStart, timeEnd) => {
     setVisibleTimeStart(timeStart);
@@ -130,12 +159,22 @@ export default function WindowTimeline({
   };
 
   const handleCanvasClick = (groupId, time) => {
-    if (statusCheckboxSelected === "MYSELF" && groupId !== currentIdDevice) return;
+    // if (statusCheckboxSelected === "MYSELF" && groupId !== currentIdDevice) return;
     clickOnEmptySpace(groupId, time);
   };
 
   const handleItemSelect = (itemId) => {
-    console.log("itemId", itemId);
+    // console.log("itemId", itemId);
+    if (itemId === consideredCell.id) {
+      setConsideredCell({});
+      return;
+    }
+    if (!isDayWithConflict && itemId === "X_MARK") {
+      setConsideredCell(selectedShiftObj);
+    }
+    // if (consideredCell.id !== "X_MARK" && itemId === "X_MARK") {
+    //   setConsideredCell(selectedShiftObj);
+    // }
     // const item = itemId
     //   ? itemsPreOrder.find((el) => el.id === itemId)
     //   : null;
@@ -239,7 +278,7 @@ export default function WindowTimeline({
                           ? (
                             <div
                               style={{
-                                border: "1px solid rgba(0, 0, 0, 0.15)",
+                                border: "1px solid rgba(0, 0, 0)",
                                 display: "flex",
                                 justifyContent: "center",
                               }}
@@ -254,7 +293,7 @@ export default function WindowTimeline({
                           : (
                             <div
                               style={{
-                                border: "1px solid rgba(0, 0, 0, 0.15)",
+                                border: "1px solid rgba(0, 0, 0)",
                                 backgroundColor: "white",
                                 display: "flex",
                                 justifyContent: "center",
@@ -288,10 +327,6 @@ export default function WindowTimeline({
         >
           Подтвердить
         </button>
-        <div id="riddler" className={styleConflict.riddler}>?</div>
-        <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
-          {generateClue("WINDOW_TIMELINE")}
-        </Tooltip>
         <button
           type="button"
           className={styleConflict.closeBtn}

@@ -55,11 +55,18 @@
   padding: 0 !important;
 }
 .equipment_description {
-  width: 300px;
-  height: 300px;
+  padding: 5px 10px;
+  border: 1px solid #b7b7b7;
+  border-radius: 5px;
+  width: 44vw;
+  display: flex;
+  margin: 20px auto 0;
+  align-items: center;
+  gap: 15px;
+  font-size: 16px;
 }
 
 .equipment_description img{
-  width: 300px;
-  height: 300px;
+  width: 100px;
+  height: 100px;
 }

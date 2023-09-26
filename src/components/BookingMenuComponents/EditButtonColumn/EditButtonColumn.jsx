@@ -42,6 +42,7 @@ export default function EditButtonColumn({
   statusCheckboxSelected,
   setStatusCheckboxSelected,
   selectedGroups,
+  setSelectedPreferredDevice,
 }) {
   const [shiftsCount, setShiftsCount] = useState(1);
   const [isShowConflictNotification, setIsShowConflictNotification] =
@@ -96,10 +97,14 @@ export default function EditButtonColumn({
     }));
 
   const handleChangeSelectedStatus = (status) => {
-    if (status === "AUTO") {
+    if (statusCheckboxSelected !== "AUTO") {
+    // if (status === "AUTO") {
       setStatusCheckboxSelected(status);
+      setSelectedPreferredDevice(null);
     } else {
-      setStatusCheckboxSelected(status);
+      // setStatusCheckboxSelected(status);
+      setStatusCheckboxSelected("MYSELF");
+      setSelectedPreferredDevice(getOptionsForSearch(groups)[groups.length - 1]);
     }
   };
 
@@ -179,7 +184,7 @@ export default function EditButtonColumn({
                   <label htmlFor="auto">Автоматический выбор</label>
                 </div>
                 <div className="select-count-box">
-                  <div className="input-checkbox">
+                  {/* <div className="input-checkbox">
                     <input
                       type="checkbox"
                       id="myself"
@@ -190,7 +195,7 @@ export default function EditButtonColumn({
                     <label className="label-checkbox" htmlFor="myself">
                       Выбрать оборудование самостоятельно
                     </label>
-                  </div>
+                  </div> */}
                   <Select
                     isDisabled={statusCheckboxSelected !== "MYSELF"}
                     className="select-filter"
@@ -277,6 +282,7 @@ export default function EditButtonColumn({
               className={style.closeBtn}
               onClick={() => {
                 handleClear();
+                setStatusCheckboxSelected("AUTO");
                 setShowStartDisplayConflict(true);
               }}
             >

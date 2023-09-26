@@ -1,8 +1,10 @@
 import React from "react";
 import "moment/locale/ru";
 import "../../../style.css";
+import { Tooltip } from "react-tooltip";
 import styleConflict from "./Conflict.module.css";
 import WindowTimeline from "./WindowTimeline";
+import { generateClue } from "../../../../common/GenerateElementsData";
 
 export default function ConfirmBookingWindow({
   items,
@@ -65,7 +67,7 @@ export default function ConfirmBookingWindow({
       {!showStartDisplayConflict
         && (
         <div style={{
-          width: "42vw", margin: "0 auto", padding: "10px 30px", fontSize: "20px", backgroundColor: "white", border: "1px solid #c1c1c1", borderRadius: "20px", textAlign: "center",
+          width: "42vw", margin: "0 auto", padding: "10px 30px", fontSize: "20px", backgroundColor: "white", border: "1px solid #c1c1c1", borderRadius: "20px", textAlign: "center", position: "relative",
         }}
         >
           {"conflicts" in baseOrder.equipment && baseOrder.equipment?.conflicts.length
@@ -80,16 +82,26 @@ export default function ConfirmBookingWindow({
                   <span style={{ fontWeight: "bold", color: "#f03333" }}>{baseOrder.equipment?.conflicts.length}</span>
                   {" конфликтов. Нажмите на нужные даты в календаре и разрешите их."}
                 </p>
+                <div id="riddler" className={styleConflict.riddler}>?</div>
+                <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
+                  {generateClue("WINDOW_TIMELINE")}
+                </Tooltip>
               </>
             )
             : (
-              <p>
-                {"Подсчет смен для "}
-                <span style={{ fontWeight: "bold", color: "#f03333" }}>{calculatedOrSelectedDevice.title}</span>
-                {" прошел успешно. Вы можете внести изменения нажав на день в календаре или завершить бронирование, нажав на кнопку"}
-                <button type="button" style={{ width: "230px", marginTop: "10px" }} className={styleConflict.reserveBtnForText}>Подтвердить бронирование</button>
-                .
-              </p>
+              <>
+                <p>
+                  {"Подсчет смен для "}
+                  <span style={{ fontWeight: "bold", color: "#f03333" }}>{calculatedOrSelectedDevice.title}</span>
+                  {" прошел успешно. Вы можете внести изменения нажав на день в календаре или завершить бронирование, нажав на кнопку"}
+                  <button type="button" style={{ width: "230px", marginTop: "10px" }} className={styleConflict.reserveBtnForText}>Подтвердить бронирование</button>
+                  .
+                </p>
+                <div id="riddler" className={styleConflict.riddler}>?</div>
+                <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
+                  {generateClue("WINDOW_TIMELINE")}
+                </Tooltip>
+              </>
             )}
         </div>
         )}
