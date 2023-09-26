@@ -10,7 +10,6 @@ import {
   groupByDateItems,
 } from "../../common/DataConvertHelper";
 import ConfirmWindow from "../Popup/ConfirmWindow";
-import BookingTimeline from "./BookingDateColumn/BookingTimeline";
 import ConfirmBookingWindow from "./BookingDateColumn/ConflictResolutionWindow/ConfirmBookingWindow";
 import style from "./BookingMenu.module.css";
 import ITEMS_PREORDER_COLOR from "../../constants/itemsPreOrderColor";
@@ -62,6 +61,7 @@ export default function BookingMenu({
 
   useEffect(() => {
     if (isEditMode) {
+      console.log("edit");
       const editItems = items.filter(
         (item) => item.rentOrderId === editOrderData.rentOrderId,
       );
@@ -292,19 +292,21 @@ export default function BookingMenu({
     setSelectedPreferredDevice(selectValueBeforeCalculation);
   };
   const pushOrderInBasePreOrder = (newOrder) => {
-    let isNew = 0;
+    let isNew = false;
     let newPreOrder;
+    console.log(baseOrder);
     newPreOrder = baseOrder.preOrders.map((order) => {
-      if (order.data === newOrder.data) {
-        isNew = 1;
+      if (order.date === newOrder.date) {
+        isNew = true;
         return newOrder;
       }
       return order;
     });
+    console.log(isNew, newOrder);
     if (!isNew) {
       newPreOrder = [...baseOrder.preOrders, newOrder];
     }
-
+    console.log(newPreOrder);
     setBaseOrder((prev) => ({
       ...prev,
       preOrders: newPreOrder,
