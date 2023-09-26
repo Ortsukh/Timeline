@@ -317,6 +317,7 @@ export default function BookingMenu({
             handleChangeEquipmentBeforeCalculation={handleChangeEquipmentBeforeCalculation}
             statusCheckboxSelected={statusCheckboxSelected}
             setStatusCheckboxSelected={setStatusCheckboxSelected}
+            setSelectedPreferredDevice={setSelectedPreferredDevice}
           />
         </div>
 
