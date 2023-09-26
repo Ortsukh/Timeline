@@ -130,7 +130,7 @@ export default function WindowTimeline({
   };
 
   const handleCanvasClick = (groupId, time) => {
-    if (statusCheckboxSelected === "MYSELF" && groupId !== currentIdDevice) return;
+    // if (statusCheckboxSelected === "MYSELF" && groupId !== currentIdDevice) return;
     clickOnEmptySpace(groupId, time);
   };
 
