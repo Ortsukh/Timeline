@@ -85,28 +85,28 @@ export default function BookingTimeline({
       item.end_time = orderedTimes.end_time;
       return item;
     });
-
-  useEffect(() => {
-    if (isEditMode) {
-      const selectedItems = items.filter(
-        (item) => item.rentOrderId === editOrderData.rentOrderId,
-      );
-      const allItems = items.filter(
-        (item) => item.rentOrderId !== editOrderData.rentOrderId,
-      );
-
-      const selectedItemsWithColor = convertItemsData(selectedItems).map(
-        (el) => ({
-          ...el,
-          group: el.date,
-          itemProps: { style: { background: "gray" } },
-        }),
-      );
-      setUpdatedItems(allItems);
-      setItemsPreOrder(selectedItemsWithColor);
-      setCopyEditItems(selectedItems);
-    }
-  }, [editOrderData, isEditMode]);
+  //
+  // useEffect(() => {
+  //   if (isEditMode) {
+  //     const selectedItems = items.filter(
+  //       (item) => item.rentOrderId === editOrderData.rentOrderId,
+  //     );
+  //     const allItems = items.filter(
+  //       (item) => item.rentOrderId !== editOrderData.rentOrderId,
+  //     );
+  //
+  //     const selectedItemsWithColor = convertItemsData(selectedItems).map(
+  //       (el) => ({
+  //         ...el,
+  //         group: el.date,
+  //         itemProps: { style: { background: "gray" } },
+  //       }),
+  //     );
+  //     setUpdatedItems(allItems);
+  //     setItemsPreOrder(selectedItemsWithColor);
+  //     setCopyEditItems(selectedItems);
+  //   }
+  // }, [editOrderData, isEditMode]);
 
   const copyItems = items.map((item) => ({ ...item }));
 

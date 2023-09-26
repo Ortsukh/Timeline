@@ -5,10 +5,8 @@ import Select from "react-select";
 import FiltersForOrder from "./components/FiltersForOrder";
 import PreOrderTable from "./components/PreOrderTable";
 import style from "./EditButtonColumn.module.css";
-import ToolsFilter from "../../FilterComponents/ToolsFilter";
 import CompaniesSelect from "../../FilterComponents/CompaniesSelect";
 import BookingCalendar from "./components/BookingCalendar";
-import TimeShift from "../../FilterComponents/timeShiftFilter";
 
 export default function EditButtonColumn({
   setIsBookingMenu,
@@ -127,17 +125,17 @@ export default function EditButtonColumn({
             isClickedOnConfirm={isClickedOnConfirm}
           />
         )}
-        {!isEditMode && (
-          <div className="selects-block">
-            <FiltersForOrder
-              baseOrder={baseOrder}
-              setBaseOrder={setBaseOrder}
-              isActiveCalendar={isActiveCalendar}
-              setShiftsCount={setShiftsCount}
-              currentDevice={currentDevice}
-            />
-          </div>
-        )}
+        {/*{!isEditMode && (*/}
+        {/*  <div className="selects-block">*/}
+        {/*    <FiltersForOrder*/}
+        {/*      baseOrder={baseOrder}*/}
+        {/*      setBaseOrder={setBaseOrder}*/}
+        {/*      isActiveCalendar={isActiveCalendar}*/}
+        {/*      setShiftsCount={setShiftsCount}*/}
+        {/*      currentDevice={currentDevice}*/}
+        {/*    />*/}
+        {/*  </div>*/}
+        {/*)}*/}
         <div className="select-count-box price-count">
           <span className="price-item">
             {`Цена за смену: ${+currentDevice.price}р`}
@@ -156,18 +154,18 @@ export default function EditButtonColumn({
         />
       )}
 
-      {isEditMode ? (
-        <div className="preOrderTable">
-          <PreOrderTable
-            itemsPreOrder={itemsPreOrder}
-            groups={groups}
-            setItemsPreOrder={setItemsPreOrder}
-            setOrderContent={setOrderContent}
-          />
-        </div>
-      ) : (
+      {/*{isEditMode ? (*/}
+      {/*  <div className="preOrderTable">*/}
+      {/*    <PreOrderTable*/}
+      {/*      itemsPreOrder={itemsPreOrder}*/}
+      {/*      groups={groups}*/}
+      {/*      setItemsPreOrder={setItemsPreOrder}*/}
+      {/*      setOrderContent={setOrderContent}*/}
+      {/*    />*/}
+      {/*  </div>*/}
+      {/*) : (*/}
         <>
-          {!baseOrder.equipment.id && (
+          {!baseOrder.equipment.id  && (
             <>
               <div className="input-count-box">
                 <div className="input-checkbox">
@@ -216,7 +214,7 @@ export default function EditButtonColumn({
             isActiveCalendar={isActiveCalendar}
           />
         </>
-      )}
+
       <div>
         {isShowConflictNotification && (
           <div style={{ color: "red" }}>
@@ -224,24 +222,24 @@ export default function EditButtonColumn({
           </div>
         )}
 
-        {isEditMode ? (
-          <div>
-            <button
-              type="button"
-              className="reserved-btn"
-              onClick={() => itemsPreOrder[0] && setIsConfirmWindowOpen(true)}
-            >
-              Применить
-            </button>
-            <button
-              type="button"
-              className={style.closeBtn}
-              onClick={() => restoreEditItems()}
-            >
-              Отменить изменения
-            </button>
-          </div>
-        ) : (
+        {/*{isEditMode ? (*/}
+        {/*  <div>*/}
+        {/*    <button*/}
+        {/*      type="button"*/}
+        {/*      className="reserved-btn"*/}
+        {/*      onClick={() => itemsPreOrder[0] && setIsConfirmWindowOpen(true)}*/}
+        {/*    >*/}
+        {/*      Применить*/}
+        {/*    </button>*/}
+        {/*    <button*/}
+        {/*      type="button"*/}
+        {/*      className={style.closeBtn}*/}
+        {/*      onClick={() => restoreEditItems()}*/}
+        {/*    >*/}
+        {/*      Отменить изменения*/}
+        {/*    </button>*/}
+        {/*  </div>*/}
+        {/*) : (*/}
           <div className={style.btnCont}>
             {isActiveCalendar ? (
               <button
@@ -285,7 +283,7 @@ export default function EditButtonColumn({
               Очистить
             </button>
           </div>
-        )}
+
       </div>
     </div>
   );
