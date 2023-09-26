@@ -15,7 +15,7 @@
   width: 100%;
 }
 
-/* 
+/*
 .rct-outer {
   margin-top: 500px;
 } */
@@ -53,4 +53,13 @@
 
 .react-calendar-timeline .rct-sidebar s.rct-sidebar-row {
   padding: 0 !important;
+}
+.equipment_description {
+  width: 300px;
+  height: 300px;
+}
+
+.equipment_description img{
+  width: 300px;
+  height: 300px;
 }

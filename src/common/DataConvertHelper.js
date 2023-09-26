@@ -9,6 +9,8 @@ const createEquipmentObject = (item, elem) => ({
   category: elem.name,
   shiftLength: elem.shiftLength,
   price: item.price,
+  shortDescription: item.shortDescription,
+  img: item.img,
 
 });
 

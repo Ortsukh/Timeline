@@ -4288,6 +4288,44 @@ const testOrderequip = {
   success: true,
   data: [
     {
+      id: 1,
+      name: "Холодильник",
+      shiftLength: 4,
+      kitchenEquipment: [
+        {
+          id: 2,
+          type: "equipment",
+          name: "Холодильник 1",
+          price: "2.0000",
+        },
+      ],
+    },
+    {
+      id: 2,
+      name: "Комбайн",
+      shiftLength: 2,
+      kitchenEquipment: [],
+    },
+    {
+      id: 3,
+      name: "Чайник",
+      shiftLength: 2,
+      kitchenEquipment: [
+        {
+          id: 11,
+          type: "equipment",
+          name: "Шкаф",
+          price: "5.0000",
+        },
+      ],
+    },
+    {
+      id: 4,
+      name: "Плита",
+      shiftLength: 4,
+      kitchenEquipment: [],
+    },
+    {
       id: 5,
       name: "Микроволновка",
       shiftLength: 1,
@@ -4296,6 +4334,25 @@ const testOrderequip = {
           id: 1,
           type: "equipment",
           name: "микроволновка 1",
+          price: "3.0000",
+          shortDescription: "nice microwave",
+          img: "https://www.ixbt.com/img/r30/00/02/26/08/7.jpg",
+        },
+        {
+          id: 3,
+          type: "equipment",
+          name: "микроволновка 2",
+          price: "3.0000",
+          shortDescription: "nice microwave",
+          img: "https://i2.wp.com/vsvoemdome.ru/wp-content/uploads/2018/11/Redmond-RM-2501D.jpg",
+        },
+        {
+          id: 12,
+          type: "equipment",
+          name: "Микроволновка 2",
+          price: "2.0000",
+          shortDescription: "nice microwave",
+          img: "https://cdn2.domotekhnika.ru/images/products/007/839/399/big/20701517_1.jpg",
         },
       ],
     },
@@ -4308,45 +4365,48 @@ const testOrderequip = {
           id: 4,
           type: "kitchen",
           name: "k1",
+          price: "1.0000",
         },
         {
           id: 5,
           type: "kitchen",
           name: "k2",
+          price: "2.0000",
         },
-      ],
-    },
-    {
-      id: 3,
-      name: "Чайник",
-      shiftLength: 2,
-      kitchenEquipment: [
         {
-          id: 11,
-          type: "equipment",
-          name: "Шкаф",
+          id: 6,
+          type: "kitchen",
+          name: "к3",
+          price: "3.0000",
+        },
+        {
+          id: 7,
+          type: "kitchen",
+          name: "Пиццерия 1",
+          price: "15.0000",
+        },
+        {
+          id: 8,
+          type: "kitchen",
+          name: "Суши 1",
+          price: "30.0000",
+        },
+        {
+          id: 9,
+          type: "kitchen",
+          name: "Мясо-рыбный цех",
+          price: "30.0000",
+        },
+        {
+          id: 10,
+          type: "kitchen",
+          name: "Пицца цех",
+          price: "20.0000",
         },
       ],
-    },
-    {
-      id: 1,
-      name: "Холодильник",
-      shiftLength: 4,
-      kitchenEquipment: [],
-    },
-    {
-      id: 2,
-      name: "Комбайн",
-      shiftLength: 2,
-      kitchenEquipment: [],
-    },
-    {
-      id: 4,
-      name: "Плита",
-      shiftLength: 4,
-      kitchenEquipment: [],
     },
   ],
+
 };
 
 export async function getAllEquipments1() {
