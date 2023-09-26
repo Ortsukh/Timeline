@@ -43,6 +43,7 @@ export default function EditButtonColumn({
   setStatusCheckboxSelected,
   selectedGroups,
   setSelectedPreferredDevice,
+                                           editOrder,
 }) {
   const [shiftsCount, setShiftsCount] = useState(1);
   const [isShowConflictNotification, setIsShowConflictNotification] =
@@ -265,6 +266,10 @@ export default function EditButtonColumn({
                 type="button"
                 className={style.reserveBtn}
                 onClick={() => {
+                  if(isEditMode) {
+                    editOrder()
+                    return
+                  }
                   if (baseOrder.equipment.conflicts.length > 0) {
                     showNotification();
                     return;

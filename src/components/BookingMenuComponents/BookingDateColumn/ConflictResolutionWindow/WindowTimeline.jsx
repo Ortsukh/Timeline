@@ -353,7 +353,7 @@ export default function WindowTimeline({
           Пропустить
         </button>
       </div>
-      <EquipmentDescription equipment={baseOrder.equipment} />
+      {/* <EquipmentDescription equipment={baseOrder.equipment} /> */}
       ;
     </>
   );

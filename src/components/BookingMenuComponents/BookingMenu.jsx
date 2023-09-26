@@ -243,20 +243,14 @@ export default function BookingMenu({
   }, [groups, baseOrder.equipment]);
 
   const editOrder = () => {
-    if (itemsPreOrder.length < 1) return;
-    const itemsPreOrderCorrect = itemsPreOrder.map((item) => {
-      item.group = item.deviceGroup;
-      return item;
-    });
-    const orderItem = copyEditItems[0];
-    const orderItemsGrid = createOrderGrid(itemsPreOrderCorrect);
+    const orderItemsGrid = createOrderGrid(baseOrder.preOrders);
     const dateIntervals = formatOrder(orderItemsGrid);
     const editedOrder = {
       rentOrder: {
-        id: orderItem.rentOrderId,
-        company: orderItem.company,
+        id: editOrderData.rentOrderId,
+        company: editOrderData.company,
       },
-      status: orderItem.status,
+      status: editOrderData.status,
       equipmentItems: dateIntervals,
     };
 
@@ -294,7 +288,6 @@ export default function BookingMenu({
   const pushOrderInBasePreOrder = (newOrder) => {
     let isNew = false;
     let newPreOrder;
-    console.log(baseOrder);
     newPreOrder = baseOrder.preOrders.map((order) => {
       if (order.date === newOrder.date) {
         isNew = true;
@@ -362,6 +355,7 @@ export default function BookingMenu({
             statusCheckboxSelected={statusCheckboxSelected}
             setStatusCheckboxSelected={setStatusCheckboxSelected}
             setSelectedPreferredDevice={setSelectedPreferredDevice}
+            editOrder={editOrder}
           />
         </div>
 
