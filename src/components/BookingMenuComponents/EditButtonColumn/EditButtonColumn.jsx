@@ -102,10 +102,11 @@ export default function EditButtonColumn({
     if (statusCheckboxSelected !== "AUTO") {
     // if (status === "AUTO") {
       setStatusCheckboxSelected(status);
-      setSelectedPreferredDevice(null)
+      setSelectedPreferredDevice(null);
     } else {
       // setStatusCheckboxSelected(status);
       setStatusCheckboxSelected("MYSELF");
+      setSelectedPreferredDevice(getOptionsForSearch(groups)[groups.length - 1]);
     }
   };
 
@@ -283,6 +284,7 @@ export default function EditButtonColumn({
               className={style.closeBtn}
               onClick={() => {
                 handleClear();
+                setStatusCheckboxSelected("AUTO");
                 setShowStartDisplayConflict(true);
               }}
             >
