@@ -13,6 +13,7 @@ import "../../../style.css";
 import { addGrid } from "../../../../common/DataConvertHelper";
 import styleConflict from "./Conflict.module.css";
 import { generateClue } from "../../../../common/GenerateElementsData";
+import EquipmentDescription from "../components/EquipmentDescription";
 
 export default function WindowTimeline({
   items,
@@ -306,6 +307,8 @@ export default function WindowTimeline({
           Пропустить
         </button>
       </div>
+      <EquipmentDescription equipment={baseOrder.equipment} />
+      ;
     </>
   );
 }

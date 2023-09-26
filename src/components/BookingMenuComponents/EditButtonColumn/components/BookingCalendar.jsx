@@ -186,6 +186,23 @@ export default function BookingCalendar({
       {moment(args.date).format("ddd")}
     </span>
   );
+
+  const handleChangeMonth = (time) => {
+    if (!calendarRef.current) return;
+    const calendar = calendarRef.current.elRef.current;
+    const calendarDayCell = calendar.querySelectorAll(
+      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
+    );
+    calendarDayCell.forEach((cell) => {
+      console.log(cell.dataset.date);
+      if (moment(cell.dataset.date).isBefore(moment(time.end))
+          && moment(cell.dataset.date).isSameOrAfter(moment(time.start))
+          && selectedDates.includes(cell.dataset.date)) {
+        checkShiftPerDay(cell);
+      }
+    });
+  };
+
   return (
     <div className="calendar-count">
       <CalendarSwitch
@@ -208,6 +225,8 @@ export default function BookingCalendar({
           }}
         >
           <FullCalendar
+            className="unselectable"
+            datesSet={(e) => handleChangeMonth(e)}
             height={485}
             fixedWeekCount={false}
             ref={calendarRef}
