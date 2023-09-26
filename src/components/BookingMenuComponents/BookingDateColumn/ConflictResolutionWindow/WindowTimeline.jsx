@@ -16,6 +16,8 @@ import EquipmentDescription from "../components/EquipmentDescription";
 export default function WindowTimeline({
   items,
   groups,
+  isEditMode,
+  editOrderData,
   selectedConflictDate,
   setSelectedConflictDate,
   baseOrder,
@@ -23,7 +25,8 @@ export default function WindowTimeline({
   statusCheckboxSelected,
   // handleSetSelectedConflictDate,
 }) {
-  // console.log("baseOrder!!!", baseOrder);
+  console.log("editOrderData!!!", editOrderData);
+  console.log("isEditMode!!!", isEditMode);
   const currentIdDevice = baseOrder.equipment.id;
   const currentShift = baseOrder.equipment.shiftLength;
   const currentTime = baseOrder.shiftTime;
@@ -41,7 +44,13 @@ export default function WindowTimeline({
   const endTimeSelectedItem = today.clone().set("hour", currentTime).startOf("hour").add(currentShift, "hour")
     .subtract(1, "seconds");
 
-  const filteredItems = items.filter((item) => today.format("YYYY-MM-DD") === item.date);
+  const filteredItemsNormal = items.filter((item) => today.format("YYYY-MM-DD") === item.date);
+  const FFItems = filteredItemsNormal.filter((filtItem) => {
+    const ffGrid = addGrid(Math.floor(+currentTime / currentShift), currentShift);
+    return filtItem.grid !== ffGrid;
+  });
+  const filteredItems = isEditMode ? FFItems : filteredItemsNormal;
+  console.log("filteredItems!!!", filteredItems, FFItems);
   filteredItems.push({
     id: "X_MARK",
     group: currentIdDevice,
@@ -85,14 +94,16 @@ export default function WindowTimeline({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        zIndex: 100,
       },
     },
     deviceGroup: currentIdDevice,
     checkBoxId: `${currentIdDevice} ${Math.floor(+currentTime / currentShift)}`,
   };
 
-  const [consideredCell, setConsideredCell] = useState(isDayWithConflict ? {} : selectedShiftObj);
-
+  const [consideredCell, setConsideredCell] = useState((isDayWithConflict || !isEditMode)
+    ? {} : selectedShiftObj);
+  console.log("consideredCell", consideredCell);
   const handleBoundsChange = (timeStart, timeEnd) => {
     setVisibleTimeStart(timeStart);
     setVisibleTimeEnd(timeEnd);
@@ -169,7 +180,7 @@ export default function WindowTimeline({
       setConsideredCell({});
       return;
     }
-    if (!isDayWithConflict && itemId === "X_MARK") {
+    if ((!isDayWithConflict || isEditMode) && itemId === "X_MARK") {
       setConsideredCell(selectedShiftObj);
     }
     // if (consideredCell.id !== "X_MARK" && itemId === "X_MARK") {

@@ -45,13 +45,11 @@ export default function ConfirmBookingWindow({
           <p style={{ marginLeft: "20px" }}>3. Выделите нужные даты;</p>
           <p style={{ marginLeft: "20px" }}>
             {"4. Нажмите кнопку "}
-            <button type="button" className={styleConflict.reserveBtnForText}>Рассчитать</button>
-            ;
+            <span style={{ fontStyle: "italic" }}>`Рассчитать`;</span>
           </p>
           <p style={{ marginLeft: "20px" }}>
             {"5. Если вы ошибочно выбрали даты, нажмите кнопку "}
-            <button type="button" className={styleConflict.closeBtnForText}>Очистить</button>
-            .
+            <span style={{ fontStyle: "italic" }}>`Очистить`.</span>
           </p>
           <h4 style={{ fontWeight: "400", marginBottom: "0" }}>
             {"После этого, если "}
@@ -80,29 +78,22 @@ export default function ConfirmBookingWindow({
                 <p>
                   {"Для него у Вас на данный момент "}
                   <span style={{ fontWeight: "bold", color: "#f03333" }}>{baseOrder.equipment?.conflicts.length}</span>
-                  {" конфликтов. Нажмите на нужные даты в календаре и разрешите их."}
+                  {" конфликт(ов). Нажмите на нужные даты в календаре и разрешите их."}
                 </p>
-                <div id="riddler" className={styleConflict.riddler}>?</div>
-                <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
-                  {generateClue("WINDOW_TIMELINE")}
-                </Tooltip>
               </>
             )
             : (
-              <>
-                <p>
-                  {"Подсчет смен для "}
-                  <span style={{ fontWeight: "bold", color: "#f03333" }}>{calculatedOrSelectedDevice.title}</span>
-                  {" прошел успешно. Вы можете внести изменения нажав на день в календаре или завершить бронирование, нажав на кнопку"}
-                  <button type="button" style={{ width: "230px", marginTop: "10px" }} className={styleConflict.reserveBtnForText}>Подтвердить бронирование</button>
-                  .
-                </p>
-                <div id="riddler" className={styleConflict.riddler}>?</div>
-                <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
-                  {generateClue("WINDOW_TIMELINE")}
-                </Tooltip>
-              </>
+              <p>
+                {"Подсчет смен для "}
+                <span style={{ fontWeight: "bold", color: "#f03333" }}>{calculatedOrSelectedDevice.title}</span>
+                {" прошел успешно. Вы можете внести изменения нажав на день в календаре или завершить бронирование, нажав на кнопку"}
+                <span style={{ fontStyle: "italic" }}>`Подтвердить бронирование`.</span>
+              </p>
             )}
+          <div id="riddler" className={styleConflict.riddler}>?</div>
+          <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
+            {generateClue("WINDOW_TIMELINE")}
+          </Tooltip>
         </div>
         )}
 
