@@ -31,6 +31,7 @@
     display: flex;
     align-items: end;
     gap: 40px;
+    position: relative;
 }
 
 .sort-box_item {
@@ -170,6 +171,10 @@
     cursor: pointer;
     box-sizing: border-box;
     margin-right: 20px;
+}
+
+.sort-box_item .reserved-btn{
+    margin-bottom: 35px;
 }
 
 .reserved-btn-locked {
@@ -553,9 +558,9 @@
 }
 
 .react-tooltip {
-    background: #484848 !important;
+    background: #5b5b5b  !important;
     z-index: 101;
-
+    opacity: 1 !important;
 }
 
 .fc .fc-highlight {
@@ -571,4 +576,9 @@
     -ms-user-select: none;       /* Internet Explorer/Edge */
     user-select: none;           /* Non-prefixed version, currently
                                   not supported by any browser */
+}
+
+.container.sort-box #riddler{
+    top: 10px;
+    right: 10px;
 }

@@ -308,12 +308,11 @@ export default function TimelinePage() {
                 </button>
               </div>
             </div>
-
+            <div id="riddler" className={styleConflict.riddler}>?</div>
+            <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
+              {generateClue("WINDOW_TIMELINE")}
+            </Tooltip>
           </div>
-          <div id="riddler" className={styleConflict.riddler}>?</div>
-          <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
-            {generateClue("WINDOW_TIMELINE")}
-          </Tooltip>
           <TimeLineRenderer
             groups={
               toolsCount
