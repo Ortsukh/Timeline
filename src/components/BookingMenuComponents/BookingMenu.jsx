@@ -58,6 +58,32 @@ export default function BookingMenu({
       key: "selection1",
     },
   });
+  console.log("editOrderData", editOrderData, currentDevice);
+
+  useEffect(() => {
+    if (isEditMode) {
+      const editItems = items.filter(
+        (item) => item.rentOrderId === editOrderData.rentOrderId,
+      );
+      setBaseOrder((prev) => ({ ...prev, preOrders: editItems, equipment: { ...currentDevice, conflicts: [] } }));
+
+      const editDates = [];
+      const events = [];
+      editItems.forEach((item) => {
+        editDates.push(item.date);
+        events.push({
+          start: item.date,
+          extendedProps: { shift: item.grid.indexOf("1"), title: groups.find((group) => group.id === item.group).title },
+          backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
+        });
+      });
+      setSelectedDates(editDates);
+      setCalendarEvent(events);
+      setIsActiveCalendar(false);
+      setShowStartDisplayConflict(false);
+    }
+  }, [editOrderData, isEditMode]);
+  console.log(baseOrder);
   const initialCurrentDeviceIndex = groups
     .map((current) => current.id)
     .indexOf(currentDevice.id);
@@ -109,6 +135,7 @@ export default function BookingMenu({
       } else if (!currentEquipment.dates[selectedDate] || (currentEquipment.dates[selectedDate] && currentEquipment.dates[selectedDate][baseOrderShiftTime] === "0")) {
         events.push({
           start: selectedDate,
+          extendedProps: { shift: baseOrderShiftTime, title: currentEquipment.title },
           backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
         });
         baseOrder.preOrders.push(generatePreOrders(currentEquipment, selectedDate));
@@ -128,16 +155,19 @@ export default function BookingMenu({
         ) {
           events.push({
             start: selectedDate,
+            extendedProps: { shift: baseOrderShiftTime, title: currentEquipment.title },
             backgroundColor: ITEMS_PREORDER_COLOR.orderedInThisShiftAndNear.backgroundColor,
           });
         } else if (commonMapsEquipmentSelectedDate[shiftTime] < groupsLength) {
           events.push({
             start: selectedDate,
+            extendedProps: { shift: baseOrderShiftTime, title: currentEquipment.title },
             backgroundColor: ITEMS_PREORDER_COLOR.orderedButFreeInOtherEquipment.backgroundColor,
           });
         } else {
           events.push({
             start: selectedDate,
+            extendedProps: { shift: baseOrderShiftTime, title: currentEquipment.title },
             backgroundColor: ITEMS_PREORDER_COLOR.orderedInAllEquipment.backgroundColor,
           });
         }
@@ -262,7 +292,19 @@ export default function BookingMenu({
     setSelectedPreferredDevice(selectValueBeforeCalculation);
   };
   const pushOrderInBasePreOrder = (newOrder) => {
-    const newPreOrder = [...baseOrder.preOrders, newOrder];
+    let isNew = 0;
+    let newPreOrder;
+    newPreOrder = baseOrder.preOrders.map((order) => {
+      if (order.data === newOrder.data) {
+        isNew = 1;
+        return newOrder;
+      }
+      return order;
+    });
+    if (!isNew) {
+      newPreOrder = [...baseOrder.preOrders, newOrder];
+    }
+
     setBaseOrder((prev) => ({
       ...prev,
       preOrders: newPreOrder,
@@ -273,7 +315,7 @@ export default function BookingMenu({
     }));
     setCalendarEvent((prev) => prev.map((el) => {
       if (el.start === newOrder.date) {
-        return { ...el, backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor };
+        return { ...el, backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor, extendedProps: { shift: baseOrder.shiftTime, title: newOrder.title } };
       }
       return el;
     }));
@@ -297,7 +339,7 @@ export default function BookingMenu({
             currentDevice={currentDevice}
             baseOrder={baseOrder}
             setBaseOrder={setBaseOrder}
-            items={updatedItems}
+            items={items}
             groups={groups}
             setIsConfirmWindowOpen={setIsConfirmWindowOpen}
             setOrderContent={setOrderContent}
@@ -322,50 +364,50 @@ export default function BookingMenu({
         </div>
 
         <div className={style.bookingDateColumn}>
-          {isEditMode ? (
-            <div>
-              <BookingTimeline
-                editOrderData={editOrderData}
-                isEditMode={isEditMode}
-                setCurrentDevice={setCurrentDevice}
-                currentDevice={currentDevice}
-                groups={groups}
-                itemsPreOrder={itemsPreOrder}
-                setItemsPreOrder={setItemsPreOrder}
-                setUpdatedItems={setUpdatedItems}
-                setCopyEditItems={setCopyEditItems}
-                items={items}
-                orderDatePlanning={orderDatePlanning}
-                currentDeviceIndex={currentDeviceIndex}
-                setCurrentDeviceIndex={setCurrentDeviceIndex}
-                selectedCompany={selectedCompany}
-              />
-            </div>
-          )
-            : (
-              <ConfirmBookingWindow
-                editOrderData={editOrderData}
-                isEditMode={isEditMode}
-                setCurrentDevice={setCurrentDevice}
-                groups={groups}
-                setItemsPreOrder={setItemsPreOrder}
-                setUpdatedItems={setUpdatedItems}
-                setCopyEditItems={setCopyEditItems}
-                items={items}
-                orderDatePlanning={orderDatePlanning}
-                currentDeviceIndex={currentDeviceIndex}
-                setCurrentDeviceIndex={setCurrentDeviceIndex}
-                selectedCompany={selectedCompany}
-                selectedConflictDate={selectedConflictDate}
-                setSelectedConflictDate={setSelectedConflictDate}
-                baseOrder={baseOrder}
-                showStartDisplayConflict={showStartDisplayConflict}
-                pushOrderInBasePreOrder={pushOrderInBasePreOrder}
-                keyRerenderConflictResolutionWindow={keyRerenderConflictResolutionWindow}
-                statusCheckboxSelected={statusCheckboxSelected}
-                handleSetSelectedConflictDate={handleSetSelectedConflictDate}
-              />
-            )}
+          {/* {isEditMode ? ( */}
+          {/*  <div> */}
+          {/*    <BookingTimeline */}
+          {/*      editOrderData={editOrderData} */}
+          {/*      isEditMode={isEditMode} */}
+          {/*      setCurrentDevice={setCurrentDevice} */}
+          {/*      currentDevice={currentDevice} */}
+          {/*      groups={groups} */}
+          {/*      itemsPreOrder={itemsPreOrder} */}
+          {/*      setItemsPreOrder={setItemsPreOrder} */}
+          {/*      setUpdatedItems={setUpdatedItems} */}
+          {/*      setCopyEditItems={setCopyEditItems} */}
+          {/*      items={items} */}
+          {/*      orderDatePlanning={orderDatePlanning} */}
+          {/*      currentDeviceIndex={currentDeviceIndex} */}
+          {/*      setCurrentDeviceIndex={setCurrentDeviceIndex} */}
+          {/*      selectedCompany={selectedCompany} */}
+          {/*    /> */}
+          {/*  </div> */}
+          {/* ) */}
+          {/*  : ( */}
+          <ConfirmBookingWindow
+            editOrderData={editOrderData}
+            isEditMode={isEditMode}
+            setCurrentDevice={setCurrentDevice}
+            groups={groups}
+            setItemsPreOrder={setItemsPreOrder}
+            setUpdatedItems={setUpdatedItems}
+            setCopyEditItems={setCopyEditItems}
+            items={items}
+            orderDatePlanning={orderDatePlanning}
+            currentDeviceIndex={currentDeviceIndex}
+            setCurrentDeviceIndex={setCurrentDeviceIndex}
+            selectedCompany={selectedCompany}
+            selectedConflictDate={selectedConflictDate}
+            setSelectedConflictDate={setSelectedConflictDate}
+            baseOrder={baseOrder}
+            showStartDisplayConflict={showStartDisplayConflict}
+            pushOrderInBasePreOrder={pushOrderInBasePreOrder}
+            keyRerenderConflictResolutionWindow={keyRerenderConflictResolutionWindow}
+            statusCheckboxSelected={statusCheckboxSelected}
+            handleSetSelectedConflictDate={handleSetSelectedConflictDate}
+          />
+
         </div>
       </div>
       {isConfirmWindowOpen && (

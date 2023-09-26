@@ -15,13 +15,22 @@ import CalendarSwitch from "../../../Switch/CalendarSwitch";
 const events = [];
 
 function renderEventContent(eventInfo) {
+  console.log(eventInfo.event.extendedProps);
   const color = eventInfo.backgroundColor || "#ffa4a4";
   const obj = {
-    height: 30,
+    height: 40,
     backgroundColor: color,
     width: 50,
+    color: "#000000",
+    display: "flex",
+    flexDirection: "column",
   };
-  return <div style={obj} />;
+  return (<div style={obj} />
+  // <div style={obj}>
+  //   <span>{`Смена: ${eventInfo.event.extendedProps.shift}`}</span>
+  //   <span>{eventInfo.event.extendedProps.title}</span>
+  // </div>
+  );
 }
 
 export default function BookingCalendar({
@@ -55,11 +64,25 @@ export default function BookingCalendar({
         cell.firstChild.classList.remove(style.gridActiveBG);
       });
     }
-  }, [isActiveCalendar, selectedDates]);
+  }, [selectedDates]);
 
   const checkShiftPerDay = (cell) => {
     cell.firstChild.classList.add(style.gridActiveBG);
   };
+
+  useEffect(() => {
+    if (!selectedDates.length || !isActiveCalendar) {
+      const calendar = calendarRef.current.elRef.current;
+      const calendarDayCell = calendar.querySelectorAll(
+        ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
+      );
+      calendarDayCell.forEach((cell) => {
+        if (selectedDates.find((date) => date === cell.dataset.date)) {
+          checkShiftPerDay(cell);
+        }
+      });
+    }
+  }, [isActiveCalendar]);
 
   const checkAndActiveCell = (days) => {
     const selectedDays = [];
@@ -194,7 +217,6 @@ export default function BookingCalendar({
       ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
     );
     calendarDayCell.forEach((cell) => {
-      console.log(cell.dataset.date);
       if (moment(cell.dataset.date).isBefore(moment(time.end))
           && moment(cell.dataset.date).isSameOrAfter(moment(time.start))
           && selectedDates.includes(cell.dataset.date)) {
@@ -227,7 +249,7 @@ export default function BookingCalendar({
           <FullCalendar
             className="unselectable"
             datesSet={(e) => handleChangeMonth(e)}
-            height={485}
+            height={500}
             fixedWeekCount={false}
             ref={calendarRef}
             plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
