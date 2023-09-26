@@ -36,6 +36,8 @@ export default function WindowTimeline({
   const endOfDay = (day) => day.endOf("day");
   // const startDate = today.startOf("day");
   // const endDate = today.startOf("day");
+  const isDayWithConflict = baseOrder.equipment.conflicts.includes(selectedConflictDate);
+  console.log("isDayWithConflict", isDayWithConflict);
   const [visibleTimeStart, setVisibleTimeStart] = useState(startOfDay(today).valueOf());
   const [visibleTimeEnd, setVisibleTimeEnd] = useState(endOfDay(today).valueOf());
   const startTimeSelectedItem = today.clone().set("hour", currentTime).startOf("hour");
@@ -52,7 +54,7 @@ export default function WindowTimeline({
     itemProps:
       {
         style: {
-          background: "rgba(255,255,255,0)",
+          background: isDayWithConflict ? "rgba(128,128,128,0)" : "rgba(128,128,128)",
           borderRight: "1px solid red",
           borderLeft: "1px solid red",
           color: "red",
