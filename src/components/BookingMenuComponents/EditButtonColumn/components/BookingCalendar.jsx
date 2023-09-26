@@ -61,6 +61,21 @@ export default function BookingCalendar({
     cell.firstChild.classList.add(style.gridActiveBG);
   };
 
+  const checkAndActiveCell = (days) => {
+    const selectedDays = [];
+    days.forEach((cell) => {
+      checkShiftPerDay(cell);
+      if (selectedDates.find((date) => date === cell.dataset.date)
+          || moment(cell.dataset.date).isBefore(moment().startOf("day"))) {
+        cell.firstChild.classList.remove(style.gridActiveBG);
+        setSelectedDates((prev) => prev.filter((date) => date !== cell.dataset.date));
+      } else {
+        selectedDays.push(cell.dataset.date);
+      }
+    });
+    setSelectedDates((prev) => prev.concat(selectedDays));
+  };
+
   const rectangleSelect = () => {
     let startX;
     let startY;
@@ -86,7 +101,6 @@ export default function BookingCalendar({
     const calendarDayCell = calendar.querySelectorAll(
       ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
     );
-    const selectedDays = [];
     const cells = [];
     calendarDayCell.forEach((cell) => {
       const cellCoord = cell.getBoundingClientRect();
@@ -153,20 +167,6 @@ export default function BookingCalendar({
       cell.firstChild.classList.remove(style.gridActiveBG);
     });
   };
-  const checkAndActiveCell = (days) => {
-    const selectedDays = [];
-    days.forEach((cell) => {
-      checkShiftPerDay(cell);
-      if (selectedDates.find((date) => date === cell.dataset.date)
-          || moment(cell.dataset.date).isBefore(moment().startOf("day"))) {
-        cell.firstChild.classList.remove(style.gridActiveBG);
-        setSelectedDates((prev) => prev.filter((date) => date !== cell.dataset.date));
-      } else {
-        selectedDays.push(cell.dataset.date);
-      }
-    });
-    setSelectedDates((prev) => prev.concat(selectedDays));
-  };
   const selectAllSimilarDayInMonth = (day) => {
     if (isDefaultSelect) return;
     const calendar = calendarRef.current.elRef.current;
@@ -176,7 +176,13 @@ export default function BookingCalendar({
     checkAndActiveCell(days);
   };
   const injectDayHeaderContent = (args) => (
-    <span style={{ cursor: "pointer" }} onClick={() => selectAllSimilarDayInMonth(moment(args.date).locale("en").format("ddd"))}>
+    <span
+      style={{ cursor: "pointer" }}
+      onClick={() => {
+        selectAllSimilarDayInMonth(moment(args.date).locale("en").format("ddd"));
+      }}
+      aria-hidden="true"
+    >
       {moment(args.date).format("ddd")}
     </span>
   );

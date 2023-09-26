@@ -321,46 +321,50 @@ export default function BookingMenu({
         </div>
 
         <div className={style.bookingDateColumn}>
-          <div style={{ display: "none" }}>
-            <BookingTimeline
-              editOrderData={editOrderData}
-              isEditMode={isEditMode}
-              setCurrentDevice={setCurrentDevice}
-              currentDevice={currentDevice}
-              groups={groups}
-              itemsPreOrder={itemsPreOrder}
-              setItemsPreOrder={setItemsPreOrder}
-              setUpdatedItems={setUpdatedItems}
-              setCopyEditItems={setCopyEditItems}
-              items={items}
-              orderDatePlanning={orderDatePlanning}
-              currentDeviceIndex={currentDeviceIndex}
-              setCurrentDeviceIndex={setCurrentDeviceIndex}
-              selectedCompany={selectedCompany}
-            />
-          </div>
-          <ConfirmBookingWindow
-            editOrderData={editOrderData}
-            isEditMode={isEditMode}
-            setCurrentDevice={setCurrentDevice}
-            groups={groups}
-            setItemsPreOrder={setItemsPreOrder}
-            setUpdatedItems={setUpdatedItems}
-            setCopyEditItems={setCopyEditItems}
-            items={items}
-            orderDatePlanning={orderDatePlanning}
-            currentDeviceIndex={currentDeviceIndex}
-            setCurrentDeviceIndex={setCurrentDeviceIndex}
-            selectedCompany={selectedCompany}
-            selectedConflictDate={selectedConflictDate}
-            setSelectedConflictDate={setSelectedConflictDate}
-            baseOrder={baseOrder}
-            showStartDisplayConflict={showStartDisplayConflict}
-            pushOrderInBasePreOrder={pushOrderInBasePreOrder}
-            keyRerenderConflictResolutionWindow={keyRerenderConflictResolutionWindow}
-            statusCheckboxSelected={statusCheckboxSelected}
-            handleSetSelectedConflictDate={handleSetSelectedConflictDate}
-          />
+          {isEditMode ? (
+            <div>
+              <BookingTimeline
+                editOrderData={editOrderData}
+                isEditMode={isEditMode}
+                setCurrentDevice={setCurrentDevice}
+                currentDevice={currentDevice}
+                groups={groups}
+                itemsPreOrder={itemsPreOrder}
+                setItemsPreOrder={setItemsPreOrder}
+                setUpdatedItems={setUpdatedItems}
+                setCopyEditItems={setCopyEditItems}
+                items={items}
+                orderDatePlanning={orderDatePlanning}
+                currentDeviceIndex={currentDeviceIndex}
+                setCurrentDeviceIndex={setCurrentDeviceIndex}
+                selectedCompany={selectedCompany}
+              />
+            </div>
+          )
+            : (
+              <ConfirmBookingWindow
+                editOrderData={editOrderData}
+                isEditMode={isEditMode}
+                setCurrentDevice={setCurrentDevice}
+                groups={groups}
+                setItemsPreOrder={setItemsPreOrder}
+                setUpdatedItems={setUpdatedItems}
+                setCopyEditItems={setCopyEditItems}
+                items={items}
+                orderDatePlanning={orderDatePlanning}
+                currentDeviceIndex={currentDeviceIndex}
+                setCurrentDeviceIndex={setCurrentDeviceIndex}
+                selectedCompany={selectedCompany}
+                selectedConflictDate={selectedConflictDate}
+                setSelectedConflictDate={setSelectedConflictDate}
+                baseOrder={baseOrder}
+                showStartDisplayConflict={showStartDisplayConflict}
+                pushOrderInBasePreOrder={pushOrderInBasePreOrder}
+                keyRerenderConflictResolutionWindow={keyRerenderConflictResolutionWindow}
+                statusCheckboxSelected={statusCheckboxSelected}
+                handleSetSelectedConflictDate={handleSetSelectedConflictDate}
+              />
+            )}
         </div>
       </div>
       {isConfirmWindowOpen && (

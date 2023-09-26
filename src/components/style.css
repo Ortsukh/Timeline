@@ -554,6 +554,8 @@
 
 .react-tooltip {
     background: #484848 !important;
+    z-index: 101;
+
 }
 
 .fc .fc-highlight {

@@ -2,6 +2,7 @@ import React from "react";
 import "../style.css";
 
 export default function AlertWindow({ message }) {
+  console.log(message);
   return (
     <div
       className="messageWindow"
