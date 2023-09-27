@@ -28,6 +28,7 @@ import BookingMenu from "../components/BookingMenuComponents/BookingMenu";
 import styleConflict
   from "../components/BookingMenuComponents/BookingDateColumn/ConflictResolutionWindow/Conflict.module.css";
 import { generateClue } from "../common/GenerateElementsData";
+import CompaniesSelect from "../components/FilterComponents/CompaniesSelect";
 
 export default function TimelinePage() {
   const [groups, setGroups] = useState([]);
@@ -62,6 +63,9 @@ export default function TimelinePage() {
   const [isBookingMenu, setIsBookingMenu] = useState(false);
   const [isClickingOnEmptyFilter, setIsClickingOnEmptyFilter] = useState(false);
   const [showButtonClear, setShowButtonClear] = useState(true);
+  const [isClickedOnNew, setIsClickedOnNew] = useState(false);
+
+  const [selectedCompany, setSelectedCompany] = useState(null);
 
   useEffect(() => {
     getUser().then((res) => {
@@ -70,6 +74,9 @@ export default function TimelinePage() {
         getCompanies().then((response) => {
           setCompanies(response);
         });
+      }
+      if (res.role === "ROLE_COMPANY") {
+        setSelectedCompany(res);
       }
     });
   }, []);
@@ -108,7 +115,6 @@ export default function TimelinePage() {
   };
 
   const openAlertWindow = (message) => {
-    console.log(message);
     setIsOpenAlertWindow({
       status: true,
       message,
@@ -220,13 +226,15 @@ export default function TimelinePage() {
   };
 
   const createBook = () => {
-    if (selectedGroups.length === 0) {
+    if (selectedGroups.length === 0 || !selectedCompany) {
       setIsClickingOnEmptyFilter(true);
+      setIsClickedOnNew(true);
     } else {
       setCurrentDevice(
         groups.filter((group) => selectedGroups.includes(group.category))[0],
       );
       setIsBookingMenu(true);
+      setIsClickedOnNew(false);
     }
   };
   const closeBookingWindow = () => {
@@ -266,6 +274,7 @@ export default function TimelinePage() {
           showButtonClear={showButtonClear}
           user={user}
           companies={companies}
+          selectedCompany={selectedCompany}
           //! <-ToolsFilter
         />
       ) : (
@@ -297,6 +306,17 @@ export default function TimelinePage() {
                 orderDate={orderDate}
               />
             </div>
+            {user.role === "ROLE_MANAGER" && (
+            <div className="sort-box_item">
+              <CompaniesSelect
+                selectedCompany={selectedCompany}
+                companies={companies}
+                setSelectedCompany={setSelectedCompany}
+                isClickedOnNew={isClickedOnNew}
+              />
+            </div>
+
+            )}
             <div className="sort-box_item">
               <div>
                 <button
@@ -308,6 +328,7 @@ export default function TimelinePage() {
                 </button>
               </div>
             </div>
+
             <div id="riddler" className={styleConflict.riddler}>?</div>
             <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
               {generateClue("WINDOW_TIMELINE")}

@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import Select from "react-select";
 import "../style.css";
 
-export default function CompaniesSelect({ companies, setSelectedCompany, isClickedOnConfirm }) {
-  const [selectValue, setSelectValue] = useState(null);
-  console.log(isClickedOnConfirm);
+export default function CompaniesSelect({
+  selectedCompany,
+  companies,
+  setSelectedCompany,
+  isClickedOnNew,
+}) {
   const handleChange = (e) => {
-    setSelectValue(e);
     setSelectedCompany({
+      ...e,
       id: e.value,
       name: e.label,
     });
@@ -27,9 +30,9 @@ export default function CompaniesSelect({ companies, setSelectedCompany, isClick
         className="select-filter"
         options={getOptionsForSearch(companies)}
         onChange={handleChange}
-        value={selectValue}
+        value={selectedCompany}
       />
-      {!selectValue && isClickedOnConfirm && (
+      {!selectedCompany && isClickedOnNew && (
         <div className="tooltip">Пожалуйста, выберите компанию</div>
       )}
       {/* <button type="button" className="clear-button" onClick={handleReset}> */}
