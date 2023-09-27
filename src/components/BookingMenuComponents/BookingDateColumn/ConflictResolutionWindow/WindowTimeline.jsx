@@ -11,7 +11,7 @@ import style from "../BookingTimeline.module.css";
 import "../../../style.css";
 import { addGrid } from "../../../../common/DataConvertHelper";
 import styleConflict from "./Conflict.module.css";
-// import EquipmentDescription from "../components/EquipmentDescription";
+import EquipmentDescription from "../components/EquipmentDescription";
 
 export default function WindowTimeline({
   items,
@@ -56,7 +56,7 @@ export default function WindowTimeline({
   filteredItems.push({
     id: "X_MARK",
     group: curIdDevForGreen || curIdDevice,
-    // title: "X",
+    title: "X",
     start_time: setStartTimeSelectedItem(curTimeForGreen),
     end_time: setEndTimeSelectedItem(curTimeForGreen),
     // className: "x_mark",
@@ -64,7 +64,7 @@ export default function WindowTimeline({
       {
         style: {
           // background: isDayWithConflict ? "rgba(128,128,128,0)" : "rgba(128,128,128)",
-          // background: "rgba(128,128,128,0)",
+          background: "rgba(128,128,128,0)",
           width: "20px",
           height: "20px",
           // eslint-disable-next-line
@@ -221,7 +221,7 @@ export default function WindowTimeline({
     };
     pushOrderInBasePreOrder(formattedConsideredCell);
   };
-
+  console.log(curIdDevForGreen || +curIdDevice);
   return (
     <>
       <div className={style.containerTimeline}>
@@ -371,7 +371,7 @@ export default function WindowTimeline({
           Пропустить
         </button>
       </div>
-      {/* <EquipmentDescription equipment={baseOrder.equipment} /> */}
+      <EquipmentDescription equipment={groups.find((group) => group.id === (+curIdDevForGreen || +curIdDevice))} />
     </>
   );
 }

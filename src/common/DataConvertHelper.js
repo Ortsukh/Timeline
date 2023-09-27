@@ -9,17 +9,17 @@ const createEquipmentObject = (item, elem) => ({
   category: elem.name,
   shiftLength: elem.shiftLength,
   price: item.price,
-  shortDescription: item.shortDescription,
-  img: item.img,
-
+  description: item.description,
+  img: item.image,
+  shortTitle: item.shortName,
 });
 
 export const createEquipmentGroup = (equipments) => {
   const result = [];
-  console.log(equipments);
   equipments.forEach((elem) => {
     if (elem.kitchenEquipment.length > 0) {
       elem.kitchenEquipment.forEach((item) => {
+        console.log(item, elem);
         result.push(createEquipmentObject(item, elem));
       });
     }

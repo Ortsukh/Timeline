@@ -60,7 +60,7 @@ export default function BookingMenu({
         editDates.push(item.date);
         events.push({
           start: item.date,
-          extendedProps: { shift: item.grid.indexOf("1"), title: groups.find((group) => group.id === item.group).title },
+          extendedProps: { shift: item.grid.indexOf("1"), shiftLength: currentDevice.shiftLength, shortTitle: groups.find((group) => group.id === item.group).shortTitle },
           backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
         });
       });
@@ -115,7 +115,9 @@ export default function BookingMenu({
       } else if (!currentEquipment.dates[selectedDate] || (currentEquipment.dates[selectedDate] && currentEquipment.dates[selectedDate][baseOrderShiftTime] === "0")) {
         events.push({
           start: selectedDate,
-          extendedProps: { shift: baseOrderShiftTime, title: currentEquipment.title, groupId: equipmentId },
+          extendedProps: {
+            shift: baseOrderShiftTime, shortTitle: currentEquipment.shortTitle, shiftLength: currentDevice.shiftLength, groupId: equipmentId,
+          },
           backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
         });
         baseOrder.preOrders.push(generatePreOrders(currentEquipment, selectedDate));
@@ -135,19 +137,25 @@ export default function BookingMenu({
         ) {
           events.push({
             start: selectedDate,
-            extendedProps: { shift: baseOrderShiftTime, title: currentEquipment.title },
+            extendedProps: {
+              shift: baseOrderShiftTime, shortTitle: currentEquipment.shortTitle, shiftLength: currentDevice.shiftLength, groupId: equipmentId,
+            },
             backgroundColor: ITEMS_PREORDER_COLOR.orderedInThisShiftAndNear.backgroundColor,
           });
         } else if (commonMapsEquipmentSelectedDate[shiftTime] < groupsLength) {
           events.push({
             start: selectedDate,
-            extendedProps: { shift: baseOrderShiftTime, title: currentEquipment.title },
+            extendedProps: {
+              shift: baseOrderShiftTime, shortTitle: currentEquipment.shortTitle, shiftLength: currentDevice.shiftLength, groupId: equipmentId,
+            },
             backgroundColor: ITEMS_PREORDER_COLOR.orderedButFreeInOtherEquipment.backgroundColor,
           });
         } else {
           events.push({
             start: selectedDate,
-            extendedProps: { shift: baseOrderShiftTime, title: currentEquipment.title },
+            extendedProps: {
+              shift: baseOrderShiftTime, shortTitle: currentEquipment.shortTitle, shiftLength: currentDevice.shiftLength, groupId: equipmentId,
+            },
             backgroundColor: ITEMS_PREORDER_COLOR.orderedInAllEquipment.backgroundColor,
           });
         }
@@ -288,7 +296,13 @@ export default function BookingMenu({
     }));
     setCalendarEvent((prev) => prev.map((el) => {
       if (el.start === newOrder.date) {
-        return { ...el, backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor, extendedProps: { shift: newOrder.grid.indexOf("1"), title: newOrder.title, groupId: newOrder.group } };
+        return {
+          ...el,
+          backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
+          extendedProps: {
+            shift: newOrder.grid.indexOf("1"), shiftLength: currentDevice.shiftLength, shortTitle: groups.find((group) => newOrder.group === group.id).shortTitle, groupId: newOrder.group,
+          },
+        };
       }
       return el;
     }));
