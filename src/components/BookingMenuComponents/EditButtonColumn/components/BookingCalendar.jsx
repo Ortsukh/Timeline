@@ -11,6 +11,7 @@ import { Tooltip } from "react-tooltip";
 import style from "../EditButtonColumn.module.css";
 import { generateClue } from "../../../../common/GenerateElementsData";
 import CalendarSwitch from "../../../Switch/CalendarSwitch";
+import "../../../style.css";
 
 const events = [];
 
@@ -45,6 +46,14 @@ export default function BookingCalendar({
   const calendarRef = useRef();
   const [event, setEvent] = useState(events);
   const handleEventClick = (clickInfo) => {
+    const calendar = calendarRef.current.elRef.current;
+    const calendarDayCell = calendar.querySelectorAll(
+      ".activeCell",
+    );
+    if (calendarDayCell[0]) {
+      calendarDayCell[0].classList.remove("activeCell");
+    }
+    clickInfo.el.classList.add("activeCell");
     const day = moment(clickInfo.event.start).format("YYYY-MM-DD");
     handleSetSelectedConflictDate(day);
   };
@@ -57,7 +66,7 @@ export default function BookingCalendar({
     if (!selectedDates.length || !isActiveCalendar) {
       const calendar = calendarRef.current.elRef.current;
       const calendarDayCell = calendar.querySelectorAll(
-        ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
+        ".fc-day.fc-daygrid-day:not(.fc-day-other)",
       );
       calendarDayCell.forEach((cell) => {
         cell.firstChild.classList.remove(style.gridActiveBG);
@@ -73,7 +82,7 @@ export default function BookingCalendar({
     if (!selectedDates.length || !isActiveCalendar) {
       const calendar = calendarRef.current.elRef.current;
       const calendarDayCell = calendar.querySelectorAll(
-        ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
+        ".fc-day.fc-daygrid-day:not(.fc-day-other)",
       );
       calendarDayCell.forEach((cell) => {
         if (selectedDates.find((date) => date === cell.dataset.date)) {
@@ -121,7 +130,7 @@ export default function BookingCalendar({
     if (!calendarRef.current) return;
     const calendar = calendarRef.current.elRef.current;
     const calendarDayCell = calendar.querySelectorAll(
-      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
+      ".fc-day.fc-daygrid-day:not(.fc-day-other)",
     );
     const cells = [];
     calendarDayCell.forEach((cell) => {
@@ -152,6 +161,44 @@ export default function BookingCalendar({
     rectangleSelect();
   }, [endCoord]);
 
+  const disabledCells = () => {
+    if (!calendarRef.current) return;
+    const calendar = calendarRef.current.elRef.current;
+    const calendarDayCell = calendar.querySelectorAll(
+      ".fc-day-past",
+    );
+    calendarDayCell.forEach((cell) => {
+      cell.firstChild.classList.add(style.gridDisabledBG);
+    });
+  };
+
+  const selectAllSimilarDayInMonth = (element) => {
+    if (isDefaultSelect) return;
+    const calendar = calendarRef.current.elRef.current;
+    const days = calendar.querySelectorAll(
+      `.fc-day.${element}.fc-daygrid-day:not(.fc-day-other)`,
+    );
+    checkAndActiveCell(days);
+  };
+
+  useEffect(() => {
+    if (!calendarRef.current && !isDefaultSelect) return;
+    const calendar = calendarRef.current.elRef.current;
+    const calendarHeaderCells = calendar.querySelectorAll(
+      ".fc-col-header-cell",
+    );
+    calendarHeaderCells.forEach((element, index) => {
+      element.onclick = function selectDays() { selectAllSimilarDayInMonth(element.classList[2]); };
+      element.style.cursor = "pointer";
+      if (index === 5 || index === 6) {
+        element.style.color = "red";
+      }
+    });
+  }, [isDefaultSelect]);
+
+  useEffect(() => {
+    disabledCells();
+  }, []);
   const handleChangeMouse = (e) => {
     if (isDefaultSelect || !isActiveCalendar) {
       return;
@@ -166,6 +213,13 @@ export default function BookingCalendar({
   const handleSelect = (data) => {
     setEvent([]);
     const selectedDays = [];
+    const calendar = calendarRef.current.elRef.current;
+    const calendarDayCell = calendar.querySelectorAll(
+      ".fc-day.fc-daygrid-day",
+    );
+    calendarDayCell.forEach((cell) => {
+      cell.firstChild.classList.remove(style.gridActiveBG);
+    });
     let date1 = data.start;
     while (moment(date1).isBefore(data.end)) {
       if (moment(date1).isBefore(moment().startOf("day"))) {
@@ -183,37 +237,19 @@ export default function BookingCalendar({
     setSelectedDates([]);
     const calendar = calendarRef.current.elRef.current;
     const calendarDayCell = calendar.querySelectorAll(
-      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
+      ".fc-day.fc-daygrid-day:not(.fc-day-other)",
     );
     calendarDayCell.forEach((cell) => {
       cell.firstChild.classList.remove(style.gridActiveBG);
     });
   };
-  const selectAllSimilarDayInMonth = (day) => {
-    if (isDefaultSelect) return;
-    const calendar = calendarRef.current.elRef.current;
-    const days = calendar.querySelectorAll(
-      `.fc-day.fc-day-${day.toLowerCase()}.fc-daygrid-day:not(.fc-day-disabled)`,
-    );
-    checkAndActiveCell(days);
-  };
-  const injectDayHeaderContent = (args) => (
-    <span
-      style={{ cursor: "pointer" }}
-      onClick={() => {
-        selectAllSimilarDayInMonth(moment(args.date).locale("en").format("ddd"));
-      }}
-      aria-hidden="true"
-    >
-      {moment(args.date).format("ddd")}
-    </span>
-  );
 
   const handleChangeMonth = (time) => {
+    disabledCells();
     if (!calendarRef.current) return;
     const calendar = calendarRef.current.elRef.current;
     const calendarDayCell = calendar.querySelectorAll(
-      ".fc-day.fc-daygrid-day:not(.fc-day-disabled)",
+      ".fc-day.fc-daygrid-day:not(.fc-day-other)",
     );
     calendarDayCell.forEach((cell) => {
       if (moment(cell.dataset.date).isBefore(moment(time.end))
@@ -252,16 +288,20 @@ export default function BookingCalendar({
             fixedWeekCount={false}
             ref={calendarRef}
             plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
-            showNonCurrentDates={false}
+            // showNonCurrentDates={false}
             selectable={isDefaultSelect && isActiveCalendar}
             selectMirror
             select={(data) => handleSelect(data)}
             // initialView="dayGridMonth"
-            dayHeaderContent={injectDayHeaderContent}
+            // dayHeaderContent={injectDayHeaderContent}
             locale="ru"
             firstDay="1"
             weekends
-            selectAllow={(date) => (!!moment(date.start).isSameOrAfter(moment().startOf("day")))}
+            selectAllow={(date) => {
+              const calendar = calendarRef.current;
+              const range = calendar.calendar.currentData.dateProfile.currentRange;
+              return !!moment(date.start).isSameOrAfter(moment().startOf("day")) && !!moment(date.end).isSameOrBefore(moment(range.end).startOf("day")) && !!moment(date.start).isSameOrAfter(moment(range.start).startOf("day"));
+            }}
             eventClick={handleEventClick}
             events={event}
             eventContent={renderEventContent}
