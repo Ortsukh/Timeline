@@ -9,17 +9,17 @@ const createEquipmentObject = (item, elem) => ({
   category: elem.name,
   shiftLength: elem.shiftLength,
   price: item.price,
-  description: item.description,
-  img: item.image,
-  shortTitle: item.shortName,
+  shortDescription: item.shortDescription,
+  img: item.img,
+
 });
 
 export const createEquipmentGroup = (equipments) => {
   const result = [];
+  console.log(equipments);
   equipments.forEach((elem) => {
     if (elem.kitchenEquipment.length > 0) {
       elem.kitchenEquipment.forEach((item) => {
-        console.log(item, elem);
         result.push(createEquipmentObject(item, elem));
       });
     }
@@ -57,9 +57,9 @@ const getOrderColor = (order, user) => {
   // console.log("isCompanyOrder", isCompanyOrder);
   const isFranchise = user && user.role === "ROLE_MANAGER";
   // if (isCompanyOrder) return orderStatus[order.rentOrder.status]?.color;
-  if (isCompanyOrder && order.rentOrder.status === "pending") return "#ffd884";
-  if (isCompanyOrder && order.rentOrder.status === "accepted") return "#90ef90";
-  if (user && user.role === "ROLE_COMPANY") return "#ffa4a4";
+  if (isCompanyOrder && order.rentOrder.status === "pending") return orderStatus.pending.color;
+  if (isCompanyOrder && order.rentOrder.status === "accepted") return orderStatus.accepted.color;
+  if (user && user.role === "ROLE_COMPANY") return orderStatus.other.color;
   if (isFranchise) {
     switch (order.rentOrder.status) {
       case "pending":
