@@ -330,7 +330,7 @@ export default function TimelinePage() {
 
             <div id="riddler" className={styleConflict.riddler}>?</div>
             <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
-              {generateClue("WINDOW_TIMELINE")}
+              {generateClue(user.role === "ROLE_MANAGER" ? "WINDOW_TIMELINE_ROLE_MANAGER" : "WINDOW_TIMELINE")}
             </Tooltip>
           </div>
           <TimeLineRenderer
