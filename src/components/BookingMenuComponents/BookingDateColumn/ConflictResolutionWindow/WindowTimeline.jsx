@@ -123,6 +123,12 @@ export default function WindowTimeline({
       ...el,
       title: (
         <div className={selectedElInGroup ? styleConflict.highlightRow : ""}>
+          {/* <div style={{
+            cursor: "pointer", whiteSpace: "break-spaces", overflow: "hidden", height: "40px",
+            maxWidth: "155px", lineHeight: "20px", display: "flex", alignItems: "center",
+          }}
+          >
+          </div> */}
           {el.title}
         </div>
       ),

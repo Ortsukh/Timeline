@@ -19,17 +19,13 @@ const ITEM_CONFLICT_COLOR = {
     backgroundColor: "#c54343", // red
     text: "Чужое бронирование в ожидании подтверждения.",
   },
-  // franchise: {
-  //   backgroundColor: "#2780FCFF",
-  //   text: "6 франчизи",
-  // },
   // freeShift: {
-  //   backgroundColor: "white", // red
+  //   backgroundColor: "white", // white
   //   text: "Свободная смена.",
   // },
   changedShift: {
-    backgroundColor: "gray", // red
-    text: "Изменженная Вами смена.",
+    backgroundColor: "gray", // gray
+    text: "Изменённая Вами смена.",
   },
 };
 

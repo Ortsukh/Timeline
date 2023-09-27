@@ -1,40 +1,42 @@
 const orderStatus = {
   accepted: {
     title: "accepted",
-    color: "#4c7fe5",
-    backgroundColor: "#4c7fe5",
+    color: "#4c7fe5", // синий
     translate: "Подтвержден",
-    text: "1 Подтвержден",
   },
   rejected: {
     title: "rejected",
-    color: "#f03333",
-    backgroundColor: "#f03333",
+    color: "#f03333", // красный
     translate: "Отклонен",
-    text: "2 Отклонен",
   },
   pending: {
     title: "pending",
-    color: "#ff9900",
-    backgroundColor: "#ff9900",
+    color: "#ff9900", // жёлтый
     translate: "Ожидание",
-    text: "3 Ожидание",
   },
   booked: {
-    color: "#464040",
-    backgroundColor: "#464040",
-    text: "4 забронированно",
+    color: "#464040", // условно чёрный
   },
   otherPending: {
-    color: "#c54343",
-    backgroundColor: "#c54343",
-    text: "5 иным забронированно",
+    color: "#c54343", // тёмно-красный
   },
   franchise: {
-    color: "#2780FCFF",
-    backgroundColor: "#2780FCFF",
-    text: "6 франчизи",
+    accepted: {
+      color: "#464040", // условно чёрный
+    },
+    rejected: {
+      color: "#f03333", // красный
+    },
+    pending: {
+      color: "#ff9900", // жёлтый
+    },
+    default: {
+      color: "#2780FC", // синий?
+    },
   },
+  // waitingRole: {
+  //   color: "white",
+  // },
 };
 
 export default orderStatus;

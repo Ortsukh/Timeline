@@ -52,10 +52,22 @@ export const addGrid = (formatHour, shiftLength) => {
   return grid.join("");
 };
 const getOrderColor = (order, user) => {
+  // if (user === null) return orderStatus.waitingRole.color;
   const isCompanyOrder = user && user.role === "ROLE_COMPANY" && user.id === order.rentOrder.company?.id;
   const isFranchise = user && user.role === "ROLE_MANAGER";
   if (isCompanyOrder) return orderStatus[order.rentOrder.status]?.color;
-  if (isFranchise) return orderStatus.franchise.color;
+  if (isFranchise) {
+    switch (order.rentOrder.status) {
+      case "pending":
+        return orderStatus.franchise.pending.color;
+      case "rejected":
+        return orderStatus.franchise.rejected.color;
+      case "accepted":
+        return orderStatus.franchise.accepted.color;
+      default:
+        return orderStatus.franchise.default.color;
+    }
+  }
   if (order.rentOrder.status === "pending") return orderStatus.otherPending.color;
   return orderStatus.booked.color;
 };
