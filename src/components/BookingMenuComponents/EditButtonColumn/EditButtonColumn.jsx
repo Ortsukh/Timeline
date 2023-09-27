@@ -113,19 +113,21 @@ const natification = () => {
         <button type="button" className={style.backButton} onClick={createBook}>
           {back}
         </button>
-        <div className="choose-category">
-          <span>
-            {" "}
-            Выбранная категория:{" "}
-            <span className="choose-category_item">{selectedGroups}</span>{" "}
-          </span>
-        </div>
-        <div className="choose-category">
-          <span>
-            {" "}
-             Компания:{" "}
-            <span className="choose-category_item">{selectedCompany.name}</span>{" "}
-          </span>
+        <div className="category-count-box">
+          <div className="choose-category">
+            <span>
+              {" "}
+              Выбранная категория:{" "}
+              <span className="choose-category_item">{selectedGroups}</span>{" "}
+            </span>
+          </div>
+          <div className="choose-category">
+            <span>
+              {" "}
+              Компания:{" "}
+              <span className="choose-category_item">{selectedCompany.name}</span>{" "}
+            </span>
+          </div>
         </div>
       </div>
       <div className={style.filterContainer}>
