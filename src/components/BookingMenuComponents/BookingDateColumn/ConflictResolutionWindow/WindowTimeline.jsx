@@ -12,6 +12,7 @@ import "../../../style.css";
 import { addGrid } from "../../../../common/DataConvertHelper";
 import styleConflict from "./Conflict.module.css";
 import EquipmentDescription from "../components/EquipmentDescription";
+import backgroundSVG from "../../../../others/confl.svg";
 
 export default function WindowTimeline({
   items,
@@ -48,44 +49,68 @@ export default function WindowTimeline({
     // .add(curShift, "hour").subtract(1, "seconds");
 
   const filteredItemsNormal = items.filter((item) => today.format("YYYY-MM-DD") === item.date);
-  const filteredItemsEdit = filteredItemsNormal.filter((filterItem) => {
+  const itemsSameColor = filteredItemsNormal.map((prev) => ({ ...prev, itemProps: { style: { background: "#ffa4a4" } } }));
+  const filteredItemsEdit = itemsSameColor.filter((filterItem) => {
     const ffGrid = addGrid(Math.floor(+curTimeForGreen / curShift), curShift);
     return filterItem.grid !== ffGrid;
   });
-  const filteredItems = isEditMode ? filteredItemsEdit : filteredItemsNormal;
-  filteredItems.push({
-    id: "X_MARK",
-    group: curIdDevForGreen || curIdDevice,
-    title: "X",
-    start_time: setStartTimeSelectedItem(curTimeForGreen),
-    end_time: setEndTimeSelectedItem(curTimeForGreen),
-    // className: "x_mark",
-    itemProps:
-      {
-        style: {
-          // background: isDayWithConflict ? "rgba(128,128,128,0)" : "rgba(128,128,128)",
-          background: "rgba(128,128,128,0)",
-          width: "20px",
-          height: "20px",
-          // eslint-disable-next-line
-          backgroundImage: 'url("../../../../others/conflb.svg")',
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-          border: "1px solid red",
-          // zIndex: 100,
-          // borderRight: "1px solid red",
-          // borderLeft: "1px solid red",
-          color: "red",
-          fontSize: "20px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+  const filteredItems = isEditMode ? filteredItemsEdit : itemsSameColor;
+  if (isDayWithConflict && !isEditMode) {
+    filteredItems.push({
+      id: "X_MARK",
+      group: curIdDevForGreen || curIdDevice,
+      // title: "X",
+      start_time: setStartTimeSelectedItem(curTimeForGreen),
+      end_time: setEndTimeSelectedItem(curTimeForGreen),
+      itemProps:
+        {
+          style: {
+            // background: isDayWithConflict ? "rgba(128,128,128,0)" : "rgba(128,128,128)",
+            // background: "rgba(128,128,128,0)",
+            background: "#ffa4a4",
+            // width: "30px",
+            // height: "30px",
+            // background: "transparent",
+            backgroundImage: `url(${backgroundSVG})`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundSize: "contain",
+            border: "1px solid red",
+            // zIndex: 100,
+            // borderRight: "1px solid red",
+            // borderLeft: "1px solid red",
+            color: "red",
+            fontSize: "20px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          },
         },
-      },
-  });
+    });
+  }
+  if (!isDayWithConflict && isEditMode) {
+    filteredItems.push({
+      id: "X_MARK",
+      group: curIdDevForGreen || curIdDevice,
+      start_time: setStartTimeSelectedItem(curTimeForGreen),
+      end_time: setEndTimeSelectedItem(curTimeForGreen),
+      itemProps:
+        {
+          style: {
+            background: "#90ef90",
+            border: "1px solid red",
+            color: "red",
+            fontSize: "20px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          },
+        },
+    });
+  }
+
   const selectedShiftObj = {
-    title: "X",
+    // title: "X",
     id: uuidv4(),
     group: curIdDevForGreen || curIdDevice,
     status: "preOrder",
@@ -97,7 +122,11 @@ export default function WindowTimeline({
     itemTouchSendsClick: false,
     itemProps: {
       style: {
-        background: "gray",
+        background: "#90ef90",
+        // backgroundImage: `url(${backgroundSVG})`,
+        // backgroundRepeat: "no-repeat",
+        // backgroundPosition: "center",
+        // backgroundSize: "contain",
         border: "1px solid red",
         color: "red",
         fontSize: "20px",
@@ -110,9 +139,8 @@ export default function WindowTimeline({
     deviceGroup: curIdDevForGreen || curIdDevice,
     checkBoxId: `${curIdDevForGreen || curIdDevice} ${Math.floor(+curTimeForGreen / curShift)}`,
   };
-  console.log("filteredItems", filteredItems, isDayWithConflict);
-  const [consideredCell, setConsideredCell] = useState((isDayWithConflict || !isEditMode)
-    ? {} : selectedShiftObj);
+
+  const [consideredCell, setConsideredCell] = useState(isEditMode ? selectedShiftObj : {});
   console.log("consideredCell", consideredCell);
   const handleBoundsChange = (timeStart, timeEnd) => {
     setVisibleTimeStart(timeStart);
@@ -178,7 +206,7 @@ export default function WindowTimeline({
       start_time: moment(formattedDate.start).valueOf(),
       end_time: moment(formattedDate.end).valueOf(),
       itemTouchSendsClick: false,
-      itemProps: { style: { background: "gray" } },
+      itemProps: { style: { background: "lightgray" } },
       deviceGroup: groupId,
       checkBoxId: `${groupId} ${formatHour}`,
     };
@@ -196,7 +224,7 @@ export default function WindowTimeline({
       setConsideredCell({});
       return;
     }
-    if ((!isDayWithConflict || isEditMode) && itemId === "X_MARK") {
+    if (isEditMode && itemId === "X_MARK") {
       setConsideredCell(selectedShiftObj);
     }
     // if (consideredCell.id !== "X_MARK" && itemId === "X_MARK") {
