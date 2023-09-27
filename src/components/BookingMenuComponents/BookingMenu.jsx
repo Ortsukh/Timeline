@@ -29,6 +29,7 @@ export default function BookingMenu({
   openAlertWindow,
   setShowButtonClear,
   selectedCompany,
+  user,
 }) {
   // new
   const [baseOrder, setBaseOrder] = useState({ shiftTime: 0, preOrders: [], equipment: {} });
@@ -289,7 +290,7 @@ export default function BookingMenu({
     }));
     setCalendarEvent((prev) => prev.map((el) => {
       if (el.start === newOrder.date) {
-        return { ...el, backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor, extendedProps: { shift: baseOrder.shiftTime, title: newOrder.title } };
+        return { ...el, backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor, extendedProps: { shift: newOrder.grid.indexOf("1"), title: newOrder.title } };
       }
       return el;
     }));
