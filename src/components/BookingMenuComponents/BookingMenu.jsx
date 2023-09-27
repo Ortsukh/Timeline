@@ -29,6 +29,7 @@ export default function BookingMenu({
   openAlertWindow,
   setShowButtonClear,
   selectedCompany,
+  user,
 }) {
   // new
   const [baseOrder, setBaseOrder] = useState({ shiftTime: 0, preOrders: [], equipment: {} });
