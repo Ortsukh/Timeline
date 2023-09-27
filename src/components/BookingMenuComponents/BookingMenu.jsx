@@ -117,7 +117,7 @@ export default function BookingMenu({
       } else if (!currentEquipment.dates[selectedDate] || (currentEquipment.dates[selectedDate] && currentEquipment.dates[selectedDate][baseOrderShiftTime] === "0")) {
         events.push({
           start: selectedDate,
-          extendedProps: { shift: baseOrderShiftTime, title: currentEquipment.title },
+          extendedProps: { shift: baseOrderShiftTime, title: currentEquipment.title, groupId: equipmentId },
           backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
         });
         baseOrder.preOrders.push(generatePreOrders(currentEquipment, selectedDate));
@@ -290,7 +290,7 @@ export default function BookingMenu({
     }));
     setCalendarEvent((prev) => prev.map((el) => {
       if (el.start === newOrder.date) {
-        return { ...el, backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor, extendedProps: { shift: newOrder.grid.indexOf("1"), title: newOrder.title } };
+        return { ...el, backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor, extendedProps: { shift: newOrder.grid.indexOf("1"), title: newOrder.title, groupId: newOrder.group } };
       }
       return el;
     }));
