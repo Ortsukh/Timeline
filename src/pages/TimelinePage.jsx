@@ -36,7 +36,6 @@ export default function TimelinePage() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [items, setItems] = useState([]);
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
-
   const [companies, setCompanies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingEquipment, setIsLoadingEquipment] = useState(true);
