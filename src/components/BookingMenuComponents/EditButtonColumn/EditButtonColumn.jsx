@@ -12,7 +12,6 @@ export default function EditButtonColumn({
   setIsBookingMenu,
   setItemsPreOrder,
   itemsPreOrder,
-  setItems,
   copyEditItems,
   setCopyEditItems,
   isEditMode,
@@ -23,10 +22,6 @@ export default function EditButtonColumn({
   items,
   groups,
   setIsConfirmWindowOpen,
-  setOrderContent,
-  user,
-  companies,
-  setSelectedCompany,
   setShowButtonClear,
   baseOrder,
   selectedDates,
@@ -49,7 +44,6 @@ export default function EditButtonColumn({
   const [shiftsCount, setShiftsCount] = useState(1);
   const [isShowConflictNotification, setIsShowConflictNotification] =
     useState(false);
-  const [isClickedOnConfirm, setIsClickedOnConfirm] = useState(false);
 
   useEffect(() => {
     setShowButtonClear(false);
@@ -66,14 +60,6 @@ export default function EditButtonColumn({
 
   const createBook = () => {
     if (isEditMode) {
-      setItems((previousUpdate) =>
-        previousUpdate.concat(
-          copyEditItems.map((el) => {
-            el.group = el.deviceGroup;
-            return el;
-          }) // хз
-        )
-      );
       setItemsPreOrder([]);
       setCopyEditItems([]);
       setIsEditMode(false);
@@ -134,15 +120,15 @@ const natification = () => {
             <span className="choose-category_item">{selectedGroups}</span>{" "}
           </span>
         </div>
+        <div className="choose-category">
+          <span>
+            {" "}
+             Компания:{" "}
+            <span className="choose-category_item">{selectedCompany.name}</span>{" "}
+          </span>
+        </div>
       </div>
       <div className={style.filterContainer}>
-        {user.role === "ROLE_MANAGER" && (
-          <CompaniesSelect
-            companies={companies}
-            setSelectedCompany={setSelectedCompany}
-            isClickedOnConfirm={isClickedOnConfirm}
-          />
-        )}
          <div className="selects-block">
            <FiltersForOrder
              baseOrder={baseOrder}
@@ -269,20 +255,16 @@ const natification = () => {
                 className={style.reserveBtn}
                 onClick={() => {
                   if(isEditMode) {
-                    editOrder()
+                    // editOrder()
+                    setIsConfirmWindowOpen(true)
                     return
                   }
                   if (baseOrder.equipment.conflicts.length > 0) {
                     showNotification('conflicts');
                     return;
                   }
-
-                  if (!selectedCompany) {
-                    showNotification('company');
-                    return;
-                  }
-                  setIsClickedOnConfirm(true);
-                  sendNewOrder();
+                  // sendNewOrder();
+                  setIsConfirmWindowOpen(true)
                 }}
               >
                 Подтвердить бронирование

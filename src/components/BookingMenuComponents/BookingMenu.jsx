@@ -27,9 +27,8 @@ export default function BookingMenu({
   setCurrentDevice,
   setIsEditMode,
   openAlertWindow,
-  user,
-  companies,
   setShowButtonClear,
+  selectedCompany,
 }) {
   // new
   const [baseOrder, setBaseOrder] = useState({ shiftTime: 0, preOrders: [], equipment: {} });
@@ -44,20 +43,8 @@ export default function BookingMenu({
   const [selectedPreferredDevice, setSelectedPreferredDevice] = useState(null);
   const [statusCheckboxSelected, setStatusCheckboxSelected] = useState("AUTO");
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
-  const [updatedItems, setUpdatedItems] = useState(items);
   const [copyEditItems, setCopyEditItems] = useState([]);
   const [isConfirmWindowOpen, setIsConfirmWindowOpen] = useState(false);
-  const [orderContent, setOrderContent] = useState([]);
-  const [selectedCompany, setSelectedCompany] = useState(null);
-  // eslint-disable-next-line
-  const [orderDatePlanning, setOrderDatePlanning] = useState({
-    selection1: {
-      startDate: new Date(),
-      endDate: new Date(moment().add(2, "days").valueOf()),
-      key: "selection1",
-    },
-  });
-  console.log("editOrderData", editOrderData, currentDevice);
 
   useEffect(() => {
     if (isEditMode) {
@@ -90,11 +77,6 @@ export default function BookingMenu({
   const [currentDeviceIndex, setCurrentDeviceIndex] = useState(
     initialCurrentDeviceIndex,
   );
-  useEffect(() => {
-    if (user.role === "ROLE_COMPANY") {
-      setSelectedCompany(user);
-    }
-  }, []);
   const handleClear = () => {
     setBaseOrder({ shiftTime: 0, preOrders: [], equipment: {} });
     setCalendarEvent([]);
@@ -110,14 +92,13 @@ export default function BookingMenu({
   };
   const generatePreOrders = (group, date) => {
     const formatHour = Math.floor(baseOrder.shiftTime / group.shiftLength);
-    const obj = {
+    return {
       id: uuidv4(),
       group: group.id,
       status: "preOrder",
       date,
       grid: addGrid(formatHour, group.shiftLength),
     };
-    return obj;
   };
   const generateEvents = (equipmentId) => {
     const events = [];
@@ -279,7 +260,7 @@ export default function BookingMenu({
         setShowButtonClear(true);
         setUpdate((previousUpdate) => !previousUpdate);
       })
-      .catch(openAlertWindow("error"));
+      .catch(() => openAlertWindow("error"));
   };
 
   const handleChangeEquipmentBeforeCalculation = (selectValueBeforeCalculation) => {
@@ -295,11 +276,9 @@ export default function BookingMenu({
       }
       return order;
     });
-    console.log(isNew, newOrder);
     if (!isNew) {
       newPreOrder = [...baseOrder.preOrders, newOrder];
     }
-    console.log(newPreOrder);
     setBaseOrder((prev) => ({
       ...prev,
       preOrders: newPreOrder,
@@ -325,7 +304,6 @@ export default function BookingMenu({
             setIsBookingMenu={setIsBookingMenu}
             itemsPreOrder={itemsPreOrder}
             setItemsPreOrder={setItemsPreOrder}
-            setItems={setUpdatedItems}
             copyEditItems={copyEditItems}
             setCopyEditItems={setCopyEditItems}
             isEditMode={isEditMode}
@@ -337,12 +315,8 @@ export default function BookingMenu({
             items={items}
             groups={groups}
             setIsConfirmWindowOpen={setIsConfirmWindowOpen}
-            setOrderContent={setOrderContent}
-            companies={companies}
-            user={user}
             selectedGroups={selectedGroups}
             setShowButtonClear={setShowButtonClear}
-            setSelectedCompany={setSelectedCompany}
             setSelectedDates={setSelectedDates}
             generateCalendarEvents={calcBestMap}
             calendarEvent={calendarEvent}
@@ -371,7 +345,6 @@ export default function BookingMenu({
           {/*      groups={groups} */}
           {/*      itemsPreOrder={itemsPreOrder} */}
           {/*      setItemsPreOrder={setItemsPreOrder} */}
-          {/*      setUpdatedItems={setUpdatedItems} */}
           {/*      setCopyEditItems={setCopyEditItems} */}
           {/*      items={items} */}
           {/*      orderDatePlanning={orderDatePlanning} */}
@@ -388,10 +361,8 @@ export default function BookingMenu({
             setCurrentDevice={setCurrentDevice}
             groups={groups}
             setItemsPreOrder={setItemsPreOrder}
-            setUpdatedItems={setUpdatedItems}
             setCopyEditItems={setCopyEditItems}
             items={items}
-            orderDatePlanning={orderDatePlanning}
             currentDeviceIndex={currentDeviceIndex}
             setCurrentDeviceIndex={setCurrentDeviceIndex}
             selectedCompany={selectedCompany}
@@ -409,7 +380,9 @@ export default function BookingMenu({
       </div>
       {isConfirmWindowOpen && (
         <ConfirmWindow
-          data={orderContent}
+          selectedCompany={selectedCompany}
+          data={baseOrder.preOrders}
+          groups={groups}
           closeBookingWindow={setIsConfirmWindowOpen}
           confirmFunc={isEditMode ? editOrder : sendNewOrder}
         />

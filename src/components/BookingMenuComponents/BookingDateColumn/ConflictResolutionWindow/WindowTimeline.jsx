@@ -11,7 +11,7 @@ import style from "../BookingTimeline.module.css";
 import "../../../style.css";
 import { addGrid } from "../../../../common/DataConvertHelper";
 import styleConflict from "./Conflict.module.css";
-import EquipmentDescription from "../components/EquipmentDescription";
+// import EquipmentDescription from "../components/EquipmentDescription";
 
 export default function WindowTimeline({
   items,
@@ -45,9 +45,9 @@ export default function WindowTimeline({
     .subtract(1, "seconds");
 
   const filteredItemsNormal = items.filter((item) => today.format("YYYY-MM-DD") === item.date);
-  const FFItems = filteredItemsNormal.filter((filtItem) => {
+  const FFItems = filteredItemsNormal.filter((filterItem) => {
     const ffGrid = addGrid(Math.floor(+currentTime / currentShift), currentShift);
-    return filtItem.grid !== ffGrid;
+    return filterItem.grid !== ffGrid;
   });
   const filteredItems = isEditMode ? FFItems : filteredItemsNormal;
   console.log("filteredItems!!!", filteredItems, FFItems);
@@ -193,9 +193,9 @@ export default function WindowTimeline({
     // setItemsPreOrder((pred) => pred.filter((el) => el.id !== itemId));
   };
 
-  const hadleResolveConflict = () => {
+  const handleResolveConflict = () => {
     setSelectedConflictDate(null);
-    const formatedConsideredCell = {
+    const formattedConsideredCell = {
       canMove: consideredCell.canMove,
       date: consideredCell.date,
       grid: consideredCell.grid,
@@ -203,7 +203,7 @@ export default function WindowTimeline({
       id: consideredCell.id,
       status: consideredCell.status,
     };
-    pushOrderInBasePreOrder(formatedConsideredCell);
+    pushOrderInBasePreOrder(formattedConsideredCell);
   };
 
   return (
@@ -334,7 +334,7 @@ export default function WindowTimeline({
             ? styleConflict.reserveBtnDisable
             : styleConflict.reserveBtn}
           disabled={!consideredCell.id}
-          onClick={hadleResolveConflict}
+          onClick={handleResolveConflict}
         >
           Подтвердить
         </button>
@@ -354,7 +354,6 @@ export default function WindowTimeline({
         </button>
       </div>
       {/* <EquipmentDescription equipment={baseOrder.equipment} /> */}
-      ;
     </>
   );
 }

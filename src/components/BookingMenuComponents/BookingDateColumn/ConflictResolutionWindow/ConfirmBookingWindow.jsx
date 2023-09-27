@@ -1,6 +1,7 @@
 import React from "react";
 import "moment/locale/ru";
 import "../../../style.css";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { Tooltip } from "react-tooltip";
 import styleConflict from "./Conflict.module.css";
 import WindowTimeline from "./WindowTimeline";
@@ -12,7 +13,6 @@ export default function ConfirmBookingWindow({
   setItemsPreOrder,
   editOrderData,
   setCopyEditItems,
-  setUpdatedItems,
   isEditMode,
   selectedConflictDate,
   setSelectedConflictDate,
@@ -73,7 +73,7 @@ export default function ConfirmBookingWindow({
               <>
                 <p>
                   {"Рассчёт производился по оборудованию "}
-                  <span style={{ fontWeight: "bold", color: "#f03333" }}>{calculatedOrSelectedDevice.title}</span>
+                  <span style={{ fontWeight: "bold", color: "#f03333" }}>{calculatedOrSelectedDevice && calculatedOrSelectedDevice.title}</span>
                 </p>
                 <p>
                   {"Для него у Вас на данный момент "}
@@ -85,7 +85,7 @@ export default function ConfirmBookingWindow({
             : (
               <p>
                 {"Подсчет смен для "}
-                <span style={{ fontWeight: "bold", color: "#f03333" }}>{calculatedOrSelectedDevice.title}</span>
+                <span style={{ fontWeight: "bold", color: "#f03333" }}>{calculatedOrSelectedDevice && calculatedOrSelectedDevice.title}</span>
                 {" прошел успешно. Вы можете внести изменения нажав на день в календаре или завершить бронирование, нажав на кнопку"}
                 <span style={{ fontStyle: "italic" }}>`Подтвердить бронирование`.</span>
               </p>
@@ -105,7 +105,6 @@ export default function ConfirmBookingWindow({
         setItemsPreOrder={setItemsPreOrder}
         editOrderData={editOrderData}
         setCopyEditItems={setCopyEditItems}
-        setUpdatedItems={setUpdatedItems}
         isEditMode={isEditMode}
         selectedConflictDate={selectedConflictDate}
         setSelectedConflictDate={setSelectedConflictDate}
