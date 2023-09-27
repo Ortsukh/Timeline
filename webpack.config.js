@@ -25,6 +25,10 @@ module.exports = {
   module: {
     rules: [ // загрузчик для jsx
       {
+        test: /\.svg$/,
+        loader: "svg-inline-loader",
+      },
+      {
         test: /\.jsx?$/, // определяем тип файлов
         exclude: /(node_modules)/, // исключаем из обработки папку node_modules
         loader: "babel-loader", // определяем загрузчик
@@ -35,6 +39,14 @@ module.exports = {
       {
         test: /\.(scss|css)$/,
         use: ["style-loader", "css-loader"], //! Для продакшна следует использовать MiniCssExtractPlugin вместо style-loader
+      },
+      {
+        test: /\.svg$/,
+        use: ["svg-inline-loader"],
+      },
+      {
+        test: /\.svg$/,
+        use: [{ loader: "svg-inline-loader" }],
       },
     ],
   },
