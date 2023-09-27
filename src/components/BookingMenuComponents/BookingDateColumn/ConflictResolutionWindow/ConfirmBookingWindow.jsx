@@ -8,6 +8,7 @@ import WindowTimeline from "./WindowTimeline";
 import { generateClue } from "../../../../common/GenerateElementsData";
 
 export default function ConfirmBookingWindow({
+  user,
   items,
   groups,
   setItemsPreOrder,
@@ -29,7 +30,7 @@ export default function ConfirmBookingWindow({
       (group) => group.id === baseOrder.equipment.id,
     );
   }
-  // console.log("calculatedOrSelectedDevice", calculatedOrSelectedDevice);
+  // console.log("user", user);
 
   return (
     <>
@@ -92,7 +93,7 @@ export default function ConfirmBookingWindow({
             )}
           <div id="riddler" className={styleConflict.riddler}>?</div>
           <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
-            {generateClue("WINDOW_TIMELINE")}
+            {generateClue(user.role === "ROLE_MANAGER" ? "WINDOW_TIMELINE_ROLE_MANAGER" : "WINDOW_TIMELINE")}
           </Tooltip>
         </div>
         )}

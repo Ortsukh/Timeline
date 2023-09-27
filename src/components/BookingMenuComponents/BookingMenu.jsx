@@ -356,6 +356,7 @@ export default function BookingMenu({
           {/* ) */}
           {/*  : ( */}
           <ConfirmBookingWindow
+            user={user}
             editOrderData={editOrderData}
             isEditMode={isEditMode}
             setCurrentDevice={setCurrentDevice}
