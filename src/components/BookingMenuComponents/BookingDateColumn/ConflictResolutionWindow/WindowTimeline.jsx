@@ -88,7 +88,7 @@ export default function WindowTimeline({
         },
     });
   }
-  if (!isDayWithConflict && isEditMode) {
+  if ((!isDayWithConflict && isEditMode)|| isEditMode) {
     filteredItems.push({
       id: "X_MARK",
       group: curIdDevForGreen || curIdDevice,
