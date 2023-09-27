@@ -27,6 +27,7 @@ export default function WindowTimeline({
   // handleSetSelectedConflictDate,
 }) {
   console.log("editOrderData!!!", editOrderData);
+  console.log("selectedConflictDate!!!", selectedConflictDate);
   const curIdDevice = baseOrder.equipment.id;
   const curIdDevForGreen = selectedConflictDate.extendedProps.groupId;
   const curShift = baseOrder.equipment.shiftLength;
@@ -88,7 +89,7 @@ export default function WindowTimeline({
         },
     });
   }
-  if ((!isDayWithConflict && isEditMode)|| isEditMode) {
+  if ((!isDayWithConflict && !isEditMode) || isEditMode) {
     filteredItems.push({
       id: "X_MARK",
       group: curIdDevForGreen || curIdDevice,
@@ -399,7 +400,10 @@ export default function WindowTimeline({
           Пропустить
         </button>
       </div>
-      <EquipmentDescription equipment={groups.find((group) => group.id === (+curIdDevForGreen || +curIdDevice))} />
+      <EquipmentDescription equipment={
+        groups.find((group) => group.id === (+curIdDevForGreen || +curIdDevice))
+      }
+      />
     </>
   );
 }
