@@ -356,6 +356,7 @@ export default function BookingMenu({
             setStatusCheckboxSelected={setStatusCheckboxSelected}
             setSelectedPreferredDevice={setSelectedPreferredDevice}
             editOrder={editOrder}
+            selectedCompany={selectedCompany}
           />
         </div>
 
