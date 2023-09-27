@@ -43,6 +43,8 @@ export default function EditButtonColumn({
   setStatusCheckboxSelected,
   selectedGroups,
   setSelectedPreferredDevice,
+                                           selectedCompany,
+                                           editOrder,
 }) {
   const [shiftsCount, setShiftsCount] = useState(1);
   const [isShowConflictNotification, setIsShowConflictNotification] =
@@ -55,12 +57,13 @@ export default function EditButtonColumn({
 
   const back = "< Назад";
 
-  const showNotification = () => {
-    setIsShowConflictNotification(true);
+  const showNotification = (type) => {
+    setIsShowConflictNotification(type);
     setTimeout(() => {
       setIsShowConflictNotification(false);
     }, 2000);
   };
+
   const createBook = () => {
     if (isEditMode) {
       setItems((previousUpdate) =>
@@ -107,6 +110,16 @@ export default function EditButtonColumn({
       setSelectedPreferredDevice(getOptionsForSearch(groups)[groups.length - 1]);
     }
   };
+const natification = () => {
+  if(isShowConflictNotification === 'company'){
+  return  <div style={{ color: "red" }}>
+      {`Выберите компанию`}
+    </div>
+  }
+ return <div style={{ color: "red" }}>
+    {`У вас осталось ${baseOrder.equipment.conflicts.length} конфликт(ов)`}
+  </div>
+}
 
   return (
     <div>
@@ -130,17 +143,15 @@ export default function EditButtonColumn({
             isClickedOnConfirm={isClickedOnConfirm}
           />
         )}
-        {/*{!isEditMode && (*/}
-        {/*  <div className="selects-block">*/}
-        {/*    <FiltersForOrder*/}
-        {/*      baseOrder={baseOrder}*/}
-        {/*      setBaseOrder={setBaseOrder}*/}
-        {/*      isActiveCalendar={isActiveCalendar}*/}
-        {/*      setShiftsCount={setShiftsCount}*/}
-        {/*      currentDevice={currentDevice}*/}
-        {/*    />*/}
-        {/*  </div>*/}
-        {/*)}*/}
+         <div className="selects-block">
+           <FiltersForOrder
+             baseOrder={baseOrder}
+             setBaseOrder={setBaseOrder}
+             isActiveCalendar={isActiveCalendar}
+             setShiftsCount={setShiftsCount}
+             currentDevice={currentDevice}
+           />
+         </div>
         <div className="select-count-box price-count">
           <span className="price-item">
             {`Цена за смену: ${+currentDevice.price}р`}
@@ -151,13 +162,7 @@ export default function EditButtonColumn({
           </span>
         </div>
       </div>
-      {user.role === "ROLE_MANAGER" && (
-        <CompaniesSelect
-          companies={companies}
-          setSelectedCompany={setSelectedCompany}
-          isClickedOnConfirm={isClickedOnConfirm}
-        />
-      )}
+
 
       {/*{isEditMode ? (*/}
       {/*  <div className="preOrderTable">*/}
@@ -222,9 +227,7 @@ export default function EditButtonColumn({
 
       <div>
         {isShowConflictNotification && (
-          <div style={{ color: "red" }}>
-            {`У вас осталось ${baseOrder.equipment.conflicts.length} конфликт(ов)`}
-          </div>
+            natification()
         )}
 
         {/*{isEditMode ? (*/}
@@ -265,11 +268,19 @@ export default function EditButtonColumn({
                 type="button"
                 className={style.reserveBtn}
                 onClick={() => {
+                  if(isEditMode) {
+                    editOrder()
+                    return
+                  }
                   if (baseOrder.equipment.conflicts.length > 0) {
-                    showNotification();
+                    showNotification('conflicts');
                     return;
                   }
 
+                  if (!selectedCompany) {
+                    showNotification('company');
+                    return;
+                  }
                   setIsClickedOnConfirm(true);
                   sendNewOrder();
                 }}

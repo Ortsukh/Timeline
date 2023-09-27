@@ -18,7 +18,7 @@ import TimeLineRenderer from "../components/TimeLineRenderer";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
 import {
-  getAllEquipments1,
+  getAllEquipments,
   getAllOrders,
   getCompanies,
   getUser,
@@ -76,7 +76,7 @@ export default function TimelinePage() {
 
   useEffect(() => {
     setIsLoadingEquipment(true);
-    getAllEquipments1().then((response) => {
+    getAllEquipments().then((response) => {
       setGroups(createEquipmentGroup(response.data));
       setIsLoadingEquipment(false);
     });

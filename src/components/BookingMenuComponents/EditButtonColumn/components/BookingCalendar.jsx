@@ -15,7 +15,6 @@ import CalendarSwitch from "../../../Switch/CalendarSwitch";
 const events = [];
 
 function renderEventContent(eventInfo) {
-  console.log(eventInfo.event.extendedProps);
   const color = eventInfo.backgroundColor || "#ffa4a4";
   const obj = {
     height: 40,

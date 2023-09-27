@@ -10,7 +10,6 @@ import {
   groupByDateItems,
 } from "../../common/DataConvertHelper";
 import ConfirmWindow from "../Popup/ConfirmWindow";
-import BookingTimeline from "./BookingDateColumn/BookingTimeline";
 import ConfirmBookingWindow from "./BookingDateColumn/ConflictResolutionWindow/ConfirmBookingWindow";
 import style from "./BookingMenu.module.css";
 import ITEMS_PREORDER_COLOR from "../../constants/itemsPreOrderColor";
@@ -62,6 +61,7 @@ export default function BookingMenu({
 
   useEffect(() => {
     if (isEditMode) {
+      console.log("edit");
       const editItems = items.filter(
         (item) => item.rentOrderId === editOrderData.rentOrderId,
       );
@@ -243,20 +243,14 @@ export default function BookingMenu({
   }, [groups, baseOrder.equipment]);
 
   const editOrder = () => {
-    if (itemsPreOrder.length < 1) return;
-    const itemsPreOrderCorrect = itemsPreOrder.map((item) => {
-      item.group = item.deviceGroup;
-      return item;
-    });
-    const orderItem = copyEditItems[0];
-    const orderItemsGrid = createOrderGrid(itemsPreOrderCorrect);
+    const orderItemsGrid = createOrderGrid(baseOrder.preOrders);
     const dateIntervals = formatOrder(orderItemsGrid);
     const editedOrder = {
       rentOrder: {
-        id: orderItem.rentOrderId,
-        company: orderItem.company,
+        id: editOrderData.rentOrderId,
+        company: editOrderData.company,
       },
-      status: orderItem.status,
+      status: editOrderData.status,
       equipmentItems: dateIntervals,
     };
 
@@ -292,19 +286,20 @@ export default function BookingMenu({
     setSelectedPreferredDevice(selectValueBeforeCalculation);
   };
   const pushOrderInBasePreOrder = (newOrder) => {
-    let isNew = 0;
+    let isNew = false;
     let newPreOrder;
     newPreOrder = baseOrder.preOrders.map((order) => {
-      if (order.data === newOrder.data) {
-        isNew = 1;
+      if (order.date === newOrder.date) {
+        isNew = true;
         return newOrder;
       }
       return order;
     });
+    console.log(isNew, newOrder);
     if (!isNew) {
       newPreOrder = [...baseOrder.preOrders, newOrder];
     }
-
+    console.log(newPreOrder);
     setBaseOrder((prev) => ({
       ...prev,
       preOrders: newPreOrder,
@@ -360,6 +355,8 @@ export default function BookingMenu({
             statusCheckboxSelected={statusCheckboxSelected}
             setStatusCheckboxSelected={setStatusCheckboxSelected}
             setSelectedPreferredDevice={setSelectedPreferredDevice}
+            editOrder={editOrder}
+            selectedCompany={selectedCompany}
           />
         </div>
 

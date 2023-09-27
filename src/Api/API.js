@@ -4406,7 +4406,6 @@ const testOrderequip = {
       ],
     },
   ],
-
 };
 
 export async function getAllEquipments1() {
@@ -4430,17 +4429,17 @@ export async function getUser() {
   // console.log(res);
   // return res.json();
 
-  // return {
-  //   role: "ROLE_MANAGER",
-  //   id: 1,
-  //   name: "Франчайзи 001",
-  // };
-
   return {
-    role: "ROLE_COMPANY",
+    role: "ROLE_MANAGER",
     id: 1,
-    name: "Суши \"Минск-сити\"",
+    name: "Франчайзи 001",
   };
+
+  // return {
+  //   role: "ROLE_COMPANY",
+  //   id: 1,
+  //   name: "Суши \"Минск-сити\"",
+  // };
 }
 
 export async function getCompanies() {
@@ -4452,7 +4451,10 @@ export async function getCompanies() {
   // console.log(res);
   // return res.json();
 
-  return [{ id: 1, name: "Суши \"Минск-сити\"" }, { id: 16, name: "Тестовая Компания" }];
+  return [
+    { id: 1, name: "Суши \"Минск-сити\"" },
+    { id: 16, name: "Тестовая Компания" },
+  ];
 
   // return {
   //   role: "ROLE_COMPANY",
@@ -4489,17 +4491,17 @@ export async function sendEditOrder(order) {
     headers: {
       "Content-Type": "application/json;charset=utf-8",
     },
-    // mode: "no-cors",
+    mode: "no-cors",
 
     body: JSON.stringify(order),
   });
 
-  if (!res.ok) {
-    throw new Error("Something went wrong. Sorry");
-  }
+  // if (!res.ok) {
+  //   throw new Error("Something went wrong. Sorry");
+  // }
 
-  return res.json();
-  // return true;
+  // return res.json();
+  return true;
 }
 
 export async function createOrder(order, company) {
@@ -4521,13 +4523,13 @@ export async function createOrder(order, company) {
       "Content-Type": "application/json;charset=utf-8",
       "Access-Control-Allow-Origin": "*",
     },
-    // mode: "no-cors",
+    mode: "no-cors",
     body: JSON.stringify(body),
   });
-  if (!res.ok) {
-    throw new Error("Something went wrong. Sorry");
-  }
+  // if (!res.ok) {
+  //   throw new Error("Something went wrong. Sorry");
+  // }
 
-  return res.json();
-  // return true;
+  // return res.json();
+  return true;
 }
