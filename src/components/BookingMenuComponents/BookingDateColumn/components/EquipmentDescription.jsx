@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "../BookingTimeline.module.css";
 
 export default function EquipmentDescription({ equipment }) {
-  console.log(equipment);
+  const [, setUpdate] = useState(false);
+
+  useEffect(() => {
+    setUpdate((prev) => !prev);
+  }, [equipment]);
+
   return (
     <div className={style.equipment_description}>
       <div>
@@ -10,7 +15,7 @@ export default function EquipmentDescription({ equipment }) {
       </div>
       <span>
         {`Описание: 
-        ${equipment.shortDescription}
+        ${equipment.description}
         `}
       </span>
     </div>

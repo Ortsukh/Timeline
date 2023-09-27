@@ -11,7 +11,7 @@ import style from "../BookingTimeline.module.css";
 import "../../../style.css";
 import { addGrid } from "../../../../common/DataConvertHelper";
 import styleConflict from "./Conflict.module.css";
-// import EquipmentDescription from "../components/EquipmentDescription";
+import EquipmentDescription from "../components/EquipmentDescription";
 import backgroundSVG from "../../../../others/confl.svg";
 
 export default function WindowTimeline({
@@ -249,7 +249,7 @@ export default function WindowTimeline({
     };
     pushOrderInBasePreOrder(formattedConsideredCell);
   };
-
+  console.log(curIdDevForGreen || +curIdDevice);
   return (
     <>
       <div className={style.containerTimeline}>
@@ -399,7 +399,7 @@ export default function WindowTimeline({
           Пропустить
         </button>
       </div>
-      {/* <EquipmentDescription equipment={baseOrder.equipment} /> */}
+      <EquipmentDescription equipment={groups.find((group) => group.id === (+curIdDevForGreen || +curIdDevice))} />
     </>
   );
 }
