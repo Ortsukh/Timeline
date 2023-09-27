@@ -4485,7 +4485,7 @@ export async function getAllOrders() {
 
 export async function sendEditOrder(order) {
   const str = `${backendUrl}edit_order`;
-
+  // eslint-disable-next-line
   const res = await fetch(str, {
     method: "post",
     headers: {
@@ -4516,7 +4516,7 @@ export async function createOrder(order, company) {
     status: "pending",
     equipmentItems: dateIntervals,
   };
-
+  // eslint-disable-next-line
   const res = await fetch(str, {
     method: "post",
     headers: {

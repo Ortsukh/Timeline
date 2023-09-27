@@ -52,7 +52,9 @@ export default function TimeLineRenderer({
             onClick={() => handleToSelectedGroup(group, group.category)}
             onKeyDown={() => handleToSelectedGroup(group, group.category)}
             aria-hidden="true"
-            style={{ cursor: "pointer", whiteSpace: "break-spaces", overflow: "hidden", height: "40px", maxWidth: "155px", lineHeight: "20px", display: "flex", alignItems: "center" }}
+            style={{
+              cursor: "pointer", whiteSpace: "break-spaces", overflow: "hidden", height: "40px", maxWidth: "155px", lineHeight: "20px", display: "flex", alignItems: "center",
+            }}
           >
             {group.title}
           </div>

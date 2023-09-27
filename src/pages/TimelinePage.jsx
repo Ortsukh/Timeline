@@ -93,7 +93,7 @@ export default function TimelinePage() {
     getAllOrders()
       .then((response) => {
         setItems(createOrderGroup(response.data, user));
-        setIsLoading(false);
+        if (user) setIsLoading(false);
       })
 
       .catch((error) => console.log(error));
