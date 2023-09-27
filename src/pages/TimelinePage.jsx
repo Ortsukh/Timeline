@@ -281,13 +281,13 @@ export default function TimelinePage() {
                 showButtonClear={showButtonClear}
                 setCurrentDeviceIndex={() => {}}
               />
-              {selectedGroups.length && (
+              {selectedGroups.length ? (
                 <CountTools
                   choseCount={choseCount}
                   groupsCount={getGroupsToShow()}
                   toolsCount={toolsCount}
                 />
-              ) }
+              ) : null}
             </div>
             <div className="sort-box_item">
               <DateFilter

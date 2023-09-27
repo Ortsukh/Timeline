@@ -354,7 +354,6 @@ export default function WindowTimeline({
         </button>
       </div>
       {/* <EquipmentDescription equipment={baseOrder.equipment} /> */}
-      ;
     </>
   );
 }
