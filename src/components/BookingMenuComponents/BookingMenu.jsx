@@ -49,7 +49,6 @@ export default function BookingMenu({
 
   useEffect(() => {
     if (isEditMode) {
-      console.log("edit");
       const editItems = items.filter(
         (item) => item.rentOrderId === editOrderData.rentOrderId,
       );
@@ -71,7 +70,6 @@ export default function BookingMenu({
       setShowStartDisplayConflict(false);
     }
   }, [editOrderData, isEditMode]);
-  console.log(baseOrder);
   const initialCurrentDeviceIndex = groups
     .map((current) => current.id)
     .indexOf(currentDevice.id);
