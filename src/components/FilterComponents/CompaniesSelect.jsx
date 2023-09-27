@@ -23,7 +23,7 @@ export default function CompaniesSelect({
   }));
 
   return (
-    <div className="tools-filter">
+    <div className="tools-filter company-filter">
       <span> Выбрать компанию</span>
 
       <Select

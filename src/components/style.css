@@ -580,3 +580,12 @@
     top: 10px;
     right: 10px;
 }
+
+.company-filter{
+    margin-bottom: 35px;
+}
+
+.category-count-box{
+    display: flex;
+    gap: 15px;
+}
