@@ -45,8 +45,9 @@ export default function BookingCalendar({
   const calendarRef = useRef();
   const [event, setEvent] = useState(events);
   const handleEventClick = (clickInfo) => {
+    // eslint-disable-next-line
     const day = moment(clickInfo.event.start).format("YYYY-MM-DD");
-    handleSetSelectedConflictDate(day);
+    handleSetSelectedConflictDate(clickInfo.event);
   };
 
   useEffect(() => {

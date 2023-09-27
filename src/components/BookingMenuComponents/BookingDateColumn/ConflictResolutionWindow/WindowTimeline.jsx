@@ -26,42 +26,52 @@ export default function WindowTimeline({
   // handleSetSelectedConflictDate,
 }) {
   console.log("editOrderData!!!", editOrderData);
-  console.log("isEditMode!!!", isEditMode);
-  const currentIdDevice = baseOrder.equipment.id;
-  const currentShift = baseOrder.equipment.shiftLength;
-  const currentTime = baseOrder.shiftTime;
-
-  // const [today, setToday] = useState(moment(selectedConflictDate, "YYYY-MM-DD"));
-  const today = moment(selectedConflictDate, "YYYY-MM-DD");
+  const curIdDevice = baseOrder.equipment.id;
+  const curIdDevForGreen = selectedConflictDate.extendedProps.groupId;
+  const curShift = baseOrder.equipment.shiftLength;
+  const curTime = baseOrder.shiftTime;
+  const curTimeForGreen = selectedConflictDate.extendedProps.shift;
+  const today = moment(selectedConflictDate.start, "YYYY-MM-DD");
+  // const today = moment(selectedConflictDate, "YYYY-MM-DD");
   const startOfDay = (day) => day.startOf("day");
   const endOfDay = (day) => day.endOf("day");
   // const startDate = today.startOf("day");
   // const endDate = today.startOf("day");
-  const isDayWithConflict = baseOrder.equipment.conflicts.includes(selectedConflictDate);
+  const isDayWithConflict = baseOrder.equipment.conflicts.includes(today.format("YYYY-MM-DD"));
   const [visibleTimeStart, setVisibleTimeStart] = useState(startOfDay(today).valueOf());
   const [visibleTimeEnd, setVisibleTimeEnd] = useState(endOfDay(today).valueOf());
-  const startTimeSelectedItem = today.clone().set("hour", currentTime).startOf("hour");
-  const endTimeSelectedItem = today.clone().set("hour", currentTime).startOf("hour").add(currentShift, "hour")
+  const setStartTimeSelectedItem = (time) => today.clone().set("hour", time).startOf("hour");
+  const setEndTimeSelectedItem = (time) => today.clone().set("hour", time).startOf("hour").add(curShift, "hour")
     .subtract(1, "seconds");
+  // const startTimeSelectedItem = today.clone().set("hour", curTimeForGreen).startOf("hour");
+  // const endTimeSelectedItem = today.clone().set("hour", curTimeForGreen).startOf("hour")
+    // .add(curShift, "hour").subtract(1, "seconds");
 
   const filteredItemsNormal = items.filter((item) => today.format("YYYY-MM-DD") === item.date);
-  const FFItems = filteredItemsNormal.filter((filterItem) => {
-    const ffGrid = addGrid(Math.floor(+currentTime / currentShift), currentShift);
+  const filteredItemsEdit = filteredItemsNormal.filter((filterItem) => {
+    const ffGrid = addGrid(Math.floor(+curTimeForGreen / curShift), curShift);
     return filterItem.grid !== ffGrid;
   });
-  const filteredItems = isEditMode ? FFItems : filteredItemsNormal;
-  console.log("filteredItems!!!", filteredItems, FFItems);
+  const filteredItems = isEditMode ? filteredItemsEdit : filteredItemsNormal;
   filteredItems.push({
     id: "X_MARK",
-    group: currentIdDevice,
-    title: "X",
-    start_time: startTimeSelectedItem,
-    end_time: endTimeSelectedItem,
+    group: curIdDevForGreen || curIdDevice,
+    // title: "X",
+    start_time: setStartTimeSelectedItem(curTimeForGreen),
+    end_time: setEndTimeSelectedItem(curTimeForGreen),
+    // className: "x_mark",
     itemProps:
       {
         style: {
           // background: isDayWithConflict ? "rgba(128,128,128,0)" : "rgba(128,128,128)",
-          background: "rgba(128,128,128,0)",
+          // background: "rgba(128,128,128,0)",
+          width: "20px",
+          height: "20px",
+          // eslint-disable-next-line
+          backgroundImage: 'url("../../../../others/conflb.svg")',
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
           border: "1px solid red",
           // zIndex: 100,
           // borderRight: "1px solid red",
@@ -77,13 +87,13 @@ export default function WindowTimeline({
   const selectedShiftObj = {
     title: "X",
     id: uuidv4(),
-    group: currentIdDevice,
+    group: curIdDevForGreen || curIdDevice,
     status: "preOrder",
     canMove: false,
-    date: selectedConflictDate,
-    grid: addGrid(Math.floor(+currentTime / currentShift), currentShift),
-    start_time: startTimeSelectedItem,
-    end_time: endTimeSelectedItem,
+    date: today.format("YYYY-MM-DD"),
+    grid: addGrid(Math.floor(+curTimeForGreen / curShift), curShift),
+    start_time: setStartTimeSelectedItem(curTimeForGreen),
+    end_time: setEndTimeSelectedItem(curTimeForGreen),
     itemTouchSendsClick: false,
     itemProps: {
       style: {
@@ -97,10 +107,10 @@ export default function WindowTimeline({
         zIndex: 100,
       },
     },
-    deviceGroup: currentIdDevice,
-    checkBoxId: `${currentIdDevice} ${Math.floor(+currentTime / currentShift)}`,
+    deviceGroup: curIdDevForGreen || curIdDevice,
+    checkBoxId: `${curIdDevForGreen || curIdDevice} ${Math.floor(+curTimeForGreen / curShift)}`,
   };
-
+  console.log("filteredItems", filteredItems, isDayWithConflict);
   const [consideredCell, setConsideredCell] = useState((isDayWithConflict || !isEditMode)
     ? {} : selectedShiftObj);
   console.log("consideredCell", consideredCell);
@@ -118,7 +128,7 @@ export default function WindowTimeline({
   const elInGroup = generateGroup();
 
   const newElInGroup = elInGroup.map((el) => {
-    const selectedElInGroup = el.id === currentIdDevice;
+    const selectedElInGroup = el.id === curIdDevice;
     return {
       ...el,
       title: (
@@ -139,13 +149,13 @@ export default function WindowTimeline({
     const date = moment(time).format("YYYY-MM-DD");
     const hour = moment(time).hours();
     // const { shiftLength } = currentDevice;
-    const formatHour = Math.floor(hour / currentShift);
+    const formatHour = Math.floor(hour / curShift);
 
     let start; let
       end;
 
-    start = formatHour * currentShift;
-    end = start + currentShift;
+    start = formatHour * curShift;
+    end = start + curShift;
     start = `${date} ${start}:00`;
     end = `${date} ${end}:00`;
     return {
@@ -156,27 +166,27 @@ export default function WindowTimeline({
 
   const clickOnEmptySpace = (groupId, time) => {
     const hour = moment(time).hours();
-    const formatHour = Math.floor(hour / currentShift);
+    const formatHour = Math.floor(hour / curShift);
     const formattedDate = getFormattedDate(groupId, time);
     const obj = {
       id: uuidv4(),
       group: groupId,
       status: "preOrder",
       canMove: false,
-      date: selectedConflictDate,
-      grid: addGrid(formatHour, currentShift),
+      date: today.format("YYYY-MM-DD"),
+      grid: addGrid(formatHour, curShift),
       start_time: moment(formattedDate.start).valueOf(),
       end_time: moment(formattedDate.end).valueOf(),
       itemTouchSendsClick: false,
       itemProps: { style: { background: "gray" } },
-      deviceGroup: currentIdDevice,
+      deviceGroup: groupId,
       checkBoxId: `${groupId} ${formatHour}`,
     };
     setConsideredCell(obj);
   };
 
   const handleCanvasClick = (groupId, time) => {
-    // if (statusCheckboxSelected === "MYSELF" && groupId !== currentIdDevice) return;
+    // if (statusCheckboxSelected === "MYSELF" && groupId !== curIdDevice) return;
     clickOnEmptySpace(groupId, time);
   };
 
@@ -224,12 +234,13 @@ export default function WindowTimeline({
             verticalLineClassNamesForTime={(timeStart, timeEnd) => {
               const currentTimeStart = moment(timeStart);
               const currentTimeEnd = moment(timeEnd);
-              const selectedTime = currentTimeStart.isSame(startTimeSelectedItem, "hours") && currentTimeEnd.isSame(endTimeSelectedItem, "hours");
+              const selectedTime = currentTimeStart.isSame(setStartTimeSelectedItem(curTime), "hours")
+                && currentTimeEnd.isSame(setEndTimeSelectedItem(curTime), "hours");
               return [selectedTime && statusCheckboxSelected === "AUTO" ? styleConflict.highlightColumn : ""];
             }}
             horizontalLineClassNamesForGroup={(group) => {
               if (statusCheckboxSelected === "AUTO") return;
-              const selectedGroup = group.id === currentIdDevice;
+              const selectedGroup = group.id === curIdDevice;
               // eslint-disable-next-line
               return [selectedGroup ? styleConflict.highlightRow : ""];
             }}
@@ -249,7 +260,7 @@ export default function WindowTimeline({
             // onMouseUp={handleCellMouseUp} //! Выделение нескольки
             // onMouseDown={handleCellMouseDown} //! Выделение нескольки
             timeSteps={{
-              hour: currentShift,
+              hour: curShift,
               day: 1,
               month: 1,
               year: 1,
@@ -274,7 +285,7 @@ export default function WindowTimeline({
                   </div>
                 )}
               </SidebarHeader>
-              {currentShift < 2
+              {curShift < 2
                 ? (
                   <DateHeader
                     unit="hour"
@@ -290,7 +301,7 @@ export default function WindowTimeline({
                       intervalContext,
                     }) => (
                       <div {...getIntervalProps()}>
-                        {moment(+getIntervalProps().key.slice(6)).isSame(startTimeSelectedItem, "hours")
+                        {moment(+getIntervalProps().key.slice(6)).isSame(setStartTimeSelectedItem(curTime), "hours")
                         && statusCheckboxSelected === "AUTO"
                           ? (
                             <div
@@ -350,7 +361,8 @@ export default function WindowTimeline({
           onClick={() => {
             setSelectedConflictDate(null);
             // TODO ЛОГИКА для перехода к следующему конкликту после нажатия на `Пропустить`
-            // const curIndConflInArr = baseOrder.equipment?.conflicts.indexOf(selectedConflictDate)
+            // const curIndConflInArr =
+            // baseOrder.equipment?.conflicts.indexOf(today.format("YYYY-MM-DD"))
             // const nextIndexConfl = curIndConflInArr < baseOrder.equipment?.conflicts.length - 1
             // ? curIndConflInArr + 1 : 0;
             // handleSetSelectedConflictDate(baseOrder.equipment?.conflicts[nextIndexConfl]);

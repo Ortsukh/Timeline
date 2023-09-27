@@ -1,7 +1,7 @@
 const ITEM_CONFLICT_COLOR = {
   accepted: {
     backgroundColor: "#4c7fe5", // blue
-    text: "Забронированна Вами.",
+    text: "Забронирована Вами.",
   },
   // rejected: {
   //   backgroundColor: "#f03333",
