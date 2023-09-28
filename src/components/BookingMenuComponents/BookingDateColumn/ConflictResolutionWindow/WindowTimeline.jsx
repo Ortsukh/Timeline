@@ -12,7 +12,7 @@ import "../../../style.css";
 import { addGrid } from "../../../../common/DataConvertHelper";
 import styleConflict from "./Conflict.module.css";
 import EquipmentDescription from "../components/EquipmentDescription";
-import { ConflSVG } from "../../../../others/svg/svgImport";
+import { RedCircleCross } from "../../../../others/svgImport";
 
 export default function WindowTimeline({
   items,
@@ -30,6 +30,7 @@ export default function WindowTimeline({
   console.log("selectedConflictDate!!!", selectedConflictDate);
   const curIdDevice = baseOrder.equipment.id;
   const curIdDevForGreen = selectedConflictDate.extendedProps.groupId;
+  const curCategory = groups.find((el) => el.id === curIdDevForGreen || curIdDevice).category;
   const curShift = baseOrder.equipment.shiftLength;
   const curTime = baseOrder.shiftTime;
   const curTimeForGreen = selectedConflictDate.extendedProps.shift;
@@ -51,9 +52,11 @@ export default function WindowTimeline({
 
   const filteredItemsNormal = items.filter((item) => today.format("YYYY-MM-DD") === item.date);
   const itemsSameColor = filteredItemsNormal.map((prev) => ({ ...prev, itemProps: { style: { background: "#ffa4a4" } } }));
+  // console.log("itemsSameColor!!!", itemsSameColor);
   const filteredItemsEdit = itemsSameColor.filter((filterItem) => {
-    const ffGrid = addGrid(Math.floor(+curTimeForGreen / curShift), curShift);
-    return filterItem.grid !== ffGrid;
+    // const ffGrid = addGrid(Math.floor(+curTimeForGreen / curShift), curShift);
+    console.log();
+    return filterItem?.rentOrderId !== editOrderData?.rentOrderId;
   });
   const filteredItems = isEditMode ? filteredItemsEdit : itemsSameColor;
   if (isDayWithConflict && !isEditMode) {
@@ -72,7 +75,7 @@ export default function WindowTimeline({
             // width: "30px",
             // height: "30px",
             // background: "transparent",
-            backgroundImage: `url(${ConflSVG})`,
+            backgroundImage: `url(${RedCircleCross})`,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
             backgroundSize: "contain",
@@ -142,21 +145,22 @@ export default function WindowTimeline({
   };
 
   const [consideredCell, setConsideredCell] = useState(isEditMode ? selectedShiftObj : {});
-  console.log("consideredCell", consideredCell);
+
   const handleBoundsChange = (timeStart, timeEnd) => {
     setVisibleTimeStart(timeStart);
     setVisibleTimeEnd(timeEnd);
   };
 
   const generateGroup = () => groups.map((el) => ({
+    category: el.category,
     id: el.id,
     title: el.title,
     date: el.category,
     height: 36,
   }));
-  const elInGroup = generateGroup();
-
-  const newElInGroup = elInGroup.map((el) => {
+  // console.log("generateGroup()", groups, curIdDevForGreen || curIdDevice);
+  const elInGroup = generateGroup().filter((el) => el.category === curCategory);
+  const highlightElInGroup = elInGroup.map((el) => {
     const selectedElInGroup = el.id === curIdDevice;
     return {
       ...el,
@@ -250,14 +254,14 @@ export default function WindowTimeline({
     };
     pushOrderInBasePreOrder(formattedConsideredCell);
   };
-  console.log(curIdDevForGreen || +curIdDevice);
+
   return (
     <>
       <div className={style.containerTimeline}>
         <div className="style">
           <Timeline
             className={style.tableTimeline}
-            groups={statusCheckboxSelected === "AUTO" ? elInGroup : newElInGroup}
+            groups={statusCheckboxSelected === "AUTO" ? elInGroup : highlightElInGroup}
             lineHeight={36}
             itemHeightRatio={1}
             verticalLineClassNamesForTime={(timeStart, timeEnd) => {
