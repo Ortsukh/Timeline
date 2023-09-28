@@ -145,7 +145,7 @@
 .select-count-box,
 .select-count-order-box {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     align-items: center;
 }
 
@@ -212,6 +212,7 @@
 
 .select-filter {
     z-index: 200;
+    font-size: 14px;
 }
 
 .select-filter.choose-product {
@@ -278,12 +279,12 @@
 .selects-block {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     justify-content: space-between;
 }
 
 .selects-block .select-count-box {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .selects-block .select-count-box,
@@ -468,6 +469,7 @@
     padding: 8px 10px;
     border-radius: 5px;
     background-color: #e6e6e6;
+    font-size: 14px;
 }
 
 .fc-toolbar-chunk button.fc-today-button {
@@ -483,6 +485,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    font-size: 14px;
 }
 
 .input-checkbox input {
@@ -511,18 +514,19 @@
     position: relative;
     bottom: 8px;
     margin-right: 10px;
+    font-size: 14px;
 }
 
 .fc .fc-toolbar-title {
     margin-right: 100px;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .choose-category {
     padding: 5px 10px;
     border-radius: 5px;
     border: 1px solid #2780fc;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .choose-category_item {
