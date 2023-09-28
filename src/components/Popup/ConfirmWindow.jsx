@@ -21,9 +21,14 @@ export default function ConfirmWindow({
         </div>
         <div>
           <div className="messageWindow-item">
+            <span>Дата: </span>
+            <span>{item.date}</span>
+          </div>
+          <div className="messageWindow-item">
             <span>Оборудование:</span>
             <span>{group.title}</span>
           </div>
+
           <div className="messageWindow-item">
             <span>
               Смена
