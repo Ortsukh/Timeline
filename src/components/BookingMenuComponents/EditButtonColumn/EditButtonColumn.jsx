@@ -44,9 +44,9 @@ export default function EditButtonColumn({
   const [isShowConflictNotification, setIsShowConflictNotification] =
     useState(false);
 
-  useEffect(() => {
-    setShowButtonClear(false);
-  }, []);
+  // useEffect(() => {
+  //   setShowButtonClear(false);
+  // }, []);
 
   const back = "< Назад";
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import "../style.css";
 
@@ -8,6 +8,7 @@ export default function CompaniesSelect({
   setSelectedCompany,
   isClickedOnNew,
 }) {
+  const [selectValue, setSelectValue] = useState(null);
   const handleChange = (e) => {
     setSelectedCompany({
       ...e,
@@ -21,6 +22,13 @@ export default function CompaniesSelect({
     value: company.id,
     label: company.name,
   }));
+  useEffect(() => {
+    if (!selectedCompany) return;
+    setSelectValue({
+      value: selectedCompany.id,
+      label: selectedCompany.name,
+    });
+  }, [selectedCompany]);
 
   return (
     <div className="tools-filter company-filter">
@@ -30,7 +38,7 @@ export default function CompaniesSelect({
         className="select-filter"
         options={getOptionsForSearch(companies)}
         onChange={handleChange}
-        value={selectedCompany}
+        value={selectValue}
       />
       {!selectedCompany && isClickedOnNew && (
         <div className="tooltip">Пожалуйста, выберите компанию</div>
