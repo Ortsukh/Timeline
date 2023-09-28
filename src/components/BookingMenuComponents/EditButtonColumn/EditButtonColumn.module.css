@@ -18,12 +18,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 40px 0;
+  margin: 20px 0;
 }
 .fullPrice {
   padding: 8px 10px;
   background-color: #d3e9ff;
   border-radius: 5px;
+  font-size: 14px;
 }
 
 .backButton:hover {

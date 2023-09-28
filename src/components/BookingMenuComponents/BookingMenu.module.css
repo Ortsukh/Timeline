@@ -1,17 +1,21 @@
 .container {
-  display: grid;
+  /* display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 1fr;
   grid-column-gap: 0px;
-  grid-row-gap: 0px;
+  grid-row-gap: 0px; */
+  display: flex;
+  gap: 20px;
   align-items: center;
 }
 
 .editButtonColumn {
-  grid-area: 1 / 1 / 2 / 2;
-  width: 95%;
+  /* grid-area: 1 / 1 / 2 / 2;
+  width: 95%; */
+  width:55%;
 }
 
 .bookingDateColumn {
-  grid-area: 1 / 2 / 2 / 3;
+  /* grid-area: 1 / 2 / 2 / 3; */
+  width: 45%;
 }
