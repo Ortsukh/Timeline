@@ -12,7 +12,7 @@ import "../../../style.css";
 import { addGrid } from "../../../../common/DataConvertHelper";
 import styleConflict from "./Conflict.module.css";
 import EquipmentDescription from "../components/EquipmentDescription";
-import { RedCircleCross } from "../../../../others/svgImport";
+import { ConflCirle } from "../../../../others/importImg";
 
 export default function WindowTimeline({
   items,
@@ -75,7 +75,7 @@ export default function WindowTimeline({
             // width: "30px",
             // height: "30px",
             // background: "transparent",
-            backgroundImage: `url(${RedCircleCross})`,
+            backgroundImage: `url(${ConflCirle})`,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
             backgroundSize: "contain",
