@@ -40,6 +40,7 @@ export default function EditButtonColumn({
   setSelectedPreferredDevice,
                                            selectedCompany,
                                            editOrder,
+                                           user
 }) {
   const [shiftsCount, setShiftsCount] = useState(1);
   const [isShowConflictNotification, setIsShowConflictNotification] =
@@ -252,25 +253,48 @@ const natification = () => {
                 Рассчитать
               </button>
             ) : (
-              <button
-                type="button"
-                className={style.reserveBtn}
-                onClick={() => {
-                  if(isEditMode) {
-                    // editOrder()
-                    setIsConfirmWindowOpen(true)
-                    return
-                  }
-                  if (baseOrder.equipment.conflicts.length > 0) {
-                    showNotification('conflicts');
-                    return;
-                  }
-                  // sendNewOrder();
-                  setIsConfirmWindowOpen(true)
-                }}
-              >
-                Подтвердить бронирование
-              </button>
+                <>
+                  <button
+                      type="button"
+                      className={style.reserveBtn}
+                      onClick={() => {
+                        if(isEditMode) {
+                          // editOrder()
+                          setIsConfirmWindowOpen(true)
+                          return
+                        }
+                        if (baseOrder.equipment.conflicts.length > 0) {
+                          showNotification('conflicts');
+                          return;
+                        }
+                        // sendNewOrder();
+                        setIsConfirmWindowOpen(true)
+                      }}
+                  >
+                    Подтвердить бронирование
+                  </button>
+                  {user.role === "ROLE_MANAGER" &&
+                      (<button
+                      type="button"
+                      className={style.reserveBtn}
+                      onClick={() => {
+                        if(isEditMode) {
+                          // editOrder()
+                          setIsConfirmWindowOpen(true)
+                          return
+                        }
+                        if (baseOrder.equipment.conflicts.length > 0) {
+                          showNotification('conflicts');
+                          return;
+                        }
+                        // sendNewOrder();
+                        setIsConfirmWindowOpen(true)
+                      }}
+                  >
+                    Сохранить
+                  </button>)}
+                </>
+
             )}
             <button
               type="button"

@@ -201,8 +201,7 @@ export default function TimelinePage() {
     const item = itemId ? items.find((el) => el.id === itemId) : null;
     if (
       !(
-        user.role === "ROLE_COMPANY"
-        && user.id === item.company.id
+        user.id === item.company.id
         && item.status === "pending"
       )
     ) return;

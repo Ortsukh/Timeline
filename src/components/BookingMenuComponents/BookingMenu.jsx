@@ -344,6 +344,7 @@ export default function BookingMenu({
             setSelectedPreferredDevice={setSelectedPreferredDevice}
             editOrder={editOrder}
             selectedCompany={selectedCompany}
+            user={user}
           />
         </div>
 

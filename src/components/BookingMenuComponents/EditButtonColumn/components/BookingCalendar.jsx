@@ -21,7 +21,7 @@ function renderEventContent(eventInfo) {
     height: 40,
     backgroundColor: color,
     width: 50,
-    color: "#000000",
+    color: (color === "#100e0e" ? "#ffffff" : "#000000"),
     display: "flex",
     flexDirection: "column",
   };
