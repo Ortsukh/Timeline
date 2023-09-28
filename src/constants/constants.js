@@ -34,7 +34,7 @@ const orderStatus = {
       color: "#ff9900", // жёлтый
     },
     default: {
-      color: "#2780FC", // синий?
+      color: "#2780FC", // синий? дэфолтный
     },
   },
   // waitingRole: {

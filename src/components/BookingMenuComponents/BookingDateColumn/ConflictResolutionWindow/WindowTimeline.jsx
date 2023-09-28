@@ -12,7 +12,7 @@ import "../../../style.css";
 import { addGrid } from "../../../../common/DataConvertHelper";
 import styleConflict from "./Conflict.module.css";
 import EquipmentDescription from "../components/EquipmentDescription";
-import backgroundSVG from "../../../../others/confl.svg";
+import { ConflSVG } from "../../../../others/svg/svgImport";
 
 export default function WindowTimeline({
   items,
@@ -72,7 +72,7 @@ export default function WindowTimeline({
             // width: "30px",
             // height: "30px",
             // background: "transparent",
-            backgroundImage: `url(${backgroundSVG})`,
+            backgroundImage: `url(${ConflSVG})`,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
             backgroundSize: "contain",
@@ -124,7 +124,7 @@ export default function WindowTimeline({
     itemProps: {
       style: {
         background: "#90ef90",
-        // backgroundImage: `url(${backgroundSVG})`,
+        // backgroundImage: `url(${ConflSVG})`,
         // backgroundRepeat: "no-repeat",
         // backgroundPosition: "center",
         // backgroundSize: "contain",
