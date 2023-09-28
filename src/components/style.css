@@ -562,6 +562,8 @@
     gap: 10px;
     align-items: start;
     margin-bottom: 15px;
+    font-size: 14px;
+    text-align: start;
 }
 
 .react-tooltip {
