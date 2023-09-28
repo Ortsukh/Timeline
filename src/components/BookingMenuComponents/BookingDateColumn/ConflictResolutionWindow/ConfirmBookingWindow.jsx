@@ -93,7 +93,7 @@ export default function ConfirmBookingWindow({
             )}
           <div id="riddler" className={styleConflict.riddler}>?</div>
           <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
-            {generateClue(user.role === "ROLE_MANAGER" ? "WINDOW_TIMELINE_ROLE_MANAGER" : "WINDOW_TIMELINE")}
+            {generateClue(user.role === "ROLE_MANAGER" ? "TIMELINE_ROLE_MANAGER_CONFLICT" : "TIMELINE_ROLE_COMPANY_CONFLICT")}
           </Tooltip>
         </div>
         )}

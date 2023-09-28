@@ -1,8 +1,7 @@
 import moment from "moment";
 import React from "react";
 import ITEMS_PREORDER_COLOR from "../constants/itemsPreOrderColor";
-import ITEM_CONFLICT_COLOR from "../constants/itemConflictColor";
-import ITEM_MANAGER_CONFLICT_COLOR from "../constants/itemConflictColorManager";
+import ITEM_COLOR_INFO from "../constants/itemTimelineColorInfo";
 
 export const generateClue = (statusPage) => {
   let colorConstant = "";
@@ -10,11 +9,17 @@ export const generateClue = (statusPage) => {
     case "BOOKING_CALENDAR":
       colorConstant = ITEMS_PREORDER_COLOR;
       break;
-    case "WINDOW_TIMELINE_ROLE_MANAGER":
-      colorConstant = ITEM_MANAGER_CONFLICT_COLOR;
+    case "TIMELINE_ROLE_MANAGER_MAIN":
+      colorConstant = ITEM_COLOR_INFO.role_manager.main;
       break;
-    case "WINDOW_TIMELINE":
-      colorConstant = ITEM_CONFLICT_COLOR;
+    case "TIMELINE_ROLE_MANAGER_CONFLICT":
+      colorConstant = ITEM_COLOR_INFO.role_manager.conflict;
+      break;
+    case "TIMELINE_ROLE_COMPANY_MAIN":
+      colorConstant = ITEM_COLOR_INFO.role_company.main;
+      break;
+    case "TIMELINE_ROLE_COMPANY_CONFLICT":
+      colorConstant = ITEM_COLOR_INFO.role_company.conflict;
       break;
     default:
       colorConstant = "";

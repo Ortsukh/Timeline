@@ -25,10 +25,6 @@ module.exports = {
   module: {
     rules: [ // загрузчик для jsx
       {
-        test: /\.svg$/,
-        loader: "svg-inline-loader",
-      },
-      {
         test: /\.jsx?$/, // определяем тип файлов
         exclude: /(node_modules)/, // исключаем из обработки папку node_modules
         loader: "babel-loader", // определяем загрузчик
@@ -42,11 +38,25 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        use: ["svg-inline-loader"],
-      },
-      {
-        test: /\.svg$/,
-        use: [{ loader: "svg-inline-loader" }],
+        // test: /\.svg/,
+        use: [
+          {
+            loader: "babel-loader",
+          },
+          {
+            loader: "react-svg-loader",
+            // options: {
+            //   jsx: true,
+            //   svgo: {
+            //     plugins: [
+            //       {
+            //         removeViewBox: false,
+            //       },
+            //     ],
+            //   },
+            // },
+          },
+        ],
       },
     ],
   },

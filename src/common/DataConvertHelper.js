@@ -54,7 +54,6 @@ export const addGrid = (formatHour, shiftLength) => {
 const getOrderColor = (order, user) => {
   // if (user === null) return orderStatus.waitingRole.color;
   const isCompanyOrder = user && user.role === "ROLE_COMPANY" && user.id === order.rentOrder.company?.id;
-  // console.log("isCompanyOrder", isCompanyOrder);
   const isFranchise = user && user.role === "ROLE_MANAGER";
   // if (isCompanyOrder) return orderStatus[order.rentOrder.status]?.color;
   if (isCompanyOrder && order.rentOrder.status === "pending") return orderStatus.pending.color;
@@ -75,6 +74,7 @@ const getOrderColor = (order, user) => {
   if (order.rentOrder.status === "pending") return orderStatus.otherPending.color;
   return orderStatus.booked.color;
 };
+
 const createOrderObject = (order, el, shiftLength, interval, user) => {
   const statusColor = getOrderColor(order, user);
   const itemProps = { style: { background: statusColor } };
