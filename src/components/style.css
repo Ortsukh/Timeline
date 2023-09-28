@@ -232,6 +232,10 @@
     padding-left: 0;
 }
 
+.react-calendar-timeline .rct-sidebar, .react-calendar-timeline .rct-header-root{
+    font-size: 14px;
+}
+
 .tooltip {
     background-color: rgb(253, 223, 223);
     padding: 5px 10px;
