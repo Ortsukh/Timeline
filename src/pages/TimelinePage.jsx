@@ -200,12 +200,11 @@ export default function TimelinePage() {
   const openBookingWindow = (time, posX, posY, kindModal, itemId) => {
     const item = itemId ? items.find((el) => el.id === itemId) : null;
     if (
-      !(
-        user.id === item.company.id
-        && item.status === "pending"
-      )
+      item.status !== "pending"
     ) return;
-
+    if (user.role === "ROLE_COMPANY" && user.id !== item.company.id) {
+      return;
+    }
     if (!item || item.status === "preOrder" || isEditMode) return;
     setIsActiveMessage((current) => !current);
     const formattedDate = getFormattedDate(item.group, time);
