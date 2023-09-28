@@ -32,15 +32,13 @@ export default function EditButtonColumn({
   isActiveCalendar,
   handleClear,
   setShowStartDisplayConflict,
-  sendNewOrder,
   handleChangeEquipmentBeforeCalculation,
   statusCheckboxSelected,
   setStatusCheckboxSelected,
   selectedGroups,
   setSelectedPreferredDevice,
-                                           selectedCompany,
-                                           editOrder,
-                                           user
+  selectedCompany,
+  user,
 }) {
   const [shiftsCount, setShiftsCount] = useState(1);
   const [isShowConflictNotification, setIsShowConflictNotification] =
@@ -88,25 +86,27 @@ export default function EditButtonColumn({
 
   const handleChangeSelectedStatus = (status) => {
     if (statusCheckboxSelected !== "AUTO") {
-    // if (status === "AUTO") {
+      // if (status === "AUTO") {
       setStatusCheckboxSelected(status);
       setSelectedPreferredDevice(null);
     } else {
       // setStatusCheckboxSelected(status);
       setStatusCheckboxSelected("MYSELF");
-      setSelectedPreferredDevice(getOptionsForSearch(groups)[groups.length - 1]);
+      setSelectedPreferredDevice(
+        getOptionsForSearch(groups)[groups.length - 1]
+      );
     }
   };
-const natification = () => {
-  if(isShowConflictNotification === 'company'){
-  return  <div style={{ color: "red" }}>
-      {`Выберите компанию`}
-    </div>
-  }
- return <div style={{ color: "red" }}>
-    {`У вас осталось ${baseOrder.equipment.conflicts.length} конфликт(ов)`}
-  </div>
-}
+  const natification = () => {
+    if (isShowConflictNotification === "company") {
+      return <div style={{ color: "red" }}>{`Выберите компанию`}</div>;
+    }
+    return (
+      <div style={{ color: "red" }}>
+        {`У вас осталось ${baseOrder.equipment.conflicts.length} конфликт(ов)`}
+      </div>
+    );
+  };
 
   return (
     <div>
@@ -119,39 +119,47 @@ const natification = () => {
             <span>
               {" "}
               Выбранная категория:{" "}
-              <span className="choose-category_item">{selectedGroups}</span>{" "}
+              <span className="choose-category_item">
+                {selectedGroups}
+              </span>{" "}
             </span>
           </div>
           <div className="choose-category">
             <span>
               {" "}
               Компания:{" "}
-              <span className="choose-category_item">{selectedCompany.name}</span>{" "}
+              <span className="choose-category_item">
+                {selectedCompany.name}
+              </span>{" "}
             </span>
           </div>
         </div>
       </div>
       <div className={style.filterContainer}>
-         <div className="selects-block">
-           <FiltersForOrder
-             baseOrder={baseOrder}
-             setBaseOrder={setBaseOrder}
-             isActiveCalendar={isActiveCalendar}
-             setShiftsCount={setShiftsCount}
-             currentDevice={currentDevice}
-           />
-         </div>
+        <div className="selects-block">
+          <FiltersForOrder
+            baseOrder={baseOrder}
+            setBaseOrder={setBaseOrder}
+            isActiveCalendar={isActiveCalendar}
+            setShiftsCount={setShiftsCount}
+            currentDevice={currentDevice}
+          />
+        </div>
         <div className="select-count-box price-count">
           <span className="price-item">
             {`Цена за смену: ${+currentDevice.price}р`}
           </span>
           <span className={style.fullPrice}>
             {`Общая стоимость: `}
-            <b>{(isEditMode ? itemsPreOrder.length : baseOrder.preOrders.length) * currentDevice.price}</b>р
+            <b>
+              {(isEditMode
+                ? itemsPreOrder.length
+                : baseOrder.preOrders.length) * currentDevice.price}
+            </b>
+            р
           </span>
         </div>
       </div>
-
 
       {/*{isEditMode ? (*/}
       {/*  <div className="preOrderTable">*/}
@@ -163,22 +171,22 @@ const natification = () => {
       {/*    />*/}
       {/*  </div>*/}
       {/*) : (*/}
-        <>
-          {!baseOrder.equipment.id  && (
-            <>
-              <div className="input-count-box">
-                <div className="input-checkbox">
-                  <input
-                    type="checkbox"
-                    id="auto"
-                    name="auto"
-                    checked={statusCheckboxSelected === "AUTO"}
-                    onChange={() => handleChangeSelectedStatus("AUTO")}
-                  />
-                  <label htmlFor="auto">Автоматический выбор</label>
-                </div>
-                <div className="select-count-box">
-                  {/* <div className="input-checkbox">
+      <>
+        {!baseOrder.equipment.id && (
+          <>
+            <div className="input-count-box">
+              <div className="input-checkbox">
+                <input
+                  type="checkbox"
+                  id="auto"
+                  name="auto"
+                  checked={statusCheckboxSelected === "AUTO"}
+                  onChange={() => handleChangeSelectedStatus("AUTO")}
+                />
+                <label htmlFor="auto">Автоматический выбор</label>
+              </div>
+              <div className="select-count-box">
+                {/* <div className="input-checkbox">
                     <input
                       type="checkbox"
                       id="myself"
@@ -190,34 +198,30 @@ const natification = () => {
                       Выбрать оборудование самостоятельно
                     </label>
                   </div> */}
-                  <Select
-                    isDisabled={statusCheckboxSelected !== "MYSELF"}
-                    className="select-filter"
-                    options={getOptionsForSearch(groups)}
-                    onChange={handleChangeEquipmentBeforeCalculation}
-                    defaultValue={
-                      getOptionsForSearch(groups)[groups.length - 1]
-                    }
-                  />
-                </div>
+                <Select
+                  isDisabled={statusCheckboxSelected !== "MYSELF"}
+                  className="select-filter"
+                  options={getOptionsForSearch(groups)}
+                  onChange={handleChangeEquipmentBeforeCalculation}
+                  defaultValue={getOptionsForSearch(groups)[groups.length - 1]}
+                />
               </div>
-            </>
-          )}
-          <BookingCalendar
-            items={items}
-            selectedDates={selectedDates}
-            currentDevice={currentDevice}
-            handleSetSelectedConflictDate={handleSetSelectedConflictDate}
-            setSelectedDates={setSelectedDates}
-            calendarEvent={calendarEvent}
-            isActiveCalendar={isActiveCalendar}
-          />
-        </>
+            </div>
+          </>
+        )}
+        <BookingCalendar
+          items={items}
+          selectedDates={selectedDates}
+          currentDevice={currentDevice}
+          handleSetSelectedConflictDate={handleSetSelectedConflictDate}
+          setSelectedDates={setSelectedDates}
+          calendarEvent={calendarEvent}
+          isActiveCalendar={isActiveCalendar}
+        />
+      </>
 
       <div>
-        {isShowConflictNotification && (
-            natification()
-        )}
+        {isShowConflictNotification && natification()}
 
         {/*{isEditMode ? (*/}
         {/*  <div>*/}
@@ -237,78 +241,99 @@ const natification = () => {
         {/*    </button>*/}
         {/*  </div>*/}
         {/*) : (*/}
-          <div className={style.btnCont}>
-            {isActiveCalendar ? (
-              <button
-                type="button"
-                className={style.reserveBtn}
-                onClick={() => {
-                  if (selectedDates.length < 1) {
-                    return;
-                  }
-                  generateCalendarEvents();
-                  setShowStartDisplayConflict(false);
-                }}
-              >
-                Рассчитать
-              </button>
-            ) : (
+        <div className={style.btnCont}>
+          {isActiveCalendar ? (
+            <button
+              type="button"
+              className={style.reserveBtn}
+              onClick={() => {
+                if (selectedDates.length < 1) {
+                  return;
+                }
+                generateCalendarEvents();
+                setShowStartDisplayConflict(false);
+              }}
+            >
+              Рассчитать
+            </button>
+          ) : (
+            <>
+              {user.role === "ROLE_MANAGER" ? (
                 <>
                   <button
-                      type="button"
-                      className={style.reserveBtn}
-                      onClick={() => {
-                        if(isEditMode) {
-                          // editOrder()
-                          setIsConfirmWindowOpen(true)
-                          return
-                        }
-                        if (baseOrder.equipment.conflicts.length > 0) {
-                          showNotification('conflicts');
-                          return;
-                        }
-                        // sendNewOrder();
-                        setIsConfirmWindowOpen(true)
-                      }}
+                    type="button"
+                    className={style.reserveBtn}
+                    onClick={() => {
+                      if (isEditMode) {
+                        // editOrder()
+                        setIsConfirmWindowOpen("accepted");
+                        return;
+                      }
+                      if (baseOrder.equipment.conflicts.length > 0) {
+                        showNotification("conflicts");
+                        return;
+                      }
+                      // sendNewOrder();
+                      setIsConfirmWindowOpen(true);
+                    }}
                   >
                     Подтвердить бронирование
                   </button>
-                  {user.role === "ROLE_MANAGER" &&
-                      (<button
-                      type="button"
-                      className={style.reserveBtn}
-                      onClick={() => {
-                        if(isEditMode) {
-                          // editOrder()
-                          setIsConfirmWindowOpen(true)
-                          return
-                        }
-                        if (baseOrder.equipment.conflicts.length > 0) {
-                          showNotification('conflicts');
-                          return;
-                        }
-                        // sendNewOrder();
-                        setIsConfirmWindowOpen(true)
-                      }}
+                  <button
+                    type="button"
+                    className={style.reserveBtn}
+                    onClick={() => {
+                      if (isEditMode) {
+                        // editOrder()
+                        setIsConfirmWindowOpen("pending");
+                        return;
+                      }
+                      if (baseOrder.equipment.conflicts.length > 0) {
+                        showNotification("conflicts");
+                        return;
+                      }
+                      // sendNewOrder();
+                      setIsConfirmWindowOpen(true);
+                    }}
                   >
                     Сохранить
-                  </button>)}
+                  </button>
                 </>
-
-            )}
-            <button
-              type="button"
-              className={style.closeBtn}
-              onClick={() => {
-                handleClear();
-                setStatusCheckboxSelected("AUTO");
-                setShowStartDisplayConflict(true);
-              }}
-            >
-              Очистить
-            </button>
-          </div>
-
+              ) : (
+                <button
+                  type="button"
+                  className={style.reserveBtn}
+                  onClick={() => {
+                    if (isEditMode) {
+                      // editOrder()
+                      setIsConfirmWindowOpen(true);
+                      return;
+                    }
+                    if (baseOrder.equipment.conflicts.length > 0) {
+                      showNotification("conflicts");
+                      return;
+                    }
+                    // sendNewOrder();
+                    setIsConfirmWindowOpen("accepted");
+                  }}
+                >
+                  Сохранить и отправить заявку
+                </button>
+              )}
+            </>
+          )}
+          <button
+            type="button"
+            className={style.closeBtn}
+            onClick={() => {
+              handleClear();
+              setStatusCheckboxSelected("AUTO");
+              setShowStartDisplayConflict(true);
+            }}
+          >
+            Очистить
+          </button>
+        </div>
       </div>
     </div>
   );
