@@ -492,6 +492,10 @@
     font-size: 14px;
 }
 
+.input-checkbox label{
+    margin-bottom: 0 !important;
+}
+
 .input-checkbox input {
     width: 25px;
     height: 25px;
@@ -562,6 +566,8 @@
     gap: 10px;
     align-items: start;
     margin-bottom: 15px;
+    font-size: 14px;
+    text-align: start;
 }
 
 .react-tooltip {

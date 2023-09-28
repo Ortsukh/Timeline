@@ -353,6 +353,9 @@ export default function TimelinePage() {
               closeBookingWindow={closeBookingWindow}
               data={chosenDate}
               editMode={editMode}
+              setSelectedCompany={setSelectedCompany}
+              setSelectedGroups={setSelectedGroups}
+              nameGroup={groups.find((el) => +el.id === +chosenDate.item.group)}
             />
           )}
 
