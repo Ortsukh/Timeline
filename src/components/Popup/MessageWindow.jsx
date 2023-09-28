@@ -1,7 +1,9 @@
 import React from "react";
 import "../style.css";
 
-export default function EditWindow({ data, closeBookingWindow, editMode }) {
+export default function MessageWindow({
+  data, closeBookingWindow, editMode, setSelectedCompany, setSelectedGroups, nameGroup,
+}) {
   const heightModal = 185;
   const weightModal = 225;
 
@@ -33,7 +35,16 @@ export default function EditWindow({ data, closeBookingWindow, editMode }) {
       <button
         type="button"
         className="button-submit reserved-btn"
-        onClick={(e) => editMode(e, data.item)}
+        onClick={(e) => {
+          editMode(e, data.item);
+          setSelectedGroups(nameGroup.category);
+          localStorage.setItem("toolsFilter", nameGroup.category);
+          setSelectedCompany({
+            id: data.item.company.id,
+            name: data.item.company.name,
+            // role: ,
+          });
+        }}
       >
         Редактировать
       </button>
