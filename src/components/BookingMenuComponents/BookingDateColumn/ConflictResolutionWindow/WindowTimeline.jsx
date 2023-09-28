@@ -371,7 +371,7 @@ export default function WindowTimeline({
         </div>
       </div>
       <div style={{
-        display: "flex", justifyContent: "space-between", width: "45vw", margin: "0 auto",
+        display: "flex", justifyContent: "space-between", width: "auto", margin: "0 auto",
       }}
       >
         <button
