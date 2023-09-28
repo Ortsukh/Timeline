@@ -492,6 +492,10 @@
     font-size: 14px;
 }
 
+.input-checkbox label{
+    margin-bottom: 0 !important;
+}
+
 .input-checkbox input {
     width: 25px;
     height: 25px;
