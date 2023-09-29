@@ -176,7 +176,7 @@ export default function BookingCalendar({
       element.onclick = function selectDays() { selectAllSimilarDayInMonth(element.classList[2]); };
       element.style.cursor = "pointer";
       if (index === 5 || index === 6) {
-        element.style.color = "red !important";
+        element.firstChild.firstChild.classList.add("red-color");
       }
     });
   }, [isDefaultSelect]);

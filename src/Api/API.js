@@ -4429,17 +4429,17 @@ export async function getUser() {
   // console.log(res);
   // return res.json();
 
-  // return {
-  //   role: "ROLE_MANAGER",
-  //   id: 1,
-  //   name: "Франчайзи 001",
-  // };
-
   return {
-    role: "ROLE_COMPANY",
+    role: "ROLE_MANAGER",
     id: 1,
-    name: "Суши \"Минск-сити\"",
+    name: "Франчайзи 001",
   };
+
+  // return {
+  //   role: "ROLE_COMPANY",
+  //   id: 1,
+  //   name: "Суши \"Минск-сити\"",
+  // };
 }
 
 export async function getCompanies() {
@@ -4469,6 +4469,15 @@ export async function getAllEquipments() {
     throw new Error("Something went wrong. Sorry");
   }
 
+  return res.json();
+}
+
+export async function getManagerEquipments() {
+  const str = `${backendUrl}get_equipment_manager`;
+  const res = await fetch(str, {});
+  if (!res.ok) {
+    throw new Error("Something went wrong. Sorry");
+  }
   return res.json();
 }
 

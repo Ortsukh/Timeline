@@ -610,3 +610,7 @@
 .fc a, .fc a:hover {
     color: #333 !important;
 }
+
+a.fc-col-header-cell-cushion.red-color,  a.fc-col-header-cell-cushion.red-color:hover{
+    color: red !important;
+}

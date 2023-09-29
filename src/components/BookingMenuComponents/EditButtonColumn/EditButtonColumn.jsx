@@ -140,18 +140,16 @@ export default function EditButtonColumn({
       </div>
       {!baseOrder.equipment.id && (
       <div className="input-count-box">
-        <div className="input-checkbox">
-          <label htmlFor="auto">
-            Автоматический выбор
-            <input
-              type="checkbox"
-              id="auto"
-              name="auto"
-              checked={statusCheckboxSelected === "AUTO"}
-              onChange={() => handleChangeSelectedStatus("AUTO")}
-            />
-          </label>
-        </div>
+        <label htmlFor="auto" className="input-checkbox">
+          <input
+            type="checkbox"
+            id="auto"
+            name="auto"
+            checked={statusCheckboxSelected === "AUTO"}
+            onChange={() => handleChangeSelectedStatus("AUTO")}
+          />
+          Автоматический выбор
+        </label>
         <div className="select-count-box">
           <Select
             isDisabled={statusCheckboxSelected !== "MYSELF"}
@@ -190,7 +188,7 @@ export default function EditButtonColumn({
               Рассчитать
             </button>
           ) : (
-            <div>
+            <div className={style.btnContEdit}>
               {user.role === "ROLE_MANAGER" && isEditMode ? (
                 <>
                   <button
