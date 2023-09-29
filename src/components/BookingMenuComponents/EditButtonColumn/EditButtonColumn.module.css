@@ -1,4 +1,3 @@
-
 .backButtonBlock {
   width: 100%;
   display: flex;
@@ -14,12 +13,14 @@
   border-radius: 5px;
   border: 1px solid #f03333;
 }
-.filterContainer{
+
+.filterContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 20px 0;
 }
+
 .fullPrice {
   padding: 8px 10px;
   background-color: #d3e9ff;
@@ -53,7 +54,6 @@
   cursor: pointer;
   box-sizing: border-box;
   font-size: 14px;
-  width: 200px;
   margin-top: 20px;
 }
 
@@ -88,9 +88,10 @@
 }
 
 .gridDisabledBG {
-  background: hsla(0,0%,82%,.3);
+  background: hsla(0, 0%, 82%, .3);
   box-sizing: border-box;
 }
+
 .activeCell {
   border: 3px solid #2684ff;
 }
@@ -98,13 +99,16 @@
 .fc-day {
   border: 1px solid red !important;
 }
-.btnCont{
+
+.btnCont {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
-.btnContEdit{
+
+.btnContEdit {
   display: flex;
   justify-content: space-between;
-  width: 50%;
+  width: auto;
+  gap: 20px;
 }
