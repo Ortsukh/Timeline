@@ -84,7 +84,8 @@ export default function TimelinePage() {
     console.log(user);
     setIsLoadingEquipment(true);
     if (!user) return;
-    if (user && user.role === "ROLE_MANAGER" && false) {
+    if (user && user.role === "ROLE_MANAGER" && false) { //! для дева!
+    // if (user && user.role === "ROLE_MANAGER") {
       getManagerEquipments().then((response) => {
         setGroups(createEquipmentGroup(response.data));
         setIsLoadingEquipment(false);
