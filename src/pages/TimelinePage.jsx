@@ -82,11 +82,18 @@ export default function TimelinePage() {
 
   useEffect(() => {
     setIsLoadingEquipment(true);
-    getAllEquipments().then((response) => {
-      setGroups(createEquipmentGroup(response.data));
-      setIsLoadingEquipment(false);
-    });
-  }, [update]);
+    if (user && user.role === "ROLE_MANAGER") {
+      getAllEquipments().then((response) => {
+        setGroups(createEquipmentGroup(response.data));
+        setIsLoadingEquipment(false);
+      });
+    } else {
+      getAllEquipments().then((response) => {
+        setGroups(createEquipmentGroup(response.data));
+        setIsLoadingEquipment(false);
+      });
+    }
+  }, [update, user]);
 
   useEffect(() => {
     setIsLoading(true);

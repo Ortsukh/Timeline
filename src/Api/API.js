@@ -4472,6 +4472,16 @@ export async function getAllEquipments() {
   return res.json();
 }
 
+export async function getManagerEquipments() {
+  const str = `${backendUrl}get_equipment_manager`;
+  const res = await fetch(str, {});
+  if (!res.ok) {
+    throw new Error("Something went wrong. Sorry");
+  }
+
+  return res.json();
+}
+
 export async function getAllOrders() {
   const str = `${backendUrl}get_equipment_items`;
   const res = await fetch(str, {});
