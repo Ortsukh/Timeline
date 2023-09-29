@@ -147,6 +147,8 @@
     display: flex;
     gap: 10px;
     align-items: center;
+    z-index: 100;
+
 }
 
 .select-count-box {
