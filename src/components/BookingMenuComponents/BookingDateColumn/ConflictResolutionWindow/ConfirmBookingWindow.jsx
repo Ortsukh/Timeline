@@ -7,6 +7,7 @@ import WindowTimeline from "./WindowTimeline";
 import { generateClue } from "../../../../common/GenerateElementsData";
 
 export default function ConfirmBookingWindow({
+  keyRerenderConflictResolutionWindow,
   user,
   items,
   groups,
@@ -138,6 +139,7 @@ export default function ConfirmBookingWindow({
 
       {selectedConflictDate && (
       <WindowTimeline
+        key={keyRerenderConflictResolutionWindow} //! НЕ УДАЛЯТЬ. key ререндерит
         items={items}
         groups={groups}
         editOrderData={editOrderData}
