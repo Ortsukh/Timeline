@@ -71,6 +71,7 @@ export default function BookingMenu({
   const initialCurrentDeviceIndex = groups
     .map((current) => current.id)
     .indexOf(currentDevice.id);
+  // eslint-disable-next-line
   const [currentDeviceIndex, setCurrentDeviceIndex] = useState(
     initialCurrentDeviceIndex,
   );
@@ -359,23 +360,20 @@ export default function BookingMenu({
           {/* ) */}
           {/*  : ( */}
           <ConfirmBookingWindow
+            keyRerenderConflictResolutionWindow={keyRerenderConflictResolutionWindow}
             user={user}
+            items={items}
+            groups={groups}
             editOrderData={editOrderData}
             isEditMode={isEditMode}
-            setCurrentDevice={setCurrentDevice}
-            groups={groups}
-            items={items}
-            currentDeviceIndex={currentDeviceIndex}
-            setCurrentDeviceIndex={setCurrentDeviceIndex}
-            selectedCompany={selectedCompany}
             selectedConflictDate={selectedConflictDate}
             setSelectedConflictDate={setSelectedConflictDate}
             baseOrder={baseOrder}
             showStartDisplayConflict={showStartDisplayConflict}
             pushOrderInBasePreOrder={pushOrderInBasePreOrder}
-            keyRerenderConflictResolutionWindow={keyRerenderConflictResolutionWindow}
             statusCheckboxSelected={statusCheckboxSelected}
             handleSetSelectedConflictDate={handleSetSelectedConflictDate}
+            selectedCompany={selectedCompany}
           />
         </div>
       </div>
