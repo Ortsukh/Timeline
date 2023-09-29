@@ -151,7 +151,6 @@ export default function BookingCalendar({
       },
     );
     checkAndActiveCell(cells);
-    // setSelectedDates((prev) => prev.concat(selectedDays));
   };
 
   useEffect(() => {
@@ -177,7 +176,7 @@ export default function BookingCalendar({
       element.onclick = function selectDays() { selectAllSimilarDayInMonth(element.classList[2]); };
       element.style.cursor = "pointer";
       if (index === 5 || index === 6) {
-        element.style.color = "red";
+        element.style.color = "red !important";
       }
     });
   }, [isDefaultSelect]);
@@ -237,6 +236,13 @@ export default function BookingCalendar({
       },
     );
   };
+  const selectAllow = (date) => {
+    const calendar = calendarRef.current;
+    const range = calendar.calendar.currentData.dateProfile.currentRange;
+    return !!moment(date.start).isSameOrAfter(moment().startOf("day"))
+        && !!moment(date.end).isSameOrBefore(moment(range.end).startOf("day"))
+        && !!moment(date.start).isSameOrAfter(moment(range.start).startOf("day"));
+  };
 
   return (
     <div className="calendar-count">
@@ -266,20 +272,13 @@ export default function BookingCalendar({
             fixedWeekCount={false}
             ref={calendarRef}
             plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
-            // showNonCurrentDates={false}
             selectable={isDefaultSelect && isActiveCalendar}
             selectMirror
             select={(data) => handleSelect(data)}
-            // initialView="dayGridMonth"
-            // dayHeaderContent={injectDayHeaderContent}
             locale="ru"
             firstDay="1"
             weekends
-            selectAllow={(date) => {
-              const calendar = calendarRef.current;
-              const range = calendar.calendar.currentData.dateProfile.currentRange;
-              return !!moment(date.start).isSameOrAfter(moment().startOf("day")) && !!moment(date.end).isSameOrBefore(moment(range.end).startOf("day")) && !!moment(date.start).isSameOrAfter(moment(range.start).startOf("day"));
-            }}
+            selectAllow={(date) => selectAllow(date)}
             eventClick={handleEventClick}
             events={event}
             eventContent={renderEventContent}
