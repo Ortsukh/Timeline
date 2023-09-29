@@ -58,7 +58,11 @@ export default function BookingCalendar({
       calendarDayCell[0].classList.remove("activeCell");
     }
     clickInfo.el.classList.add("activeCell");
-    handleSetSelectedConflictDate(clickInfo.event);
+    const data = {
+      start: clickInfo.event.start,
+      extendedProps: clickInfo.event.extendedProps,
+    };
+    handleSetSelectedConflictDate(data);
   };
 
   useEffect(() => {
