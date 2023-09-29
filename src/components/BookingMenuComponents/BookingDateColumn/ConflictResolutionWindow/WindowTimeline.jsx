@@ -26,8 +26,7 @@ export default function WindowTimeline({
   statusCheckboxSelected,
   // handleSetSelectedConflictDate,
 }) {
-  console.log("editOrderData!!!", editOrderData);
-  console.log("selectedConflictDate!!!", selectedConflictDate);
+  // console.log("selectedConflictDate!!!", selectedConflictDate);
   const curIdDevice = baseOrder.equipment.id;
   const curIdDevForGreen = selectedConflictDate.extendedProps.groupId;
   const curCategory = groups.find((el) => el.id === curIdDevForGreen || curIdDevice).category;
@@ -35,7 +34,6 @@ export default function WindowTimeline({
   const curTime = baseOrder.shiftTime;
   const curTimeForGreen = selectedConflictDate.extendedProps.shift;
   const today = moment(selectedConflictDate.start, "YYYY-MM-DD");
-  // const today = moment(selectedConflictDate, "YYYY-MM-DD");
   const startOfDay = (day) => day.startOf("day");
   const endOfDay = (day) => day.endOf("day");
   // const startDate = today.startOf("day");
@@ -46,13 +44,9 @@ export default function WindowTimeline({
   const setStartTimeSelectedItem = (time) => today.clone().set("hour", time).startOf("hour");
   const setEndTimeSelectedItem = (time) => today.clone().set("hour", time).startOf("hour").add(curShift, "hour")
     .subtract(1, "seconds");
-  // const startTimeSelectedItem = today.clone().set("hour", curTimeForGreen).startOf("hour");
-  // const endTimeSelectedItem = today.clone().set("hour", curTimeForGreen).startOf("hour")
-    // .add(curShift, "hour").subtract(1, "seconds");
 
   const filteredItemsNormal = items.filter((item) => today.format("YYYY-MM-DD") === item.date);
   const itemsSameColor = filteredItemsNormal.map((prev) => ({ ...prev, itemProps: { style: { background: "#ffa4a4" } } }));
-  // console.log("itemsSameColor!!!", itemsSameColor);
   const filteredItemsEdit = itemsSameColor.filter((filterItem) => {
     // const ffGrid = addGrid(Math.floor(+curTimeForGreen / curShift), curShift);
     console.log();
@@ -69,20 +63,16 @@ export default function WindowTimeline({
       itemProps:
         {
           style: {
-            // background: isDayWithConflict ? "rgba(128,128,128,0)" : "rgba(128,128,128)",
             // background: "rgba(128,128,128,0)",
+            // background: "transparent",
             background: "#ffa4a4",
             // width: "30px",
             // height: "30px",
-            // background: "transparent",
             backgroundImage: `url(${ConflCirle})`,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
             backgroundSize: "contain",
             border: "1px solid red",
-            // zIndex: 100,
-            // borderRight: "1px solid red",
-            // borderLeft: "1px solid red",
             color: "red",
             fontSize: "20px",
             display: "flex",
@@ -127,10 +117,6 @@ export default function WindowTimeline({
     itemProps: {
       style: {
         background: "#90ef90",
-        // backgroundImage: `url(${ConflSVG})`,
-        // backgroundRepeat: "no-repeat",
-        // backgroundPosition: "center",
-        // backgroundSize: "contain",
         border: "1px solid red",
         color: "red",
         fontSize: "20px",
@@ -158,20 +144,13 @@ export default function WindowTimeline({
     date: el.category,
     height: 36,
   }));
-  // console.log("generateGroup()", groups, curIdDevForGreen || curIdDevice);
   const elInGroup = generateGroup().filter((el) => el.category === curCategory);
   const highlightElInGroup = elInGroup.map((el) => {
     const selectedElInGroup = el.id === curIdDevice;
     return {
       ...el,
       title: (
-        <div className={selectedElInGroup ? styleConflict.highlightRow : ""}>
-          {/* <div style={{
-            cursor: "pointer", whiteSpace: "break-spaces", overflow: "hidden", height: "40px",
-            maxWidth: "155px", lineHeight: "20px", display: "flex", alignItems: "center",
-          }}
-          >
-          </div> */}
+        <div className={selectedElInGroup && !isEditMode ? styleConflict.highlightRow : ""}>
           {el.title}
         </div>
       ),
@@ -181,11 +160,9 @@ export default function WindowTimeline({
   const getFormattedDate = (groupId, time) => {
     const date = moment(time).format("YYYY-MM-DD");
     const hour = moment(time).hours();
-    // const { shiftLength } = currentDevice;
     const formatHour = Math.floor(hour / curShift);
-
-    let start; let
-      end;
+    let start;
+    let end;
 
     start = formatHour * curShift;
     end = start + curShift;
@@ -232,14 +209,6 @@ export default function WindowTimeline({
     if (isEditMode && itemId === "X_MARK") {
       setConsideredCell(selectedShiftObj);
     }
-    // if (consideredCell.id !== "X_MARK" && itemId === "X_MARK") {
-    //   setConsideredCell(selectedShiftObj);
-    // }
-    // const item = itemId
-    //   ? itemsPreOrder.find((el) => el.id === itemId)
-    //   : null;
-    // if (!item) return;
-    // setItemsPreOrder((pred) => pred.filter((el) => el.id !== itemId));
   };
 
   const handleResolveConflict = () => {
@@ -269,13 +238,13 @@ export default function WindowTimeline({
               const currentTimeEnd = moment(timeEnd);
               const selectedTime = currentTimeStart.isSame(setStartTimeSelectedItem(curTime), "hours")
                 && currentTimeEnd.isSame(setEndTimeSelectedItem(curTime), "hours");
-              return [selectedTime && statusCheckboxSelected === "AUTO" ? styleConflict.highlightColumn : ""];
+              return [selectedTime && statusCheckboxSelected === "AUTO" && !isEditMode ? styleConflict.highlightColumn : ""];
             }}
             horizontalLineClassNamesForGroup={(group) => {
               if (statusCheckboxSelected === "AUTO") return;
               const selectedGroup = group.id === curIdDevice;
               // eslint-disable-next-line
-              return [selectedGroup ? styleConflict.highlightRow : ""];
+              return [selectedGroup && !isEditMode ? styleConflict.highlightRow : ""];
             }}
             items={filteredItems.concat(consideredCell)}
             canMove={false}
@@ -396,8 +365,8 @@ export default function WindowTimeline({
             // TODO ЛОГИКА для перехода к следующему конкликту после нажатия на `Пропустить`
             // const curIndConflInArr =
             // baseOrder.equipment?.conflicts.indexOf(today.format("YYYY-MM-DD"))
-            // const nextIndexConfl = curIndConflInArr < baseOrder.equipment?.conflicts.length - 1
-            // ? curIndConflInArr + 1 : 0;
+            // eslint-disable-next-line
+            // const nextIndexConfl = curIndConflInArr < baseOrder.equipment?.conflicts.length - 1 ? curIndConflInArr + 1 : 0;
             // handleSetSelectedConflictDate(baseOrder.equipment?.conflicts[nextIndexConfl]);
           }}
         >

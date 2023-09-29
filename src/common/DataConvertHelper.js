@@ -16,7 +16,7 @@ const createEquipmentObject = (item, elem) => ({
 
 export const createEquipmentGroup = (equipments) => {
   const result = [];
-  console.log(equipments);
+  // console.log(equipments);
   equipments.forEach((elem) => {
     if (elem.kitchenEquipment.length > 0) {
       elem.kitchenEquipment.forEach((item) => {
@@ -24,7 +24,7 @@ export const createEquipmentGroup = (equipments) => {
       });
     }
   });
-  console.log(result);
+  // console.log(result);
   return result;
 };
 
