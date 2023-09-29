@@ -1,7 +1,6 @@
 import React from "react";
 import "moment/locale/ru";
 import "../../../style.css";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Tooltip } from "react-tooltip";
 import styleConflict from "./Conflict.module.css";
 import WindowTimeline from "./WindowTimeline";
@@ -11,18 +10,16 @@ export default function ConfirmBookingWindow({
   user,
   items,
   groups,
-  setItemsPreOrder,
   editOrderData,
-  setCopyEditItems,
   isEditMode,
   selectedConflictDate,
   setSelectedConflictDate,
   baseOrder,
   showStartDisplayConflict,
   pushOrderInBasePreOrder,
-  keyRerenderConflictResolutionWindow,
   statusCheckboxSelected,
   handleSetSelectedConflictDate,
+  selectedCompany,
 }) {
   let calculatedOrSelectedDevice = null;
   if ("id" in baseOrder.equipment) {
@@ -63,7 +60,7 @@ export default function ConfirmBookingWindow({
         </div>
         )}
 
-      {!showStartDisplayConflict
+      {!showStartDisplayConflict && user.role === "ROLE_COMPANY"
         && (
         <div style={{
           width: "auto", margin: "0 auto", padding: "10px 20px", fontSize: "20px", backgroundColor: "white", border: "1px solid #c1c1c1", borderRadius: "20px", textAlign: "center", position: "relative",
@@ -88,24 +85,62 @@ export default function ConfirmBookingWindow({
                 {"Подсчет смен для "}
                 <span style={{ fontWeight: "bold", color: "#f03333" }}>{calculatedOrSelectedDevice && calculatedOrSelectedDevice.title}</span>
                 {" прошел успешно. Вы можете внести изменения нажав на день в календаре или завершить бронирование, нажав на кнопку"}
-                <span style={{ fontStyle: "italic" }}>`Подтвердить бронирование`.</span>
+                <span style={{ fontStyle: "italic" }}>`Сохранить и отправить заявку`.</span>
               </p>
             )}
           <div id="riddler" className={styleConflict.riddler}>?</div>
           <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
-            {generateClue(user.role === "ROLE_MANAGER" ? "TIMELINE_ROLE_MANAGER_CONFLICT" : "TIMELINE_ROLE_COMPANY_CONFLICT")}
+            {generateClue("TIMELINE_ROLE_COMPANY_CONFLICT")}
+          </Tooltip>
+        </div>
+        )}
+
+      {user.role === "ROLE_MANAGER"
+        && (
+        <div style={{
+          width: "auto", margin: "0 auto", padding: "10px 20px", fontSize: "20px", backgroundColor: "white", border: "1px solid #c1c1c1", borderRadius: "20px", textAlign: "center", position: "relative",
+        }}
+        >
+          {isEditMode
+            ? (
+              <>
+                <p style={{ fontSize: "14px" }}>
+                  {"Для оборудования "}
+                  <span style={{ fontWeight: "bold", color: "#f03333" }}>{calculatedOrSelectedDevice && calculatedOrSelectedDevice.title}</span>
+                  {" компании "}
+                  <span style={{ fontWeight: "bold", color: "#f03333" }}>{selectedCompany.name}</span>
+                  , Вы можете редактировать заказ изменив смену и после нажать на кнопку
+                  <span style={{ fontStyle: "italic" }}>`Сохранить`.</span>
+                </p>
+                <p style={{ fontSize: "14px" }}>
+                  Также вы можете подтвердить заказ, нажав на кнопку
+                  <span style={{ fontStyle: "italic" }}> `Подтвердить бронирование`.</span>
+                </p>
+              </>
+            )
+            : (
+              <p style={{ fontSize: "14px" }}>
+                {"Подсчет смен для "}
+                <span style={{ fontWeight: "bold", color: "#f03333" }}>{calculatedOrSelectedDevice && calculatedOrSelectedDevice.title}</span>
+                {" компании "}
+                <span style={{ fontWeight: "bold", color: "#f03333" }}>{selectedCompany.name}</span>
+                {/* eslint-disable-next-line */}
+                , прошел успешно. Вы можете внести изменения нажав на день в календаре или завершить бронирование, нажав на кнопку
+                <span style={{ fontStyle: "italic" }}>`Сохранить`.</span>
+              </p>
+            )}
+          <div id="riddler" className={styleConflict.riddler}>?</div>
+          <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
+            {generateClue("TIMELINE_ROLE_MANAGER_CONFLICT")}
           </Tooltip>
         </div>
         )}
 
       {selectedConflictDate && (
       <WindowTimeline
-        key={keyRerenderConflictResolutionWindow}
         items={items}
         groups={groups}
-        setItemsPreOrder={setItemsPreOrder}
         editOrderData={editOrderData}
-        setCopyEditItems={setCopyEditItems}
         isEditMode={isEditMode}
         selectedConflictDate={selectedConflictDate}
         setSelectedConflictDate={setSelectedConflictDate}

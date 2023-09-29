@@ -14,7 +14,7 @@ export default function ToolsFilter({
   isActiveCalendar = true,
 }) {
   const [selectValue, setSelectValue] = useState(null);
-  console.log(toolNames);
+  // console.log(toolNames);
   useEffect(() => {
     const value = localStorage.getItem("toolsFilter") || null;
     if (value) {
