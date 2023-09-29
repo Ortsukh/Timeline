@@ -43,8 +43,6 @@ export default function BookingMenu({
   const [showStartDisplayConflict, setShowStartDisplayConflict] = useState(true);
   const [selectedPreferredDevice, setSelectedPreferredDevice] = useState(null);
   const [statusCheckboxSelected, setStatusCheckboxSelected] = useState("AUTO");
-  const [itemsPreOrder, setItemsPreOrder] = useState([]);
-  const [copyEditItems, setCopyEditItems] = useState([]);
   const [isConfirmWindowOpen, setIsConfirmWindowOpen] = useState(false);
 
   useEffect(() => {
@@ -246,8 +244,6 @@ export default function BookingMenu({
       .then(() => {
         openAlertWindow("success");
         setUpdate((previousUpdate) => !previousUpdate);
-        setItemsPreOrder([]);
-        setCopyEditItems([]);
         setIsBookingMenu(false);
         setCurrentDevice([]);
         setIsEditMode(false);
@@ -261,7 +257,6 @@ export default function BookingMenu({
     createOrder(orderItems, selectedCompany)
       .then(() => {
         openAlertWindow("success");
-        setItemsPreOrder([]);
         setIsBookingMenu(false);
         setCurrentDevice([]);
         setShowButtonClear(true);
@@ -313,36 +308,30 @@ export default function BookingMenu({
       <div className={style.container}>
         <div className={style.editButtonColumn}>
           <EditButtonColumn
-            handleSetSelectedConflictDate={handleSetSelectedConflictDate}
             setIsBookingMenu={setIsBookingMenu}
-            itemsPreOrder={itemsPreOrder}
-            setItemsPreOrder={setItemsPreOrder}
-            copyEditItems={copyEditItems}
-            setCopyEditItems={setCopyEditItems}
             isEditMode={isEditMode}
             setIsEditMode={setIsEditMode}
             setCurrentDevice={setCurrentDevice}
             currentDevice={currentDevice}
-            baseOrder={baseOrder}
             setBaseOrder={setBaseOrder}
             items={items}
             groups={groups}
             setIsConfirmWindowOpen={setIsConfirmWindowOpen}
-            selectedGroups={selectedGroups}
             setShowButtonClear={setShowButtonClear}
+            baseOrder={baseOrder}
+            selectedDates={selectedDates}
             setSelectedDates={setSelectedDates}
+            handleSetSelectedConflictDate={handleSetSelectedConflictDate}
             generateCalendarEvents={calcBestMap}
             calendarEvent={calendarEvent}
             isActiveCalendar={isActiveCalendar}
             handleClear={handleClear}
-            selectedDates={selectedDates}
             setShowStartDisplayConflict={setShowStartDisplayConflict}
-            sendNewOrder={sendNewOrder}
             handleChangeEquipmentBeforeCalculation={handleChangeEquipmentBeforeCalculation}
             statusCheckboxSelected={statusCheckboxSelected}
             setStatusCheckboxSelected={setStatusCheckboxSelected}
+            selectedGroups={selectedGroups}
             setSelectedPreferredDevice={setSelectedPreferredDevice}
-            editOrder={editOrder}
             selectedCompany={selectedCompany}
             user={user}
           />
@@ -375,8 +364,6 @@ export default function BookingMenu({
             isEditMode={isEditMode}
             setCurrentDevice={setCurrentDevice}
             groups={groups}
-            setItemsPreOrder={setItemsPreOrder}
-            setCopyEditItems={setCopyEditItems}
             items={items}
             currentDeviceIndex={currentDeviceIndex}
             setCurrentDeviceIndex={setCurrentDeviceIndex}
@@ -390,7 +377,6 @@ export default function BookingMenu({
             statusCheckboxSelected={statusCheckboxSelected}
             handleSetSelectedConflictDate={handleSetSelectedConflictDate}
           />
-
         </div>
       </div>
       {isConfirmWindowOpen && (

@@ -607,3 +607,6 @@
 .activeCell {
     border: 3px solid #2684ff;
 }
+.fc a, .fc a:hover {
+    color: #333 !important;
+}
