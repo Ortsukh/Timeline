@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../style.css";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
+
+const getOptionsForSearch = (tools) => tools.map((tool) => ({ value: tool, label: tool }));
 
 const generateShiftTime = (shift) => {
   const options = [];
   for (let i = 0; i < 24; i += shift) {
-    options.push(
-      <option
-        value={i}
-        key={i}
-      >
-        {`${i} - ${i + shift}`}
-      </option>,
-    );
+    options.push({ value: i, label: `${i} - ${i + shift}` });
   }
   return options;
 };
@@ -19,23 +16,31 @@ const generateShiftTime = (shift) => {
 export default function TimeShift({
   currentDevice, setBaseOrder, isActiveCalendar, baseOrder,
 }) {
-  const [value, setValue] = useState(0);
-
+  const [value, setValue] = useState();
+  const animatedComponents = makeAnimated();
   useEffect(() => {
     setValue(baseOrder.shiftTime);
   }, [baseOrder.shiftTime]);
   const handleChangeTime = (e) => {
-    setValue(e.target.value);
+    setValue(e);
+    console.log(e);
     setBaseOrder((prev) => ({
-      ...prev, shiftTime: e.target.value,
+      ...prev, shiftTime: e,
     }));
   };
   return (
     <div className="select-count-box">
       <span>Время смены</span>
-      <select onChange={handleChangeTime} value={value} disabled={!isActiveCalendar}>
-        {generateShiftTime(+currentDevice.shiftLength)}
-      </select>
+      <Select
+        closeMenuOnSelect={false}
+        components={animatedComponents}
+        isDisabled={!isActiveCalendar}
+        options={generateShiftTime(+currentDevice.shiftLength)}
+        onChange={handleChangeTime}
+        value={value}
+        isMulti
+        defaultValue={{ value: 0, label: `0 - ${+currentDevice.shiftLength}` }}
+      />
     </div>
   );
 }

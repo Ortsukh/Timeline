@@ -32,7 +32,7 @@ export default function BookingMenu({
   user,
 }) {
   // new
-  const [baseOrder, setBaseOrder] = useState({ shiftTime: 0, preOrders: [], equipment: {} });
+  const [baseOrder, setBaseOrder] = useState({ shiftTime: [], preOrders: [], equipment: {} });
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
   const [selectedConflictDate, setSelectedConflictDate] = useState(null);
   const [keyRerenderConflictResolutionWindow, setKeyRerenderConflictResolutionWindow] = useState(0);
@@ -76,7 +76,7 @@ export default function BookingMenu({
     initialCurrentDeviceIndex,
   );
   const handleClear = () => {
-    setBaseOrder({ shiftTime: 0, preOrders: [], equipment: {} });
+    setBaseOrder({ shiftTime: [], preOrders: [], equipment: {} });
     setCalendarEvent([]);
     setSelectedConflictDate("");
     setIsActiveCalendar(true);
@@ -103,61 +103,113 @@ export default function BookingMenu({
 
     selectedDates.forEach((selectedDate) => {
       const currentDate = moment(selectedDate);
-      const baseOrderShiftTime = baseOrder.shiftTime;
+      const baseOrderShiftTimes = baseOrder.shiftTime;
       const currentEquipment = mapsEquipment[equipmentId];
+      let resultColor = 0;
+      baseOrderShiftTimes.forEach(({ value: baseOrderShiftTime }) => {
+        if (currentDate.isBefore(moment().startOf("day"))) {
+          events.push({
+            start: selectedDate,
+            backgroundColor: "#c3cddd",
+          });
+        } else if (!currentEquipment.dates[selectedDate] || (currentEquipment.dates[selectedDate] && currentEquipment.dates[selectedDate][baseOrderShiftTime] === "0")) {
+          // events.push({
+          //   start: selectedDate,
+          //   extendedProps: {
+          //     shift: baseOrderShiftTime, shortTitle: currentEquipment.shortTitle, shiftLength: currentDevice.shiftLength, groupId: equipmentId,
+          //   },
+          //   backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
+          // });
 
-      if (currentDate.isBefore(moment().startOf("day"))) {
-        events.push({
-          start: selectedDate,
-          backgroundColor: "#c3cddd",
-        });
-      } else if (!currentEquipment.dates[selectedDate] || (currentEquipment.dates[selectedDate] && currentEquipment.dates[selectedDate][baseOrderShiftTime] === "0")) {
-        events.push({
-          start: selectedDate,
-          extendedProps: {
-            shift: baseOrderShiftTime, shortTitle: currentEquipment.shortTitle, shiftLength: currentDevice.shiftLength, groupId: equipmentId,
-          },
-          backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
-        });
-        baseOrder.preOrders.push(generatePreOrders(currentEquipment, selectedDate));
-      } else {
-        const commonMapsEquipmentSelectedDate = commonMapsEquipment[selectedDate];
-        const { shiftTime } = baseOrder;
-        const { shiftLength } = currentEquipment;
-        const groupsLength = groups.length;
+          baseOrder.preOrders.push(generatePreOrders(currentEquipment, selectedDate));
+        } else {
+          const commonMapsEquipmentSelectedDate = commonMapsEquipment[selectedDate];
+          const { shiftTime } = baseOrder;
+          const { shiftLength } = currentEquipment;
+          const groupsLength = groups.length;
 
-        if (
-          commonMapsEquipmentSelectedDate[shiftTime] === groupsLength.toString()
+          if (
+            commonMapsEquipmentSelectedDate[shiftTime] === groupsLength.toString()
           && (
             (shiftTime === 0 && commonMapsEquipmentSelectedDate[shiftTime + shiftLength] === groupsLength.toString())
             || (commonMapsEquipmentSelectedDate[shiftTime - shiftLength] === groupsLength.toString() && shiftTime === (24 - shiftLength))
             || (commonMapsEquipmentSelectedDate[shiftTime - shiftLength] === groupsLength.toString() && commonMapsEquipmentSelectedDate[shiftTime + shiftLength] === groupsLength.toString())
           )
-        ) {
+          ) {
+            resultColor += 3;
+            // events.push({
+            //   start: selectedDate,
+            //   extendedProps: {
+            //     shift: baseOrderShiftTime, shortTitle: currentEquipment.shortTitle, shiftLength: currentDevice.shiftLength, groupId: equipmentId,
+            //   },
+            //   backgroundColor: ITEMS_PREORDER_COLOR.orderedInThisShiftAndNear.backgroundColor,
+            // });
+          } else if (commonMapsEquipmentSelectedDate[shiftTime] < groupsLength) {
+            resultColor += 1;
+
+            // events.push({
+            //   start: selectedDate,
+            //   extendedProps: {
+            //     shift: baseOrderShiftTime, shortTitle: currentEquipment.shortTitle, shiftLength: currentDevice.shiftLength, groupId: equipmentId,
+            //   },
+            //   backgroundColor: ITEMS_PREORDER_COLOR.orderedButFreeInOtherEquipment.backgroundColor,
+            // });
+          } else {
+            resultColor += 2;
+
+            // events.push({
+            //   start: selectedDate,
+            //   extendedProps: {
+            //     shift: baseOrderShiftTime, shortTitle: currentEquipment.shortTitle, shiftLength: currentDevice.shiftLength, groupId: equipmentId,
+            //   },
+            //   backgroundColor: ITEMS_PREORDER_COLOR.orderedInAllEquipment.backgroundColor,
+            // });
+          }
+        }
+      });
+      switch (resultColor) {
+        case 0:
           events.push({
             start: selectedDate,
             extendedProps: {
-              shift: baseOrderShiftTime, shortTitle: currentEquipment.shortTitle, shiftLength: currentDevice.shiftLength, groupId: equipmentId,
+              shift: baseOrderShiftTimes,
+              shortTitle: currentEquipment.shortTitle,
+              shiftLength: currentDevice.shiftLength,
+              groupId: equipmentId,
+              conflicts: currentEquipment.conflicts,
+              success: currentEquipment.success,
             },
-            backgroundColor: ITEMS_PREORDER_COLOR.orderedInThisShiftAndNear.backgroundColor,
+            backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
           });
-        } else if (commonMapsEquipmentSelectedDate[shiftTime] < groupsLength) {
+          break;
+        case 1:
           events.push({
             start: selectedDate,
             extendedProps: {
-              shift: baseOrderShiftTime, shortTitle: currentEquipment.shortTitle, shiftLength: currentDevice.shiftLength, groupId: equipmentId,
+              shift: baseOrderShiftTimes,
+              shortTitle: currentEquipment.shortTitle,
+              shiftLength: currentDevice.shiftLength,
+              groupId: equipmentId,
+              conflicts: currentEquipment.conflicts,
+              success: currentEquipment.success,
             },
             backgroundColor: ITEMS_PREORDER_COLOR.orderedButFreeInOtherEquipment.backgroundColor,
           });
-        } else {
+          break;
+        default:
+
           events.push({
             start: selectedDate,
             extendedProps: {
-              shift: baseOrderShiftTime, shortTitle: currentEquipment.shortTitle, shiftLength: currentDevice.shiftLength, groupId: equipmentId,
+              shift: baseOrderShiftTimes,
+              shortTitle: currentEquipment.shortTitle,
+              shiftLength: currentDevice.shiftLength,
+              groupId: equipmentId,
+              conflicts: currentEquipment.conflicts,
+              success: currentEquipment.success,
             },
             backgroundColor: ITEMS_PREORDER_COLOR.orderedInAllEquipment.backgroundColor,
           });
-        }
       }
     });
 
@@ -167,18 +219,34 @@ export default function BookingMenu({
     setIsActiveCalendar(false);
 
     Object.keys(mapsEquipment).forEach((group) => {
-      mapsEquipment[group].conflicts = selectedDates.filter((selectedDate) => {
-        const equipment = mapsEquipment[group];
-        return (
-          equipment.dates[selectedDate]
-            && equipment.dates[selectedDate][baseOrder.shiftTime] === "1"
-        );
+      mapsEquipment[group].countConflicts = 0;
+      mapsEquipment[group].conflicts = { };
+      mapsEquipment[group].success = { };
+      selectedDates.forEach((selectedDate) => {
+        if (!mapsEquipment[group].conflicts[selectedDate]) {
+          mapsEquipment[group].conflicts[selectedDate] = [];
+        }
+        if (!mapsEquipment[group].success[selectedDate]) {
+          mapsEquipment[group].success[selectedDate] = [];
+        }
+        baseOrder.shiftTime.forEach(({ value: shiftTime }) => {
+          const equipment = mapsEquipment[group];
+          if (
+            equipment.dates[selectedDate]
+              && equipment.dates[selectedDate][shiftTime] === "1"
+          ) {
+            mapsEquipment[group].countConflicts++;
+            mapsEquipment[group].conflicts[selectedDate].push(shiftTime);
+          } else {
+            mapsEquipment[group].success[selectedDate].push(shiftTime);
+          }
+        });
       });
     });
 
     const min = Object.keys(mapsEquipment).reduce((acc, curr) => {
-      const accConflictsLength = mapsEquipment[acc].conflicts.length;
-      const currConflictsLength = mapsEquipment[curr].conflicts.length;
+      const accConflictsLength = mapsEquipment[acc].countConflicts;
+      const currConflictsLength = mapsEquipment[curr].countConflicts;
       return accConflictsLength < currConflictsLength ? acc : curr;
     });
 
