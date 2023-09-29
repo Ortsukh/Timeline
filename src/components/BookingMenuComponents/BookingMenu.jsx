@@ -303,7 +303,7 @@ export default function BookingMenu({
       return el;
     }));
   };
-
+  console.log(baseOrder);
   return (
     <>
       <div className={style.container}>
