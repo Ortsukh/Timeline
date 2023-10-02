@@ -50,18 +50,35 @@ export default function BookingMenu({
       const editItems = items.filter(
         (item) => item.rentOrderId === editOrderData.rentOrderId,
       );
-      setBaseOrder((prev) => ({ ...prev, preOrders: editItems, equipment: { ...currentDevice, conflicts: [] } }));
 
       const editDates = [];
       const events = [];
+      const successEvent = {};
       editItems.forEach((item) => {
         editDates.push(item.date);
+        if (!successEvent[item.date]) {
+          successEvent[item.date] = [];
+        }
+        successEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
+      });
+      editDates.forEach((date) => {
         events.push({
-          start: item.date,
-          extendedProps: { shift: item.grid.indexOf("1"), shiftLength: currentDevice.shiftLength, shortTitle: groups.find((group) => group.id === item.group).shortTitle },
+          start: date,
+          extendedProps: {
+            // shortTitle: groups.find((group) => group.id === item.group).shortTitle, //! хз
+            shiftLength: currentDevice.shiftLength,
+            conflicts: [],
+            success: successEvent,
+          },
           backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
         });
       });
+      setBaseOrder((prev) => ({
+        ...prev,
+        preOrders: editItems,
+        equipment: { ...currentDevice, conflicts: [], success: successEvent },
+      }));
+
       setSelectedDates(editDates);
       setCalendarEvent(events);
       setIsActiveCalendar(false);
@@ -96,6 +113,7 @@ export default function BookingMenu({
       status: "preOrder",
       date,
       grid: addGrid(formatHour, group.shiftLength),
+      shiftTime,
     };
   };
   const generateEvents = (equipmentId) => {
@@ -112,7 +130,9 @@ export default function BookingMenu({
             start: selectedDate,
             backgroundColor: "#c3cddd",
           });
-        } else if (!currentEquipment.dates[selectedDate] || (currentEquipment.dates[selectedDate] && currentEquipment.dates[selectedDate][baseOrderShiftTime] === "0")) {
+        } else if (!currentEquipment.dates[selectedDate]
+            || (currentEquipment.dates[selectedDate]
+                && currentEquipment.dates[selectedDate][baseOrderShiftTime] === "0")) {
           // events.push({
           //   start: selectedDate,
           //   extendedProps: {
@@ -172,10 +192,8 @@ export default function BookingMenu({
           events.push({
             start: selectedDate,
             extendedProps: {
-              shift: baseOrderShiftTimes,
               shortTitle: currentEquipment.shortTitle,
               shiftLength: currentDevice.shiftLength,
-              groupId: equipmentId,
               conflicts: currentEquipment.conflicts,
               success: currentEquipment.success,
             },
@@ -186,10 +204,8 @@ export default function BookingMenu({
           events.push({
             start: selectedDate,
             extendedProps: {
-              shift: baseOrderShiftTimes,
               shortTitle: currentEquipment.shortTitle,
               shiftLength: currentDevice.shiftLength,
-              groupId: equipmentId,
               conflicts: currentEquipment.conflicts,
               success: currentEquipment.success,
             },
@@ -201,10 +217,8 @@ export default function BookingMenu({
           events.push({
             start: selectedDate,
             extendedProps: {
-              shift: baseOrderShiftTimes,
               shortTitle: currentEquipment.shortTitle,
               shiftLength: currentDevice.shiftLength,
-              groupId: equipmentId,
               conflicts: currentEquipment.conflicts,
               success: currentEquipment.success,
             },
@@ -338,8 +352,44 @@ export default function BookingMenu({
     setSelectedPreferredDevice(selectValueBeforeCalculation);
   };
   const pushOrderInBasePreOrder = (newOrder) => {
-    let isNew = false;
+    // if (newOrders.success.length > 0) {
+    //   baseOrder.preOrders.filter((item) => item.data !== newOrders[0].data);
+    // }
+
+    // const successArr = newOrder.success.map((item) => ({ shiftTime: item.shiftTime, groupId: item.group }));
+
+    // let newPreOrder = [...baseOrder.preOrders, ...newOrder.success];
+    // let countResolveConflicts = baseOrder.equipment.conflicts - newOrders.conflicts
+    // setBaseOrder((prev) => ({
+    //   ...prev,
+    //   preOrders: newPreOrder,
+    //   equipment: {
+    //     ...prev.equipment,
+    //     conflicts: prev.equipment.conflicts = newOrders.conflicts),
+    // success: prev.equipment.success = successArr),
+    //     countConflicts: countResolveConflicts
+    //   },
+    //   con
+    // }));
+    //
+    // setCalendarEvent((prev) => prev.map((el) => {
+    //   if (el.start === newOrders[0].date) {
+    //     return {
+    //       ...el,
+    //       extendedProps: {
+    //         shift: baseOrder.shiftTime,
+    //         shortTitle: groups.find((group) => newOrder.group === group.id).shortTitle,
+    //         shiftLength: currentDevice.shiftLength,
+    //         conflicts: newOrders.conflicts,
+    //         success: successArr,
+    //       },
+    //       backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
+    //     };
+    //   }
+    //   return el;
+    // }));
     let newPreOrder;
+    let isNew = false;
     newPreOrder = baseOrder.preOrders.map((order) => {
       if (order.date === newOrder.date) {
         isNew = true;
@@ -364,7 +414,9 @@ export default function BookingMenu({
           ...el,
           backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
           extendedProps: {
-            shift: newOrder.grid.indexOf("1"), shiftLength: currentDevice.shiftLength, shortTitle: groups.find((group) => newOrder.group === group.id).shortTitle, groupId: newOrder.group,
+            shiftLength: currentDevice.shiftLength,
+            shortTitle: groups.find((group) => newOrder.group === group.id).shortTitle,
+            groupId: newOrder.group,
           },
         };
       }
