@@ -3,6 +3,7 @@ import "../style.css";
 import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import buttonTitleConstants from "../../constants/buttonTitleConstants";
 
 export default function DateFilter({
   isActiveDate,
@@ -18,7 +19,7 @@ export default function DateFilter({
   return (
     <div className="select-date-box ">
       <button type="button" className={className} onClick={showDatePicker}>
-        {isActiveDate ? "Закрыть" : "Выбрать дату"}
+        {isActiveDate ? buttonTitleConstants.CLOSE : buttonTitleConstants.CHOSE_DATE}
       </button>
 
       <div className={isActiveDate ? "active" : "hidden"} ref={datePicker}>

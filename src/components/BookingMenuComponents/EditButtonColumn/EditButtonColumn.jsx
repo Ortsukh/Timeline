@@ -3,6 +3,7 @@ import Select from "react-select";
 import FiltersForOrder from "./components/FiltersForOrder";
 import style from "./EditButtonColumn.module.css";
 import BookingCalendar from "./components/BookingCalendar";
+import buttonTitleConstants from "../../../constants/buttonTitleConstants";
 
 export default function EditButtonColumn({
   setIsBookingMenu,
@@ -34,14 +35,13 @@ export default function EditButtonColumn({
 }) {
   // eslint-disable-next-line no-unused-vars
   const [shiftsCount, setShiftsCount] = useState(1);
-  const [isShowConflictNotification, setIsShowConflictNotification] = useState(false);
-
-  const back = "< Назад";
+  const [isShowConflictNotification, setIsShowConflictNotification] = useState("");
+  const back = `< ${buttonTitleConstants.BACK}`;
 
   const showNotification = (type) => {
     setIsShowConflictNotification(type);
     setTimeout(() => {
-      setIsShowConflictNotification(false);
+      setIsShowConflictNotification("");
     }, 2000);
   };
 
@@ -76,6 +76,9 @@ export default function EditButtonColumn({
   const notification = () => {
     if (isShowConflictNotification === "company") {
       return <div style={{ color: "red" }}>Выберите компанию</div>;
+    }
+    if (isShowConflictNotification === "shift") {
+      return <div style={{ color: "red" }}>Выберите смену</div>;
     }
     return (
       <div style={{ color: "red" }}>
@@ -181,11 +184,15 @@ export default function EditButtonColumn({
                 if (selectedDates.length < 1) {
                   return;
                 }
+                if (baseOrder.shiftTime.length < 1) {
+                  showNotification("shift");
+                  return;
+                }
                 generateCalendarEvents();
                 setShowStartDisplayConflict(false);
               }}
             >
-              Рассчитать
+              {buttonTitleConstants.CALCULATE}
             </button>
           ) : (
             <div className={style.btnContEdit}>
@@ -208,7 +215,7 @@ export default function EditButtonColumn({
                       setIsConfirmWindowOpen(true);
                     }}
                   >
-                    Подтвердить бронирование
+                    {buttonTitleConstants.CONFIRM_ORDER}
                   </button>
                   <button
                     type="button"
@@ -227,7 +234,7 @@ export default function EditButtonColumn({
                       setIsConfirmWindowOpen(true);
                     }}
                   >
-                    Сохранить
+                    {buttonTitleConstants.SAVE}
                   </button>
                 </>
               ) : (
@@ -270,7 +277,7 @@ export default function EditButtonColumn({
                         setIsConfirmWindowOpen("accepted");
                       }}
                     >
-                      Сохранить и отправить заявку
+                      {buttonTitleConstants.SAVE_ORDER}
                     </button>
                   )}
                 </div>
@@ -286,7 +293,7 @@ export default function EditButtonColumn({
               setShowStartDisplayConflict(true);
             }}
           >
-            Очистить
+            {buttonTitleConstants.CLEAN}
           </button>
         </div>
       </div>

@@ -3,8 +3,6 @@ import "../style.css";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 
-const getOptionsForSearch = (tools) => tools.map((tool) => ({ value: tool, label: tool }));
-
 const generateShiftTime = (shift) => {
   const options = [];
   for (let i = 0; i < 24; i += shift) {
