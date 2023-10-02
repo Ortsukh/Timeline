@@ -54,20 +54,23 @@ export default function BookingMenu({
       const editDates = [];
       const events = [];
       const successEvent = {};
+      const conflictEvent = {};
       editItems.forEach((item) => {
         editDates.push(item.date);
         if (!successEvent[item.date]) {
           successEvent[item.date] = [];
+          conflictEvent[item.date] = [];
         }
         successEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
       });
-      editDates.forEach((date) => {
+      console.log("successEvent", successEvent);
+      Object.keys(successEvent).forEach((date) => {
         events.push({
           start: date,
           extendedProps: {
             // shortTitle: groups.find((group) => group.id === item.group).shortTitle, //! хз
             shiftLength: currentDevice.shiftLength,
-            conflicts: [],
+            conflicts: conflictEvent,
             success: successEvent,
           },
           backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
@@ -351,79 +354,80 @@ export default function BookingMenu({
   const handleChangeEquipmentBeforeCalculation = (selectValueBeforeCalculation) => {
     setSelectedPreferredDevice(selectValueBeforeCalculation);
   };
-  const pushOrderInBasePreOrder = (newOrder) => {
-    // if (newOrders.success.length > 0) {
-    //   baseOrder.preOrders.filter((item) => item.data !== newOrders[0].data);
-    // }
-
-    // const successArr = newOrder.success.map((item) => ({ shiftTime: item.shiftTime, groupId: item.group }));
-
-    // let newPreOrder = [...baseOrder.preOrders, ...newOrder.success];
-    // let countResolveConflicts = baseOrder.equipment.conflicts - newOrders.conflicts
-    // setBaseOrder((prev) => ({
-    //   ...prev,
-    //   preOrders: newPreOrder,
-    //   equipment: {
-    //     ...prev.equipment,
-    //     conflicts: prev.equipment.conflicts = newOrders.conflicts),
-    // success: prev.equipment.success = successArr),
-    //     countConflicts: countResolveConflicts
-    //   },
-    //   con
-    // }));
-    //
-    // setCalendarEvent((prev) => prev.map((el) => {
-    //   if (el.start === newOrders[0].date) {
-    //     return {
-    //       ...el,
-    //       extendedProps: {
-    //         shift: baseOrder.shiftTime,
-    //         shortTitle: groups.find((group) => newOrder.group === group.id).shortTitle,
-    //         shiftLength: currentDevice.shiftLength,
-    //         conflicts: newOrders.conflicts,
-    //         success: successArr,
-    //       },
-    //       backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
-    //     };
-    //   }
-    //   return el;
-    // }));
-    let newPreOrder;
-    let isNew = false;
-    newPreOrder = baseOrder.preOrders.map((order) => {
-      if (order.date === newOrder.date) {
-        isNew = true;
-        return newOrder;
-      }
-      return order;
-    });
-    if (!isNew) {
-      newPreOrder = [...baseOrder.preOrders, newOrder];
+  const pushOrderInBasePreOrder = (newOrders) => {
+    console.log(newOrders);
+    if (newOrders.success.length === 0) {
+      return;
     }
+
+    const successArr = newOrders.success.map((item) => ({ shiftTime: item.shiftTime, groupId: item.group }));
+
+    const newPreOrder = baseOrder.preOrders.filter((item) => item.date !== newOrders.date).concat(newOrders.success);
+    const countResolveConflicts = baseOrder.equipment.conflicts - newOrders.conflicts;
     setBaseOrder((prev) => ({
       ...prev,
       preOrders: newPreOrder,
       equipment: {
         ...prev.equipment,
-        conflicts: prev.equipment.conflicts.filter((conflict) => conflict !== newOrder.date),
+        conflicts: newOrders.conflicts,
+        success: successArr,
+        countConflicts: countResolveConflicts,
       },
+
     }));
+
     setCalendarEvent((prev) => prev.map((el) => {
-      if (el.start === newOrder.date) {
+      if (el.start === newOrders.date) {
         return {
           ...el,
-          backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
           extendedProps: {
+            shift: baseOrder.shiftTime,
+            // shortTitle: groups.find((group) => newOrders.group === group.id).shortTitle,
             shiftLength: currentDevice.shiftLength,
-            shortTitle: groups.find((group) => newOrder.group === group.id).shortTitle,
-            groupId: newOrder.group,
+            conflicts: newOrders.conflicts,
+            success: successArr,
           },
+          backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
         };
       }
       return el;
     }));
+    // let newPreOrder;
+    // let isNew = false;
+    // newPreOrder = baseOrder.preOrders.map((order) => {
+    //   if (order.date === newOrder.date) {
+    //     isNew = true;
+    //     return newOrder;
+    //   }
+    //   return order;
+    // });
+    // if (!isNew) {
+    //   newPreOrder = [...baseOrder.preOrders, newOrder];
+    // }
+    // setBaseOrder((prev) => ({
+    //   ...prev,
+    //   preOrders: newPreOrder,
+    //   equipment: {
+    //     ...prev.equipment,
+    //     conflicts: prev.equipment.conflicts.filter((conflict) => conflict !== newOrder.date),
+    //   },
+    // }));
+    // setCalendarEvent((prev) => prev.map((el) => {
+    //   if (el.start === newOrder.date) {
+    //     return {
+    //       ...el,
+    //       backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
+    //       extendedProps: {
+    //         shiftLength: currentDevice.shiftLength,
+    //         shortTitle: groups.find((group) => newOrder.group === group.id).shortTitle,
+    //         groupId: newOrder.group,
+    //       },
+    //     };
+    //   }
+    //   return el;
+    // }));
   };
-  console.log(baseOrder);
+  console.log("baseOrder", baseOrder);
   return (
     <>
       <div className={style.container}>

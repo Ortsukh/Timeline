@@ -20,21 +20,29 @@ export default function TimeShift({
     setValue(baseOrder.shiftTime);
   }, [baseOrder.shiftTime]);
   const handleChangeTime = (e) => {
-    setValue(e);
     console.log(e);
+    if (e.find((el) => el.value === "*")) {
+      setValue(generateShiftTime(+currentDevice.shiftLength));
+      setBaseOrder((prev) => ({
+        ...prev, shiftTime: (generateShiftTime(+currentDevice.shiftLength)),
+      }));
+      return;
+    }
+    setValue(e);
     setBaseOrder((prev) => ({
       ...prev, shiftTime: e,
     }));
   };
-
+  const selectAllOption = { label: "select all", value: "*" };
   return (
     <div className="select-count-box">
       <span>Время смены</span>
       <Select
+        allowSelectAll
         closeMenuOnSelect={false}
         components={animatedComponents}
         isDisabled={!isActiveCalendar}
-        options={generateShiftTime(+currentDevice.shiftLength)}
+        options={[selectAllOption, ...generateShiftTime(+currentDevice.shiftLength)]}
         onChange={handleChangeTime}
         value={value}
         isMulti
