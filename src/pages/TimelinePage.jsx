@@ -18,8 +18,8 @@ import TimeLineRenderer from "../components/TimeLineRenderer";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
 import {
-  getAllEquipments1,
-  getAllOrders1,
+  getAllEquipments,
+  getAllOrders,
   getCompanies, getManagerEquipments,
   getUser,
 } from "../Api/API";
@@ -29,6 +29,7 @@ import styleConflict
   from "../components/BookingMenuComponents/BookingDateColumn/ConflictResolutionWindow/Conflict.module.css";
 import { generateClue } from "../common/GenerateElementsData";
 import CompaniesSelect from "../components/FilterComponents/CompaniesSelect";
+import buttonTitleConstants from "../constants/buttonTitleConstants";
 
 export default function TimelinePage() {
   const [groups, setGroups] = useState([]);
@@ -91,7 +92,7 @@ export default function TimelinePage() {
         setIsLoadingEquipment(false);
       });
     } else {
-      getAllEquipments1().then((response) => {
+      getAllEquipments().then((response) => {
         setGroups(createEquipmentGroup(response.data));
         setIsLoadingEquipment(false);
       });
@@ -102,7 +103,7 @@ export default function TimelinePage() {
     setIsLoading(true);
     if (!user) return;
 
-    getAllOrders1()
+    getAllOrders()
       .then((response) => {
         setItems(createOrderGroup(response.data, user));
         if (user) setIsLoading(false);
@@ -333,7 +334,7 @@ export default function TimelinePage() {
                   className="reserved-btn"
                   onClick={createBook}
                 >
-                  Добавить новый
+                  {buttonTitleConstants.ADD_NEW}
                 </button>
               </div>
             </div>

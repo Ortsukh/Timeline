@@ -2,20 +2,11 @@ import React from "react";
 import TimeShift from "../../../FilterComponents/timeShiftFilter";
 
 export default function FiltersForOrder({
-  setShiftsCount,
   currentDevice,
   isActiveCalendar,
   setBaseOrder,
   baseOrder,
 }) {
-  // const [isActiveDate, setIsActiveDate] = useState(false);
-  // const showDatePicker = () => {
-  //   setIsActiveDate((current) => !current);
-  // };
-  const choseShiftsCount = (count) => {
-    setShiftsCount(count.target.value);
-  };
-
   return (
     <>
       <TimeShift
