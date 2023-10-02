@@ -16,7 +16,7 @@ const generateShiftTime = (shift) => {
 export default function TimeShift({
   currentDevice, setBaseOrder, isActiveCalendar, baseOrder,
 }) {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState([{ value: 0, label: `0 - ${+currentDevice.shiftLength}` }]);
   const animatedComponents = makeAnimated();
   useEffect(() => {
     setValue(baseOrder.shiftTime);
@@ -28,6 +28,7 @@ export default function TimeShift({
       ...prev, shiftTime: e,
     }));
   };
+
   return (
     <div className="select-count-box">
       <span>Время смены</span>
@@ -39,7 +40,7 @@ export default function TimeShift({
         onChange={handleChangeTime}
         value={value}
         isMulti
-        defaultValue={{ value: 0, label: `0 - ${+currentDevice.shiftLength}` }}
+        defaultValue={[{ value: 0, label: `0 - ${+currentDevice.shiftLength}` }]}
       />
     </div>
   );
