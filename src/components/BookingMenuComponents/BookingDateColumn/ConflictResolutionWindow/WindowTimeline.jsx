@@ -38,8 +38,8 @@ export default function WindowTimeline({
     countOrders: selectedConflictDate.extendedProps.conflicts[moment(selectedConflictDate.start).format("YYYY-MM-DD")].length
     + selectedConflictDate.extendedProps.success[moment(selectedConflictDate.start).format("YYYY-MM-DD")].length,
   };
-  // console.log("PR_COM", PR_COM);
-  // console.log("PR_SEL", PR_SEL);
+  console.log("PR_COM", PR_COM);
+  console.log("PR_SEL", PR_SEL);
 
   const [visibleTimeStart, setVisibleTimeStart] = useState(PR_SEL.today.startOf("day").valueOf());
   const [visibleTimeEnd, setVisibleTimeEnd] = useState(PR_SEL.today.endOf("day").valueOf());
@@ -53,58 +53,66 @@ export default function WindowTimeline({
 
   const [successfulArr, setSuccessfulArr] = useState(
     selectedConflictDate.extendedProps.success[PR_SEL.todayFormated]
-      .map((reserv) => ({
-        shiftTime: reserv.shiftTime,
-        id: `success_${uuidv4()}`,
-        date: PR_SEL.todayFormated,
-        group: +reserv.groupId,
-        start_time: setStartTimeSelectedItem(reserv.shiftTime),
-        end_time: setEndTimeSelectedItem(reserv.shiftTime),
-        canMove: false,
-        itemProps: {
-          style: {
-            background: "#90ef90",
-            border: "1px solid red",
-            color: "red",
-            fontSize: "20px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+      .map((reserv) => {
+        console.log(reserv.shiftTime);
+        console.log(PR_SEL.today.clone().set("hour", reserv.shiftTime).startOf("hour"));
+        return ({
+          shiftTime: reserv.shiftTime,
+          id: `success_${uuidv4()}`,
+          date: PR_SEL.todayFormated,
+          group: +reserv.groupId,
+          start_time: setStartTimeSelectedItem(reserv.shiftTime),
+          end_time: setEndTimeSelectedItem(reserv.shiftTime),
+          canMove: false,
+          itemProps: {
+            style: {
+              background: "#90ef90",
+              border: "1px solid red",
+              color: "red",
+              fontSize: "20px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            },
           },
-        },
-      })),
+        });
+      }),
   );
   // eslint-disable-next-line
   const [conflictsArr, setConflictsArr] = useState(
     selectedConflictDate.extendedProps.conflicts[PR_SEL.todayFormated]
-      .map((reserv) => ({
-        shiftTime: reserv.shiftTime,
-        id: `conflict_${uuidv4()}`,
-        date: PR_SEL.todayFormated,
-        group: +reserv.groupId,
-        start_time: setStartTimeSelectedItem(reserv.shiftTime),
-        end_time: setEndTimeSelectedItem(reserv.shiftTime),
-        canMove: false,
-        itemProps: {
-          style: {
-            // background: "rgba(128,128,128,0)",
-            // background: "transparent",
-            background: "#ffa4a4",
-            // width: "30px",
-            // height: "30px",
-            backgroundImage: `url(${ConflCirle})`,
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            backgroundSize: "contain",
-            border: "1px solid red",
-            color: "red",
-            fontSize: "20px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+      .map((reserv) => {
+        console.log(reserv.shiftTime);
+        console.log(PR_SEL.today.clone().set("hour", reserv.shiftTime));
+        return ({
+          shiftTime: reserv.shiftTime,
+          id: `conflict_${uuidv4()}`,
+          date: PR_SEL.todayFormated,
+          group: +reserv.groupId,
+          start_time: setStartTimeSelectedItem(reserv.shiftTime),
+          end_time: setEndTimeSelectedItem(reserv.shiftTime),
+          canMove: false,
+          itemProps: {
+            style: {
+              // background: "rgba(128,128,128,0)",
+              // background: "transparent",
+              background: "#ffa4a4",
+              // width: "30px",
+              // height: "30px",
+              backgroundImage: `url(${ConflCirle})`,
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              backgroundSize: "contain",
+              border: "1px solid red",
+              color: "red",
+              fontSize: "20px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            },
           },
-        },
-      })),
+        });
+      }),
   );
   console.log("successfulArr", successfulArr);
   console.log("conflictsArr", conflictsArr);
@@ -112,7 +120,8 @@ export default function WindowTimeline({
   const curIdDevice = baseOrder.equipment.id; //! -
   const curIdDevForGreen = selectedConflictDate.extendedProps.groupId; //! -
   const curTime = baseOrder.shiftTime; //! -
-  const curTimeForGreen = selectedConflictDate.extendedProps.shift; //! -
+  // const curTimeForGreen = selectedConflictDate.extendedProps.shift; //! -
+  const curTimeForGreen = 2; //! -
   // const isDayWithConflict = baseOrder.equipment?
   // .conflicts[PR_SEL.todayFormated]?.length > 0; //! -
 
@@ -421,34 +430,25 @@ export default function WindowTimeline({
 
   const handleResolveConflict = () => {
     // console.log("SEND MESSAGE", successfulArr, conflictsArr);
+    setSelectedConflictDate(null);
+
     pushOrderInBasePreOrder({
       date: PR_SEL.todayFormated,
-      success: [successfulArr.map((order) => (
+      success: successfulArr.map((order) => (
         {
           shiftTime: order.shiftTime,
           date: order.date,
           grid: addGrid(Math.floor(order.shiftTime / PR_COM.shiftCateg), PR_COM.shiftCateg),
           group: order.group,
         }
-      ))],
-      conflict: [conflictsArr.map((order) => (
+      )),
+      conflict: conflictsArr.map((order) => (
         {
           shiftTime: order.shiftTime,
           groupId: order.group,
         }
-      ))],
+      )),
     });
-    // setSelectedConflictDate(null);
-    // const formattedConsideredCell = {
-    //! Shifttime
-    //   canMove: consideredCell.canMove,
-    //   date: consideredCell.date,
-    //   grid: consideredCell.grid,
-    //   group: consideredCell.group,
-    //   // id: consideredCell.id,
-    //   // status: consideredCell.status,
-    // };
-    // pushOrderInBasePreOrder(formattedConsideredCell);
   };
 
   return (
@@ -461,6 +461,7 @@ export default function WindowTimeline({
             lineHeight={36}
             itemHeightRatio={1}
             verticalLineClassNamesForTime={(timeStart, timeEnd) => {
+              console.log(curTime);
               const currentTimeStart = moment(timeStart);
               const currentTimeEnd = moment(timeEnd);
               const selectedTime = currentTimeStart.isSame(setStartTimeSelectedItem(curTime), "hours")

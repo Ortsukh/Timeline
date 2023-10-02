@@ -207,7 +207,7 @@ export default function EditButtonColumn({
                         setIsConfirmWindowOpen("accepted");
                         return;
                       }
-                      if (baseOrder.equipment.conflicts.length > 0) {
+                      if (baseOrder.equipment.countConflicts > 0) {
                         showNotification("conflicts");
                         return;
                       }
@@ -226,7 +226,7 @@ export default function EditButtonColumn({
                         setIsConfirmWindowOpen("pending");
                         return;
                       }
-                      if (baseOrder.equipment.conflicts.length > 0) {
+                      if (baseOrder.equipment.countConflicts > 0) {
                         showNotification("conflicts");
                         return;
                       }
@@ -249,7 +249,7 @@ export default function EditButtonColumn({
                           setIsConfirmWindowOpen(true);
                           return;
                         }
-                        if (baseOrder.equipment.conflicts.length > 0) {
+                        if (baseOrder.equipment.countConflicts > 0) {
                           showNotification("conflicts");
                           return;
                         }
@@ -269,7 +269,7 @@ export default function EditButtonColumn({
                           setIsConfirmWindowOpen(true);
                           return;
                         }
-                        if (baseOrder.equipment.conflicts.length > 0) {
+                        if (baseOrder.equipment.countConflicts > 0) {
                           showNotification("conflicts");
                           return;
                         }
