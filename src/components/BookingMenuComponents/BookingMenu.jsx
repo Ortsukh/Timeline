@@ -32,7 +32,7 @@ export default function BookingMenu({
   user,
 }) {
   // new
-  const [baseOrder, setBaseOrder] = useState({ shiftTime: [], preOrders: [], equipment: {} });
+  const [baseOrder, setBaseOrder] = useState({ shiftTime: [{ value: 0, label: `0 - ${+currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
   const [selectedConflictDate, setSelectedConflictDate] = useState(null);
   const [keyRerenderConflictResolutionWindow, setKeyRerenderConflictResolutionWindow] = useState(0);
@@ -76,7 +76,7 @@ export default function BookingMenu({
     initialCurrentDeviceIndex,
   );
   const handleClear = () => {
-    setBaseOrder({ shiftTime: [], preOrders: [], equipment: {} });
+    setBaseOrder({ shiftTime: [{ value: 0, label: `0 - ${+currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
     setCalendarEvent([]);
     setSelectedConflictDate("");
     setIsActiveCalendar(true);
@@ -88,8 +88,8 @@ export default function BookingMenu({
     setKeyRerenderConflictResolutionWindow((prev) => prev + 1);
     setSelectedConflictDate(date);
   };
-  const generatePreOrders = (group, date) => {
-    const formatHour = Math.floor(baseOrder.shiftTime / group.shiftLength);
+  const generatePreOrders = (group, date, shiftTime) => {
+    const formatHour = Math.floor(shiftTime / group.shiftLength);
     return {
       id: uuidv4(),
       group: group.id,
@@ -121,7 +121,7 @@ export default function BookingMenu({
           //   backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
           // });
 
-          baseOrder.preOrders.push(generatePreOrders(currentEquipment, selectedDate));
+          baseOrder.preOrders.push(generatePreOrders(currentEquipment, selectedDate, baseOrderShiftTime));
         } else {
           const commonMapsEquipmentSelectedDate = commonMapsEquipment[selectedDate];
           const { shiftTime } = baseOrder;
@@ -236,9 +236,9 @@ export default function BookingMenu({
               && equipment.dates[selectedDate][shiftTime] === "1"
           ) {
             mapsEquipment[group].countConflicts++;
-            mapsEquipment[group].conflicts[selectedDate].push(shiftTime);
+            mapsEquipment[group].conflicts[selectedDate].push({ shiftTime, groupId: group });
           } else {
-            mapsEquipment[group].success[selectedDate].push(shiftTime);
+            mapsEquipment[group].success[selectedDate].push({ shiftTime, groupId: group });
           }
         });
       });
