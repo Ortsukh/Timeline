@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function ManagerFailConfInfo({
-  baseOrder, calculatedOrSelectedDevice, selectedCompany,
+  countConflicts, calculatedOrSelectedDevice, selectedCompany,
 }) {
   return (
     <>
@@ -14,7 +14,7 @@ export default function ManagerFailConfInfo({
       </p>
       <p style={{ fontSize: "14px" }}>
         {"Для него у Вас на данный момент "}
-        <span style={{ fontWeight: "bold", color: "#f03333" }}>{baseOrder.equipment?.conflicts.length}</span>
+        <span style={{ fontWeight: "bold", color: "#f03333" }}>{countConflicts}</span>
         {" конфликт(ов). Нажмите на нужные даты в календаре и разрешите их."}
       </p>
     </>
