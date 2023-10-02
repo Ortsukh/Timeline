@@ -32,19 +32,21 @@ export default function ConfirmBookingWindow({
       (group) => group.id === baseOrder.equipment.id,
     );
   }
-  // console.log("user", user);
+  console.log("baseOrder", baseOrder);
+  console.log("selectedConflictDate", selectedConflictDate);
 
   return (
     <>
       {showStartDisplayConflict && <MainConfInfo />}
 
-      {!showStartDisplayConflict
+      {!showStartDisplayConflict && "conflicts" in baseOrder.equipment
         && (
-        <div style={{
-          width: "auto", margin: "0 auto", padding: "10px 20px", fontSize: "20px", backgroundColor: "white", border: "1px solid #c1c1c1", borderRadius: "20px", textAlign: "center", position: "relative",
-        }}
+        <div
+          style={{
+            width: "auto", margin: "0 auto", padding: "10px 20px", fontSize: "20px", backgroundColor: "white", border: "1px solid #c1c1c1", borderRadius: "20px", textAlign: "center", position: "relative",
+          }}
         >
-          {user.role === "ROLE_COMPANY"
+          {user.role === "ROLE_COMPANY" // В редактировании и в добавлении одинаковая информация
           && (
           <CompanyConfInfo
             baseOrder={baseOrder}
@@ -53,8 +55,7 @@ export default function ConfirmBookingWindow({
           )}
 
           {user.role === "ROLE_MANAGER"
-          && "conflicts" in baseOrder.equipment
-          && baseOrder.equipment?.conflicts.length === 0
+          && baseOrder.equipment?.countConflicts === 0
           && (
           <ManagerSuccessConfInfo
             isEditMode={isEditMode}
@@ -64,11 +65,10 @@ export default function ConfirmBookingWindow({
           )}
 
           {user.role === "ROLE_MANAGER"
-          && "conflicts" in baseOrder.equipment
-          && baseOrder.equipment?.conflicts.length > 0
+          && baseOrder.equipment?.countConflicts > 0
           && (
           <ManagerFailConfInfo
-            baseOrder={baseOrder}
+            countConflicts={baseOrder.equipment?.countConflicts}
             calculatedOrSelectedDevice={calculatedOrSelectedDevice}
             selectedCompany={selectedCompany}
           />

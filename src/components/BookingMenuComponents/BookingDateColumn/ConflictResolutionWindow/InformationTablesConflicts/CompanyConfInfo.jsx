@@ -3,7 +3,7 @@ import React from "react";
 export default function CompanyConfInfo({ baseOrder, calculatedOrSelectedDevice }) {
   return (
     <div>
-      {"conflicts" in baseOrder.equipment && baseOrder.equipment?.conflicts.length
+      {baseOrder.equipment?.countConflicts > 0
         ? (
           <>
             <p style={{ fontSize: "14px" }}>
@@ -12,7 +12,7 @@ export default function CompanyConfInfo({ baseOrder, calculatedOrSelectedDevice 
             </p>
             <p style={{ fontSize: "14px" }}>
               {"Для него у Вас на данный момент "}
-              <span style={{ fontWeight: "bold", color: "#f03333" }}>{baseOrder.equipment?.conflicts.length}</span>
+              <span style={{ fontWeight: "bold", color: "#f03333" }}>{baseOrder.equipment?.countConflicts}</span>
               {" конфликт(ов). Нажмите на нужные даты в календаре и разрешите их."}
             </p>
           </>
