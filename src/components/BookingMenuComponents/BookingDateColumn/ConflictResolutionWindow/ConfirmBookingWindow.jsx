@@ -26,6 +26,7 @@ export default function ConfirmBookingWindow({
   handleSetSelectedConflictDate,
   selectedCompany,
   openAlertWindow,
+  deactivatedCells,
 }) {
   let calculatedOrSelectedDevice = null;
   if ("id" in baseOrder.equipment) {
@@ -96,6 +97,7 @@ export default function ConfirmBookingWindow({
         statusCheckboxSelected={statusCheckboxSelected}
         handleSetSelectedConflictDate={handleSetSelectedConflictDate}
         openAlertWindow={openAlertWindow}
+        deactivatedCells={deactivatedCells}
       />
       )}
     </>

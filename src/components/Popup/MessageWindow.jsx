@@ -11,7 +11,7 @@ export default function MessageWindow({
   openConfirmWindow,
   user,
 }) {
-  const heightModal = 185;
+  const heightModal = 250;
   const weightModal = 225;
 
   const isLeftPart = window.innerWidth / 2 - data.posX > 0;

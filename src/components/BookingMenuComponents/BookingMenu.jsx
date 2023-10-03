@@ -45,6 +45,7 @@ export default function BookingMenu({
   const [selectedPreferredDevice, setSelectedPreferredDevice] = useState(null);
   const [statusCheckboxSelected, setStatusCheckboxSelected] = useState("AUTO");
   const [isConfirmWindowOpen, setIsConfirmWindowOpen] = useState(false);
+  const [deactivatedCell, setDeactivatedCell] = useState(false);
 
   useEffect(() => {
     if (isEditMode) {
@@ -353,6 +354,11 @@ export default function BookingMenu({
   const handleChangeEquipmentBeforeCalculation = (selectValueBeforeCalculation) => {
     setSelectedPreferredDevice(selectValueBeforeCalculation);
   };
+
+  const deactivatedCells = () => {
+    setDeactivatedCell((prev) => !prev);
+  };
+
   const pushOrderInBasePreOrder = (newOrders) => {
     console.log(newOrders);
     if (newOrders.success.length === 0) {
@@ -362,7 +368,7 @@ export default function BookingMenu({
     const successArr = newOrders.success.map((item) => ({ shiftTime: item.shiftTime, groupId: item.group }));
 
     const newPreOrder = baseOrder.preOrders.filter((item) => item.date !== newOrders.date).concat(newOrders.success);
-    const countResolveConflicts = baseOrder.equipment.conflicts - newOrders.conflicts;
+    const countResolveConflicts = isEditMode ? 0 : baseOrder.equipment.countConflicts + newOrders.conflicts.length - baseOrder.equipment.conflicts[newOrders.date].length;
     setBaseOrder((prev) => ({
       ...prev,
       preOrders: newPreOrder,
@@ -469,6 +475,7 @@ export default function BookingMenu({
             setSelectedPreferredDevice={setSelectedPreferredDevice}
             selectedCompany={selectedCompany}
             user={user}
+            deactivatedCell={deactivatedCell}
           />
         </div>
 
@@ -509,6 +516,7 @@ export default function BookingMenu({
             handleSetSelectedConflictDate={handleSetSelectedConflictDate}
             selectedCompany={selectedCompany}
             openAlertWindow={openAlertWindow}
+            deactivatedCells={deactivatedCells}
           />
         </div>
       </div>

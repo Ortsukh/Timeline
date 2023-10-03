@@ -32,6 +32,7 @@ export default function EditButtonColumn({
   setSelectedPreferredDevice,
   selectedCompany,
   user,
+  deactivatedCell,
 }) {
   // eslint-disable-next-line no-unused-vars
   const [shiftsCount, setShiftsCount] = useState(1);
@@ -82,7 +83,7 @@ export default function EditButtonColumn({
     }
     return (
       <div style={{ color: "red" }}>
-        {`У вас осталось ${baseOrder.equipment.conflicts.length} конфликт(ов)`}
+        {`У вас осталось ${baseOrder.equipment.countConflicts} конфликт(ов)`}
       </div>
     );
   };
@@ -172,6 +173,7 @@ export default function EditButtonColumn({
         setSelectedDates={setSelectedDates}
         calendarEvent={calendarEvent}
         isActiveCalendar={isActiveCalendar}
+        deactivatedCell={deactivatedCell}
       />
       <div>
         {isShowConflictNotification && notification()}
