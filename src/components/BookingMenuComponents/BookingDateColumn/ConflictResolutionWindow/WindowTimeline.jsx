@@ -472,7 +472,7 @@ export default function WindowTimeline({
               const currentTimeStart = moment(timeStart).format("HH");
               const currentTimeEnd = moment(timeEnd).format("HH");
               if (moment(currentTimeStart, "HH").isBefore(moment(workTime.start, "HH"), "hours")
-              || moment(currentTimeEnd, "HH").isAfter(moment(workTime.end, "HH"), "hours")
+              || moment(currentTimeEnd, "HH").isSameOrAfter(moment(workTime.end, "HH"), "hours")
               ) {
                 return [styleConflict.highlightColumn];
               }
