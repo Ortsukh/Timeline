@@ -25,12 +25,13 @@ export default function WindowTimeline({
   pushOrderInBasePreOrder,
   statusCheckboxSelected,
   // handleSetSelectedConflictDate,
+  openAlertWindow,
 }) {
   const PR_COM = {
-    // eslint-disable-next-line
-    category: baseOrder.equipment.category, // groups.find((el) => el.id === curIdDevForGreen || curIdDevice).category
+    category: baseOrder.equipment.category,
     idCategArr: groups.map((el) => el.id),
     shiftCateg: baseOrder.equipment.shiftLength,
+    preferredGroupId: baseOrder.equipment.id,
   };
   const PR_SEL = {
     today: moment(selectedConflictDate.start),
@@ -38,14 +39,14 @@ export default function WindowTimeline({
     countOrders: selectedConflictDate.extendedProps.conflicts[moment(selectedConflictDate.start).format("YYYY-MM-DD")].length
     + selectedConflictDate.extendedProps.success[moment(selectedConflictDate.start).format("YYYY-MM-DD")].length,
   };
-  console.log("PR_COM", PR_COM);
-  console.log("PR_SEL", PR_SEL);
+  // console.log("PR_COM", PR_COM);
+  // console.log("PR_SEL", PR_SEL);
 
   const [visibleTimeStart, setVisibleTimeStart] = useState(PR_SEL.today.startOf("day").valueOf());
   const [visibleTimeEnd, setVisibleTimeEnd] = useState(PR_SEL.today.endOf("day").valueOf());
   const setStartTimeSelectedItem = (time) => PR_SEL.today.clone().set("hour", time).startOf("hour");
-  const setEndTimeSelectedItem = (time) => PR_SEL.today.clone().set("hour", time).startOf("hour").add(PR_COM.shiftCateg, "hour")
-    .subtract(1, "seconds");
+  const setEndTimeSelectedItem = (time) => PR_SEL.today.clone().set("hour", time).startOf("hour").add(PR_COM.shiftCateg, "hour");
+  // .subtract(1, "seconds");
 
   const [isClickedSuccess, setIsClickedSuccess] = useState(false);
   const [isClickedConflict, setIsClickedConflict] = useState(false);
@@ -67,7 +68,7 @@ export default function WindowTimeline({
           itemProps: {
             style: {
               background: "#90ef90",
-              border: "1px solid red",
+              // border: "1px solid red",
               color: "red",
               fontSize: "20px",
               display: "flex",
@@ -78,7 +79,6 @@ export default function WindowTimeline({
         });
       }),
   );
-  // eslint-disable-next-line
   const [conflictsArr, setConflictsArr] = useState(
     selectedConflictDate.extendedProps.conflicts[PR_SEL.todayFormated]
       .map((reserv) => {
@@ -93,6 +93,7 @@ export default function WindowTimeline({
           end_time: setEndTimeSelectedItem(reserv.shiftTime),
           canMove: false,
           itemProps: {
+            className: `${styleConflict.clickedItem}`,
             style: {
               // background: "rgba(128,128,128,0)",
               // background: "transparent",
@@ -103,7 +104,7 @@ export default function WindowTimeline({
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
               backgroundSize: "contain",
-              border: "1px solid red",
+              // border: "1px solid red",
               color: "red",
               fontSize: "20px",
               display: "flex",
@@ -114,140 +115,35 @@ export default function WindowTimeline({
         });
       }),
   );
-  console.log("successfulArr", successfulArr);
-  console.log("conflictsArr", conflictsArr);
-  const { workTime } = baseOrder.equipment;
-  const curIdDevice = baseOrder.equipment.id; //! -
-  const curIdDevForGreen = selectedConflictDate.extendedProps.groupId; //! -
-  const curTime = baseOrder.shiftTime; //! -
-  // const curTimeForGreen = selectedConflictDate.extendedProps.shift; //! -
+  // console.log("successfulArr", successfulArr);
+  // console.log("conflictsArr", conflictsArr);
+
+  // const curIdDevice = baseOrder.equipment.id; //! -
+  // const curIdDevForGreen = selectedConflictDate.extendedProps.groupId; //! -
+  // const curTime = baseOrder.shiftTime; //! -
   const curTimeForGreen = 2; //! -
   // const isDayWithConflict = baseOrder.equipment?
   // .conflicts[PR_SEL.todayFormated]?.length > 0; //! -
-
+  const { workTime } = baseOrder.equipment;
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
     if (isEditMode) {
       const filteredArr = items.filter((item) => PR_SEL.todayFormated === item.date
       && PR_COM.idCategArr.includes(item.group)
       && item?.rentOrderId !== editOrderData?.rentOrderId);
-      setFilteredItems(filteredArr.map((prev) => ({ ...prev, itemProps: { style: { background: "#ffa4a4" } } })));
+      setFilteredItems(filteredArr.map((prev) => ({ ...prev, itemProps: { style: { background: "#ffa4a4", border: "1px solid gray" } } })));
       return;
     }
     const filteredArr = items.filter((item) => PR_SEL.todayFormated === item.date
     && PR_COM.idCategArr.includes(item.group));
-    setFilteredItems(filteredArr.map((prev) => ({ ...prev, itemProps: { style: { background: "#ffa4a4" } } })));
+    setFilteredItems(filteredArr.map((prev) => ({ ...prev, itemProps: { style: { background: "#ffa4a4", border: "1px solid gray" } } })));
   }, [selectedConflictDate]);
-  // const filteredItemsNormal = items.filter((item) => PR_SEL.todayFormated === item.date
-  //   && PR_COM.idCategArr.includes(item.group));
-  // eslint-disable-next-line
-  // const itemsSameColor = filteredItemsNormal.map((prev) => ({ ...prev, itemProps: { style: { background: "#ffa4a4" } } }));
-  // const filteredItemsEdit = itemsSameColor.filter((filterItem) => {
-  //   console.log();
-  //   return filterItem?.rentOrderId !== editOrderData?.rentOrderId;
-  // });
-  // const filteredItems = isEditMode ? filteredItemsEdit : itemsSameColor;
-  // console.log("filteredItems", filteredItems);
-  // .FilteredItems push: if (successArr.length), if (conflictsArr.length)
 
-  // const [successfulItems, setSuccessfulItems] = useState([]);
-  // if (successfulArr.length) {
-  //   const abc = successfulArr.map((successItem) => ({
-  //     id: successItem.id,
-  //     group: successItem.groupId,
-  //     start_time: setStartTimeSelectedItem(successItem.shiftTime),
-  //     end_time: setEndTimeSelectedItem(successItem.shiftTime),
-  //     itemProps:
-  //           {
-  //             style: {
-  //               background: "#90ef90",
-  //               border: "1px solid red",
-  //               color: "red",
-  //               fontSize: "20px",
-  //               display: "flex",
-  //               justifyContent: "center",
-  //               alignItems: "center",
-  //             },
-  //           },
-  //   }));
-  //   setSuccessfulItems(abc);
-  //   // setSuccessfulItems(
-  //   //   successfulArr.map((successItem) => ({
-  //   //     id: successItem.id,
-  //   //     group: successItem.groupId,
-  //   //     start_time: setStartTimeSelectedItem(successItem.shiftTime),
-  //   //     end_time: setEndTimeSelectedItem(successItem.shiftTime),
-  //   //     itemProps:
-  //   //       {
-  //   //         style: {
-  //   //           background: "#90ef90",
-  //   //           border: "1px solid red",
-  //   //           color: "red",
-  //   //           fontSize: "20px",
-  //   //           display: "flex",
-  //   //           justifyContent: "center",
-  //   //           alignItems: "center",
-  //   //         },
-  //   //       },
-  //   //   })),
-  //   // );
-  // }
-  // console.log("successfulItems", successfulItems);
-
-  // if (isDayWithConflict && !isEditMode) {
-  //   filteredItems.push({
-  //     id: "X_MARK",
-  //     group: curIdDevForGreen || curIdDevice,
-  //     // title: "X",
-  //     start_time: setStartTimeSelectedItem(curTimeForGreen),
-  //     end_time: setEndTimeSelectedItem(curTimeForGreen),
-  //     itemProps:
-  //       {
-  //         style: {
-  //           // background: "rgba(128,128,128,0)",
-  //           // background: "transparent",
-  //           background: "#ffa4a4",
-  //           // width: "30px",
-  //           // height: "30px",
-  //           backgroundImage: `url(${ConflCirle})`,
-  //           backgroundRepeat: "no-repeat",
-  //           backgroundPosition: "center",
-  //           backgroundSize: "contain",
-  //           border: "1px solid red",
-  //           color: "red",
-  //           fontSize: "20px",
-  //           display: "flex",
-  //           justifyContent: "center",
-  //           alignItems: "center",
-  //         },
-  //       },
-  //   });
-  // }
-  // if ((!isDayWithConflict && !isEditMode) || isEditMode) {
-  //   filteredItems.push({
-  //     id: "X_MARK",
-  //     group: curIdDevForGreen || curIdDevice,
-  //     start_time: setStartTimeSelectedItem(curTimeForGreen),
-  //     end_time: setEndTimeSelectedItem(curTimeForGreen),
-  //     itemProps:
-  //       {
-  //         style: {
-  //           background: "#90ef90",
-  //           border: "1px solid red",
-  //           color: "red",
-  //           fontSize: "20px",
-  //           display: "flex",
-  //           justifyContent: "center",
-  //           alignItems: "center",
-  //         },
-  //       },
-  //   });
-  // }
   // eslint-disable-next-line
   const selectedShiftObj = {
     // title: "X",
     id: uuidv4(),
-    group: curIdDevForGreen || curIdDevice,
+    group: 1, //! curIdDevForGreen || curIdDevice,
     status: "preOrder",
     canMove: false,
     date: PR_SEL.todayFormated,
@@ -267,8 +163,9 @@ export default function WindowTimeline({
         zIndex: 100,
       },
     },
-    deviceGroup: curIdDevForGreen || curIdDevice,
-    checkBoxId: `${curIdDevForGreen || curIdDevice} ${Math.floor(+curTimeForGreen / PR_COM.shiftCateg)}`,
+    //! deviceGroup: curIdDevForGreen || curIdDevice,
+    // eslint-disable-next-line
+    //! checkBoxId: `${curIdDevForGreen || curIdDevice} ${Math.floor(+curTimeForGreen / PR_COM.shiftCateg)}`,
   };
   // eslint-disable-next-line
   const [consideredCell, setConsideredCell] = useState(isEditMode ? selectedShiftObj : {});
@@ -287,7 +184,7 @@ export default function WindowTimeline({
   }));
   const elInGroup = generateGroup().filter((el) => el.category === PR_COM.category);
   const highlightElInGroup = elInGroup.map((el) => {
-    const selectedElInGroup = el.id === curIdDevice;
+    const selectedElInGroup = el.id === PR_COM.preferredGroupId;
     return {
       ...el,
       title: (
@@ -297,44 +194,6 @@ export default function WindowTimeline({
       ),
     };
   });
-
-  // const getFormattedDate = (groupId, time) => {
-  //   const date = moment(time).format("YYYY-MM-DD");
-  //   const hour = moment(time).hours();
-  //   const formatHour = Math.floor(hour / PR_COM.shiftCateg);
-  //   let start;
-  //   let end;
-
-  //   start = formatHour * PR_COM.shiftCateg;
-  //   end = start + PR_COM.shiftCateg;
-  //   start = `${date} ${start}:00`;
-  //   end = `${date} ${end}:00`;
-  //   return {
-  //     start,
-  //     end,
-  //   };
-  // };
-
-  // const clickOnEmptySpace = (groupId, time) => {
-  //   const hour = moment(time).hours();
-  //   const formatHour = Math.floor(hour / PR_COM.shiftCateg);
-  //   const formattedDate = getFormattedDate(groupId, time);
-  //   const obj = {
-  //     id: uuidv4(),
-  //     group: groupId,
-  //     status: "preOrder",
-  //     canMove: false,
-  //     date: PR_SEL.todayFormated,
-  //     grid: addGrid(formatHour, PR_COM.shiftCateg),
-  //     start_time: moment(formattedDate.start).valueOf(),
-  //     end_time: moment(formattedDate.end).valueOf(),
-  //     itemTouchSendsClick: false,
-  //     itemProps: { style: { background: "lightgray" } },
-  //     deviceGroup: groupId,
-  //     checkBoxId: `${groupId} ${formatHour}`,
-  //   };
-  //   setConsideredCell(obj);
-  // };
 
   const handleCanvasClick = (groupId, time) => {
     // if (statusCheckboxSelected === "MYSELF" && groupId !== curIdDevice) return;
@@ -382,11 +241,10 @@ export default function WindowTimeline({
       }
     }
     if (isClickedSuccess) {
-      // console.log("Click isClickedSuccess");
       const formatedSuccTime = moment(time).hours();
       setSuccessfulArr((prev) => {
         const newSuccArr = [...prev];
-        newSuccArr[indexElementChange] = {
+        newSuccArr[indexElementChange.index] = {
           shiftTime: formatedSuccTime,
           id: `success_${uuidv4()}`,
           date: PR_SEL.todayFormated,
@@ -397,7 +255,7 @@ export default function WindowTimeline({
           itemProps: {
             style: {
               background: "#90ef90",
-              border: "1px solid red",
+              // border: "1px solid red",
               color: "red",
               fontSize: "20px",
               display: "flex",
@@ -416,47 +274,49 @@ export default function WindowTimeline({
   const handleItemSelect = (itemId) => {
     // console.log("itemId", itemId);
     const splitedStatusId = itemId.split("_");
-    // console.log("splitedStatusId", typeof splitedStatusId, splitedStatusId);
     if (indexElementChange === null && splitedStatusId[0] === "conflict") {
-      // console.log("conflict");
-      setIndexElementChange(conflictsArr.findIndex((el) => (el.id === itemId)));
+      setIndexElementChange({
+        index: conflictsArr.findIndex((el) => (el.id === itemId)),
+        group: conflictsArr.find((el) => (el.id === itemId)).group,
+      });
       setIsClickedConflict(true);
     }
     if (indexElementChange === null && splitedStatusId[0] === "success") {
-      // console.log("success");
-      setIndexElementChange(successfulArr.findIndex((el) => (el.id === itemId)));
+      setIndexElementChange({
+        index: successfulArr.findIndex((el) => (el.id === itemId)),
+        group: successfulArr.find((el) => (el.id === itemId)).group,
+      });
       setIsClickedSuccess(true);
     }
-    // if (itemId === consideredCell.id) {
-    //   setConsideredCell({});
-    //   return;
-    // }
     // if (isEditMode && itemId === "X_MARK") {
     //   setConsideredCell(selectedShiftObj);
     // }
   };
 
   const handleResolveConflict = () => {
-    // console.log("SEND MESSAGE", successfulArr, conflictsArr);
-    setSelectedConflictDate(null);
-
-    pushOrderInBasePreOrder({
-      date: PR_SEL.todayFormated,
-      success: successfulArr.map((order) => (
-        {
-          shiftTime: order.shiftTime,
-          date: order.date,
-          grid: addGrid(Math.floor(order.shiftTime / PR_COM.shiftCateg), PR_COM.shiftCateg),
-          group: order.group,
-        }
-      )),
-      conflict: conflictsArr.map((order) => (
-        {
-          shiftTime: order.shiftTime,
-          groupId: order.group,
-        }
-      )),
-    });
+    // console.log("SEND MESSAGE");
+    if (PR_SEL.countOrders === successfulArr.length + conflictsArr.length) {
+      pushOrderInBasePreOrder({
+        date: PR_SEL.todayFormated,
+        success: successfulArr.map((order) => (
+          {
+            shiftTime: order.shiftTime,
+            date: order.date,
+            grid: addGrid(Math.floor(order.shiftTime / PR_COM.shiftCateg), PR_COM.shiftCateg),
+            group: order.group,
+          }
+        )),
+        conflict: conflictsArr.map((order) => (
+          {
+            shiftTime: order.shiftTime,
+            groupId: order.group,
+          }
+        )),
+      });
+      setSelectedConflictDate(null);
+      return;
+    }
+    openAlertWindow("Заказ не сохранён! Ошибка общего количества заказов.");
   };
 
   return (
@@ -480,7 +340,7 @@ export default function WindowTimeline({
             }}
             horizontalLineClassNamesForGroup={(group) => {
               if (statusCheckboxSelected === "AUTO") return;
-              const selectedGroup = group.id === curIdDevice;
+              const selectedGroup = group.id === PR_COM.preferredGroupId;
               // eslint-disable-next-line
               return [selectedGroup && !isEditMode ? styleConflict.highlightRow : ""];
             }}
@@ -541,7 +401,8 @@ export default function WindowTimeline({
                       intervalContext,
                     }) => (
                       <div {...getIntervalProps()}>
-                        {moment(+getIntervalProps().key.slice(6)).isSame(setStartTimeSelectedItem(curTime), "hours")
+                        {/* eslint-disable-next-line */}
+                        {/* {moment(+getIntervalProps().key.slice(6)).isSame(setStartTimeSelectedItem(curTime), "hours")
                         && statusCheckboxSelected === "AUTO"
                           ? (
                             <div
@@ -558,21 +419,21 @@ export default function WindowTimeline({
                             }
                             </div>
                           )
-                          : (
-                            <div
-                              style={{
-                                border: "1px solid rgba(0, 0, 0)",
-                                backgroundColor: "white",
-                                display: "flex",
-                                justifyContent: "center",
-                              }}
-                            >
-                              {
+                          : ( */}
+                        <div
+                          style={{
+                            border: "1px solid rgba(0, 0, 0)",
+                            backgroundColor: "white",
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {
                               `${moment(intervalContext.interval.startTime).format("H")}-${
                                 moment(intervalContext.interval.endTime).format("H")}`
                             }
-                            </div>
-                          )}
+                        </div>
+                        {/* )} */}
                       </div>
                     )}
                   />
@@ -587,10 +448,10 @@ export default function WindowTimeline({
       >
         <button
           type="button"
-          // className={!consideredCell.id
-          //   ? styleConflict.reserveBtnDisable
-          //   : styleConflict.reserveBtn}
-          // disabled={!consideredCell.id}
+          className={indexElementChange !== null
+            ? styleConflict.reserveBtnDisable
+            : styleConflict.reserveBtn}
+          disabled={indexElementChange !== null}
           onClick={handleResolveConflict}
         >
           Подтвердить
@@ -598,23 +459,21 @@ export default function WindowTimeline({
         <button
           type="button"
           className={styleConflict.closeBtn}
-          onClick={() => {
-            setSelectedConflictDate(null);
-            // TODO ЛОГИКА для перехода к следующему конкликту после нажатия на `Пропустить`
-            // const curIndConflInArr =
-            // baseOrder.equipment?.conflicts.indexOf(PR_SEL.todayFormated)
-            // eslint-disable-next-line
-            // const nextIndexConfl = curIndConflInArr < baseOrder.equipment?.conflicts.length - 1 ? curIndConflInArr + 1 : 0;
-            // handleSetSelectedConflictDate(baseOrder.equipment?.conflicts[nextIndexConfl]);
-          }}
+          onClick={() => (
+            indexElementChange === null
+              ? setSelectedConflictDate(null)
+              : setIndexElementChange(null)
+          )}
         >
-          Пропустить
+          {indexElementChange === null ? "Отменить" : "Пропустить"}
         </button>
       </div>
+      {indexElementChange !== null && (
       <EquipmentDescription equipment={
-        groups.find((group) => group.id === (+curIdDevForGreen || +curIdDevice))
+        groups.find((group) => group.id === indexElementChange.group)
       }
       />
+      )}
     </>
   );
 }
