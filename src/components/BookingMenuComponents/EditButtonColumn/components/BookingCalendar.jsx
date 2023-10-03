@@ -25,14 +25,16 @@ function renderEventContent(eventInfo) {
     display: "flex",
     flexDirection: "column",
   };
-  return (
-    <div style={obj}>
-      <span>{`${eventInfo.event.extendedProps.shift}-${eventInfo.event.extendedProps.shift + eventInfo.event.extendedProps.shiftLength}`}</span>
-      <span>{eventInfo.event.extendedProps.shortTitle}</span>
-    </div>
-  );
+  return <div style={obj}>  </div>;
+  // return (
+  //   <div style={obj}>
+  //     <span>{`${eventInfo.event.extendedProps.shift}
+  //            -${eventInfo.event.extendedProps.shift
+  //            + eventInfo.event.extendedProps.shiftLength}`}</span>
+  //     <span>{eventInfo.event.extendedProps.shortTitle}</span>
+  //   </div>
+  // );
 }
-
 export default function BookingCalendar({
   handleSetSelectedConflictDate,
   setSelectedDates,

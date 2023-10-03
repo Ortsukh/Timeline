@@ -2,7 +2,14 @@ import React from "react";
 import "../style.css";
 
 export default function MessageWindow({
-  data, closeBookingWindow, editMode, setSelectedCompany, setSelectedGroups, nameGroup,
+  data,
+  closeBookingWindow,
+  editMode,
+  setSelectedCompany,
+  setSelectedGroups,
+  nameGroup,
+  openConfirmWindow,
+  user,
 }) {
   const heightModal = 185;
   const weightModal = 225;
@@ -42,12 +49,34 @@ export default function MessageWindow({
           setSelectedCompany({
             id: data.item.company.id,
             name: data.item.company.name,
-            // role: ,
           });
         }}
       >
         Редактировать
       </button>
+      {user.role === "ROLE_MANAGER"
+          && (
+          <div>
+            <button
+              type="button"
+              className="button-submit reserved-btn"
+              onClick={() => {
+                openConfirmWindow("accepted");
+              }}
+            >
+              Подтвердить
+            </button>
+            <button
+              type="button"
+              className="button-submit reserved-btn"
+              onClick={() => {
+                openConfirmWindow("rejected");
+              }}
+            >
+              Отклонить
+            </button>
+          </div>
+          )}
     </div>
   );
 }

@@ -8,6 +8,8 @@ const buttonTitleConstants = {
   SAVE: "Сохранить",
   CONFIRM_ORDER: "Подтвердить бронирование",
   CLOSE: "Закрыть",
+  REJECT: "Отклонить",
+  CONFIRM: "Подтвердить",
 };
 
 export default buttonTitleConstants;

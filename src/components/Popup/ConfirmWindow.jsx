@@ -1,5 +1,6 @@
 import React from "react";
 import "../style.css";
+import buttonTitleConstants from "../../constants/buttonTitleConstants";
 
 export default function ConfirmWindow({
   data,
@@ -7,6 +8,7 @@ export default function ConfirmWindow({
   closeBookingWindow,
   confirmFunc,
   selectedCompany,
+  isConfirmWindowOpen,
 }) {
   let fullPrice = 0;
 
@@ -62,7 +64,7 @@ export default function ConfirmWindow({
       </div>
       <div className="orderBtn">
         <button type="button" className="button-submit reserved-btn" onClick={confirmFunc}>
-          Подтвердить
+          {isConfirmWindowOpen === "rejected" ? buttonTitleConstants.REJECT : buttonTitleConstants.CONFIRM}
         </button>
       </div>
     </div>
