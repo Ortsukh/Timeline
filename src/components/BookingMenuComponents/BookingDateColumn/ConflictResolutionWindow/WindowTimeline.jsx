@@ -27,6 +27,7 @@ export default function WindowTimeline({
   statusCheckboxSelected,
   // handleSetSelectedConflictDate,
   openAlertWindow,
+  deactivatedCells,
 }) {
   const PR_COM = {
     category: baseOrder.equipment.category,
@@ -327,6 +328,10 @@ export default function WindowTimeline({
     }
   };
 
+  const handleCloseSelectedItem = () => {
+    setSelectedConflictDate(null);
+    deactivatedCells();
+  };
   const handleClearSelectedItem = () => {
     const choseStatus = isClickedSuccess
       ? { array: successfulArr, setArray: setSuccessfulArr }
@@ -521,7 +526,7 @@ export default function WindowTimeline({
           className={styleConflict.closeBtn}
           onClick={() => (
             elementForChange === null
-              ? setSelectedConflictDate(null)
+              ? handleCloseSelectedItem()
               : handleClearSelectedItem()
           )}
         >

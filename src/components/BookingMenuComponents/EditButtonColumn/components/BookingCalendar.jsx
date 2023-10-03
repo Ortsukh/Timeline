@@ -41,6 +41,7 @@ export default function BookingCalendar({
   calendarEvent,
   selectedDates,
   isActiveCalendar,
+  deactivatedCell,
 }) {
   const [startCoord, setStartCoord] = useState([0, 0]);
   const [isDefaultSelect, setIsDefaultSelect] = useState(true);
@@ -66,7 +67,12 @@ export default function BookingCalendar({
     };
     handleSetSelectedConflictDate(data);
   };
-
+  useEffect(() => {
+    const calendarDayCell = getCalendarCellsByClassNames(".activeCell");
+    if (calendarDayCell[0]) {
+      calendarDayCell[0].classList.remove("activeCell");
+    }
+  }, [deactivatedCell]);
   useEffect(() => {
     setEvent(calendarEvent);
   }, [calendarEvent]);
@@ -220,6 +226,8 @@ export default function BookingCalendar({
     setSelectedDates(selectedDays);
   };
   const handleSwitchChange = () => {
+    calendarRef.current.getApi().unselect();
+
     setIsDefaultSelect((prev) => !prev);
     setSelectedDates([]);
     getCalendarCellsByClassNames(".fc-day.fc-daygrid-day:not(.fc-day-other)").forEach(
@@ -272,6 +280,7 @@ export default function BookingCalendar({
           }}
         >
           <FullCalendar
+            unselectAuto={false}
             className="unselectable"
             datesSet={(e) => handleChangeMonth(e)}
             height={500}
