@@ -220,28 +220,62 @@ export default function WindowTimeline({
     }
   };
 
-  const handleItemSelect = (itemId) => {
-    // console.log("itemId", itemId);
+  const handleItemDeselect = (e) => {
+    console.log("e", e);
+  };
+  const handleItemSelect = (itemId, e) => {
+    console.log("itemId", e);
     const splitedStatus = itemId.split("_")[0];
-    const activeStyleBorder = "2px solid yellow";
+    const arrayStatuses = ["success", "conflict"];
+    // const activeStyleBorder = "2px solid yellow";
 
-    // if (elementForChange === null && splitedStatus === ("conflict" || "success")) {
-    //   const dataStatus = { array: [], setArray: null, setIsClicked: null };
-    //   switch (splitedStatus) {
-    //     case "conflict":
-    //       dataStatus.array = conflictsArr;
-    //       dataStatus.setArray = setConflictsArr;
-    //       dataStatus.array = setIsClickedConflict;
-    //       break;
-    //     case "success":
-    //       dataStatus.array = successfulArr;
-    //       dataStatus.setArray = setSuccessfulArr;
-    //       dataStatus.array = setIsClickedSuccess;
-    //       break;
-    //     default:
-    //       return;
-    //   }
-    //   console.log("HHHHHHHHHHELLO", dataStatus);
+    if (elementForChange === null && arrayStatuses.includes(splitedStatus)) {
+      const dataStatus = { array: [], setArray: null, setIsClicked: null };
+      switch (splitedStatus) {
+        case "conflict":
+          dataStatus.array = conflictsArr;
+          dataStatus.setArray = setConflictsArr;
+          dataStatus.setIsClicked = setIsClickedConflict;
+          break;
+        case "success":
+          dataStatus.array = successfulArr;
+          dataStatus.setArray = setSuccessfulArr;
+          dataStatus.setIsClicked = setIsClickedSuccess;
+          break;
+        default:
+          return;
+      }
+
+      const foundIndex = dataStatus.array.findIndex((el) => el.id === itemId);
+      setElementForChange({
+        ...dataStatus,
+        id: itemId,
+        index: foundIndex,
+        group: dataStatus.array[foundIndex].group,
+        status: splitedStatus,
+      });
+
+      const updatedData = dataStatus.array.map((item) => {
+        if (item.id === itemId) {
+          const updatedItemPropsStyle = { ...item.itemProps.style };
+          updatedItemPropsStyle.border = "2px solid yellow";
+          const updatedItem = {
+            ...item,
+            itemProps: {
+              ...item.itemProps,
+              style: updatedItemPropsStyle,
+            },
+          };
+          return updatedItem;
+        }
+        return item;
+      });
+
+      dataStatus.setArray(updatedData);
+      dataStatus.setIsClicked(true);
+    }
+
+    // if (elementForChange === null && splitedStatus === "conflict") {
     //   const foundIndex = conflictsArr.findIndex((el) => el.id === itemId);
     //   setElementForChange({
     //     id: itemId,
@@ -249,11 +283,12 @@ export default function WindowTimeline({
     //     group: conflictsArr[foundIndex].group,
     //     status: splitedStatus,
     //   });
+    //   setIsClickedConflict(true);
 
     //   const updatedData = conflictsArr.map((item) => {
     //     if (item.id === itemId) {
     //       const updatedItemPropsStyle = { ...item.itemProps.style };
-    //       updatedItemPropsStyle.border = "2px solid yellow";
+    //       updatedItemPropsStyle.border = activeStyleBorder;
     //       const updatedItem = {
     //         ...item,
     //         itemProps: {
@@ -265,70 +300,42 @@ export default function WindowTimeline({
     //     }
     //     return item;
     //   });
-
     //   setConflictsArr(updatedData);
-    //   setIsClickedConflict(true);
     // }
-    if (elementForChange === null && splitedStatus === "conflict") {
-      const foundIndex = conflictsArr.findIndex((el) => el.id === itemId);
-      setElementForChange({
-        id: itemId,
-        index: foundIndex,
-        group: conflictsArr[foundIndex].group,
-        status: splitedStatus,
-      });
-      setIsClickedConflict(true);
+    // if (elementForChange === null && splitedStatus === "success") {
+    //   const foundIndex = successfulArr.findIndex((el) => el.id === itemId);
+    //   setElementForChange({
+    //     id: itemId,
+    //     index: foundIndex,
+    //     group: successfulArr[foundIndex].group,
+    //     status: splitedStatus,
+    //   });
+    //   setIsClickedSuccess(true);
 
-      const updatedData = conflictsArr.map((item) => {
-        if (item.id === itemId) {
-          const updatedItemPropsStyle = { ...item.itemProps.style };
-          updatedItemPropsStyle.border = activeStyleBorder;
-          const updatedItem = {
-            ...item,
-            itemProps: {
-              ...item.itemProps,
-              style: updatedItemPropsStyle,
-            },
-          };
-          return updatedItem;
-        }
-        return item;
-      });
-      setConflictsArr(updatedData);
-    }
-    if (elementForChange === null && splitedStatus === "success") {
-      const foundIndex = successfulArr.findIndex((el) => el.id === itemId);
-      setElementForChange({
-        id: itemId,
-        index: foundIndex,
-        group: successfulArr[foundIndex].group,
-        status: splitedStatus,
-      });
-      setIsClickedSuccess(true);
-
-      const updatedData = successfulArr.map((item) => {
-        if (item.id === itemId) {
-          const updatedItemPropsStyle = { ...item.itemProps.style };
-          updatedItemPropsStyle.border = activeStyleBorder;
-          const updatedItem = {
-            ...item,
-            itemProps: {
-              ...item.itemProps,
-              style: updatedItemPropsStyle,
-            },
-          };
-          return updatedItem;
-        }
-        return item;
-      });
-      setSuccessfulArr(updatedData);
-    }
+    //   const updatedData = successfulArr.map((item) => {
+    //     if (item.id === itemId) {
+    //       const updatedItemPropsStyle = { ...item.itemProps.style };
+    //       updatedItemPropsStyle.border = activeStyleBorder;
+    //       const updatedItem = {
+    //         ...item,
+    //         itemProps: {
+    //           ...item.itemProps,
+    //           style: updatedItemPropsStyle,
+    //         },
+    //       };
+    //       return updatedItem;
+    //     }
+    //     return item;
+    //   });
+    //   setSuccessfulArr(updatedData);
+    // }
   };
-
-  const handleCloseSelectedItem = () => {
+  console.log("elementForChange", elementForChange);
+  const handleCancelSelectedItem = () => {
     setSelectedConflictDate(null);
     deactivatedCells();
   };
+
   const handleClearSelectedItem = () => {
     const choseStatus = isClickedSuccess
       ? { array: successfulArr, setArray: setSuccessfulArr }
@@ -419,6 +426,7 @@ export default function WindowTimeline({
             onCanvasClick={handleCanvasClick}
             showCursorLine
             onItemSelect={handleItemSelect}
+            onItemDeselect={handleItemDeselect}
             // onMouseUp={handleCellMouseUp} //! Выделение нескольки
             // onMouseDown={handleCellMouseDown} //! Выделение нескольки
             timeSteps={{
@@ -523,19 +531,25 @@ export default function WindowTimeline({
           className={styleConflict.closeBtn}
           onClick={() => (
             elementForChange === null
-              ? handleCloseSelectedItem()
+              ? handleCancelSelectedItem()
               : handleClearSelectedItem()
           )}
         >
-          {elementForChange === null ? buttonTitleConstants.CLOSE : buttonTitleConstants.CLEAN}
+          {elementForChange === null
+            ? buttonTitleConstants.CANCEL
+            : buttonTitleConstants.REMOVE_SELECTION}
         </button>
       </div>
-      {elementForChange !== null && (
-      <EquipmentDescription equipment={
-        groups.find((group) => group.id === elementForChange.group)
-      }
-      />
-      )}
+      {elementForChange !== null
+        ? (
+          <EquipmentDescription equipment={
+            groups.find((group) => group.id === elementForChange.group)
+          }
+          />
+        )
+        : (
+          <div style={{ height: "106px", margin: "25px auto 5px" }} />
+        )}
     </>
   );
 }

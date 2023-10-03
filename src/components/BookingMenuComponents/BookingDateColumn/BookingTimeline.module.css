@@ -54,11 +54,13 @@
 .react-calendar-timeline .rct-sidebar s.rct-sidebar-row {
   padding: 0 !important;
 }
+
 .equipment_description {
   padding: 5px 10px;
   border: 1px solid #b7b7b7;
   border-radius: 5px;
   width: auto;
+  height: 105px;
   display: flex;
   margin: 20px auto 0;
   align-items: center;
@@ -67,7 +69,7 @@
   background-color: #fff;
 }
 
-.equipment_description img{
+.equipment_description img {
   width: 100px;
   height: 100px;
   object-fit: contain;
