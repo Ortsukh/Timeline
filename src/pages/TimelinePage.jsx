@@ -6,8 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import { Tooltip } from "react-tooltip";
 import {
   addGrid,
-  createEquipmentGroup,
-  createOrderGroup,
+  createEquipmentGroup, createOrderGrid,
+  createOrderGroup, formatOrder,
 } from "../common/DataConvertHelper";
 import ToolsFilter from "../components/FilterComponents/ToolsFilter";
 import CountTools from "../components/FilterComponents/CountToolsFilter";
@@ -21,7 +21,7 @@ import {
   getAllEquipments,
   getAllOrders,
   getCompanies, getManagerEquipments,
-  getUser,
+  getUser, sendEditOrder,
 } from "../Api/API";
 import AlertWindow from "../components/Popup/AlertWindow";
 import BookingMenu from "../components/BookingMenuComponents/BookingMenu";
@@ -30,6 +30,7 @@ import styleConflict
 import { generateClue } from "../common/GenerateElementsData";
 import CompaniesSelect from "../components/FilterComponents/CompaniesSelect";
 import buttonTitleConstants from "../constants/buttonTitleConstants";
+import ConfirmWindow from "../components/Popup/ConfirmWindow";
 
 export default function TimelinePage() {
   const [groups, setGroups] = useState([]);
@@ -42,6 +43,7 @@ export default function TimelinePage() {
   const [isLoadingEquipment, setIsLoadingEquipment] = useState(true);
   const [isActiveDate, setIsActiveDate] = useState(false);
   const [editOrderData, setEditOrderData] = useState(null);
+  const [editOrderItems, setEditOrderItems] = useState(null);
   const [isActiveMessage, setIsActiveMessage] = useState(false);
   const [isOpenAlertWindow, setIsOpenAlertWindow] = useState({
     status: false,
@@ -64,6 +66,7 @@ export default function TimelinePage() {
   const [isClickingOnEmptyFilter, setIsClickingOnEmptyFilter] = useState(false);
   const [showButtonClear, setShowButtonClear] = useState(true);
   const [isClickedOnNew, setIsClickedOnNew] = useState(false);
+  const [isConfirmWindowOpen, setIsConfirmWindowOpen] = useState(false);
 
   const [selectedCompany, setSelectedCompany] = useState(null);
 
@@ -182,6 +185,30 @@ export default function TimelinePage() {
     setItemsPreOrder((pred) => [...pred, obj]);
   };
 
+  const sendNewStatusOrder = (status) => {
+    const orderItemsGrid = createOrderGrid(editOrderItems);
+    const dateIntervals = formatOrder(orderItemsGrid);
+    const editedOrder = {
+      rentOrder: {
+        id: editOrderData.rentOrderId,
+        company: editOrderData.company,
+      },
+      status,
+      equipmentItems: dateIntervals,
+    };
+
+    sendEditOrder(editedOrder)
+      .then(() => {
+        openAlertWindow("success");
+        setCurrentDevice([]);
+        setIsConfirmWindowOpen(false);
+        setEditOrderItems(null);
+        setEditOrderData(null);
+        setUpdate((previousUpdate) => !previousUpdate);
+      })
+      .catch(() => openAlertWindow("error"));
+  };
+
   const clearFilter = () => {
     localStorage.clear("toolsFilter");
     setSelectedGroups([]);
@@ -225,7 +252,8 @@ export default function TimelinePage() {
     const result = `${date} : ${moment(formattedDate.start).format(
       "HH-mm",
     )} - ${moment(formattedDate.end).format("HH-mm")}`;
-
+    setEditOrderItems(items.filter((currentItem) => currentItem.rentOrderId === item.rentOrderId));
+    setEditOrderData(item);
     setChosenDate({
       date: result,
       posX,
@@ -233,6 +261,11 @@ export default function TimelinePage() {
       kindModal,
       item,
     });
+  };
+
+  const openConfirmWindow = (status) => {
+    setIsActiveMessage(false);
+    setIsConfirmWindowOpen(status);
   };
 
   const createBook = () => {
@@ -369,10 +402,23 @@ export default function TimelinePage() {
               setSelectedCompany={setSelectedCompany}
               setSelectedGroups={setSelectedGroups}
               nameGroup={groups.find((el) => +el.id === +chosenDate.item.group)}
+              openConfirmWindow={openConfirmWindow}
+              user={user}
             />
           )}
 
         </>
+      )}
+      {isConfirmWindowOpen && (
+      <ConfirmWindow
+        selectedCompany={editOrderData.company}
+        data={editOrderItems}
+        groups={groups}
+        closeBookingWindow={setIsConfirmWindowOpen}
+        confirmFunc={() => sendNewStatusOrder(isConfirmWindowOpen)}
+        isConfirmWindowOpen={isConfirmWindowOpen}
+
+      />
       )}
       {isOpenAlertWindow.status ? (
         <AlertWindow message={isOpenAlertWindow.message} />

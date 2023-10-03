@@ -119,7 +119,7 @@ export default function EditButtonColumn({
         </div>
       </div>
       <div className={style.filterContainer}>
-        <div className="selects-block">
+        <div className="selects-block" style={{ maxWidth: 510 }}>
           <FiltersForOrder
             baseOrder={baseOrder}
             setBaseOrder={setBaseOrder}

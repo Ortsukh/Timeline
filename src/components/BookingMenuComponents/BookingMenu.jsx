@@ -97,7 +97,7 @@ export default function BookingMenu({
     initialCurrentDeviceIndex,
   );
   const handleClear = () => {
-    setBaseOrder({ shiftTime: [{ value: 0, label: `0 - ${+currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
+    setBaseOrder({ shiftTime: [{ value: workTime.start, label: `${workTime.start} - ${workTime.start + currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
     setCalendarEvent([]);
     setSelectedConflictDate("");
     setIsActiveCalendar(true);
