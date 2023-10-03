@@ -9,6 +9,7 @@ import ManagerFailConfInfo from "./InformationTablesConflicts/ManagerFailConfInf
 import { generateClue } from "../../../../common/GenerateElementsData";
 import styleConflict from "./Conflict.module.css";
 import WindowTimeline from "./WindowTimeline";
+import CompanyDayConfInfo from "./InformationTablesConflicts/CompanyDayConfInfo";
 
 export default function ConfirmBookingWindow({
   keyRerenderConflictResolutionWindow,
@@ -49,6 +50,7 @@ export default function ConfirmBookingWindow({
           }}
         >
           {user.role === "ROLE_COMPANY" // В редактировании и в добавлении одинаковая информация
+          && !selectedConflictDate
           && (
           <CompanyConfInfo
             baseOrder={baseOrder}
@@ -58,6 +60,7 @@ export default function ConfirmBookingWindow({
 
           {user.role === "ROLE_MANAGER"
           && baseOrder.equipment?.countConflicts === 0
+          && !selectedConflictDate
           && (
           <ManagerSuccessConfInfo
             isEditMode={isEditMode}
@@ -68,11 +71,20 @@ export default function ConfirmBookingWindow({
 
           {user.role === "ROLE_MANAGER"
           && baseOrder.equipment?.countConflicts > 0
+          && !selectedConflictDate
           && (
           <ManagerFailConfInfo
             countConflicts={baseOrder.equipment?.countConflicts}
             calculatedOrSelectedDevice={calculatedOrSelectedDevice}
             selectedCompany={selectedCompany}
+          />
+          )}
+
+          {selectedConflictDate
+          && (
+          <CompanyDayConfInfo
+            baseOrder={baseOrder}
+            selectedConflictDate={selectedConflictDate}
           />
           )}
 

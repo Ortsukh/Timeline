@@ -32,6 +32,12 @@ export const generateClue = (statusPage) => {
           className="clueItemColor"
           style={{
             backgroundColor: colorConstant[status].backgroundColor,
+            backgroundImage: colorConstant[status].backgroundImage,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundSize: "contain",
+            border: colorConstant[status].border,
+            boxSizing: "border-box",
           }}
         />
         <span style={{ maxWidth: 250 }}>
