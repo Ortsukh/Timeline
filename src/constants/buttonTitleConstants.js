@@ -10,6 +10,8 @@ const buttonTitleConstants = {
   CLOSE: "Закрыть",
   REJECT: "Отклонить",
   CONFIRM: "Подтвердить",
+  CANCEL: "Отменить",
+  REMOVE_SELECTION: "Убрать выделение",
 };
 
 export default buttonTitleConstants;

@@ -34,13 +34,13 @@ const ITEM_COLOR_INFO = {
         text: "Выбранная Вами смена.",
       },
       changedShift: {
-        backgroundColor: "none", // серый
+        backgroundColor: "none",
         backgroundImage: "none",
         border: "2px solid yellow",
         text: "Нажатая Вами смена.",
       },
       conflictShift: {
-        backgroundColor: "#ffa4a4", // серый
+        backgroundColor: "#ffa4a4",
         backgroundImage: `url(${ConflCirle})`,
         border: "none",
         text: "Конфликтная смена.",
@@ -82,13 +82,13 @@ const ITEM_COLOR_INFO = {
         text: "Выбранная Вами смена.",
       },
       changedShift: {
-        backgroundColor: "none", // серый
+        backgroundColor: "none",
         backgroundImage: "none",
         border: "2px solid yellow",
         text: "Нажатая Вами смена.",
       },
       conflictShift: {
-        backgroundColor: "#ffa4a4", // серый
+        backgroundColor: "#ffa4a4",
         backgroundImage: `url(${ConflCirle})`,
         border: "none",
         text: "Конфликтная смена.",
