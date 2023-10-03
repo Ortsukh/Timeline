@@ -13,6 +13,7 @@ import { addGrid } from "../../../../common/DataConvertHelper";
 import styleConflict from "./Conflict.module.css";
 import EquipmentDescription from "../components/EquipmentDescription";
 import { ConflCirle } from "../../../../others/importImg";
+import buttonTitleConstants from "../../../../constants/buttonTitleConstants";
 
 export default function WindowTimeline({
   items,
@@ -110,12 +111,6 @@ export default function WindowTimeline({
       })),
   );
 
-  // const curIdDevice = baseOrder.equipment.id; //! -
-  // const curIdDevForGreen = selectedConflictDate.extendedProps.groupId; //! -
-  // const curTime = baseOrder.shiftTime; //! -
-  const curTimeForGreen = 2; //! -
-  // const isDayWithConflict = baseOrder.equipment?
-  // .conflicts[PR_SEL.todayFormated]?.length > 0; //! -
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
     if (isEditMode) {
@@ -129,37 +124,6 @@ export default function WindowTimeline({
     && PR_COM.idCategArr.includes(item.group));
     setFilteredItems(filteredArr.map((prev) => ({ ...prev, itemProps: { style: { background: "#ffa4a4", border: "1px solid gray" } } })));
   }, [selectedConflictDate]);
-
-  // eslint-disable-next-line
-  const selectedShiftObj = {
-    // title: "X",
-    id: uuidv4(),
-    group: 1, //! curIdDevForGreen || curIdDevice,
-    status: "preOrder",
-    canMove: false,
-    date: PR_SEL.todayFormated,
-    grid: addGrid(Math.floor(+curTimeForGreen / PR_COM.shiftCateg), PR_COM.shiftCateg),
-    start_time: setStartTimeSelectedItem(curTimeForGreen),
-    end_time: setEndTimeSelectedItem(curTimeForGreen),
-    itemTouchSendsClick: false,
-    itemProps: {
-      style: {
-        background: "#90ef90",
-        border: "1px solid red",
-        color: "red",
-        fontSize: "20px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 100,
-      },
-    },
-    //! deviceGroup: curIdDevForGreen || curIdDevice,
-    // eslint-disable-next-line
-    //! checkBoxId: `${curIdDevForGreen || curIdDevice} ${Math.floor(+curTimeForGreen / PR_COM.shiftCateg)}`,
-  };
-  // eslint-disable-next-line
-  const [consideredCell, setConsideredCell] = useState(isEditMode ? selectedShiftObj : {});
 
   const handleBoundsChange = (timeStart, timeEnd) => {
     setVisibleTimeStart(timeStart);
@@ -187,8 +151,6 @@ export default function WindowTimeline({
   });
 
   const handleCanvasClick = (groupId, time) => {
-    // if (statusCheckboxSelected === "MYSELF" && groupId !== curIdDevice) return;
-    // clickOnEmptySpace(groupId, time);
     const formattedTime = moment(time).hours();
 
     if (formattedTime
@@ -262,14 +224,60 @@ export default function WindowTimeline({
 
   const handleItemSelect = (itemId) => {
     // console.log("itemId", itemId);
-    const splitedStatusId = itemId.split("_");
+    const splitedStatus = itemId.split("_")[0];
     const activeStyleBorder = "2px solid yellow";
-    if (elementForChange === null && splitedStatusId[0] === "conflict") {
+
+    // if (elementForChange === null && splitedStatus === ("conflict" || "success")) {
+    //   const dataStatus = { array: [], setArray: null, setIsClicked: null };
+    //   switch (splitedStatus) {
+    //     case "conflict":
+    //       dataStatus.array = conflictsArr;
+    //       dataStatus.setArray = setConflictsArr;
+    //       dataStatus.array = setIsClickedConflict;
+    //       break;
+    //     case "success":
+    //       dataStatus.array = successfulArr;
+    //       dataStatus.setArray = setSuccessfulArr;
+    //       dataStatus.array = setIsClickedSuccess;
+    //       break;
+    //     default:
+    //       return;
+    //   }
+    //   console.log("HHHHHHHHHHELLO", dataStatus);
+    //   const foundIndex = conflictsArr.findIndex((el) => el.id === itemId);
+    //   setElementForChange({
+    //     id: itemId,
+    //     index: foundIndex,
+    //     group: conflictsArr[foundIndex].group,
+    //     status: splitedStatus,
+    //   });
+
+    //   const updatedData = conflictsArr.map((item) => {
+    //     if (item.id === itemId) {
+    //       const updatedItemPropsStyle = { ...item.itemProps.style };
+    //       updatedItemPropsStyle.border = "2px solid yellow";
+    //       const updatedItem = {
+    //         ...item,
+    //         itemProps: {
+    //           ...item.itemProps,
+    //           style: updatedItemPropsStyle,
+    //         },
+    //       };
+    //       return updatedItem;
+    //     }
+    //     return item;
+    //   });
+
+    //   setConflictsArr(updatedData);
+    //   setIsClickedConflict(true);
+    // }
+    if (elementForChange === null && splitedStatus === "conflict") {
       const foundIndex = conflictsArr.findIndex((el) => el.id === itemId);
       setElementForChange({
         id: itemId,
         index: foundIndex,
         group: conflictsArr[foundIndex].group,
+        status: splitedStatus,
       });
       setIsClickedConflict(true);
 
@@ -290,12 +298,13 @@ export default function WindowTimeline({
       });
       setConflictsArr(updatedData);
     }
-    if (elementForChange === null && splitedStatusId[0] === "success") {
+    if (elementForChange === null && splitedStatus === "success") {
       const foundIndex = successfulArr.findIndex((el) => el.id === itemId);
       setElementForChange({
         id: itemId,
         index: foundIndex,
         group: successfulArr[foundIndex].group,
+        status: splitedStatus,
       });
       setIsClickedSuccess(true);
 
@@ -316,9 +325,6 @@ export default function WindowTimeline({
       });
       setSuccessfulArr(updatedData);
     }
-    // if (isEditMode && itemId === "X_MARK") {
-    //   setConsideredCell(selectedShiftObj);
-    // }
   };
 
   const handleClearSelectedItem = () => {
@@ -508,7 +514,7 @@ export default function WindowTimeline({
           disabled={elementForChange !== null}
           onClick={handleResolveConflict}
         >
-          Подтвердить
+          {buttonTitleConstants.CONFIRM}
         </button>
         <button
           type="button"
@@ -519,7 +525,7 @@ export default function WindowTimeline({
               : handleClearSelectedItem()
           )}
         >
-          {elementForChange === null ? "Отменить" : "Пропустить"}
+          {elementForChange === null ? buttonTitleConstants.CLOSE : buttonTitleConstants.CLEAN}
         </button>
       </div>
       {elementForChange !== null && (
