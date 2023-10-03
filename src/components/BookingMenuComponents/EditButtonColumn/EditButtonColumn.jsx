@@ -246,20 +246,14 @@ export default function EditButtonColumn({
                       type="button"
                       className={style.reserveBtn}
                       onClick={() => {
-                        if (isEditMode) {
-                          // editOrder()
-                          setIsConfirmWindowOpen(true);
-                          return;
-                        }
                         if (baseOrder.equipment.countConflicts > 0) {
                           showNotification("conflicts");
                           return;
                         }
-                        // sendNewOrder();
                         setIsConfirmWindowOpen("accepted");
                       }}
                     >
-                      Сохранить
+                      {buttonTitleConstants.CONFIRM_ORDER}
                     </button>
                   ) : (
                     <button
@@ -268,7 +262,7 @@ export default function EditButtonColumn({
                       onClick={() => {
                         if (isEditMode) {
                           // editOrder()
-                          setIsConfirmWindowOpen(true);
+                          setIsConfirmWindowOpen("pending");
                           return;
                         }
                         if (baseOrder.equipment.countConflicts > 0) {
@@ -276,7 +270,7 @@ export default function EditButtonColumn({
                           return;
                         }
                         // sendNewOrder();
-                        setIsConfirmWindowOpen("accepted");
+                        setIsConfirmWindowOpen("pending");
                       }}
                     >
                       {buttonTitleConstants.SAVE_ORDER}
