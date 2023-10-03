@@ -114,9 +114,6 @@ export default function WindowTimeline({
   //   console.log("successfulArr", item);
   //   return <div>{item}</div>;
   // };
-  console.log("successfulArr", successfulArr);
-  console.log("conflictsArr", conflictsArr);
-
   // const curIdDevice = baseOrder.equipment.id; //! -
   // const curIdDevForGreen = selectedConflictDate.extendedProps.groupId; //! -
   // const curTime = baseOrder.shiftTime; //! -

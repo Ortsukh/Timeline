@@ -2,13 +2,13 @@ import React from "react";
 import "moment/locale/ru";
 import "../../../style.css";
 import { Tooltip } from "react-tooltip";
-import WindowTimeline from "./WindowTimeline";
 import MainConfInfo from "./InformationTablesConflicts/MainConfInfo";
 import CompanyConfInfo from "./InformationTablesConflicts/CompanyConfInfo";
 import ManagerSuccessConfInfo from "./InformationTablesConflicts/ManagerSuccessConfInfo";
 import ManagerFailConfInfo from "./InformationTablesConflicts/ManagerFailConfInfo";
 import { generateClue } from "../../../../common/GenerateElementsData";
 import styleConflict from "./Conflict.module.css";
+import WindowTimeline from "./WindowTimeline";
 
 export default function ConfirmBookingWindow({
   keyRerenderConflictResolutionWindow,
