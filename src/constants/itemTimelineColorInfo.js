@@ -34,7 +34,7 @@ const ITEM_COLOR_INFO = {
         text: "Выбранная Вами смена.",
       },
       changedShift: {
-        backgroundColor: "white", // серый
+        backgroundColor: "none", // серый
         backgroundImage: "none",
         border: "2px solid yellow",
         text: "Нажатая Вами смена.",
@@ -82,7 +82,7 @@ const ITEM_COLOR_INFO = {
         text: "Выбранная Вами смена.",
       },
       changedShift: {
-        backgroundColor: "white", // серый
+        backgroundColor: "none", // серый
         backgroundImage: "none",
         border: "2px solid yellow",
         text: "Нажатая Вами смена.",

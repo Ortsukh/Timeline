@@ -152,15 +152,13 @@ export default function WindowTimeline({
   });
 
   const handleCanvasClick = (groupId, time) => {
-    const formattedTime = moment(time).hours();
-
+    const formattedTime = Math.floor(moment(time).hours() / PR_COM.shiftCateg) * PR_COM.shiftCateg;
     if (formattedTime
       && (formattedTime < PR_COM.workTime.start || formattedTime >= PR_COM.workTime.end)) {
       return;
     }
 
     if (isClickedConflict) {
-      const formatedConfTime = moment(time).hours();
       setConflictsArr((prev) => {
         const newConfArr = [...prev];
         newConfArr.splice(elementForChange.index, 1);
@@ -169,12 +167,12 @@ export default function WindowTimeline({
       setSuccessfulArr((prev) => [
         ...prev,
         {
-          shiftTime: formatedConfTime,
+          shiftTime: formattedTime,
           id: `success_${uuidv4()}`,
           date: PR_SEL.todayFormated,
           group: groupId,
-          start_time: setStartTimeSelectedItem(formatedConfTime),
-          end_time: setEndTimeSelectedItem(formatedConfTime),
+          start_time: setStartTimeSelectedItem(formattedTime),
+          end_time: setEndTimeSelectedItem(formattedTime),
           canMove: false,
           itemProps: {
             style: {
@@ -193,16 +191,15 @@ export default function WindowTimeline({
       setElementForChange(null);
     }
     if (isClickedSuccess) {
-      const formatedSuccTime = moment(time).hours();
       setSuccessfulArr((prev) => {
         const newSuccArr = [...prev];
         newSuccArr[elementForChange.index] = {
-          shiftTime: formatedSuccTime,
+          shiftTime: formattedTime,
           id: `success_${uuidv4()}`,
           date: PR_SEL.todayFormated,
           group: groupId,
-          start_time: setStartTimeSelectedItem(formatedSuccTime),
-          end_time: setEndTimeSelectedItem(formatedSuccTime),
+          start_time: setStartTimeSelectedItem(formattedTime),
+          end_time: setEndTimeSelectedItem(formattedTime),
           canMove: false,
           itemProps: {
             style: {
