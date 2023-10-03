@@ -368,12 +368,23 @@ export default function BookingMenu({
       preOrders: newPreOrder,
       equipment: {
         ...prev.equipment,
-        conflicts: newOrders.conflicts,
-        success: successArr,
+        conflicts: { ...prev.equipment.conflicts, [newOrders.date]: newOrders.conflicts },
+        success: { ...prev.equipment.success, [newOrders.date]: successArr },
         countConflicts: countResolveConflicts,
       },
 
     }));
+    let backgroundColor;
+    switch (newOrders.conflicts.length) {
+      case 0:
+        backgroundColor = ITEMS_PREORDER_COLOR.empty.backgroundColor;
+        break;
+      case 1:
+        backgroundColor = ITEMS_PREORDER_COLOR.orderedButFreeInOtherEquipment.backgroundColor;
+        break;
+      default:
+        backgroundColor = ITEMS_PREORDER_COLOR.orderedInAllEquipment.backgroundColor;
+    }
 
     setCalendarEvent((prev) => prev.map((el) => {
       if (el.start === newOrders.date) {
@@ -386,7 +397,7 @@ export default function BookingMenu({
             conflicts: newOrders.conflicts,
             success: successArr,
           },
-          backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
+          backgroundColor,
         };
       }
       return el;
