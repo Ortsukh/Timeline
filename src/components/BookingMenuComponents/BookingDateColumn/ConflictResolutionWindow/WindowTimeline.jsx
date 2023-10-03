@@ -32,12 +32,13 @@ export default function WindowTimeline({
     idCategArr: groups.map((el) => el.id),
     shiftCateg: baseOrder.equipment.shiftLength,
     preferredGroupId: baseOrder.equipment.id,
+    workTime: baseOrder.equipment.workTime,
   };
   const PR_SEL = {
     today: moment(selectedConflictDate.start),
     todayFormated: moment(selectedConflictDate.start).format("YYYY-MM-DD"),
-    countOrders: selectedConflictDate.extendedProps.conflicts[moment(selectedConflictDate.start).format("YYYY-MM-DD")].length
-    + selectedConflictDate.extendedProps.success[moment(selectedConflictDate.start).format("YYYY-MM-DD")].length,
+    countOrders: selectedConflictDate.extendedProps.conflicts.length
+    + selectedConflictDate.extendedProps.success.length,
   };
   // console.log("PR_COM", PR_COM);
   // console.log("PR_SEL", PR_SEL);
@@ -53,7 +54,7 @@ export default function WindowTimeline({
   const [elementForChange, setElementForChange] = useState(null);
 
   const [successfulArr, setSuccessfulArr] = useState(
-    selectedConflictDate.extendedProps.success[PR_SEL.todayFormated]
+    selectedConflictDate.extendedProps.success
       .map((reserv) => ({
         shiftTime: reserv.shiftTime,
         id: `success_${uuidv4()}`,
@@ -64,7 +65,6 @@ export default function WindowTimeline({
         canMove: false,
         itemProps: {
           // onDoubleClick: () => { console.log("You clicked double!"); },
-          // className: "clickedItem",
           style: {
             background: "#90ef90",
             border: "1px solid gray",
@@ -79,7 +79,7 @@ export default function WindowTimeline({
       })),
   );
   const [conflictsArr, setConflictsArr] = useState(
-    selectedConflictDate.extendedProps.conflicts[PR_SEL.todayFormated]
+    selectedConflictDate.extendedProps.conflicts
       .map((reserv) => ({
         shiftTime: reserv.shiftTime,
         id: `conflict_${uuidv4()}`,
@@ -110,17 +110,12 @@ export default function WindowTimeline({
       })),
   );
 
-  // const handleItemRenderer = ({ item }) => {
-  //   console.log("successfulArr", item);
-  //   return <div>{item}</div>;
-  // };
   // const curIdDevice = baseOrder.equipment.id; //! -
   // const curIdDevForGreen = selectedConflictDate.extendedProps.groupId; //! -
   // const curTime = baseOrder.shiftTime; //! -
   const curTimeForGreen = 2; //! -
   // const isDayWithConflict = baseOrder.equipment?
   // .conflicts[PR_SEL.todayFormated]?.length > 0; //! -
-  const { workTime } = baseOrder.equipment;
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
     if (isEditMode) {
@@ -196,7 +191,8 @@ export default function WindowTimeline({
     // clickOnEmptySpace(groupId, time);
     const formattedTime = moment(time).hours();
 
-    if (formattedTime && (formattedTime < workTime.start || formattedTime >= workTime.end)) {
+    if (formattedTime
+      && (formattedTime < PR_COM.workTime.start || formattedTime >= PR_COM.workTime.end)) {
       return;
     }
 
@@ -364,7 +360,7 @@ export default function WindowTimeline({
             group: order.group,
           }
         )),
-        conflict: conflictsArr.map((order) => (
+        conflicts: conflictsArr.map((order) => (
           {
             shiftTime: order.shiftTime,
             groupId: order.group,
@@ -389,8 +385,8 @@ export default function WindowTimeline({
             verticalLineClassNamesForTime={(timeStart, timeEnd) => {
               const currentTimeStart = moment(timeStart).format("HH");
               const currentTimeEnd = moment(timeEnd).format("HH");
-              if (moment(currentTimeStart, "HH").isBefore(moment(workTime.start, "HH"), "hours")
-              || moment(currentTimeEnd, "HH").isSameOrAfter(moment(workTime.end, "HH"), "hours")
+              if (moment(currentTimeStart, "HH").isBefore(moment(PR_COM.workTime.start, "HH"), "hours")
+              || moment(currentTimeEnd, "HH").isSameOrAfter(moment(PR_COM.workTime.end, "HH"), "hours")
               ) {
                 return [styleConflict.highlightColumn];
               }
@@ -403,7 +399,6 @@ export default function WindowTimeline({
               return [selectedGroup && !isEditMode ? styleConflict.highlightRow : ""];
             }}
             items={filteredItems.concat(successfulArr, conflictsArr)}
-            // itemRenderer={handleItemRenderer}
             canMove={false}
             canResize={false}
             visibleTimeStart={visibleTimeStart}
