@@ -55,12 +55,10 @@ export default function BookingMenu({
       const editDates = [];
       const events = [];
       const successEvent = {};
-      const conflictEvent = {};
       editItems.forEach((item) => {
         editDates.push(item.date);
         if (!successEvent[item.date]) {
           successEvent[item.date] = [];
-          conflictEvent[item.date] = [];
         }
         successEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
       });
@@ -71,8 +69,8 @@ export default function BookingMenu({
           extendedProps: {
             // shortTitle: groups.find((group) => group.id === item.group).shortTitle, //! хз
             shiftLength: currentDevice.shiftLength,
-            conflicts: conflictEvent,
-            success: successEvent,
+            conflicts: [],
+            success: successEvent[date],
           },
           backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
         });
@@ -198,8 +196,8 @@ export default function BookingMenu({
             extendedProps: {
               shortTitle: currentEquipment.shortTitle,
               shiftLength: currentDevice.shiftLength,
-              conflicts: currentEquipment.conflicts,
-              success: currentEquipment.success,
+              conflicts: currentEquipment.conflicts[selectedDate],
+              success: currentEquipment.success[selectedDate],
             },
             backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
           });
@@ -210,8 +208,8 @@ export default function BookingMenu({
             extendedProps: {
               shortTitle: currentEquipment.shortTitle,
               shiftLength: currentDevice.shiftLength,
-              conflicts: currentEquipment.conflicts,
-              success: currentEquipment.success,
+              conflicts: currentEquipment.conflicts[selectedDate],
+              success: currentEquipment.success[selectedDate],
             },
             backgroundColor: ITEMS_PREORDER_COLOR.orderedButFreeInOtherEquipment.backgroundColor,
           });
@@ -223,8 +221,8 @@ export default function BookingMenu({
             extendedProps: {
               shortTitle: currentEquipment.shortTitle,
               shiftLength: currentDevice.shiftLength,
-              conflicts: currentEquipment.conflicts,
-              success: currentEquipment.success,
+              conflicts: currentEquipment.conflicts[selectedDate],
+              success: currentEquipment.success[selectedDate],
             },
             backgroundColor: ITEMS_PREORDER_COLOR.orderedInAllEquipment.backgroundColor,
           });
