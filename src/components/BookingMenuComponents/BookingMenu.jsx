@@ -31,8 +31,9 @@ export default function BookingMenu({
   selectedCompany,
   user,
 }) {
+  const { workTime } = currentDevice;
   // new
-  const [baseOrder, setBaseOrder] = useState({ shiftTime: [{ value: 0, label: `0 - ${+currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
+  const [baseOrder, setBaseOrder] = useState({ shiftTime: [{ value: workTime.start, label: `${workTime.start} - ${workTime.start + currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
   const [selectedConflictDate, setSelectedConflictDate] = useState(null);
   const [keyRerenderConflictResolutionWindow, setKeyRerenderConflictResolutionWindow] = useState(0);

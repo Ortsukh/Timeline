@@ -3,18 +3,19 @@ import "../style.css";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 
-const generateShiftTime = (shift) => {
-  const options = [];
-  for (let i = 0; i < 24; i += shift) {
-    options.push({ value: i, label: `${i} - ${i + shift}` });
-  }
-  return options;
-};
-
 export default function TimeShift({
   currentDevice, setBaseOrder, isActiveCalendar, baseOrder,
 }) {
-  const [value, setValue] = useState([{ value: 0, label: `0 - ${+currentDevice.shiftLength}` }]);
+  const [value, setValue] = useState([{ value: currentDevice.workTime.start, label: `${currentDevice.workTime.start} - ${+currentDevice.shiftLength}` }]);
+
+  const generateShiftTime = (shift) => {
+    const options = [];
+    for (let i = currentDevice.workTime.start; i < currentDevice.workTime.end; i += shift) {
+      options.push({ value: i, label: `${i} - ${i + shift}` });
+    }
+    return options;
+  };
+
   const animatedComponents = makeAnimated();
   useEffect(() => {
     setValue(baseOrder.shiftTime);
@@ -33,7 +34,7 @@ export default function TimeShift({
       ...prev, shiftTime: e,
     }));
   };
-  const selectAllOption = { label: "select all", value: "*" };
+  const selectAllOption = { label: "Выбрать все", value: "*" };
   return (
     <div className="select-count-box">
       <span>Время смены</span>
@@ -46,7 +47,7 @@ export default function TimeShift({
         onChange={handleChangeTime}
         value={value}
         isMulti
-        defaultValue={[{ value: 0, label: `0 - ${+currentDevice.shiftLength}` }]}
+        // defaultValue={[{ value: 0, label: `0 - ${+currentDevice.shiftLength}` }]}
       />
     </div>
   );
