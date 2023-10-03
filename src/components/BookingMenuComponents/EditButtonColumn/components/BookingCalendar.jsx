@@ -55,11 +55,14 @@ export default function BookingCalendar({
       classNames,
     );
   };
-  const handleEventClick = (clickInfo) => {
+  const unselectDefaultCalendar = () => {
     const calendarDayCell = getCalendarCellsByClassNames(".activeCell");
     if (calendarDayCell[0]) {
       calendarDayCell[0].classList.remove("activeCell");
     }
+  };
+  const handleEventClick = (clickInfo) => {
+    unselectDefaultCalendar();
     clickInfo.el.classList.add("activeCell");
     const data = {
       start: clickInfo.event.start,
@@ -73,12 +76,14 @@ export default function BookingCalendar({
       calendarDayCell[0].classList.remove("activeCell");
     }
   }, [deactivatedCell]);
+
   useEffect(() => {
     setEvent(calendarEvent);
   }, [calendarEvent]);
 
   useEffect(() => {
     if (!selectedDates.length || !isActiveCalendar) {
+      calendarRef.current.getApi().unselect();
       getCalendarCellsByClassNames(".fc-day.fc-daygrid-day:not(.fc-day-other)").forEach(
         (cell) => {
           cell.firstChild.classList.remove(style.gridActiveBG);
