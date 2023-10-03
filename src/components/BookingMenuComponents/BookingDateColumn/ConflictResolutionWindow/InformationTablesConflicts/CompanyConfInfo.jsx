@@ -1,9 +1,12 @@
 import React from "react";
+import PluralizeWordConflict from "../../../../../common/PluralizeWordConflict";
+import buttonTitleConstants from "../../../../../constants/buttonTitleConstants";
 
 export default function CompanyConfInfo({ baseOrder, calculatedOrSelectedDevice }) {
+  const countCommonConflict = baseOrder.equipment?.countConflicts;
   return (
     <div>
-      {baseOrder.equipment?.countConflicts > 0
+      {countCommonConflict > 0
         ? (
           <>
             <p style={{ fontSize: "14px" }}>
@@ -12,8 +15,10 @@ export default function CompanyConfInfo({ baseOrder, calculatedOrSelectedDevice 
             </p>
             <p style={{ fontSize: "14px" }}>
               {"Для него у Вас на данный момент "}
-              <span style={{ fontWeight: "bold", color: "#f03333" }}>{baseOrder.equipment?.countConflicts}</span>
-              {" конфликт(ов). Нажмите на нужные даты в календаре и разрешите их."}
+              <span style={{ fontWeight: "bold", color: "#f03333" }}>{countCommonConflict}</span>
+              {" "}
+              {PluralizeWordConflict(countCommonConflict, "конфликт")}
+              . Нажмите на нужные даты в календаре и разрешите их.
             </p>
           </>
         )
@@ -21,8 +26,13 @@ export default function CompanyConfInfo({ baseOrder, calculatedOrSelectedDevice 
           <p style={{ fontSize: "14px" }}>
             {"Подсчет смен для "}
             <span style={{ fontWeight: "bold", color: "#f03333" }}>{calculatedOrSelectedDevice && calculatedOrSelectedDevice.title}</span>
-            {" прошел успешно. Вы можете внести изменения нажав на день в календаре или завершить бронирование, нажав на кнопку"}
-            <span style={{ fontStyle: "italic" }}>`Сохранить и отправить заявку`.</span>
+            {" прошел успешно. Вы можете внести изменения нажав на день в календаре или завершить бронирование, нажав на кнопку "}
+            <span style={{ fontStyle: "italic" }}>
+              `
+              {buttonTitleConstants.SAVE_ORDER}
+              `
+            </span>
+            .
           </p>
         )}
     </div>

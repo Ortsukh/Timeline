@@ -1,4 +1,5 @@
 import React from "react";
+import buttonTitleConstants from "../../../../../constants/buttonTitleConstants";
 
 export default function MainConfInfo() {
   return (
@@ -12,11 +13,19 @@ export default function MainConfInfo() {
       <p style={{ marginLeft: "20px", fontSize: "14px" }}>3. Выделите нужные даты;</p>
       <p style={{ marginLeft: "20px", fontSize: "14px" }}>
         {"4. Нажмите кнопку "}
-        <span style={{ fontStyle: "italic" }}>`Рассчитать`;</span>
+        <span style={{ fontStyle: "italic" }}>
+          `
+          {buttonTitleConstants.CALCULATE}
+          `;
+        </span>
       </p>
       <p style={{ marginLeft: "20px", fontSize: "14px" }}>
         {"5. Если вы ошибочно выбрали даты, нажмите кнопку "}
-        <span style={{ fontStyle: "italic" }}>`Очистить`.</span>
+        <span style={{ fontStyle: "italic" }}>
+          `
+          {buttonTitleConstants.CLEAN}
+          `.
+        </span>
       </p>
       <h4 style={{ fontWeight: "400", marginBottom: "0", fontSize: "16px" }}>
         {"После этого, если "}

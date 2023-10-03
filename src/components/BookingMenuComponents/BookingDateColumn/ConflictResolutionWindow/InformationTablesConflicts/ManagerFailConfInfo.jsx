@@ -1,4 +1,5 @@
 import React from "react";
+import PluralizeWordConflict from "../../../../../common/PluralizeWordConflict";
 
 export default function ManagerFailConfInfo({
   countConflicts, calculatedOrSelectedDevice, selectedCompany,
@@ -15,7 +16,9 @@ export default function ManagerFailConfInfo({
       <p style={{ fontSize: "14px" }}>
         {"Для него у Вас на данный момент "}
         <span style={{ fontWeight: "bold", color: "#f03333" }}>{countConflicts}</span>
-        {" конфликт(ов). Нажмите на нужные даты в календаре и разрешите их."}
+        {" "}
+        {PluralizeWordConflict(countConflicts, "конфликт")}
+        . Нажмите на нужные даты в календаре и разрешите их.
       </p>
     </>
 
