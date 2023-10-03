@@ -50,73 +50,72 @@ export default function WindowTimeline({
 
   const [isClickedSuccess, setIsClickedSuccess] = useState(false);
   const [isClickedConflict, setIsClickedConflict] = useState(false);
-  const [indexElementChange, setIndexElementChange] = useState(null);
+  const [elementForChange, setElementForChange] = useState(null);
 
   const [successfulArr, setSuccessfulArr] = useState(
     selectedConflictDate.extendedProps.success[PR_SEL.todayFormated]
-      .map((reserv) => {
-        console.log(reserv.shiftTime);
-        console.log(PR_SEL.today.clone().set("hour", reserv.shiftTime).startOf("hour"));
-        return ({
-          shiftTime: reserv.shiftTime,
-          id: `success_${uuidv4()}`,
-          date: PR_SEL.todayFormated,
-          group: +reserv.groupId,
-          start_time: setStartTimeSelectedItem(reserv.shiftTime),
-          end_time: setEndTimeSelectedItem(reserv.shiftTime),
-          canMove: false,
-          itemProps: {
-            style: {
-              background: "#90ef90",
-              // border: "1px solid red",
-              color: "red",
-              fontSize: "20px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            },
+      .map((reserv) => ({
+        shiftTime: reserv.shiftTime,
+        id: `success_${uuidv4()}`,
+        date: PR_SEL.todayFormated,
+        group: +reserv.groupId,
+        start_time: setStartTimeSelectedItem(reserv.shiftTime),
+        end_time: setEndTimeSelectedItem(reserv.shiftTime),
+        canMove: false,
+        itemProps: {
+          // onDoubleClick: () => { console.log("You clicked double!"); },
+          // className: "clickedItem",
+          style: {
+            background: "#90ef90",
+            border: "1px solid gray",
+            color: "red",
+            fontSize: "20px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            "&:active": { background: "#ffa4a4" },
           },
-        });
-      }),
+        },
+      })),
   );
   const [conflictsArr, setConflictsArr] = useState(
     selectedConflictDate.extendedProps.conflicts[PR_SEL.todayFormated]
-      .map((reserv) => {
-        console.log(reserv.shiftTime);
-        console.log(PR_SEL.today.clone().set("hour", reserv.shiftTime));
-        return ({
-          shiftTime: reserv.shiftTime,
-          id: `conflict_${uuidv4()}`,
-          date: PR_SEL.todayFormated,
-          group: +reserv.groupId,
-          start_time: setStartTimeSelectedItem(reserv.shiftTime),
-          end_time: setEndTimeSelectedItem(reserv.shiftTime),
-          canMove: false,
-          itemProps: {
-            className: `${styleConflict.clickedItem}`,
-            style: {
-              // background: "rgba(128,128,128,0)",
-              // background: "transparent",
-              background: "#ffa4a4",
-              // width: "30px",
-              // height: "30px",
-              backgroundImage: `url(${ConflCirle})`,
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-              backgroundSize: "contain",
-              // border: "1px solid red",
-              color: "red",
-              fontSize: "20px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            },
+      .map((reserv) => ({
+        shiftTime: reserv.shiftTime,
+        id: `conflict_${uuidv4()}`,
+        date: PR_SEL.todayFormated,
+        group: +reserv.groupId,
+        start_time: setStartTimeSelectedItem(reserv.shiftTime),
+        end_time: setEndTimeSelectedItem(reserv.shiftTime),
+        canMove: false,
+        itemProps: {
+          style: {
+            // background: "rgba(128,128,128,0)",
+            // background: "transparent",
+            background: "#ffa4a4",
+            // width: "30px",
+            // height: "30px",
+            backgroundImage: `url(${ConflCirle})`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundSize: "contain",
+            border: "1px solid gray",
+            color: "red",
+            fontSize: "20px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           },
-        });
-      }),
+        },
+      })),
   );
-  // console.log("successfulArr", successfulArr);
-  // console.log("conflictsArr", conflictsArr);
+
+  // const handleItemRenderer = ({ item }) => {
+  //   console.log("successfulArr", item);
+  //   return <div>{item}</div>;
+  // };
+  console.log("successfulArr", successfulArr);
+  console.log("conflictsArr", conflictsArr);
 
   // const curIdDevice = baseOrder.equipment.id; //! -
   // const curIdDevForGreen = selectedConflictDate.extendedProps.groupId; //! -
@@ -204,47 +203,44 @@ export default function WindowTimeline({
       return;
     }
 
-    if (moment(time).hours()) {
-      if (isClickedConflict) {
-      // console.log("Click isClickedConflict");
-        const formatedConfTime = moment(time).hours();
-        setConflictsArr((prev) => {
-          const newConfArr = [...prev];
-          newConfArr.splice(indexElementChange, 1);
-          return newConfArr;
-        });
-        setSuccessfulArr((prev) => [
-          ...prev,
-          {
-            shiftTime: formatedConfTime,
-            id: `success_${uuidv4()}`,
-            date: PR_SEL.todayFormated,
-            group: groupId,
-            start_time: setStartTimeSelectedItem(formatedConfTime),
-            end_time: setEndTimeSelectedItem(formatedConfTime),
-            canMove: false,
-            itemProps: {
-              style: {
-                background: "#90ef90",
-                border: "1px solid red",
-                color: "red",
-                fontSize: "20px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              },
+    if (isClickedConflict) {
+      const formatedConfTime = moment(time).hours();
+      setConflictsArr((prev) => {
+        const newConfArr = [...prev];
+        newConfArr.splice(elementForChange.index, 1);
+        return newConfArr;
+      });
+      setSuccessfulArr((prev) => [
+        ...prev,
+        {
+          shiftTime: formatedConfTime,
+          id: `success_${uuidv4()}`,
+          date: PR_SEL.todayFormated,
+          group: groupId,
+          start_time: setStartTimeSelectedItem(formatedConfTime),
+          end_time: setEndTimeSelectedItem(formatedConfTime),
+          canMove: false,
+          itemProps: {
+            style: {
+              background: "#90ef90",
+              border: "1px solid gray",
+              color: "red",
+              fontSize: "20px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             },
           },
-        ]);
-        setIsClickedConflict(false);
-        setIndexElementChange(null);
-      }
+        },
+      ]);
+      setIsClickedConflict(false);
+      setElementForChange(null);
     }
     if (isClickedSuccess) {
       const formatedSuccTime = moment(time).hours();
       setSuccessfulArr((prev) => {
         const newSuccArr = [...prev];
-        newSuccArr[indexElementChange.index] = {
+        newSuccArr[elementForChange.index] = {
           shiftTime: formatedSuccTime,
           id: `success_${uuidv4()}`,
           date: PR_SEL.todayFormated,
@@ -255,7 +251,7 @@ export default function WindowTimeline({
           itemProps: {
             style: {
               background: "#90ef90",
-              // border: "1px solid red",
+              border: "1px solid gray",
               color: "red",
               fontSize: "20px",
               display: "flex",
@@ -267,30 +263,95 @@ export default function WindowTimeline({
         return newSuccArr;
       });
       setIsClickedSuccess(false);
-      setIndexElementChange(null);
+      setElementForChange(null);
     }
   };
 
   const handleItemSelect = (itemId) => {
     // console.log("itemId", itemId);
     const splitedStatusId = itemId.split("_");
-    if (indexElementChange === null && splitedStatusId[0] === "conflict") {
-      setIndexElementChange({
-        index: conflictsArr.findIndex((el) => (el.id === itemId)),
-        group: conflictsArr.find((el) => (el.id === itemId)).group,
+    const activeStyleBorder = "2px solid yellow";
+    if (elementForChange === null && splitedStatusId[0] === "conflict") {
+      const foundIndex = conflictsArr.findIndex((el) => el.id === itemId);
+      setElementForChange({
+        id: itemId,
+        index: foundIndex,
+        group: conflictsArr[foundIndex].group,
       });
       setIsClickedConflict(true);
+
+      const updatedData = conflictsArr.map((item) => {
+        if (item.id === itemId) {
+          const updatedItemPropsStyle = { ...item.itemProps.style };
+          updatedItemPropsStyle.border = activeStyleBorder;
+          const updatedItem = {
+            ...item,
+            itemProps: {
+              ...item.itemProps,
+              style: updatedItemPropsStyle,
+            },
+          };
+          return updatedItem;
+        }
+        return item;
+      });
+      setConflictsArr(updatedData);
     }
-    if (indexElementChange === null && splitedStatusId[0] === "success") {
-      setIndexElementChange({
-        index: successfulArr.findIndex((el) => (el.id === itemId)),
-        group: successfulArr.find((el) => (el.id === itemId)).group,
+    if (elementForChange === null && splitedStatusId[0] === "success") {
+      const foundIndex = successfulArr.findIndex((el) => el.id === itemId);
+      setElementForChange({
+        id: itemId,
+        index: foundIndex,
+        group: successfulArr[foundIndex].group,
       });
       setIsClickedSuccess(true);
+
+      const updatedData = successfulArr.map((item) => {
+        if (item.id === itemId) {
+          const updatedItemPropsStyle = { ...item.itemProps.style };
+          updatedItemPropsStyle.border = activeStyleBorder;
+          const updatedItem = {
+            ...item,
+            itemProps: {
+              ...item.itemProps,
+              style: updatedItemPropsStyle,
+            },
+          };
+          return updatedItem;
+        }
+        return item;
+      });
+      setSuccessfulArr(updatedData);
     }
     // if (isEditMode && itemId === "X_MARK") {
     //   setConsideredCell(selectedShiftObj);
     // }
+  };
+
+  const handleClearSelectedItem = () => {
+    const choseStatus = isClickedSuccess
+      ? { array: successfulArr, setArray: setSuccessfulArr }
+      : { array: conflictsArr, setArray: setConflictsArr };
+
+    const updatedData = choseStatus.array.map((item) => {
+      if (item.id === elementForChange.id) {
+        const updatedItemPropsStyle = { ...item.itemProps.style };
+        updatedItemPropsStyle.border = "1px solid gray";
+        const updatedItem = {
+          ...item,
+          itemProps: {
+            ...item.itemProps,
+            style: updatedItemPropsStyle,
+          },
+        };
+        return updatedItem;
+      }
+      return item;
+    });
+    choseStatus.setArray(updatedData);
+    setIsClickedSuccess(false);
+    setIsClickedConflict(false);
+    setElementForChange(null);
   };
 
   const handleResolveConflict = () => {
@@ -345,6 +406,7 @@ export default function WindowTimeline({
               return [selectedGroup && !isEditMode ? styleConflict.highlightRow : ""];
             }}
             items={filteredItems.concat(successfulArr, conflictsArr)}
+            // itemRenderer={handleItemRenderer}
             canMove={false}
             canResize={false}
             visibleTimeStart={visibleTimeStart}
@@ -448,10 +510,10 @@ export default function WindowTimeline({
       >
         <button
           type="button"
-          className={indexElementChange !== null
+          className={elementForChange !== null
             ? styleConflict.reserveBtnDisable
             : styleConflict.reserveBtn}
-          disabled={indexElementChange !== null}
+          disabled={elementForChange !== null}
           onClick={handleResolveConflict}
         >
           Подтвердить
@@ -460,17 +522,17 @@ export default function WindowTimeline({
           type="button"
           className={styleConflict.closeBtn}
           onClick={() => (
-            indexElementChange === null
+            elementForChange === null
               ? setSelectedConflictDate(null)
-              : setIndexElementChange(null)
+              : handleClearSelectedItem()
           )}
         >
-          {indexElementChange === null ? "Отменить" : "Пропустить"}
+          {elementForChange === null ? "Отменить" : "Пропустить"}
         </button>
       </div>
-      {indexElementChange !== null && (
+      {elementForChange !== null && (
       <EquipmentDescription equipment={
-        groups.find((group) => group.id === indexElementChange.group)
+        groups.find((group) => group.id === elementForChange.group)
       }
       />
       )}

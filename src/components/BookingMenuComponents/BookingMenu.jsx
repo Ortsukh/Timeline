@@ -428,7 +428,7 @@ export default function BookingMenu({
     //   return el;
     // }));
   };
-  console.log("baseOrder", baseOrder);
+  // console.log(baseOrder);
   return (
     <>
       <div className={style.container}>
@@ -499,6 +499,7 @@ export default function BookingMenu({
             statusCheckboxSelected={statusCheckboxSelected}
             handleSetSelectedConflictDate={handleSetSelectedConflictDate}
             selectedCompany={selectedCompany}
+            openAlertWindow={openAlertWindow}
           />
         </div>
       </div>
