@@ -10,6 +10,7 @@ const createEquipmentObject = (item, elem) => ({
   shiftLength: elem.shiftLength,
   price: item.price,
   description: item.description,
+  workTime: { start: 8, end: 22 },
   img: item.image,
   shortTitle: item.shortName,
 });

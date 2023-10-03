@@ -1,6 +1,6 @@
 .highlightColumn {
-  background-color: #dff2f3 !important;
-  border: 1px solid red !important;
+  background-color: rgba(89, 88, 88, 0.31) !important;
+  /*border: 1px solid red !important;*/
   /* border-left: 1px solid red !important;
   border-right: 1px solid red !important; */
 }

@@ -124,7 +124,7 @@ export default function WindowTimeline({
   const curTimeForGreen = 2; //! -
   // const isDayWithConflict = baseOrder.equipment?
   // .conflicts[PR_SEL.todayFormated]?.length > 0; //! -
-
+  const { workTime } = baseOrder.equipment;
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
     if (isEditMode) {
@@ -196,39 +196,49 @@ export default function WindowTimeline({
   });
 
   const handleCanvasClick = (groupId, time) => {
-    console.log("indexElementChange.group", indexElementChange.group);
-    if (isClickedConflict) {
-      const formatedConfTime = moment(time).hours();
-      setConflictsArr((prev) => {
-        const newConfArr = [...prev];
-        newConfArr.splice(indexElementChange.index, 1);
-        return newConfArr;
-      });
-      setSuccessfulArr((prev) => [
-        ...prev,
-        {
-          shiftTime: formatedConfTime,
-          id: `success_${uuidv4()}`,
-          date: PR_SEL.todayFormated,
-          group: groupId,
-          start_time: setStartTimeSelectedItem(formatedConfTime),
-          end_time: setEndTimeSelectedItem(formatedConfTime),
-          canMove: false,
-          itemProps: {
-            style: {
-              background: "#90ef90",
-              // border: "1px solid red",
-              color: "red",
-              fontSize: "20px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+    // if (statusCheckboxSelected === "MYSELF" && groupId !== curIdDevice) return;
+    // clickOnEmptySpace(groupId, time);
+    const formattedTime = moment(time).hours();
+
+    if (formattedTime && (formattedTime < workTime.start || formattedTime >= workTime.end)) {
+      return;
+    }
+
+    if (moment(time).hours()) {
+      if (isClickedConflict) {
+      // console.log("Click isClickedConflict");
+        const formatedConfTime = moment(time).hours();
+        setConflictsArr((prev) => {
+          const newConfArr = [...prev];
+          newConfArr.splice(indexElementChange, 1);
+          return newConfArr;
+        });
+        setSuccessfulArr((prev) => [
+          ...prev,
+          {
+            shiftTime: formatedConfTime,
+            id: `success_${uuidv4()}`,
+            date: PR_SEL.todayFormated,
+            group: groupId,
+            start_time: setStartTimeSelectedItem(formatedConfTime),
+            end_time: setEndTimeSelectedItem(formatedConfTime),
+            canMove: false,
+            itemProps: {
+              style: {
+                background: "#90ef90",
+                border: "1px solid red",
+                color: "red",
+                fontSize: "20px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              },
             },
           },
-        },
-      ]);
-      setIsClickedConflict(false);
-      setIndexElementChange(null);
+        ]);
+        setIsClickedConflict(false);
+        setIndexElementChange(null);
+      }
     }
     if (isClickedSuccess) {
       const formatedSuccTime = moment(time).hours();
@@ -318,15 +328,16 @@ export default function WindowTimeline({
             groups={statusCheckboxSelected === "AUTO" ? elInGroup : highlightElInGroup}
             lineHeight={36}
             itemHeightRatio={1}
-            // verticalLineClassNamesForTime={(timeStart, timeEnd) => {
-            //   const currentTimeStart = moment(timeStart);
-            //   const currentTimeEnd = moment(timeEnd);
-            // eslint-disable-next-line
-            //   const selectedTime = currentTimeStart.isSame(setStartTimeSelectedItem(curTime), "hours")
-            //     && currentTimeEnd.isSame(setEndTimeSelectedItem(curTime), "hours");
-            // eslint-disable-next-line
-            //   return [selectedTime && statusCheckboxSelected === "AUTO" && !isEditMode ? styleConflict.highlightColumn : ""];
-            // }}
+            verticalLineClassNamesForTime={(timeStart, timeEnd) => {
+              const currentTimeStart = moment(timeStart).format("HH");
+              const currentTimeEnd = moment(timeEnd).format("HH");
+              if (moment(currentTimeStart, "HH").isBefore(moment(workTime.start, "HH"), "hours")
+              || moment(currentTimeEnd, "HH").isSameOrAfter(moment(workTime.end, "HH"), "hours")
+              ) {
+                return [styleConflict.highlightColumn];
+              }
+              return [];
+            }}
             horizontalLineClassNamesForGroup={(group) => {
               if (statusCheckboxSelected === "AUTO") return;
               const selectedGroup = group.id === PR_COM.preferredGroupId;
