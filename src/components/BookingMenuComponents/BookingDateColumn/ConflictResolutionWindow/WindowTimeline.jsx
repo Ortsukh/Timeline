@@ -36,93 +36,89 @@ export default function WindowTimeline({
     preferredGroupId: baseOrder.equipment.id,
     workTime: baseOrder.equipment.workTime,
   };
+  // console.log("PR_COM", PR_COM);
+
+  const today = moment(selectedConflictDate.start);
+  const todayFormated = today.format("YYYY-MM-DD");
+  const setStartTimeSelectedItem = (time) => today.clone().set("hour", time).startOf("hour");
+  const setEndTimeSelectedItem = (time) => today.clone().set("hour", time).startOf("hour").add(PR_COM.shiftCateg, "hour");
+
   const PR_SEL = {
-    today: moment(selectedConflictDate.start),
-    todayFormated: moment(selectedConflictDate.start).format("YYYY-MM-DD"),
     countOrders: selectedConflictDate.extendedProps.conflicts.length
     + selectedConflictDate.extendedProps.success.length,
+    initSuccessArr: selectedConflictDate.extendedProps.success.map((reserv) => ({
+      shiftTime: reserv.shiftTime,
+      id: `success_${uuidv4()}`,
+      date: todayFormated,
+      group: +reserv.groupId,
+      start_time: setStartTimeSelectedItem(reserv.shiftTime),
+      end_time: setEndTimeSelectedItem(reserv.shiftTime),
+      isDelete: false,
+      isChanged: false,
+      itemProps: {
+        // onDoubleClick: () => { console.log("You clicked double!"); },
+        style: {
+          background: "#90ef90",
+          border: "1px solid gray",
+          color: "red",
+          fontSize: "20px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          "&:active": { background: "#ffa4a4" },
+        },
+      },
+    })),
+    initConflictArr: selectedConflictDate.extendedProps.conflicts.map((reserv) => ({
+      shiftTime: reserv.shiftTime,
+      id: `conflict_${uuidv4()}`,
+      date: todayFormated,
+      group: +reserv.groupId,
+      start_time: setStartTimeSelectedItem(reserv.shiftTime),
+      end_time: setEndTimeSelectedItem(reserv.shiftTime),
+      isDelete: false,
+      isChanged: false,
+      itemProps: {
+        style: {
+          background: "#ffa4a4",
+          backgroundImage: `url(${ConflCirle})`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          backgroundSize: "contain",
+          border: "1px solid gray",
+          color: "red",
+          fontSize: "20px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        },
+      },
+    })),
   };
-  // console.log("PR_COM", PR_COM);
   // console.log("PR_SEL", PR_SEL);
 
-  const [visibleTimeStart, setVisibleTimeStart] = useState(PR_SEL.today.startOf("day").valueOf());
-  const [visibleTimeEnd, setVisibleTimeEnd] = useState(PR_SEL.today.endOf("day").valueOf());
-  const setStartTimeSelectedItem = (time) => PR_SEL.today.clone().set("hour", time).startOf("hour");
-  const setEndTimeSelectedItem = (time) => PR_SEL.today.clone().set("hour", time).startOf("hour").add(PR_COM.shiftCateg, "hour");
+  const [visibleTimeStart, setVisibleTimeStart] = useState(today.startOf("day").valueOf());
+  const [visibleTimeEnd, setVisibleTimeEnd] = useState(today.endOf("day").valueOf());
   // .subtract(1, "seconds");
 
   const [isClickedItem, setIsClickedItem] = useState(false);
   const [elementForChange, setElementForChange] = useState(null);
 
-  const [successfulArr, setSuccessfulArr] = useState(
-    selectedConflictDate.extendedProps.success
-      .map((reserv) => ({
-        shiftTime: reserv.shiftTime,
-        id: `success_${uuidv4()}`,
-        date: PR_SEL.todayFormated,
-        group: +reserv.groupId,
-        start_time: setStartTimeSelectedItem(reserv.shiftTime),
-        end_time: setEndTimeSelectedItem(reserv.shiftTime),
-        canMove: false,
-        itemProps: {
-          // onDoubleClick: () => { console.log("You clicked double!"); },
-          style: {
-            background: "#90ef90",
-            border: "1px solid gray",
-            color: "red",
-            fontSize: "20px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            "&:active": { background: "#ffa4a4" },
-          },
-        },
-      })),
-  );
-  const [conflictsArr, setConflictsArr] = useState(
-    selectedConflictDate.extendedProps.conflicts
-      .map((reserv) => ({
-        shiftTime: reserv.shiftTime,
-        id: `conflict_${uuidv4()}`,
-        date: PR_SEL.todayFormated,
-        group: +reserv.groupId,
-        start_time: setStartTimeSelectedItem(reserv.shiftTime),
-        end_time: setEndTimeSelectedItem(reserv.shiftTime),
-        canMove: false,
-        itemProps: {
-          style: {
-            // background: "rgba(128,128,128,0)",
-            // background: "transparent",
-            background: "#ffa4a4",
-            // width: "30px",
-            // height: "30px",
-            backgroundImage: `url(${ConflCirle})`,
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            backgroundSize: "contain",
-            border: "1px solid gray",
-            color: "red",
-            fontSize: "20px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          },
-        },
-      })),
-  );
-  // console.log("successfulArr", successfulArr);
-  // console.log("conflictsArr", conflictsArr);
+  const [modifSuccessArr, setModifSuccessArr] = useState(PR_SEL.initSuccessArr);
+  const [modifConflictArr, setModifConflictArr] = useState(PR_SEL.initConflictArr);
+  console.log("modifSuccessArr", modifSuccessArr);
+  console.log("modifConflictArr", modifConflictArr);
 
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
     if (isEditMode) {
-      const filteredArr = items.filter((item) => PR_SEL.todayFormated === item.date
+      const filteredArr = items.filter((item) => todayFormated === item.date
       && PR_COM.idCategArr.includes(item.group)
       && item?.rentOrderId !== editOrderData?.rentOrderId);
       setFilteredItems(filteredArr.map((prev) => ({ ...prev, itemProps: { style: { background: "#ffa4a4", border: "1px solid gray" } } })));
       return;
     }
-    const filteredArr = items.filter((item) => PR_SEL.todayFormated === item.date
+    const filteredArr = items.filter((item) => todayFormated === item.date
     && PR_COM.idCategArr.includes(item.group));
     setFilteredItems(filteredArr.map((prev) => ({ ...prev, itemProps: { style: { background: "#ffa4a4", border: "1px solid gray" } } })));
   }, [selectedConflictDate]);
@@ -160,7 +156,7 @@ export default function WindowTimeline({
 
     if (isClickedItem) {
       if (elementForChange.status === "conflict") {
-        setConflictsArr((prev) => {
+        setModifConflictArr((prev) => {
           const newConfArr = [...prev];
           newConfArr.splice(elementForChange.index, 1);
           return newConfArr;
@@ -168,12 +164,14 @@ export default function WindowTimeline({
       }
       const reselectedItem = {
         shiftTime: formattedTime,
-        id: `success_${uuidv4()}`,
-        date: PR_SEL.todayFormated,
+        id: `success_${elementForChange.id.split("_")[1]}`,
+        date: todayFormated,
         group: groupId,
         start_time: setStartTimeSelectedItem(formattedTime),
         end_time: setEndTimeSelectedItem(formattedTime),
         canMove: false,
+        isDelete: false,
+        isChanged: true,
         itemProps: {
           style: {
             background: "#90ef90",
@@ -186,7 +184,7 @@ export default function WindowTimeline({
           },
         },
       };
-      setSuccessfulArr((prev) => {
+      setModifSuccessArr((prev) => {
         const newSuccArr = [...prev];
         if (elementForChange.status === "conflict") {
           newSuccArr.push(reselectedItem); // Добавляем
@@ -210,12 +208,12 @@ export default function WindowTimeline({
       const dataStatus = { array: [], setArray: null };
       switch (splitedStatus) {
         case "conflict":
-          dataStatus.array = conflictsArr;
-          dataStatus.setArray = setConflictsArr;
+          dataStatus.array = modifConflictArr;
+          dataStatus.setArray = setModifConflictArr;
           break;
         case "success":
-          dataStatus.array = successfulArr;
-          dataStatus.setArray = setSuccessfulArr;
+          dataStatus.array = modifSuccessArr;
+          dataStatus.setArray = setModifSuccessArr;
           break;
         default:
           return;
@@ -254,8 +252,8 @@ export default function WindowTimeline({
 
   const handleClearSelectedItem = () => {
     const choseStatus = elementForChange.status === "success"
-      ? { array: successfulArr, setArray: setSuccessfulArr }
-      : { array: conflictsArr, setArray: setConflictsArr };
+      ? { array: modifSuccessArr, setArray: setModifSuccessArr }
+      : { array: modifConflictArr, setArray: setModifConflictArr };
 
     const updatedData = choseStatus.array.map((item) => {
       if (item.id === elementForChange.id) {
@@ -279,10 +277,10 @@ export default function WindowTimeline({
 
   const handleResolveConflict = () => {
     // console.log("SEND MESSAGE");
-    if (PR_SEL.countOrders === successfulArr.length + conflictsArr.length) {
+    if (PR_SEL.countOrders === modifSuccessArr.length + modifConflictArr.length) {
       pushOrderInBasePreOrder({
-        date: PR_SEL.todayFormated,
-        success: successfulArr.map((order) => (
+        date: todayFormated,
+        success: modifSuccessArr.map((order) => (
           {
             shiftTime: order.shiftTime,
             date: order.date,
@@ -290,7 +288,7 @@ export default function WindowTimeline({
             group: order.group,
           }
         )),
-        conflicts: conflictsArr.map((order) => (
+        conflicts: modifConflictArr.map((order) => (
           {
             shiftTime: order.shiftTime,
             groupId: order.group,
@@ -328,7 +326,7 @@ export default function WindowTimeline({
               // eslint-disable-next-line
               return [selectedGroup && !isEditMode ? styleConflict.highlightRow : ""];
             }}
-            items={filteredItems.concat(successfulArr, conflictsArr)}
+            items={filteredItems.concat(modifSuccessArr, modifConflictArr)}
             canMove={false}
             canResize={false}
             visibleTimeStart={visibleTimeStart}
@@ -366,7 +364,7 @@ export default function WindowTimeline({
                       alignItems: "center",
                     }}
                   >
-                    {`${PR_SEL.today.format("D")} ${PR_SEL.today.format("MMMM").charAt(0).toUpperCase()}${PR_SEL.today.format("MMMM").slice(1)}`}
+                    {`${today.format("D")} ${today.format("MMMM").charAt(0).toUpperCase()}${today.format("MMMM").slice(1)}`}
                   </div>
                 )}
               </SidebarHeader>
