@@ -154,8 +154,7 @@ export default function WindowTimeline({
 
   const handleCanvasClick = (groupId, time) => {
     const formattedTime = Math.floor(moment(time).hours() / PR_COM.shiftCateg) * PR_COM.shiftCateg;
-    if (formattedTime
-      && (formattedTime < PR_COM.workTime.start || formattedTime >= PR_COM.workTime.end)) {
+    if (formattedTime < PR_COM.workTime.start || formattedTime >= PR_COM.workTime.end) {
       return;
     }
 
