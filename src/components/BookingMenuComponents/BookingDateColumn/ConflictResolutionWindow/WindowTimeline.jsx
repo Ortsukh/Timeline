@@ -51,8 +51,7 @@ export default function WindowTimeline({
   const setEndTimeSelectedItem = (time) => PR_SEL.today.clone().set("hour", time).startOf("hour").add(PR_COM.shiftCateg, "hour");
   // .subtract(1, "seconds");
 
-  const [isClickedSuccess, setIsClickedSuccess] = useState(false);
-  const [isClickedConflict, setIsClickedConflict] = useState(false);
+  const [isClickedItem, setIsClickedItem] = useState(false);
   const [elementForChange, setElementForChange] = useState(null);
 
   const [successfulArr, setSuccessfulArr] = useState(
@@ -111,6 +110,8 @@ export default function WindowTimeline({
         },
       })),
   );
+  // console.log("successfulArr", successfulArr);
+  // console.log("conflictsArr", conflictsArr);
 
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
@@ -158,103 +159,75 @@ export default function WindowTimeline({
       return;
     }
 
-    if (isClickedConflict) {
-      setConflictsArr((prev) => {
-        const newConfArr = [...prev];
-        newConfArr.splice(elementForChange.index, 1);
-        return newConfArr;
-      });
-      setSuccessfulArr((prev) => [
-        ...prev,
-        {
-          shiftTime: formattedTime,
-          id: `success_${uuidv4()}`,
-          date: PR_SEL.todayFormated,
-          group: groupId,
-          start_time: setStartTimeSelectedItem(formattedTime),
-          end_time: setEndTimeSelectedItem(formattedTime),
-          canMove: false,
-          itemProps: {
-            style: {
-              background: "#90ef90",
-              border: "1px solid gray",
-              color: "red",
-              fontSize: "20px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            },
+    if (isClickedItem) {
+      if (elementForChange.status === "conflict") {
+        setConflictsArr((prev) => {
+          const newConfArr = [...prev];
+          newConfArr.splice(elementForChange.index, 1);
+          return newConfArr;
+        });
+      }
+      const reselectedItem = {
+        shiftTime: formattedTime,
+        id: `success_${uuidv4()}`,
+        date: PR_SEL.todayFormated,
+        group: groupId,
+        start_time: setStartTimeSelectedItem(formattedTime),
+        end_time: setEndTimeSelectedItem(formattedTime),
+        canMove: false,
+        itemProps: {
+          style: {
+            background: "#90ef90",
+            border: "1px solid gray",
+            color: "red",
+            fontSize: "20px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           },
         },
-      ]);
-      setIsClickedConflict(false);
-      setElementForChange(null);
-    }
-    if (isClickedSuccess) {
+      };
       setSuccessfulArr((prev) => {
         const newSuccArr = [...prev];
-        newSuccArr[elementForChange.index] = {
-          shiftTime: formattedTime,
-          id: `success_${uuidv4()}`,
-          date: PR_SEL.todayFormated,
-          group: groupId,
-          start_time: setStartTimeSelectedItem(formattedTime),
-          end_time: setEndTimeSelectedItem(formattedTime),
-          canMove: false,
-          itemProps: {
-            style: {
-              background: "#90ef90",
-              border: "1px solid gray",
-              color: "red",
-              fontSize: "20px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            },
-          },
-        };
+        if (elementForChange.status === "conflict") {
+          newSuccArr.push(reselectedItem); // Добавляем
+        }
+        if (elementForChange.status === "success") {
+          newSuccArr[elementForChange.index] = reselectedItem; // Заменяем
+        }
         return newSuccArr;
       });
-      setIsClickedSuccess(false);
+      setIsClickedItem(false);
       setElementForChange(null);
     }
   };
 
-  const handleItemDeselect = (e) => {
-    console.log("e", e);
-  };
-  const handleItemSelect = (itemId, e) => {
-    console.log("itemId", e);
+  const handleItemSelect = (itemId) => {
+    // console.log("itemId", itemId);
     const splitedStatus = itemId.split("_")[0];
     const arrayStatuses = ["success", "conflict"];
-    // const activeStyleBorder = "2px solid yellow";
 
     if (elementForChange === null && arrayStatuses.includes(splitedStatus)) {
-      const dataStatus = { array: [], setArray: null, setIsClicked: null };
+      const dataStatus = { array: [], setArray: null };
       switch (splitedStatus) {
         case "conflict":
           dataStatus.array = conflictsArr;
           dataStatus.setArray = setConflictsArr;
-          dataStatus.setIsClicked = setIsClickedConflict;
           break;
         case "success":
           dataStatus.array = successfulArr;
           dataStatus.setArray = setSuccessfulArr;
-          dataStatus.setIsClicked = setIsClickedSuccess;
           break;
         default:
           return;
       }
-
       const foundIndex = dataStatus.array.findIndex((el) => el.id === itemId);
       setElementForChange({
-        ...dataStatus,
         id: itemId,
         index: foundIndex,
         group: dataStatus.array[foundIndex].group,
         status: splitedStatus,
       });
-
       const updatedData = dataStatus.array.map((item) => {
         if (item.id === itemId) {
           const updatedItemPropsStyle = { ...item.itemProps.style };
@@ -270,74 +243,18 @@ export default function WindowTimeline({
         }
         return item;
       });
-
       dataStatus.setArray(updatedData);
-      dataStatus.setIsClicked(true);
+      setIsClickedItem(true);
     }
-
-    // if (elementForChange === null && splitedStatus === "conflict") {
-    //   const foundIndex = conflictsArr.findIndex((el) => el.id === itemId);
-    //   setElementForChange({
-    //     id: itemId,
-    //     index: foundIndex,
-    //     group: conflictsArr[foundIndex].group,
-    //     status: splitedStatus,
-    //   });
-    //   setIsClickedConflict(true);
-
-    //   const updatedData = conflictsArr.map((item) => {
-    //     if (item.id === itemId) {
-    //       const updatedItemPropsStyle = { ...item.itemProps.style };
-    //       updatedItemPropsStyle.border = activeStyleBorder;
-    //       const updatedItem = {
-    //         ...item,
-    //         itemProps: {
-    //           ...item.itemProps,
-    //           style: updatedItemPropsStyle,
-    //         },
-    //       };
-    //       return updatedItem;
-    //     }
-    //     return item;
-    //   });
-    //   setConflictsArr(updatedData);
-    // }
-    // if (elementForChange === null && splitedStatus === "success") {
-    //   const foundIndex = successfulArr.findIndex((el) => el.id === itemId);
-    //   setElementForChange({
-    //     id: itemId,
-    //     index: foundIndex,
-    //     group: successfulArr[foundIndex].group,
-    //     status: splitedStatus,
-    //   });
-    //   setIsClickedSuccess(true);
-
-    //   const updatedData = successfulArr.map((item) => {
-    //     if (item.id === itemId) {
-    //       const updatedItemPropsStyle = { ...item.itemProps.style };
-    //       updatedItemPropsStyle.border = activeStyleBorder;
-    //       const updatedItem = {
-    //         ...item,
-    //         itemProps: {
-    //           ...item.itemProps,
-    //           style: updatedItemPropsStyle,
-    //         },
-    //       };
-    //       return updatedItem;
-    //     }
-    //     return item;
-    //   });
-    //   setSuccessfulArr(updatedData);
-    // }
   };
-  console.log("elementForChange", elementForChange);
+
   const handleCancelSelectedItem = () => {
     setSelectedConflictDate(null);
     deactivatedCells();
   };
 
   const handleClearSelectedItem = () => {
-    const choseStatus = isClickedSuccess
+    const choseStatus = elementForChange.status === "success"
       ? { array: successfulArr, setArray: setSuccessfulArr }
       : { array: conflictsArr, setArray: setConflictsArr };
 
@@ -357,8 +274,7 @@ export default function WindowTimeline({
       return item;
     });
     choseStatus.setArray(updatedData);
-    setIsClickedSuccess(false);
-    setIsClickedConflict(false);
+    setIsClickedItem(false);
     setElementForChange(null);
   };
 
@@ -425,8 +341,8 @@ export default function WindowTimeline({
             maxZoom={24 * 60 * 60 * 1000} // ограничение масштаба до 1 дня
             onCanvasClick={handleCanvasClick}
             showCursorLine
+            selected={[]}
             onItemSelect={handleItemSelect}
-            onItemDeselect={handleItemDeselect}
             // onMouseUp={handleCellMouseUp} //! Выделение нескольки
             // onMouseDown={handleCellMouseDown} //! Выделение нескольки
             timeSteps={{
