@@ -10,6 +10,7 @@ import { generateClue } from "../../../../common/GenerateElementsData";
 import styleConflict from "./Conflict.module.css";
 import WindowTimeline from "./WindowTimeline";
 import CompanyDayConfInfo from "./InformationTablesConflicts/CompanyDayConfInfo";
+import EditConfInfo from "./InformationTablesConflicts/EditConfInfo";
 
 export default function ConfirmBookingWindow({
   keyRerenderConflictResolutionWindow,
@@ -40,7 +41,8 @@ export default function ConfirmBookingWindow({
 
   return (
     <>
-      {showStartDisplayConflict && <MainConfInfo />}
+      {showStartDisplayConflict && !isEditMode && <MainConfInfo />}
+      {showStartDisplayConflict && isEditMode && <EditConfInfo />}
 
       {!showStartDisplayConflict && "conflicts" in baseOrder.equipment
         && (
