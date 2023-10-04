@@ -34,8 +34,6 @@ export default function EditButtonColumn({
   user,
   deactivatedCell,
 }) {
-  // eslint-disable-next-line no-unused-vars
-  const [shiftsCount, setShiftsCount] = useState(1);
   const [isShowConflictNotification, setIsShowConflictNotification] = useState("");
   const back = `< ${buttonTitleConstants.BACK}`;
 
@@ -125,7 +123,6 @@ export default function EditButtonColumn({
             baseOrder={baseOrder}
             setBaseOrder={setBaseOrder}
             isActiveCalendar={isActiveCalendar}
-            setShiftsCount={setShiftsCount}
             currentDevice={currentDevice}
           />
         </div>

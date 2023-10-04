@@ -44,8 +44,8 @@ export default function BookingCalendar({
   deactivatedCell,
 }) {
   const [startCoord, setStartCoord] = useState([0, 0]);
-  const [isDefaultSelect, setIsDefaultSelect] = useState(true);
   const [endCoord, setEndCoord] = useState([0, 0]);
+  const [isDefaultSelect, setIsDefaultSelect] = useState(true);
   const calendarRef = useRef();
   const [event, setEvent] = useState(events);
 
