@@ -15,13 +15,13 @@ export default function MessageWindow({
   const weightModal = 225;
 
   const isLeftPart = window.innerWidth / 2 - data.posX > 0;
-
+  const isBottomPart = window.innerHeight / 2 - data.posY > 0;
   return (
     <div
       className="messageWindow"
       style={{
         left: isLeftPart ? data.posX : data.posX - weightModal,
-        top: data.posY - heightModal,
+        top: isBottomPart ? data.posY : data.posY - heightModal,
       }}
     >
       <button type="button" className="button-close" onClick={closeBookingWindow}>
