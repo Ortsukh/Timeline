@@ -15,7 +15,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -38,7 +38,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -61,7 +61,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -84,7 +84,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -107,7 +107,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -130,7 +130,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -153,7 +153,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -176,7 +176,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -199,7 +199,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -222,7 +222,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -245,7 +245,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -268,7 +268,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -291,7 +291,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -314,7 +314,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -337,7 +337,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -360,7 +360,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -383,7 +383,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -406,7 +406,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -429,7 +429,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -452,7 +452,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -475,7 +475,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -498,7 +498,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -521,7 +521,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -544,7 +544,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -567,7 +567,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -590,7 +590,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -613,7 +613,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -636,7 +636,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -659,7 +659,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -682,7 +682,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -705,7 +705,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -728,7 +728,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -751,7 +751,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -774,7 +774,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -797,7 +797,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -820,7 +820,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -843,7 +843,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -866,7 +866,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -889,7 +889,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -912,7 +912,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -935,7 +935,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -958,7 +958,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -981,7 +981,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1004,7 +1004,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1027,7 +1027,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1050,7 +1050,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1073,7 +1073,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1096,7 +1096,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1119,7 +1119,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1142,7 +1142,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1165,7 +1165,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1188,7 +1188,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1211,7 +1211,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1234,7 +1234,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1257,7 +1257,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1280,7 +1280,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1303,7 +1303,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1326,7 +1326,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1349,7 +1349,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1372,7 +1372,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1395,7 +1395,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1418,7 +1418,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1441,7 +1441,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1464,7 +1464,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1487,7 +1487,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1510,7 +1510,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1533,7 +1533,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1556,7 +1556,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1579,7 +1579,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1602,7 +1602,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1625,7 +1625,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1648,7 +1648,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1671,7 +1671,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1694,7 +1694,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1717,7 +1717,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1740,7 +1740,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1763,7 +1763,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1786,7 +1786,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1809,7 +1809,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1832,7 +1832,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1855,7 +1855,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1878,7 +1878,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1901,7 +1901,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1924,7 +1924,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1947,7 +1947,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1970,7 +1970,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -1993,7 +1993,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2016,7 +2016,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2039,7 +2039,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2062,7 +2062,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2085,7 +2085,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2108,7 +2108,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2131,7 +2131,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2154,7 +2154,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2177,7 +2177,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2200,7 +2200,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2223,7 +2223,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2246,7 +2246,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2269,7 +2269,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2292,7 +2292,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2315,7 +2315,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2338,7 +2338,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2361,7 +2361,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2384,7 +2384,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2407,7 +2407,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2430,7 +2430,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2453,7 +2453,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2476,7 +2476,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2499,7 +2499,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2522,7 +2522,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2545,7 +2545,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2568,7 +2568,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2591,7 +2591,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2614,7 +2614,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2637,7 +2637,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2660,7 +2660,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2683,7 +2683,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2706,7 +2706,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2729,7 +2729,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2752,7 +2752,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2775,7 +2775,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2798,7 +2798,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2821,7 +2821,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2844,7 +2844,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2878,7 +2878,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2901,7 +2901,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2924,7 +2924,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2947,7 +2947,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2970,7 +2970,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -2993,7 +2993,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3016,7 +3016,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3039,7 +3039,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: null,
@@ -3058,7 +3058,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3081,7 +3081,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3115,7 +3115,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3154,7 +3154,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: null,
@@ -3173,7 +3173,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: null,
@@ -3192,7 +3192,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3221,7 +3221,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3250,7 +3250,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3279,7 +3279,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3308,7 +3308,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3331,7 +3331,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3380,7 +3380,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3409,7 +3409,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3438,7 +3438,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3461,7 +3461,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3484,7 +3484,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3507,7 +3507,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3530,7 +3530,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3559,7 +3559,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3582,7 +3582,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3605,7 +3605,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3628,7 +3628,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3651,7 +3651,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3674,7 +3674,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3697,7 +3697,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3726,7 +3726,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3749,7 +3749,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3783,7 +3783,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3806,7 +3806,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3829,7 +3829,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3858,7 +3858,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3887,7 +3887,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3916,7 +3916,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3945,7 +3945,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -3974,7 +3974,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4018,7 +4018,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4041,7 +4041,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4070,7 +4070,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4099,7 +4099,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4128,7 +4128,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4157,7 +4157,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4191,7 +4191,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4220,7 +4220,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4249,7 +4249,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4278,7 +4278,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4317,7 +4317,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4346,7 +4346,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4375,7 +4375,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4404,7 +4404,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4433,7 +4433,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4467,7 +4467,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4496,7 +4496,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4525,7 +4525,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4559,7 +4559,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4588,7 +4588,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4617,7 +4617,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4646,7 +4646,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4675,7 +4675,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4704,7 +4704,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4733,7 +4733,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4762,7 +4762,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4791,7 +4791,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4820,7 +4820,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4849,7 +4849,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4878,7 +4878,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4907,7 +4907,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4936,7 +4936,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4959,7 +4959,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -4988,7 +4988,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5017,7 +5017,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5046,7 +5046,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5075,7 +5075,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5109,7 +5109,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5138,7 +5138,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5207,7 +5207,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5236,7 +5236,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5265,7 +5265,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5294,7 +5294,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5323,7 +5323,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5352,7 +5352,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5381,7 +5381,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5410,7 +5410,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5439,7 +5439,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5468,7 +5468,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5497,7 +5497,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5561,7 +5561,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5590,7 +5590,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5619,7 +5619,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5658,7 +5658,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5687,7 +5687,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5716,7 +5716,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5745,7 +5745,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5819,7 +5819,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5848,7 +5848,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5917,7 +5917,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -5946,7 +5946,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6015,7 +6015,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6044,7 +6044,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6118,7 +6118,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6147,7 +6147,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6221,7 +6221,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6255,7 +6255,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6284,7 +6284,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6318,7 +6318,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6362,7 +6362,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6411,7 +6411,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6440,7 +6440,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6469,7 +6469,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6513,7 +6513,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6562,7 +6562,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6641,7 +6641,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6680,7 +6680,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6744,7 +6744,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6813,7 +6813,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6877,7 +6877,7 @@ const test = {
         status: "pending",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6906,7 +6906,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -6960,7 +6960,7 @@ const test = {
         status: "accepted",
         company: {
           id: 1,
-          name: "Суши \"Минск-сити\"",
+          name: 'Суши "Минск-сити"',
         },
       },
       equipment: {
@@ -7819,7 +7819,6 @@ export async function getUser() {
   // }
   // console.log(res);
   // return res.json();
-
   return {
     role: "ROLE_MANAGER",
     id: 1,
@@ -7843,7 +7842,7 @@ export async function getCompanies() {
   // return res.json();
 
   return [
-    { id: 1, name: "Суши \"Минск-сити\"" },
+    { id: 1, name: 'Суши "Минск-сити"' },
     { id: 16, name: "Тестовая Компания" },
   ];
 

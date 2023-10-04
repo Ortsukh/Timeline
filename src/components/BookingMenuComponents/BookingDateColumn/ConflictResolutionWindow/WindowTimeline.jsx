@@ -51,8 +51,7 @@ export default function WindowTimeline({
   const setEndTimeSelectedItem = (time) => PR_SEL.today.clone().set("hour", time).startOf("hour").add(PR_COM.shiftCateg, "hour");
   // .subtract(1, "seconds");
 
-  const [isClickedSuccess, setIsClickedSuccess] = useState(false);
-  const [isClickedConflict, setIsClickedConflict] = useState(false);
+  const [isClickedItem, setIsClickedItem] = useState(false);
   const [elementForChange, setElementForChange] = useState(null);
 
   const [successfulArr, setSuccessfulArr] = useState(
@@ -111,6 +110,8 @@ export default function WindowTimeline({
         },
       })),
   );
+  // console.log("successfulArr", successfulArr);
+  // console.log("conflictsArr", conflictsArr);
 
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
@@ -158,64 +159,45 @@ export default function WindowTimeline({
       return;
     }
 
-    if (isClickedConflict) {
-      setConflictsArr((prev) => {
-        const newConfArr = [...prev];
-        newConfArr.splice(elementForChange.index, 1);
-        return newConfArr;
-      });
-      setSuccessfulArr((prev) => [
-        ...prev,
-        {
-          shiftTime: formattedTime,
-          id: `success_${uuidv4()}`,
-          date: PR_SEL.todayFormated,
-          group: groupId,
-          start_time: setStartTimeSelectedItem(formattedTime),
-          end_time: setEndTimeSelectedItem(formattedTime),
-          canMove: false,
-          itemProps: {
-            style: {
-              background: "#90ef90",
-              border: "1px solid gray",
-              color: "red",
-              fontSize: "20px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            },
+    if (isClickedItem) {
+      if (elementForChange.status === "conflict") {
+        setConflictsArr((prev) => {
+          const newConfArr = [...prev];
+          newConfArr.splice(elementForChange.index, 1);
+          return newConfArr;
+        });
+      }
+      const reselectedItem = {
+        shiftTime: formattedTime,
+        id: `success_${uuidv4()}`,
+        date: PR_SEL.todayFormated,
+        group: groupId,
+        start_time: setStartTimeSelectedItem(formattedTime),
+        end_time: setEndTimeSelectedItem(formattedTime),
+        canMove: false,
+        itemProps: {
+          style: {
+            background: "#90ef90",
+            border: "1px solid gray",
+            color: "red",
+            fontSize: "20px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           },
         },
-      ]);
-      setIsClickedConflict(false);
-      setElementForChange(null);
-    }
-    if (isClickedSuccess) {
+      };
       setSuccessfulArr((prev) => {
         const newSuccArr = [...prev];
-        newSuccArr[elementForChange.index] = {
-          shiftTime: formattedTime,
-          id: `success_${uuidv4()}`,
-          date: PR_SEL.todayFormated,
-          group: groupId,
-          start_time: setStartTimeSelectedItem(formattedTime),
-          end_time: setEndTimeSelectedItem(formattedTime),
-          canMove: false,
-          itemProps: {
-            style: {
-              background: "#90ef90",
-              border: "1px solid gray",
-              color: "red",
-              fontSize: "20px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            },
-          },
-        };
+        if (elementForChange.status === "conflict") {
+          newSuccArr.push(reselectedItem); // Добавляем
+        }
+        if (elementForChange.status === "success") {
+          newSuccArr[elementForChange.index] = reselectedItem; // Заменяем
+        }
         return newSuccArr;
       });
-      setIsClickedSuccess(false);
+      setIsClickedItem(false);
       setElementForChange(null);
     }
   };
@@ -223,66 +205,33 @@ export default function WindowTimeline({
   const handleItemSelect = (itemId) => {
     // console.log("itemId", itemId);
     const splitedStatus = itemId.split("_")[0];
-    const activeStyleBorder = "2px solid yellow";
+    const arrayStatuses = ["success", "conflict"];
 
-    // if (elementForChange === null && splitedStatus === ("conflict" || "success")) {
-    //   const dataStatus = { array: [], setArray: null, setIsClicked: null };
-    //   switch (splitedStatus) {
-    //     case "conflict":
-    //       dataStatus.array = conflictsArr;
-    //       dataStatus.setArray = setConflictsArr;
-    //       dataStatus.array = setIsClickedConflict;
-    //       break;
-    //     case "success":
-    //       dataStatus.array = successfulArr;
-    //       dataStatus.setArray = setSuccessfulArr;
-    //       dataStatus.array = setIsClickedSuccess;
-    //       break;
-    //     default:
-    //       return;
-    //   }
-    //   console.log("HHHHHHHHHHELLO", dataStatus);
-    //   const foundIndex = conflictsArr.findIndex((el) => el.id === itemId);
-    //   setElementForChange({
-    //     id: itemId,
-    //     index: foundIndex,
-    //     group: conflictsArr[foundIndex].group,
-    //     status: splitedStatus,
-    //   });
-
-    //   const updatedData = conflictsArr.map((item) => {
-    //     if (item.id === itemId) {
-    //       const updatedItemPropsStyle = { ...item.itemProps.style };
-    //       updatedItemPropsStyle.border = "2px solid yellow";
-    //       const updatedItem = {
-    //         ...item,
-    //         itemProps: {
-    //           ...item.itemProps,
-    //           style: updatedItemPropsStyle,
-    //         },
-    //       };
-    //       return updatedItem;
-    //     }
-    //     return item;
-    //   });
-
-    //   setConflictsArr(updatedData);
-    //   setIsClickedConflict(true);
-    // }
-    if (elementForChange === null && splitedStatus === "conflict") {
-      const foundIndex = conflictsArr.findIndex((el) => el.id === itemId);
+    if (elementForChange === null && arrayStatuses.includes(splitedStatus)) {
+      const dataStatus = { array: [], setArray: null };
+      switch (splitedStatus) {
+        case "conflict":
+          dataStatus.array = conflictsArr;
+          dataStatus.setArray = setConflictsArr;
+          break;
+        case "success":
+          dataStatus.array = successfulArr;
+          dataStatus.setArray = setSuccessfulArr;
+          break;
+        default:
+          return;
+      }
+      const foundIndex = dataStatus.array.findIndex((el) => el.id === itemId);
       setElementForChange({
         id: itemId,
         index: foundIndex,
-        group: conflictsArr[foundIndex].group,
+        group: dataStatus.array[foundIndex].group,
         status: splitedStatus,
       });
-      setIsClickedConflict(true);
-
-      const updatedData = conflictsArr.map((item) => {
+      const updatedData = dataStatus.array.map((item) => {
         if (item.id === itemId) {
           const updatedItemPropsStyle = { ...item.itemProps.style };
-          updatedItemPropsStyle.border = activeStyleBorder;
+          updatedItemPropsStyle.border = "2px solid yellow";
           const updatedItem = {
             ...item,
             itemProps: {
@@ -294,43 +243,18 @@ export default function WindowTimeline({
         }
         return item;
       });
-      setConflictsArr(updatedData);
-    }
-    if (elementForChange === null && splitedStatus === "success") {
-      const foundIndex = successfulArr.findIndex((el) => el.id === itemId);
-      setElementForChange({
-        id: itemId,
-        index: foundIndex,
-        group: successfulArr[foundIndex].group,
-        status: splitedStatus,
-      });
-      setIsClickedSuccess(true);
-
-      const updatedData = successfulArr.map((item) => {
-        if (item.id === itemId) {
-          const updatedItemPropsStyle = { ...item.itemProps.style };
-          updatedItemPropsStyle.border = activeStyleBorder;
-          const updatedItem = {
-            ...item,
-            itemProps: {
-              ...item.itemProps,
-              style: updatedItemPropsStyle,
-            },
-          };
-          return updatedItem;
-        }
-        return item;
-      });
-      setSuccessfulArr(updatedData);
+      dataStatus.setArray(updatedData);
+      setIsClickedItem(true);
     }
   };
 
-  const handleCloseSelectedItem = () => {
+  const handleCancelSelectedItem = () => {
     setSelectedConflictDate(null);
     deactivatedCells();
   };
+
   const handleClearSelectedItem = () => {
-    const choseStatus = isClickedSuccess
+    const choseStatus = elementForChange.status === "success"
       ? { array: successfulArr, setArray: setSuccessfulArr }
       : { array: conflictsArr, setArray: setConflictsArr };
 
@@ -350,8 +274,7 @@ export default function WindowTimeline({
       return item;
     });
     choseStatus.setArray(updatedData);
-    setIsClickedSuccess(false);
-    setIsClickedConflict(false);
+    setIsClickedItem(false);
     setElementForChange(null);
   };
 
@@ -418,6 +341,7 @@ export default function WindowTimeline({
             maxZoom={24 * 60 * 60 * 1000} // ограничение масштаба до 1 дня
             onCanvasClick={handleCanvasClick}
             showCursorLine
+            selected={[]}
             onItemSelect={handleItemSelect}
             // onMouseUp={handleCellMouseUp} //! Выделение нескольки
             // onMouseDown={handleCellMouseDown} //! Выделение нескольки
@@ -523,19 +447,25 @@ export default function WindowTimeline({
           className={styleConflict.closeBtn}
           onClick={() => (
             elementForChange === null
-              ? handleCloseSelectedItem()
+              ? handleCancelSelectedItem()
               : handleClearSelectedItem()
           )}
         >
-          {elementForChange === null ? buttonTitleConstants.CLOSE : buttonTitleConstants.CLEAN}
+          {elementForChange === null
+            ? buttonTitleConstants.CANCEL
+            : buttonTitleConstants.REMOVE_SELECTION}
         </button>
       </div>
-      {elementForChange !== null && (
-      <EquipmentDescription equipment={
-        groups.find((group) => group.id === elementForChange.group)
-      }
-      />
-      )}
+      {elementForChange !== null
+        ? (
+          <EquipmentDescription equipment={
+            groups.find((group) => group.id === elementForChange.group)
+          }
+          />
+        )
+        : (
+          <div style={{ height: "106px", margin: "25px auto 5px" }} />
+        )}
     </>
   );
 }
