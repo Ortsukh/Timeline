@@ -63,7 +63,7 @@ export default function BookingMenu({
         }
         successEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
       });
-      console.log("successEvent", successEvent);
+      // console.log("successEvent", successEvent);
       Object.keys(successEvent).forEach((date) => {
         events.push({
           start: date,
@@ -79,7 +79,9 @@ export default function BookingMenu({
       setBaseOrder((prev) => ({
         ...prev,
         preOrders: editItems,
-        equipment: { ...currentDevice, conflicts: [], success: successEvent },
+        equipment: {
+          ...currentDevice, conflicts: [], success: successEvent, countConflicts: 0,
+        },
       }));
 
       setSelectedDates(editDates);
