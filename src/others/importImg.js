@@ -1,6 +1,7 @@
 import ConflCirle from "./png/conflCirle.png";
+import OkImg from "./png/ok.png";
 
 export {
-  // eslint-disable-next-line
   ConflCirle,
+  OkImg,
 };
