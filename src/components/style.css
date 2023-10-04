@@ -59,10 +59,9 @@
 
 .messageWindow {
     width: 205px;
-    height: 250px;
     position: absolute;
     background-color: rgb(252, 253, 253);
-    top: 50%;
+    top: 5%;
     right: 50%;
     z-index: 500;
     display: flex;
@@ -71,6 +70,7 @@
     border: 1px solid rgb(156, 156, 156);
     padding: 10px;
     border-radius: 5px;
+    gap: 10px;
 }
 
 .messageWindow .button-close {
@@ -85,26 +85,50 @@
     left: 85%;
     cursor: pointer;
     line-height: 11px;
+    padding-bottom: 3px;
+}
 
+.messageWindow .reserved-btn{
+    padding: 7px 10px;
+}
+
+.messageWindow .button-select-date{
+    min-height: 0;
+    min-width: 0;
+    margin: 0;
+    padding: 7px 10px;
 }
 
 .messageWindow-item {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+}
+
+.messageWindow-item.status-messageWindow{
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
 }
 
 .messageWindow-item span:nth-child(2n) {
     font-weight: 600;
 }
 
+.messageWindow .btn-messageWindow{
+    display: flex;
+    gap: 10px;
+}
 .messageWindow-overlay{
     width: 100%;
     height: 100%;
     position: absolute;
     top: 0;
     bottom: 0;
-    z-index: 499;
+    z-index: 499;}
+    
+.messageWindow .btn-messageWindow button{
+    margin: 0;
 }
 
 .tools-filter {
@@ -548,6 +572,7 @@
     border-radius: 5px;
     border: 1px solid #2780fc;
     font-size: 14px;
+    background-color: white;
 }
 
 .choose-category_item {
@@ -626,4 +651,12 @@
 
 a.fc-col-header-cell-cushion.red-color,  a.fc-col-header-cell-cushion.red-color:hover{
     color: red !important;
+}
+
+.select-count-box.select-choose-time{
+    align-items: start;
+}
+
+.select-count-box.select-choose-time div:last-child{
+    max-width: 250px;
 }

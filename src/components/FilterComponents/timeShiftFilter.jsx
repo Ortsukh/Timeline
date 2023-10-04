@@ -42,7 +42,7 @@ export default function TimeShift({
   const selectAllOption = { label: "Выбрать все", value: "*" };
 
   return (
-    <div className="select-count-box">
+    <div className="select-count-box select-choose-time">
       <span>Время смены</span>
       <Select
         allowSelectAll

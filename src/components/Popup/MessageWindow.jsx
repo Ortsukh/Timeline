@@ -34,13 +34,13 @@ export default function MessageWindow({
         <span>{data.date}</span>
       </div>
 
-      <div className="messageWindow-item">
+      <div className="messageWindow-item status-messageWindow">
         <span>Статус:</span>
         <span>{data.item.status}</span>
       </div>
       <button
         type="button"
-        className="button-submit reserved-btn"
+        className="button-submit button-select-date"
         onClick={(e) => {
           editMode(e, data.item);
           setSelectedGroups(nameGroup.category);
@@ -55,7 +55,7 @@ export default function MessageWindow({
       </button>
       {user.role === "ROLE_MANAGER"
           && (
-          <div>
+          <div className="btn-messageWindow">
             <button
               type="button"
               className="button-submit reserved-btn"
@@ -67,7 +67,7 @@ export default function MessageWindow({
             </button>
             <button
               type="button"
-              className="button-submit reserved-btn"
+              className="button-submit clear-button"
               onClick={() => {
                 openConfirmWindow("rejected");
               }}
