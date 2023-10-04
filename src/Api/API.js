@@ -7819,18 +7819,18 @@ export async function getUser() {
   // }
   // console.log(res);
   // return res.json();
-  //
-  // return {
-  //   role: "ROLE_MANAGER",
-  //   id: 1,
-  //   name: "Франчайзи 001",
-  // };
 
   return {
-    role: "ROLE_COMPANY",
+    role: "ROLE_MANAGER",
     id: 1,
-    name: "Суши \"Минск-сити\"",
+    name: "Франчайзи 001",
   };
+
+  // return {
+  //   role: "ROLE_COMPANY",
+  //   id: 1,
+  //   name: "Суши \"Минск-сити\"",
+  // };
 }
 
 export async function getCompanies() {
@@ -7904,7 +7904,7 @@ export async function sendEditOrder(order) {
   return true;
 }
 
-export async function createOrder(order, company, status) {
+export async function createOrder(order, company) {
   console.log(company);
   const str = `${backendUrl}save_order`;
   const dateIntervals = formatOrder(order);
@@ -7913,7 +7913,7 @@ export async function createOrder(order, company, status) {
       id: company.id,
       name: company.name,
     },
-    status,
+    status: "pending",
     equipmentItems: dateIntervals,
   };
   // eslint-disable-next-line
