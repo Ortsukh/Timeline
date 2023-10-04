@@ -42,30 +42,37 @@ export default function ConfirmWindow({
       </div>,
     );
   });
+
   return (
-    <div className="messageWindow rentOrderPopup">
-      <button
-        type="button"
-        className="button-close"
-        onClick={() => closeBookingWindow(false)}
-      >
-        x
-      </button>
-      <div className="titlePopup">Подтвердите ваш заказ</div>
-      <div className="titlePopup">{`Компания: ${selectedCompany.name}`}</div>
-      <span>
-        Общая стоимость:
-        {" "}
-        {fullPrice}
-        р
-      </span>
-      <div className="confirmWindow">
-        {orderItems}
-      </div>
-      <div className="orderBtn">
-        <button type="button" className="button-submit reserved-btn" onClick={confirmFunc}>
-          {isConfirmWindowOpen === "rejected" ? buttonTitleConstants.REJECT : buttonTitleConstants.CONFIRM}
+    <div
+      role="presentation"
+      className="messageWindow-overlay"
+      onClick={() => closeBookingWindow(false)}
+    >
+      <div className="messageWindow rentOrderPopup">
+        <button
+          type="button"
+          className="button-close"
+          onClick={() => closeBookingWindow(false)}
+        >
+          x
         </button>
+        <div className="titlePopup">Подтвердите ваш заказ</div>
+        <div className="titlePopup">{`Компания: ${selectedCompany.name}`}</div>
+        <span>
+          Общая стоимость:
+          {" "}
+          {fullPrice}
+          р
+        </span>
+        <div className="confirmWindow">
+          {orderItems}
+        </div>
+        <div className="orderBtn">
+          <button type="button" className="button-submit reserved-btn" onClick={confirmFunc}>
+            {isConfirmWindowOpen === "rejected" ? buttonTitleConstants.REJECT : buttonTitleConstants.CONFIRM}
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -6,7 +6,11 @@ import makeAnimated from "react-select/animated";
 export default function TimeShift({
   currentDevice, setBaseOrder, isActiveCalendar, baseOrder,
 }) {
-  const [value, setValue] = useState([{ value: currentDevice.workTime.start, label: `${currentDevice.workTime.start} - ${+currentDevice.shiftLength}` }]);
+  const [value, setValue] = useState([
+    {
+      value: currentDevice.workTime.start,
+      label: `${currentDevice.workTime.start} - ${+currentDevice.shiftLength}`,
+    }]);
 
   const generateShiftTime = (shift) => {
     const options = [];
@@ -20,8 +24,8 @@ export default function TimeShift({
   useEffect(() => {
     setValue(baseOrder.shiftTime);
   }, [baseOrder.shiftTime]);
+
   const handleChangeTime = (e) => {
-    console.log(e);
     if (e.find((el) => el.value === "*")) {
       setValue(generateShiftTime(+currentDevice.shiftLength));
       setBaseOrder((prev) => ({
@@ -34,7 +38,9 @@ export default function TimeShift({
       ...prev, shiftTime: e,
     }));
   };
+
   const selectAllOption = { label: "Выбрать все", value: "*" };
+
   return (
     <div className="select-count-box select-choose-time">
       <span>Время смены</span>

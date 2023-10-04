@@ -13,7 +13,6 @@ export default function MessageWindow({
 }) {
   const heightModal = 250;
   const weightModal = 225;
-
   const isLeftPart = window.innerWidth / 2 - data.posX > 0;
   const isBottomPart = window.innerHeight / 2 - data.posY > 0;
   return (

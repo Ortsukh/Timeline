@@ -7819,7 +7819,6 @@ export async function getUser() {
   // }
   // console.log(res);
   // return res.json();
-  //
   return {
     role: "ROLE_MANAGER",
     id: 1,
@@ -7904,7 +7903,7 @@ export async function sendEditOrder(order) {
   return true;
 }
 
-export async function createOrder(order, company, status) {
+export async function createOrder(order, company) {
   console.log(company);
   const str = `${backendUrl}save_order`;
   const dateIntervals = formatOrder(order);
@@ -7913,7 +7912,7 @@ export async function createOrder(order, company, status) {
       id: company.id,
       name: company.name,
     },
-    status,
+    status: "pending",
     equipmentItems: dateIntervals,
   };
   // eslint-disable-next-line
