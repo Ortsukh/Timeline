@@ -69,37 +69,6 @@
   transition: .3s;
 }
 
-.reserveBtnForText {
-  width: 110px;
-  font-size: 16px;
-  padding: 10px 5px;
-  color: white;
-  background-color: rgb(39, 128, 252);
-  border: 1px solid rgb(39, 128, 252);
-  border-radius: 5px;
-}
-
-.closeBtnForText {
-  width: 110px;
-  font-size: 16px;
-  padding: 10px 5px;
-  color: white;
-  background-color: #f03333;
-  border: 1px solid #f03333;
-  border-radius: 5px;
-}
-
-.closeBtn {
-  padding: 10px 5px;
-  color: white;
-  background-color: #f03333;
-  font-size: 14px;
-  border-radius: 5px;
-  border: 1px solid #f03333;
-  margin-top: 20px;
-  margin-left: 20px;
-}
-
 .riddler {
   width: 30px;
   height: 30px;
