@@ -31,7 +31,6 @@ import { generateClue } from "../common/GenerateElementsData";
 import CompaniesSelect from "../components/FilterComponents/CompaniesSelect";
 import buttonTitleConstants from "../constants/buttonTitleConstants";
 import ConfirmWindow from "../components/Popup/ConfirmWindow";
-import style from "../components/BookingMenuComponents/BookingDateColumn/BookingTimeline.module.css";
 
 export default function TimelinePage() {
   const [groups, setGroups] = useState([]);
@@ -69,7 +68,6 @@ export default function TimelinePage() {
   const [isClickedOnNew, setIsClickedOnNew] = useState(false);
   const [isConfirmWindowOpen, setIsConfirmWindowOpen] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
-  const [isOpenOverlay, setIsOpenOverlay] = useState(false);
 
   useEffect(() => {
     getUser().then((res) => {
@@ -268,9 +266,6 @@ export default function TimelinePage() {
     setIsActiveMessage(false);
     setIsConfirmWindowOpen(status);
   };
-  const openOverLay = () => {
-    setIsOpenOverlay((prev) => !prev);
-  };
   const createBook = () => {
     if (selectedGroups.length === 0 || !selectedCompany) {
       setIsClickingOnEmptyFilter(true);
@@ -288,14 +283,6 @@ export default function TimelinePage() {
   };
   return !isLoading && !isLoadingEquipment ? (
     <div>
-      {isOpenOverlay && (
-      <div
-        role="presentation"
-        className="timeLineOverlay"
-      >
-        <button type="button" onClick={openOverLay} className="closeOverlayButton"> x </button>
-      </div>
-      )}
       {isBookingMenu ? (
         <BookingMenu
           //! Нужные
@@ -318,7 +305,6 @@ export default function TimelinePage() {
           setCurrentDevice={setCurrentDevice}
           setIsEditMode={setIsEditMode}
           openAlertWindow={openAlertWindow}
-          openOverLay={openOverLay}
           //! ToolsFilter->
           toolNames={mapToolsNames()}
           onInputChange={handleInputChange}

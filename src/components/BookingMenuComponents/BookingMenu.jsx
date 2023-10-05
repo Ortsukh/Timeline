@@ -30,7 +30,6 @@ export default function BookingMenu({
   setShowButtonClear,
   selectedCompany,
   user,
-  openOverLay,
 }) {
   const { workTime } = currentDevice;
   // new
@@ -47,6 +46,8 @@ export default function BookingMenu({
   const [statusCheckboxSelected, setStatusCheckboxSelected] = useState("AUTO");
   const [isConfirmWindowOpen, setIsConfirmWindowOpen] = useState(false);
   const [deactivatedCell, setDeactivatedCell] = useState(false);
+  const [isOpenOverlay, setIsOpenOverlay] = useState(false);
+  const [isAddNewItem, setIsAddNewItem] = useState(false);
 
   useEffect(() => {
     if (isEditMode) {
@@ -446,8 +447,23 @@ export default function BookingMenu({
     // }));
   };
   // console.log(baseOrder);
+
+  const openOverLay = (status) => {
+    if (status === false) {
+      setIsAddNewItem(false);
+    }
+    setIsOpenOverlay(status);
+  };
   return (
     <>
+      {isOpenOverlay && (
+      <div
+        role="presentation"
+        className="timeLineOverlay"
+      >
+        <button type="button" onClick={() => openOverLay(false)} className="closeOverlayButton"> x </button>
+      </div>
+      )}
       <div className={style.container}>
         <div className={style.editButtonColumn}>
           <EditButtonColumn
@@ -520,6 +536,8 @@ export default function BookingMenu({
             openAlertWindow={openAlertWindow}
             deactivatedCells={deactivatedCells}
             openOverLay={openOverLay}
+            isAddNewItem={isAddNewItem}
+            setIsAddNewItem={setIsAddNewItem}
           />
         </div>
       </div>
