@@ -18,8 +18,8 @@ import TimeLineRenderer from "../components/TimeLineRenderer";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
 import {
-  getAllEquipments,
-  getAllOrders,
+  getAllEquipments1,
+  getAllOrders1,
   getCompanies, getManagerEquipments,
   getUser, sendEditOrder,
 } from "../Api/API";
@@ -95,7 +95,7 @@ export default function TimelinePage() {
         setIsLoadingEquipment(false);
       });
     } else {
-      getAllEquipments().then((response) => {
+      getAllEquipments1().then((response) => {
         setGroups(createEquipmentGroup(response.data));
         setIsLoadingEquipment(false);
       });
@@ -106,7 +106,7 @@ export default function TimelinePage() {
     setIsLoading(true);
     if (!user) return;
 
-    getAllOrders()
+    getAllOrders1()
       .then((response) => {
         setItems(createOrderGroup(response.data, user));
         if (user) setIsLoading(false);
