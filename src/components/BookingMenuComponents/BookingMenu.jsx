@@ -87,8 +87,8 @@ export default function BookingMenu({
       }));
 
       setSelectedDates(editDates);
-      setCalendarEvent(events);
       setIsActiveCalendar(false);
+      setCalendarEvent(events);
       setShowStartDisplayConflict(false);
     }
   }, [editOrderData, isEditMode]);
@@ -238,7 +238,6 @@ export default function BookingMenu({
   };
   const calcBestMap = () => {
     setIsActiveCalendar(false);
-
     Object.keys(mapsEquipment).forEach((group) => {
       mapsEquipment[group].countConflicts = 0;
       mapsEquipment[group].conflicts = { };

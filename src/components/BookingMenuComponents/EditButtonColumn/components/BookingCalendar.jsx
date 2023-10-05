@@ -12,10 +12,26 @@ import style from "../EditButtonColumn.module.css";
 import { generateClue } from "../../../../common/GenerateElementsData";
 import CalendarSwitch from "../../../Switch/CalendarSwitch";
 import "../../../style.css";
+import { Plus } from "../../../../others/importImg";
 
 const events = [];
 
 function renderEventContent(eventInfo) {
+  if (eventInfo.event.extendedProps.isEmpty) {
+    const styleObj = {
+      height: 40,
+      backgroundColor: "white",
+      border: "none",
+      display: "flex",
+      justifyContent: "center",
+
+    };
+    return (
+      <div style={styleObj}>
+        <img style={{ height: 40, cursor: "pointer", opacity: 0.3 }} src={Plus} alt="Добавить" />
+      </div>
+    );
+  }
   const color = eventInfo.backgroundColor || "#ffa4a4";
   const obj = {
     height: 40,
@@ -48,7 +64,7 @@ export default function BookingCalendar({
   const [isDefaultSelect, setIsDefaultSelect] = useState(true);
   const calendarRef = useRef();
   const [event, setEvent] = useState(events);
-
+  const [emptyCellsForMonth, setEmptyCellsForMonth] = useState([]);
   const getCalendarCellsByClassNames = (classNames) => {
     const calendar = calendarRef.current.elRef.current;
     return calendar.querySelectorAll(
@@ -77,7 +93,40 @@ export default function BookingCalendar({
     }
   }, [deactivatedCell]);
 
+  const generateEmptyCells = () => {
+    console.log(isActiveCalendar);
+    if (isActiveCalendar) return;
+    const date = (moment(calendarRef.current.getApi().getDate()));
+
+    const month = moment(date).format("YYYY-MM-");
+    const emptyCellArr = [];
+    for (let i = Number(moment(date).startOf("month").format("DD")); i <= Number(moment().endOf("month").format("DD")); i++) {
+      let day = moment(`${month}${i}`);
+      if (day.isSameOrAfter(moment().startOf("day"))) {
+        day = day.format("YYYY-MM-DD");
+
+        console.log(day);
+
+        if (selectedDates.indexOf(day) === -1) {
+          emptyCellArr.push({
+            extendedProps:
+                { isEmpty: true },
+            start: day,
+
+          });
+        }
+      }
+    }
+    setEmptyCellsForMonth(emptyCellArr);
+  };
+
   useEffect(() => {
+    const date = (moment(calendarRef.current.getApi().getDate()).endOf("month"));
+    if (moment(date).isBefore(moment())) {
+      setEvent(calendarEvent);
+      return;
+    }
+    generateEmptyCells();
     setEvent(calendarEvent);
   }, [calendarEvent]);
 
@@ -144,7 +193,9 @@ export default function BookingCalendar({
     }
     setEvent([]);
     if (!calendarRef.current) return;
+
     const cells = [];
+
     getCalendarCellsByClassNames(".fc-day.fc-daygrid-day:not(.fc-day-other)").forEach(
       (cell) => {
         const cellCoord = cell.getBoundingClientRect();
@@ -244,6 +295,7 @@ export default function BookingCalendar({
 
   const handleChangeMonth = (time) => {
     disabledCells();
+    generateEmptyCells();
     if (!calendarRef.current) return;
     getCalendarCellsByClassNames(".fc-day.fc-daygrid-day:not(.fc-day-other)").forEach(
       (cell) => {
@@ -300,7 +352,7 @@ export default function BookingCalendar({
             weekends
             selectAllow={(date) => selectAllow(date)}
             eventClick={handleEventClick}
-            events={event}
+            events={event.concat(emptyCellsForMonth)}
             eventContent={renderEventContent}
             headerToolbar={{
               left: "",
