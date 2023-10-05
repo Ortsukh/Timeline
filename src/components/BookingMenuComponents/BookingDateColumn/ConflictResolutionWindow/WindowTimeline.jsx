@@ -474,7 +474,7 @@ export default function WindowTimeline({
         </button>
       </div>
       <ViewChanges
-        prevItems={PR_SEL.initConflictArr.concat(PR_SEL.initSuccessArr)}
+        prevItems={initConflictArr.concat(initSuccessArr)}
         newItems={modifConflictArr.concat(modifSuccessArr)}
         groups={groups}
       />
