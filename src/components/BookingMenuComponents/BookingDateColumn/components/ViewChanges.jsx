@@ -3,8 +3,11 @@ import React from "react";
 import style from "../BookingTimeline.module.css";
 import { ConflCirle, OkImg } from "../../../../others/importImg";
 
-export default function ViewChanges({ prevItems, groups, newItems }) {
+export default function ViewChanges({
+  prevItems, groups, newItems, elementForChange, openOverLay,
+}) {
   console.log(prevItems, groups, newItems);
+  console.log(elementForChange);
   const newItemsMap = {};
   newItems.forEach((item) => {
     item.currentGroup = groups.find((groupItem) => groupItem.id === item.group);
@@ -14,6 +17,7 @@ export default function ViewChanges({ prevItems, groups, newItems }) {
   const content = prevItems.map((item) => {
     const group = groups.find((groupItem) => groupItem.id === item.group);
     const newItem = newItemsMap[item.id.split("_")[1]];
+    console.log(newItem);
     return (
 
       <div className={style.view_changes_row} key={item.id}>
@@ -24,16 +28,16 @@ export default function ViewChanges({ prevItems, groups, newItems }) {
           {item.itemStatus === "success" ? <img src={OkImg} alt="ok" /> : <img src={ConflCirle} alt="conflict" /> }
         </div>
         <div className={style.view_changes_arrow}>
-          {"->"}
+          {newItem.isChanged && "->"}
         </div>
         <div className={style.view_changes_items_title}>
 
           {!newItem.isDelete ? (newItem.isChanged
             ? (`${newItem.currentGroup.shortTitle} : ${newItem.shiftTime}-${newItem.shiftTime + newItem.currentGroup.shiftLength}`) : "") : (
-              <span>{`${group.shortTitle} - ${item.shiftTime}`}</span>)}
+              <del>{`${group.shortTitle} - ${item.shiftTime}`}</del>)}
         </div>
         <div className={style.view_changes_items_status}>
-          {newItem.isChanged ? (item.itemStatus === "success" ? <img src={OkImg} alt="ok" /> : <img src={ConflCirle} alt="conflict" />) : "" }
+          {newItem.isChanged ? (newItem.itemStatus === "success" ? <img src={OkImg} alt="ok" /> : <img src={ConflCirle} alt="conflict" />) : "" }
         </div>
       </div>
     );
@@ -42,8 +46,9 @@ export default function ViewChanges({ prevItems, groups, newItems }) {
   return (
     <div className={style.view_changes_container}>
       {content}
-      <button type="button">Add new</button>
-      <button type="button">Delete</button>
+      {elementForChange
+        ? <button type="button">Delete</button>
+        : <button type="button" onClick={openOverLay}>Add new</button>}
     </div>
   );
 }

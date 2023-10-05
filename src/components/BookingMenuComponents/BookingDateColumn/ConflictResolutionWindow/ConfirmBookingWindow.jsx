@@ -29,6 +29,7 @@ export default function ConfirmBookingWindow({
   selectedCompany,
   openAlertWindow,
   deactivatedCells,
+  openOverLay,
 }) {
   let calculatedOrSelectedDevice = null;
   if ("id" in baseOrder.equipment) {
@@ -112,6 +113,7 @@ export default function ConfirmBookingWindow({
         handleSetSelectedConflictDate={handleSetSelectedConflictDate}
         openAlertWindow={openAlertWindow}
         deactivatedCells={deactivatedCells}
+        openOverLay={openOverLay}
       />
       )}
     </>

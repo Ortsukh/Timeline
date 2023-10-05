@@ -30,6 +30,7 @@ export default function BookingMenu({
   setShowButtonClear,
   selectedCompany,
   user,
+  openOverLay,
 }) {
   const { workTime } = currentDevice;
   // new
@@ -518,6 +519,7 @@ export default function BookingMenu({
             selectedCompany={selectedCompany}
             openAlertWindow={openAlertWindow}
             deactivatedCells={deactivatedCells}
+            openOverLay={openOverLay}
           />
         </div>
       </div>

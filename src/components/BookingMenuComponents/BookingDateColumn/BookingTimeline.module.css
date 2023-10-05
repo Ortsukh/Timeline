@@ -6,10 +6,13 @@
   border: 1px solid #c52020;
   border-radius: 5px;
   padding: 2px 2px 0 2px;
-  /* position: fixed; */
-  right: 2%;
-  top: 13%;
+position: relative;
+  /*right: 2%;*/
+  /*top: 13%;*/
+  z-index: 498;
+
 }
+
 
 .tableTimeline {
   width: 100%;
@@ -84,6 +87,9 @@
 .view_changes_row {
   display: flex;
   align-items: center;
+  border-bottom: 1px solid #5b5b5b;
+  margin-bottom: 3px;
+  width: 300px;
 }
 .view_changes_items_status{
   display: flex;

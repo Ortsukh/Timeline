@@ -126,7 +126,7 @@
     top: 0;
     bottom: 0;
     z-index: 499;}
-    
+
 .messageWindow .btn-messageWindow button{
     margin: 0;
 }
@@ -659,4 +659,22 @@ a.fc-col-header-cell-cushion.red-color,  a.fc-col-header-cell-cushion.red-color:
 
 .select-count-box.select-choose-time div:last-child{
     max-width: 250px;
+}
+
+.timeLineOverlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 497;
+    background-color: rgba(91, 91, 91, 0.25);
+}
+.closeOverlayButton {
+    width: 40px;
+    height: 40px;
+    background-color: red;
+    position: absolute;
+    top: 10%;
+    left: 80%
 }

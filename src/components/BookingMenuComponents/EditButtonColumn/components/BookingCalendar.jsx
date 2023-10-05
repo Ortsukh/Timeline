@@ -288,7 +288,7 @@ export default function BookingCalendar({
             unselectAuto={false}
             className="unselectable"
             datesSet={(e) => handleChangeMonth(e)}
-            height={500}
+            height={550}
             fixedWeekCount={false}
             ref={calendarRef}
             plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
