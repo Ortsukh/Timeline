@@ -363,7 +363,7 @@ export default function BookingMenu({
   };
 
   const pushOrderInBasePreOrder = (newOrders) => {
-    console.log(newOrders);
+    console.log("newOrders!!!", newOrders);
     if (newOrders.success.length === 0) {
       return;
     }
