@@ -27,7 +27,7 @@ export default function WindowTimeline({
   pushOrderInBasePreOrder,
   statusCheckboxSelected,
   // handleSetSelectedConflictDate,
-  openAlertWindow,
+  // openAlertWindow,
   deactivatedCells,
 }) {
   const PR_COM = {
@@ -52,7 +52,7 @@ export default function WindowTimeline({
   const setEndTimeSelectedItem = (time) => PR_SEL.today.clone().set("hour", time).startOf("hour").add(PR_COM.shiftCateg, "hour");
   // .subtract(1, "seconds");
 
-  const [initSuccessArr] = useState(
+  const [initSuccessArr, setInitSuccessArr] = useState(
     selectedConflictDate.extendedProps.success.map((reserv) => ({
       shiftTime: reserv.shiftTime,
       id: `success_${uuidv4()}`,
@@ -106,13 +106,14 @@ export default function WindowTimeline({
       },
     })),
   );
-  // console.log("initSuccessArr", initSuccessArr);
+  console.log("initSuccessArr", initSuccessArr);
   // console.log("initConflictArr", initConflictArr);
   const [modifSuccessArr, setModifSuccessArr] = useState(initSuccessArr);
   const [modifConflictArr, setModifConflictArr] = useState(initConflictArr);
-  // console.log("modifSuccessArr", modifSuccessArr);
+  console.log("modifSuccessArr", modifSuccessArr);
   // console.log("modifConflictArr", modifConflictArr);
   const [isClickedItem, setIsClickedItem] = useState(false);
+  const [isAddNewItem, setIsAddNewItem] = useState(false);
   const [elementForChange, setElementForChange] = useState(null);
 
   const [filteredItems, setFilteredItems] = useState([]);
@@ -171,7 +172,8 @@ export default function WindowTimeline({
       const isItemBack = () => {
         if (elementForChange.status === "success") {
           const initObj = initSuccessArr[elementForChange.index];
-          return !(initObj.id === elementForChange.id
+          return !(initObj
+            && initObj.id === elementForChange.id
             && initObj.group === groupId
             && initObj.shiftTime === formattedTime);
         }
@@ -184,7 +186,6 @@ export default function WindowTimeline({
         group: groupId,
         start_time: setStartTimeSelectedItem(formattedTime),
         end_time: setEndTimeSelectedItem(formattedTime),
-        canMove: false,
         isDeleted: false,
         isChanged: isItemBack(),
         itemStatus: "success",
@@ -212,6 +213,40 @@ export default function WindowTimeline({
       });
       setIsClickedItem(false);
       setElementForChange(null);
+    }
+    if (isAddNewItem) {
+      const reselectedItem = {
+        shiftTime: formattedTime,
+        id: `success_${uuidv4()}`,
+        date: PR_SEL.todayFormated,
+        group: groupId,
+        start_time: setStartTimeSelectedItem(formattedTime),
+        end_time: setEndTimeSelectedItem(formattedTime),
+        isDeleted: false,
+        isChanged: false,
+        itemStatus: "success",
+        itemProps: {
+          style: {
+            background: "#90ef90",
+            border: "1px solid gray",
+            color: "red",
+            fontSize: "20px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          },
+        },
+      };
+      setInitSuccessArr((prev) => {
+        const newSuccArr = [...prev];
+        newSuccArr.push(reselectedItem); // Добавляем
+        return newSuccArr;
+      });
+      setModifSuccessArr((prev) => {
+        prev.splice(initSuccessArr.length, 0, reselectedItem); // Заменяем на аналог-ю позицию
+        return prev;
+      });
+      setIsAddNewItem(false);
     }
   };
 
@@ -293,28 +328,29 @@ export default function WindowTimeline({
 
   const handleResolveConflict = () => {
     // console.log("SEND MESSAGE");
-    if (PR_SEL.countOrders === modifSuccessArr.length + modifConflictArr.length) {
-      pushOrderInBasePreOrder({
-        date: PR_SEL.todayFormated,
-        success: modifSuccessArr.map((order) => (
-          {
-            shiftTime: order.shiftTime,
-            date: order.date,
-            grid: addGrid(Math.floor(order.shiftTime / PR_COM.shiftCateg), PR_COM.shiftCateg),
-            group: order.group,
-          }
-        )),
-        conflicts: modifConflictArr.map((order) => (
-          {
-            shiftTime: order.shiftTime,
-            groupId: order.group,
-          }
-        )),
-      });
-      setSelectedConflictDate(null);
-      return;
-    }
-    openAlertWindow("Заказ не сохранён! Ошибка общего количества заказов.");
+    pushOrderInBasePreOrder({
+      date: PR_SEL.todayFormated,
+      success: modifSuccessArr.map((order) => (
+        {
+          shiftTime: order.shiftTime,
+          date: order.date,
+          grid: addGrid(Math.floor(order.shiftTime / PR_COM.shiftCateg), PR_COM.shiftCateg),
+          group: order.group,
+        }
+      )),
+      conflicts: modifConflictArr.map((order) => (
+        {
+          shiftTime: order.shiftTime,
+          groupId: order.group,
+        }
+      )),
+    });
+    setSelectedConflictDate(null);
+    // if (PR_SEL.countOrders === modifSuccessArr.length
+    //  + modifConflictArr.length + countAddedItems) {
+    //   return;
+    // }
+    // openAlertWindow("Заказ не сохранён! Ошибка общего количества заказов.");
   };
 
   return (
@@ -467,6 +503,12 @@ export default function WindowTimeline({
           {elementForChange === null
             ? buttonTitleConstants.CANCEL
             : buttonTitleConstants.REMOVE_SELECTION}
+        </button>
+        <button
+          type="button"
+          onClick={() => setIsAddNewItem(true)}
+        >
+          +
         </button>
       </div>
       <ViewChanges
