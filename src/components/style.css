@@ -678,3 +678,6 @@ a.fc-col-header-cell-cushion.red-color,  a.fc-col-header-cell-cushion.red-color:
     top: 10%;
     left: 80%
 }
+.fc-h-event {
+    border: none;
+}
