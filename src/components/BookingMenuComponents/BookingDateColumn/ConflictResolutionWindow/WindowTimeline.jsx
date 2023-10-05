@@ -43,10 +43,14 @@ export default function WindowTimeline({
   const todayFormated = today.format("YYYY-MM-DD");
   const setStartTimeSelectedItem = (time) => today.clone().set("hour", time).startOf("hour");
   const setEndTimeSelectedItem = (time) => today.clone().set("hour", time).startOf("hour").add(PR_COM.shiftCateg, "hour");
-  const [PR_SEL] = useState({
+  const PR_SEL = {
     countOrders: selectedConflictDate.extendedProps.conflicts.length
     + selectedConflictDate.extendedProps.success.length,
-    initSuccessArr: selectedConflictDate.extendedProps.success.map((reserv) => ({
+    // initSuccessArr: ,
+    // initConflictArr: ,
+  };
+  const [initSuccessArr] = useState(
+    selectedConflictDate.extendedProps.success.map((reserv) => ({
       shiftTime: reserv.shiftTime,
       id: `success_${uuidv4()}`,
       date: todayFormated,
@@ -55,6 +59,7 @@ export default function WindowTimeline({
       end_time: setEndTimeSelectedItem(reserv.shiftTime),
       isDelete: false,
       isChanged: false,
+      itemStatus: "success",
       itemProps: {
         // onDoubleClick: () => { console.log("You clicked double!"); },
         style: {
@@ -69,7 +74,9 @@ export default function WindowTimeline({
         },
       },
     })),
-    initConflictArr: selectedConflictDate.extendedProps.conflicts.map((reserv) => ({
+  );
+  const [initConflictArr] = useState(
+    selectedConflictDate.extendedProps.conflicts.map((reserv) => ({
       shiftTime: reserv.shiftTime,
       id: `conflict_${uuidv4()}`,
       date: todayFormated,
@@ -78,6 +85,7 @@ export default function WindowTimeline({
       end_time: setEndTimeSelectedItem(reserv.shiftTime),
       isDelete: false,
       isChanged: false,
+      itemStatus: "conflict",
       itemProps: {
         style: {
           background: "#ffa4a4",
@@ -94,9 +102,10 @@ export default function WindowTimeline({
         },
       },
     })),
-  });
+  );
   // console.log("PR_SEL", PR_SEL);
-
+  // console.log("initSuccessArr", initSuccessArr);
+  // console.log("initConflictArr", initConflictArr);
   const [visibleTimeStart, setVisibleTimeStart] = useState(today.startOf("day").valueOf());
   const [visibleTimeEnd, setVisibleTimeEnd] = useState(today.endOf("day").valueOf());
   // .subtract(1, "seconds");
@@ -104,10 +113,10 @@ export default function WindowTimeline({
   const [isClickedItem, setIsClickedItem] = useState(false);
   const [elementForChange, setElementForChange] = useState(null);
 
-  const [modifSuccessArr, setModifSuccessArr] = useState(PR_SEL.initSuccessArr);
-  const [modifConflictArr, setModifConflictArr] = useState(PR_SEL.initConflictArr);
-  console.log("modifSuccessArr", modifSuccessArr);
-  console.log("modifConflictArr", modifConflictArr);
+  const [modifSuccessArr, setModifSuccessArr] = useState(initSuccessArr);
+  const [modifConflictArr, setModifConflictArr] = useState(initConflictArr);
+  // console.log("modifSuccessArr", modifSuccessArr);
+  // console.log("modifConflictArr", modifConflictArr);
 
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
@@ -162,6 +171,15 @@ export default function WindowTimeline({
           return newConfArr;
         });
       }
+      const isItemBack = () => {
+        if (elementForChange.status === "success") {
+          const arr = initSuccessArr[elementForChange.index];
+          return !(arr.id === elementForChange.id
+            && arr.group === groupId
+            && arr.shiftTime === formattedTime);
+        }
+        return true;
+      };
       const reselectedItem = {
         shiftTime: formattedTime,
         id: `success_${elementForChange.id.split("_")[1]}`,
@@ -171,7 +189,8 @@ export default function WindowTimeline({
         end_time: setEndTimeSelectedItem(formattedTime),
         canMove: false,
         isDelete: false,
-        isChanged: true,
+        isChanged: isItemBack(),
+        itemStatus: "success",
         itemProps: {
           style: {
             background: "#90ef90",
@@ -184,6 +203,7 @@ export default function WindowTimeline({
           },
         },
       };
+      console.log("reselectedItem", reselectedItem);
       setModifSuccessArr((prev) => {
         const newSuccArr = [...prev];
         if (elementForChange.status === "conflict") {
