@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from "react";
 import style from "../BookingTimeline.module.css";
 import { ConflCirle, OkImg } from "../../../../others/importImg";
@@ -20,22 +21,19 @@ export default function ViewChanges({ prevItems, groups, newItems }) {
           {`${group.shortTitle} : ${item.shiftTime}-${item.shiftTime + group.shiftLength}`}
         </div>
         <div className={style.view_changes_items_status}>
-          {item.status === "success" ? <img src={OkImg} alt="ok" /> : <img src={ConflCirle} alt="conflict" /> }
+          {item.itemStatus === "success" ? <img src={OkImg} alt="ok" /> : <img src={ConflCirle} alt="conflict" /> }
         </div>
         <div className={style.view_changes_arrow}>
           {"->"}
         </div>
         <div className={style.view_changes_items_title}>
-          if(newItem.isDelete)
-          <span>{`${group.shortTitle} - ${item.shiftTime}`}</span>
-          else if(newItem.isChanged)
-          {`${newItem.currentGroup.shortTitle} : ${newItem.shiftTime}-${newItem.shiftTime + newItem.currentGroup.shiftLength}`}
+
+          {!newItem.isDelete ? (newItem.isChanged
+            ? (`${newItem.currentGroup.shortTitle} : ${newItem.shiftTime}-${newItem.shiftTime + newItem.currentGroup.shiftLength}`) : "") : (
+              <span>{`${group.shortTitle} - ${item.shiftTime}`}</span>)}
         </div>
         <div className={style.view_changes_items_status}>
-          if(newItem.isChanged)
-          {
-            item.status === "success" ? <img src={OkImg} alt="ok" /> : <img src={ConflCirle} alt="conflict" />
-        }
+          {newItem.isChanged ? (item.itemStatus === "success" ? <img src={OkImg} alt="ok" /> : <img src={ConflCirle} alt="conflict" />) : "" }
         </div>
       </div>
     );
