@@ -109,11 +109,11 @@ export default function WindowTimeline({
       },
     })),
   );
-  console.log("initSuccessArr", initSuccessArr);
+  // console.log("initSuccessArr", initSuccessArr);
   // console.log("initConflictArr", initConflictArr);
   const [modifSuccessArr, setModifSuccessArr] = useState(initSuccessArr);
   const [modifConflictArr, setModifConflictArr] = useState(initConflictArr);
-  console.log("modifSuccessArr", modifSuccessArr);
+  // console.log("modifSuccessArr", modifSuccessArr);
   // console.log("modifConflictArr", modifConflictArr);
   const [isClickedItem, setIsClickedItem] = useState(false);
   const [elementForChange, setElementForChange] = useState(null);
@@ -162,6 +162,26 @@ export default function WindowTimeline({
     if (formattedTime < PR_COM.workTime.start || formattedTime >= PR_COM.workTime.end) {
       return;
     }
+    const newObjItem = {
+      shiftTime: formattedTime,
+      date: PR_SEL.todayFormated,
+      group: groupId,
+      start_time: setStartTimeSelectedItem(formattedTime),
+      end_time: setEndTimeSelectedItem(formattedTime),
+      isDeleted: false,
+      itemStatus: "success",
+      itemProps: {
+        style: {
+          background: "#90ef90",
+          border: "1px solid gray",
+          color: "red",
+          fontSize: "20px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        },
+      },
+    };
 
     if (isClickedItem) {
       if (elementForChange.status === "conflict") {
@@ -182,26 +202,9 @@ export default function WindowTimeline({
         return true;
       };
       const reselectedItem = {
-        shiftTime: formattedTime,
         id: `success_${elementForChange.id.split("_")[1]}`,
-        date: PR_SEL.todayFormated,
-        group: groupId,
-        start_time: setStartTimeSelectedItem(formattedTime),
-        end_time: setEndTimeSelectedItem(formattedTime),
-        isDeleted: false,
         isChanged: isItemBack(),
-        itemStatus: "success",
-        itemProps: {
-          style: {
-            background: "#90ef90",
-            border: "1px solid gray",
-            color: "red",
-            fontSize: "20px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          },
-        },
+        ...newObjItem,
       };
       setModifSuccessArr((prev) => {
         const newSuccArr = [...prev];
@@ -218,26 +221,9 @@ export default function WindowTimeline({
     }
     if (isAddNewItem) {
       const reselectedItem = {
-        shiftTime: formattedTime,
         id: `success_${uuidv4()}`,
-        date: PR_SEL.todayFormated,
-        group: groupId,
-        start_time: setStartTimeSelectedItem(formattedTime),
-        end_time: setEndTimeSelectedItem(formattedTime),
-        isDeleted: false,
         isChanged: false,
-        itemStatus: "success",
-        itemProps: {
-          style: {
-            background: "#90ef90",
-            border: "1px solid gray",
-            color: "red",
-            fontSize: "20px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          },
-        },
+        ...newObjItem,
       };
       setInitSuccessArr((prev) => {
         const newSuccArr = [...prev];
@@ -305,48 +291,121 @@ export default function WindowTimeline({
   };
 
   const handleClearSelectedItem = () => {
-    const choseStatus = elementForChange.status === "success"
-      ? { array: modifSuccessArr, setArray: setModifSuccessArr }
-      : { array: modifConflictArr, setArray: setModifConflictArr };
+    // const choseStatus = elementForChange.status === "success"
+    //   ? { array: modifSuccessArr, setArray: setModifSuccessArr }
+    //   : { array: modifConflictArr, setArray: setModifConflictArr };
 
-    const updatedData = choseStatus.array.map((item) => {
-      if (item.id === elementForChange.id) {
-        const updatedItemPropsStyle = { ...item.itemProps.style };
-        updatedItemPropsStyle.border = "1px solid gray";
-        const updatedItem = {
-          ...item,
-          itemProps: {
-            ...item.itemProps,
-            style: updatedItemPropsStyle,
-          },
-        };
-        return updatedItem;
+    // const updatedData = choseStatus.array.map((item) => {
+    //   if (item.id === elementForChange.id) {
+    //     const updatedItemPropsStyle = { ...item.itemProps.style };
+    //     updatedItemPropsStyle.border = "1px solid gray";
+    //     const updatedItem = {
+    //       ...item,
+    //       itemProps: {
+    //         ...item.itemProps,
+    //         style: updatedItemPropsStyle,
+    //       },
+    //     };
+    //     return updatedItem;
+    //   }
+    //   return item;
+    // });
+    // choseStatus.setArray(updatedData);
+    // setIsClickedItem(false);
+    // setElementForChange(null);
+    if (elementForChange) {
+      let setArrayStatus = null;
+      switch (elementForChange.status) {
+        case "conflict":
+          setArrayStatus = setModifConflictArr;
+          break;
+        case "success":
+          setArrayStatus = setModifSuccessArr;
+          break;
+        default:
+          return;
       }
-      return item;
-    });
-    choseStatus.setArray(updatedData);
-    setIsClickedItem(false);
-    setElementForChange(null);
+      setArrayStatus((prev) => prev.map((item, index) => {
+        if (index === elementForChange.index) {
+          const updatedItemPropsStyle = { ...item.itemProps.style };
+          updatedItemPropsStyle.border = "1px solid gray";
+          const updatedItem = {
+            ...item,
+            itemProps: {
+              ...item.itemProps,
+              style: updatedItemPropsStyle,
+            },
+          };
+          return updatedItem;
+        }
+        return item;
+      }));
+      setIsClickedItem(false);
+      setElementForChange(null);
+    }
+  };
+
+  const handleDeleteItem = () => {
+    if (elementForChange) {
+      let setArrayStatus = null;
+      switch (elementForChange.status) {
+        case "conflict":
+          setArrayStatus = setModifConflictArr;
+          break;
+        case "success":
+          setArrayStatus = setModifSuccessArr;
+          break;
+        default:
+          return;
+      }
+      setArrayStatus((prev) => prev.map((item, index) => {
+        if (index === elementForChange.index) {
+          const updatedItemPropsStyle = { ...item.itemProps.style };
+          updatedItemPropsStyle.border = "1px solid gray";
+          const updatedItem = {
+            ...item,
+            isDeleted: true,
+            itemProps: {
+              ...item.itemProps,
+              style: updatedItemPropsStyle,
+            },
+          };
+          return updatedItem;
+        }
+        return item;
+      }));
+      setIsClickedItem(false);
+      setElementForChange(null);
+    }
   };
 
   const handleResolveConflict = () => {
     // console.log("SEND MESSAGE");
     pushOrderInBasePreOrder({
       date: PR_SEL.todayFormated,
-      success: modifSuccessArr.map((order) => (
-        {
-          shiftTime: order.shiftTime,
-          date: order.date,
-          grid: addGrid(Math.floor(order.shiftTime / PR_COM.shiftCateg), PR_COM.shiftCateg),
-          group: order.group,
-        }
-      )),
-      conflicts: modifConflictArr.map((order) => (
-        {
-          shiftTime: order.shiftTime,
-          groupId: order.group,
-        }
-      )),
+      success: modifSuccessArr.filter((order) => order.isDeleted === false)
+        .map((order) => (
+          {
+            shiftTime: order.shiftTime,
+            date: order.date,
+            grid: addGrid(Math.floor(order.shiftTime / PR_COM.shiftCateg), PR_COM.shiftCateg),
+            group: order.group,
+          }
+        )),
+      //   {
+      //     shiftTime: order.shiftTime,
+      //     date: order.date,
+      //     grid: addGrid(Math.floor(order.shiftTime / PR_COM.shiftCateg), PR_COM.shiftCateg),
+      //     group: order.group,
+      //   }
+      // )),
+      conflicts: modifConflictArr.filter((order) => order.isDeleted === false)
+        .map((order) => (
+          {
+            shiftTime: order.shiftTime,
+            groupId: order.group,
+          }
+        )),
     });
     setSelectedConflictDate(null);
     // if (PR_SEL.countOrders === modifSuccessArr.length
@@ -358,7 +417,6 @@ export default function WindowTimeline({
 
   return (
     <>
-
       <div className={style.containerTimeline}>
         <div className="style">
           <Timeline
@@ -382,7 +440,9 @@ export default function WindowTimeline({
               // eslint-disable-next-line
               return [selectedGroup && !isEditMode ? styleConflict.highlightRow : ""];
             }}
-            items={filteredItems.concat(modifSuccessArr, modifConflictArr)}
+            items={filteredItems.concat([...modifSuccessArr, ...modifConflictArr].filter((item) => (
+              item.isDeleted === false
+            )))}
             canMove={false}
             canResize={false}
             visibleTimeStart={visibleTimeStart}
@@ -508,12 +568,6 @@ export default function WindowTimeline({
             ? buttonTitleConstants.CANCEL
             : buttonTitleConstants.REMOVE_SELECTION}
         </button>
-        <button
-          type="button"
-          onClick={() => setIsAddNewItem(true)}
-        >
-          +
-        </button>
       </div>
       <ViewChanges
         prevItems={initConflictArr.concat(initSuccessArr)}
@@ -522,6 +576,7 @@ export default function WindowTimeline({
         elementForChange={elementForChange}
         openOverLay={openOverLay}
         setIsAddNewItem={setIsAddNewItem}
+        handleDeleteItem={handleDeleteItem}
       />
       {elementForChange !== null
         ? (

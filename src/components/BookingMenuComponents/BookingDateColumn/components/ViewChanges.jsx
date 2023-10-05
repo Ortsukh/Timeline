@@ -4,20 +4,20 @@ import style from "../BookingTimeline.module.css";
 import { ConflCirle, OkImg } from "../../../../others/importImg";
 
 export default function ViewChanges({
-  prevItems, groups, newItems, elementForChange, openOverLay, setIsAddNewItem,
+  prevItems, groups, newItems, elementForChange, openOverLay, setIsAddNewItem, handleDeleteItem,
 }) {
-  console.log(prevItems, groups, newItems);
-  console.log(elementForChange);
+  // console.log(prevItems, groups, newItems);
+  // console.log(elementForChange);
   const newItemsMap = {};
   newItems.forEach((item) => {
     item.currentGroup = groups.find((groupItem) => groupItem.id === item.group);
     newItemsMap[item.id.split("_")[1]] = item;
   });
-  console.log(newItemsMap);
+  // console.log(newItemsMap);
   const content = prevItems.map((item) => {
     const group = groups.find((groupItem) => groupItem.id === item.group);
     const newItem = newItemsMap[item.id.split("_")[1]];
-    console.log(newItem);
+    // console.log(newItem);
 
     return (
 
@@ -33,7 +33,7 @@ export default function ViewChanges({
         </div>
         <div className={style.view_changes_items_title}>
 
-          {!newItem.isDelete ? (newItem.isChanged
+          {!newItem.isDeleted ? (newItem.isChanged
             ? (`${newItem.currentGroup.shortTitle} : ${newItem.shiftTime}-${newItem.shiftTime + newItem.currentGroup.shiftLength}`) : "") : (
               <del>{`${group.shortTitle} - ${item.shiftTime}`}</del>)}
         </div>
@@ -51,7 +51,7 @@ export default function ViewChanges({
     <div className={style.view_changes_container}>
       {content}
       {elementForChange
-        ? <button type="button">Delete</button>
+        ? <button type="button" onClick={() => handleDeleteItem()}>Delete</button>
         : <button type="button" onClick={() => handleClickAddNew()}>Add new</button>}
     </div>
   );
