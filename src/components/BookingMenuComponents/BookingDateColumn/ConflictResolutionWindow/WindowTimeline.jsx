@@ -59,6 +59,7 @@ export default function WindowTimeline({
       end_time: setEndTimeSelectedItem(reserv.shiftTime),
       isDelete: false,
       isChanged: false,
+      itemStatus: "success",
       itemProps: {
         // onDoubleClick: () => { console.log("You clicked double!"); },
         style: {
@@ -84,6 +85,7 @@ export default function WindowTimeline({
       end_time: setEndTimeSelectedItem(reserv.shiftTime),
       isDelete: false,
       isChanged: false,
+      itemStatus: "conflict",
       itemProps: {
         style: {
           background: "#ffa4a4",
@@ -169,23 +171,15 @@ export default function WindowTimeline({
           return newConfArr;
         });
       }
-      // const repeatedItem = () => {
-      //   if (elementForChange.status === "success") {
-      //     const arr = initSuccessArr[elementForChange.index];
-      //     return !((arr.id === elementForChange.id
-      //     && arr.group === groupId
-      //     && arr.start_time === setStartTimeSelectedItem(formattedTime)
-      //     && arr.end_time === setEndTimeSelectedItem(formattedTime)));
-      //   }
-      //   if (elementForChange.status === "conflict") {
-      //     const arr = initConflictArr[elementForChange.index];
-      //     return !((arr.id === elementForChange.id
-      //     && arr.group === groupId
-      //     && arr.start_time === setStartTimeSelectedItem(formattedTime)
-      //     && arr.end_time === setEndTimeSelectedItem(formattedTime)));
-      //   }
-      //   return true;
-      // };
+      const isItemBack = () => {
+        if (elementForChange.status === "success") {
+          const arr = initSuccessArr[elementForChange.index];
+          return !(arr.id === elementForChange.id
+            && arr.group === groupId
+            && arr.shiftTime === formattedTime);
+        }
+        return true;
+      };
       const reselectedItem = {
         shiftTime: formattedTime,
         id: `success_${elementForChange.id.split("_")[1]}`,
@@ -195,7 +189,8 @@ export default function WindowTimeline({
         end_time: setEndTimeSelectedItem(formattedTime),
         canMove: false,
         isDelete: false,
-        isChanged: true,
+        isChanged: isItemBack(),
+        itemStatus: "success",
         itemProps: {
           style: {
             background: "#90ef90",
@@ -208,6 +203,7 @@ export default function WindowTimeline({
           },
         },
       };
+      console.log("reselectedItem", reselectedItem);
       setModifSuccessArr((prev) => {
         const newSuccArr = [...prev];
         if (elementForChange.status === "conflict") {
