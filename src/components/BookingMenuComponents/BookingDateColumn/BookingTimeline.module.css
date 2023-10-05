@@ -74,3 +74,28 @@
   height: 100px;
   object-fit: contain;
 }
+
+.view_changes_container {
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+
+}
+.view_changes_row {
+  display: flex;
+  align-items: center;
+}
+.view_changes_items_status{
+  display: flex;
+  align-items: center;
+}
+
+.view_changes_items_status img {
+  height: 18px;
+}
+.view_changes_items_title {
+  min-width: 100px;
+}
+.view_changes_arrow {
+  min-width: 20px;
+}

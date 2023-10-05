@@ -14,6 +14,7 @@ import styleConflict from "./Conflict.module.css";
 import EquipmentDescription from "../components/EquipmentDescription";
 import { ConflCirle } from "../../../../others/importImg";
 import buttonTitleConstants from "../../../../constants/buttonTitleConstants";
+import ViewChanges from "../components/ViewChanges";
 
 export default function WindowTimeline({
   items,
@@ -42,7 +43,6 @@ export default function WindowTimeline({
   const todayFormated = today.format("YYYY-MM-DD");
   const setStartTimeSelectedItem = (time) => today.clone().set("hour", time).startOf("hour");
   const setEndTimeSelectedItem = (time) => today.clone().set("hour", time).startOf("hour").add(PR_COM.shiftCateg, "hour");
-
   const PR_SEL = {
     countOrders: selectedConflictDate.extendedProps.conflicts.length
     + selectedConflictDate.extendedProps.success.length,
@@ -473,6 +473,11 @@ export default function WindowTimeline({
             : buttonTitleConstants.REMOVE_SELECTION}
         </button>
       </div>
+      <ViewChanges
+        prevItems={PR_SEL.initConflictArr.concat(PR_SEL.initSuccessArr)}
+        newItems={modifConflictArr.concat(modifSuccessArr)}
+        groups={groups}
+      />
       {elementForChange !== null
         ? (
           <EquipmentDescription equipment={
