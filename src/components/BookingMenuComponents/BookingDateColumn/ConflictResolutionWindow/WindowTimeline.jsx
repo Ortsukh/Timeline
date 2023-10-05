@@ -30,6 +30,8 @@ export default function WindowTimeline({
   // openAlertWindow,
   deactivatedCells,
   openOverLay,
+  isAddNewItem,
+  setIsAddNewItem,
 }) {
   const PR_COM = {
     category: baseOrder.equipment.category,
@@ -114,7 +116,6 @@ export default function WindowTimeline({
   console.log("modifSuccessArr", modifSuccessArr);
   // console.log("modifConflictArr", modifConflictArr);
   const [isClickedItem, setIsClickedItem] = useState(false);
-  const [isAddNewItem, setIsAddNewItem] = useState(false);
   const [elementForChange, setElementForChange] = useState(null);
 
   const [filteredItems, setFilteredItems] = useState([]);
@@ -248,6 +249,7 @@ export default function WindowTimeline({
         return prev;
       });
       setIsAddNewItem(false);
+      openOverLay(false);
     }
   };
 
@@ -519,6 +521,7 @@ export default function WindowTimeline({
         groups={groups}
         elementForChange={elementForChange}
         openOverLay={openOverLay}
+        setIsAddNewItem={setIsAddNewItem}
       />
       {elementForChange !== null
         ? (

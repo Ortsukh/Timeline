@@ -4,7 +4,7 @@ import style from "../BookingTimeline.module.css";
 import { ConflCirle, OkImg } from "../../../../others/importImg";
 
 export default function ViewChanges({
-  prevItems, groups, newItems, elementForChange, openOverLay,
+  prevItems, groups, newItems, elementForChange, openOverLay, setIsAddNewItem,
 }) {
   console.log(prevItems, groups, newItems);
   console.log(elementForChange);
@@ -18,6 +18,7 @@ export default function ViewChanges({
     const group = groups.find((groupItem) => groupItem.id === item.group);
     const newItem = newItemsMap[item.id.split("_")[1]];
     console.log(newItem);
+
     return (
 
       <div className={style.view_changes_row} key={item.id}>
@@ -42,13 +43,16 @@ export default function ViewChanges({
       </div>
     );
   });
-
+  const handleClickAddNew = () => {
+    setIsAddNewItem(true);
+    openOverLay(true);
+  };
   return (
     <div className={style.view_changes_container}>
       {content}
       {elementForChange
         ? <button type="button">Delete</button>
-        : <button type="button" onClick={openOverLay}>Add new</button>}
+        : <button type="button" onClick={() => handleClickAddNew()}>Add new</button>}
     </div>
   );
 }

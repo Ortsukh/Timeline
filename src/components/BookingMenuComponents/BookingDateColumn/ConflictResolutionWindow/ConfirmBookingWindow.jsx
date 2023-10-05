@@ -30,6 +30,8 @@ export default function ConfirmBookingWindow({
   openAlertWindow,
   deactivatedCells,
   openOverLay,
+  isAddNewItem,
+  setIsAddNewItem,
 }) {
   let calculatedOrSelectedDevice = null;
   if ("id" in baseOrder.equipment) {
@@ -114,6 +116,8 @@ export default function ConfirmBookingWindow({
         openAlertWindow={openAlertWindow}
         deactivatedCells={deactivatedCells}
         openOverLay={openOverLay}
+        isAddNewItem={isAddNewItem}
+        setIsAddNewItem={setIsAddNewItem}
       />
       )}
     </>
