@@ -27,7 +27,7 @@ export default function WindowTimeline({
   pushOrderInBasePreOrder,
   statusCheckboxSelected,
   // handleSetSelectedConflictDate,
-  openAlertWindow,
+  // openAlertWindow,
   deactivatedCells,
 }) {
   const PR_COM = {
@@ -37,27 +37,30 @@ export default function WindowTimeline({
     preferredGroupId: baseOrder.equipment.id,
     workTime: baseOrder.equipment.workTime,
   };
-  // console.log("PR_COM", PR_COM);
-
-  const today = moment(selectedConflictDate.start);
-  const todayFormated = today.format("YYYY-MM-DD");
-  const setStartTimeSelectedItem = (time) => today.clone().set("hour", time).startOf("hour");
-  const setEndTimeSelectedItem = (time) => today.clone().set("hour", time).startOf("hour").add(PR_COM.shiftCateg, "hour");
   const PR_SEL = {
+    today: moment(selectedConflictDate.start),
+    todayFormated: moment(selectedConflictDate.start).format("YYYY-MM-DD"),
     countOrders: selectedConflictDate.extendedProps.conflicts.length
     + selectedConflictDate.extendedProps.success.length,
-    // initSuccessArr: ,
-    // initConflictArr: ,
   };
-  const [initSuccessArr] = useState(
+  // console.log("PR_COM", PR_COM);
+  // console.log("PR_SEL", PR_SEL);
+
+  const [visibleTimeStart, setVisibleTimeStart] = useState(PR_SEL.today.startOf("day").valueOf());
+  const [visibleTimeEnd, setVisibleTimeEnd] = useState(PR_SEL.today.endOf("day").valueOf());
+  const setStartTimeSelectedItem = (time) => PR_SEL.today.clone().set("hour", time).startOf("hour");
+  const setEndTimeSelectedItem = (time) => PR_SEL.today.clone().set("hour", time).startOf("hour").add(PR_COM.shiftCateg, "hour");
+  // .subtract(1, "seconds");
+
+  const [initSuccessArr, setInitSuccessArr] = useState(
     selectedConflictDate.extendedProps.success.map((reserv) => ({
       shiftTime: reserv.shiftTime,
       id: `success_${uuidv4()}`,
-      date: todayFormated,
+      date: PR_SEL.todayFormated,
       group: +reserv.groupId,
       start_time: setStartTimeSelectedItem(reserv.shiftTime),
       end_time: setEndTimeSelectedItem(reserv.shiftTime),
-      isDelete: false,
+      isDeleted: false,
       isChanged: false,
       itemStatus: "success",
       itemProps: {
@@ -79,11 +82,11 @@ export default function WindowTimeline({
     selectedConflictDate.extendedProps.conflicts.map((reserv) => ({
       shiftTime: reserv.shiftTime,
       id: `conflict_${uuidv4()}`,
-      date: todayFormated,
+      date: PR_SEL.todayFormated,
       group: +reserv.groupId,
       start_time: setStartTimeSelectedItem(reserv.shiftTime),
       end_time: setEndTimeSelectedItem(reserv.shiftTime),
-      isDelete: false,
+      isDeleted: false,
       isChanged: false,
       itemStatus: "conflict",
       itemProps: {
@@ -103,31 +106,26 @@ export default function WindowTimeline({
       },
     })),
   );
-  // console.log("PR_SEL", PR_SEL);
-  // console.log("initSuccessArr", initSuccessArr);
+  console.log("initSuccessArr", initSuccessArr);
   // console.log("initConflictArr", initConflictArr);
-  const [visibleTimeStart, setVisibleTimeStart] = useState(today.startOf("day").valueOf());
-  const [visibleTimeEnd, setVisibleTimeEnd] = useState(today.endOf("day").valueOf());
-  // .subtract(1, "seconds");
-
-  const [isClickedItem, setIsClickedItem] = useState(false);
-  const [elementForChange, setElementForChange] = useState(null);
-
   const [modifSuccessArr, setModifSuccessArr] = useState(initSuccessArr);
   const [modifConflictArr, setModifConflictArr] = useState(initConflictArr);
-  // console.log("modifSuccessArr", modifSuccessArr);
+  console.log("modifSuccessArr", modifSuccessArr);
   // console.log("modifConflictArr", modifConflictArr);
+  const [isClickedItem, setIsClickedItem] = useState(false);
+  const [isAddNewItem, setIsAddNewItem] = useState(false);
+  const [elementForChange, setElementForChange] = useState(null);
 
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
     if (isEditMode) {
-      const filteredArr = items.filter((item) => todayFormated === item.date
+      const filteredArr = items.filter((item) => PR_SEL.todayFormated === item.date
       && PR_COM.idCategArr.includes(item.group)
       && item?.rentOrderId !== editOrderData?.rentOrderId);
       setFilteredItems(filteredArr.map((prev) => ({ ...prev, itemProps: { style: { background: "#ffa4a4", border: "1px solid gray" } } })));
       return;
     }
-    const filteredArr = items.filter((item) => todayFormated === item.date
+    const filteredArr = items.filter((item) => PR_SEL.todayFormated === item.date
     && PR_COM.idCategArr.includes(item.group));
     setFilteredItems(filteredArr.map((prev) => ({ ...prev, itemProps: { style: { background: "#ffa4a4", border: "1px solid gray" } } })));
   }, [selectedConflictDate]);
@@ -173,22 +171,22 @@ export default function WindowTimeline({
       }
       const isItemBack = () => {
         if (elementForChange.status === "success") {
-          const arr = initSuccessArr[elementForChange.index];
-          return !(arr.id === elementForChange.id
-            && arr.group === groupId
-            && arr.shiftTime === formattedTime);
+          const initObj = initSuccessArr[elementForChange.index];
+          return !(initObj
+            && initObj.id === elementForChange.id
+            && initObj.group === groupId
+            && initObj.shiftTime === formattedTime);
         }
         return true;
       };
       const reselectedItem = {
         shiftTime: formattedTime,
         id: `success_${elementForChange.id.split("_")[1]}`,
-        date: todayFormated,
+        date: PR_SEL.todayFormated,
         group: groupId,
         start_time: setStartTimeSelectedItem(formattedTime),
         end_time: setEndTimeSelectedItem(formattedTime),
-        canMove: false,
-        isDelete: false,
+        isDeleted: false,
         isChanged: isItemBack(),
         itemStatus: "success",
         itemProps: {
@@ -203,7 +201,6 @@ export default function WindowTimeline({
           },
         },
       };
-      console.log("reselectedItem", reselectedItem);
       setModifSuccessArr((prev) => {
         const newSuccArr = [...prev];
         if (elementForChange.status === "conflict") {
@@ -216,6 +213,40 @@ export default function WindowTimeline({
       });
       setIsClickedItem(false);
       setElementForChange(null);
+    }
+    if (isAddNewItem) {
+      const reselectedItem = {
+        shiftTime: formattedTime,
+        id: `success_${uuidv4()}`,
+        date: PR_SEL.todayFormated,
+        group: groupId,
+        start_time: setStartTimeSelectedItem(formattedTime),
+        end_time: setEndTimeSelectedItem(formattedTime),
+        isDeleted: false,
+        isChanged: false,
+        itemStatus: "success",
+        itemProps: {
+          style: {
+            background: "#90ef90",
+            border: "1px solid gray",
+            color: "red",
+            fontSize: "20px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          },
+        },
+      };
+      setInitSuccessArr((prev) => {
+        const newSuccArr = [...prev];
+        newSuccArr.push(reselectedItem); // Добавляем
+        return newSuccArr;
+      });
+      setModifSuccessArr((prev) => {
+        prev.splice(initSuccessArr.length, 0, reselectedItem); // Заменяем на аналог-ю позицию
+        return prev;
+      });
+      setIsAddNewItem(false);
     }
   };
 
@@ -297,28 +328,29 @@ export default function WindowTimeline({
 
   const handleResolveConflict = () => {
     // console.log("SEND MESSAGE");
-    if (PR_SEL.countOrders === modifSuccessArr.length + modifConflictArr.length) {
-      pushOrderInBasePreOrder({
-        date: todayFormated,
-        success: modifSuccessArr.map((order) => (
-          {
-            shiftTime: order.shiftTime,
-            date: order.date,
-            grid: addGrid(Math.floor(order.shiftTime / PR_COM.shiftCateg), PR_COM.shiftCateg),
-            group: order.group,
-          }
-        )),
-        conflicts: modifConflictArr.map((order) => (
-          {
-            shiftTime: order.shiftTime,
-            groupId: order.group,
-          }
-        )),
-      });
-      setSelectedConflictDate(null);
-      return;
-    }
-    openAlertWindow("Заказ не сохранён! Ошибка общего количества заказов.");
+    pushOrderInBasePreOrder({
+      date: PR_SEL.todayFormated,
+      success: modifSuccessArr.map((order) => (
+        {
+          shiftTime: order.shiftTime,
+          date: order.date,
+          grid: addGrid(Math.floor(order.shiftTime / PR_COM.shiftCateg), PR_COM.shiftCateg),
+          group: order.group,
+        }
+      )),
+      conflicts: modifConflictArr.map((order) => (
+        {
+          shiftTime: order.shiftTime,
+          groupId: order.group,
+        }
+      )),
+    });
+    setSelectedConflictDate(null);
+    // if (PR_SEL.countOrders === modifSuccessArr.length
+    //  + modifConflictArr.length + countAddedItems) {
+    //   return;
+    // }
+    // openAlertWindow("Заказ не сохранён! Ошибка общего количества заказов.");
   };
 
   return (
@@ -334,7 +366,7 @@ export default function WindowTimeline({
               const currentTimeStart = moment(timeStart).format("HH");
               const currentTimeEnd = moment(timeEnd).format("HH");
               if (moment(currentTimeStart, "HH").isBefore(moment(PR_COM.workTime.start, "HH"), "hours")
-              || moment(currentTimeEnd, "HH").isSameOrAfter(moment(PR_COM.workTime.end, "HH"), "hours")
+                || moment(currentTimeEnd, "HH").isSameOrAfter(moment(PR_COM.workTime.end, "HH"), "hours")
               ) {
                 return [styleConflict.highlightColumn];
               }
@@ -384,7 +416,7 @@ export default function WindowTimeline({
                       alignItems: "center",
                     }}
                   >
-                    {`${today.format("D")} ${today.format("MMMM").charAt(0).toUpperCase()}${today.format("MMMM").slice(1)}`}
+                    {`${PR_SEL.today.format("D")} ${PR_SEL.today.format("MMMM").charAt(0).toUpperCase()}${PR_SEL.today.format("MMMM").slice(1)}`}
                   </div>
                 )}
               </SidebarHeader>
@@ -471,6 +503,12 @@ export default function WindowTimeline({
           {elementForChange === null
             ? buttonTitleConstants.CANCEL
             : buttonTitleConstants.REMOVE_SELECTION}
+        </button>
+        <button
+          type="button"
+          onClick={() => setIsAddNewItem(true)}
+        >
+          +
         </button>
       </div>
       <ViewChanges
