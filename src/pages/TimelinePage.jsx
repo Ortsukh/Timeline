@@ -18,8 +18,8 @@ import TimeLineRenderer from "../components/TimeLineRenderer";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
 import {
-  getAllEquipments1,
-  getAllOrders1,
+  getAllEquipments,
+  getAllOrders,
   getCompanies, getManagerEquipments,
   getUser, sendEditOrder,
 } from "../Api/API";
@@ -31,6 +31,7 @@ import { generateClue } from "../common/GenerateElementsData";
 import CompaniesSelect from "../components/FilterComponents/CompaniesSelect";
 import buttonTitleConstants from "../constants/buttonTitleConstants";
 import ConfirmWindow from "../components/Popup/ConfirmWindow";
+import style from "../components/BookingMenuComponents/BookingDateColumn/BookingTimeline.module.css";
 
 export default function TimelinePage() {
   const [groups, setGroups] = useState([]);
@@ -67,8 +68,8 @@ export default function TimelinePage() {
   const [showButtonClear, setShowButtonClear] = useState(true);
   const [isClickedOnNew, setIsClickedOnNew] = useState(false);
   const [isConfirmWindowOpen, setIsConfirmWindowOpen] = useState(false);
-
   const [selectedCompany, setSelectedCompany] = useState(null);
+  const [isOpenOverlay, setIsOpenOverlay] = useState(false);
 
   useEffect(() => {
     getUser().then((res) => {
@@ -95,7 +96,7 @@ export default function TimelinePage() {
         setIsLoadingEquipment(false);
       });
     } else {
-      getAllEquipments1().then((response) => {
+      getAllEquipments().then((response) => {
         setGroups(createEquipmentGroup(response.data));
         setIsLoadingEquipment(false);
       });
@@ -106,7 +107,7 @@ export default function TimelinePage() {
     setIsLoading(true);
     if (!user) return;
 
-    getAllOrders1()
+    getAllOrders()
       .then((response) => {
         setItems(createOrderGroup(response.data, user));
         if (user) setIsLoading(false);
@@ -267,7 +268,9 @@ export default function TimelinePage() {
     setIsActiveMessage(false);
     setIsConfirmWindowOpen(status);
   };
-
+  const openOverLay = () => {
+    setIsOpenOverlay((prev) => !prev);
+  };
   const createBook = () => {
     if (selectedGroups.length === 0 || !selectedCompany) {
       setIsClickingOnEmptyFilter(true);
@@ -285,6 +288,14 @@ export default function TimelinePage() {
   };
   return !isLoading && !isLoadingEquipment ? (
     <div>
+      {isOpenOverlay && (
+      <div
+        role="presentation"
+        className="timeLineOverlay"
+      >
+        <button type="button" onClick={openOverLay} className="closeOverlayButton"> x </button>
+      </div>
+      )}
       {isBookingMenu ? (
         <BookingMenu
           //! Нужные
@@ -307,6 +318,7 @@ export default function TimelinePage() {
           setCurrentDevice={setCurrentDevice}
           setIsEditMode={setIsEditMode}
           openAlertWindow={openAlertWindow}
+          openOverLay={openOverLay}
           //! ToolsFilter->
           toolNames={mapToolsNames()}
           onInputChange={handleInputChange}
@@ -322,6 +334,7 @@ export default function TimelinePage() {
         />
       ) : (
         <>
+
           <div className="container sort-box">
             <div className="sort-box_item">
               <ToolsFilter

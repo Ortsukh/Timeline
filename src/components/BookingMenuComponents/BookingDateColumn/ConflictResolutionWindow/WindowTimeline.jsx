@@ -29,6 +29,7 @@ export default function WindowTimeline({
   // handleSetSelectedConflictDate,
   openAlertWindow,
   deactivatedCells,
+  openOverLay,
 }) {
   const PR_COM = {
     category: baseOrder.equipment.category,
@@ -323,6 +324,7 @@ export default function WindowTimeline({
 
   return (
     <>
+
       <div className={style.containerTimeline}>
         <div className="style">
           <Timeline
@@ -477,6 +479,8 @@ export default function WindowTimeline({
         prevItems={initConflictArr.concat(initSuccessArr)}
         newItems={modifConflictArr.concat(modifSuccessArr)}
         groups={groups}
+        elementForChange={elementForChange}
+        openOverLay={openOverLay}
       />
       {elementForChange !== null
         ? (
