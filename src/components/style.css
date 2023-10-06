@@ -619,6 +619,7 @@
     border: 1px solid #2684ff !important;
     box-sizing: border-box;
 }
+
 .fc {
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none;   /* Chrome/Safari/Opera */
@@ -626,6 +627,16 @@
     -ms-user-select: none;       /* Internet Explorer/Edge */
     user-select: none;           /* Non-prefixed version, currently
                                   not supported by any browser */
+}
+
+.gridActiveBG {
+    background: repeating-linear-gradient(-45deg, #9cbbe4 0, #9cbbe4 1px, transparent 0px, transparent 17px);
+    border: 2px solid #2684ff !important;
+    box-sizing: border-box;
+}
+
+.gridActiveBG .fc-highlight{
+    border: none !important;
 }
 
 .container.sort-box #riddler{
@@ -642,7 +653,7 @@
     gap: 15px;
 }
 
-.activeCell {
+.activeCell.fc-h-event{
     border: 3px solid #2684ff;
 }
 .fc a, .fc a:hover {
