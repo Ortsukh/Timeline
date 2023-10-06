@@ -79,10 +79,11 @@ position: relative;
 }
 
 .view_changes_container {
-  width: 150px;
+  width: fit-content;
   display: flex;
   flex-direction: column;
-
+  overflow-y: auto;
+  min-height: 400px;
 }
 .view_changes_row {
   display: flex;
