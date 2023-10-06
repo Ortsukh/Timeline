@@ -7,14 +7,14 @@ import Timeline, {
 import moment from "moment";
 import "moment/locale/ru";
 import { v4 as uuidv4 } from "uuid";
-import style from "../BookingTimeline.module.css";
-import "../../../style.css";
 import { addGrid } from "../../../../common/DataConvertHelper";
-import styleConflict from "./Conflict.module.css";
-import EquipmentDescription from "../components/EquipmentDescription";
-import { ConflCirle } from "../../../../others/importImg";
 import buttonTitleConstants from "../../../../constants/buttonTitleConstants";
 import ViewChanges from "../components/ViewChanges";
+import EquipmentDescription from "../components/EquipmentDescription";
+import "../../../style.css";
+import style from "../BookingTimeline.module.css";
+import styleConflict from "./Conflict.module.css";
+import { ConflCirle } from "../../../../others/importImg";
 
 export default function WindowTimeline({
   items,
@@ -76,7 +76,6 @@ export default function WindowTimeline({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          "&:active": { background: "#ffa4a4" },
         },
       },
     })),
@@ -239,58 +238,7 @@ export default function WindowTimeline({
     }
   };
 
-  const handleItemSelect = (itemId) => {
-    // console.log("itemId", itemId);
-    const splitedStatus = itemId.split("_")[0];
-    const arrayStatuses = ["success", "conflict"];
-
-    if (elementForChange === null && arrayStatuses.includes(splitedStatus)) {
-      const dataStatus = { array: [], setArray: null };
-      switch (splitedStatus) {
-        case "conflict":
-          dataStatus.array = modifConflictArr;
-          dataStatus.setArray = setModifConflictArr;
-          break;
-        case "success":
-          dataStatus.array = modifSuccessArr;
-          dataStatus.setArray = setModifSuccessArr;
-          break;
-        default:
-          return;
-      }
-      const foundIndex = dataStatus.array.findIndex((el) => el.id === itemId);
-      setElementForChange({
-        id: itemId,
-        index: foundIndex,
-        group: dataStatus.array[foundIndex].group,
-        status: splitedStatus,
-      });
-      const updatedData = dataStatus.array.map((item) => {
-        if (item.id === itemId) {
-          const updatedItemPropsStyle = { ...item.itemProps.style };
-          updatedItemPropsStyle.border = "2px solid yellow";
-          const updatedItem = {
-            ...item,
-            itemProps: {
-              ...item.itemProps,
-              style: updatedItemPropsStyle,
-            },
-          };
-          return updatedItem;
-        }
-        return item;
-      });
-      dataStatus.setArray(updatedData);
-      setIsClickedItem(true);
-    }
-  };
-
-  const handleCancelSelectedItem = () => {
-    setSelectedConflictDate(null);
-    deactivatedCells();
-  };
-
-  const handleClearSelectedItem = () => {
+  const handleDeselectItem = () => {
     // const choseStatus = elementForChange.status === "success"
     //   ? { array: modifSuccessArr, setArray: setModifSuccessArr }
     //   : { array: modifConflictArr, setArray: setModifConflictArr };
@@ -345,6 +293,57 @@ export default function WindowTimeline({
     }
   };
 
+  const handleItemSelect = (itemId) => {
+    // console.log("itemId", itemId);
+    if (elementForChange && itemId === elementForChange.id) {
+      handleDeselectItem();
+    }
+    const splitedStatus = itemId.split("_")[0];
+    if (!elementForChange && !isAddNewItem && ["success", "conflict"].includes(splitedStatus)) {
+      const dataStatus = { array: [], setArray: null };
+      switch (splitedStatus) {
+        case "conflict":
+          dataStatus.array = modifConflictArr;
+          dataStatus.setArray = setModifConflictArr;
+          break;
+        case "success":
+          dataStatus.array = modifSuccessArr;
+          dataStatus.setArray = setModifSuccessArr;
+          break;
+        default:
+          return;
+      }
+      const foundIndex = dataStatus.array.findIndex((el) => el.id === itemId);
+      setElementForChange({
+        id: itemId,
+        index: foundIndex,
+        group: dataStatus.array[foundIndex].group,
+        status: splitedStatus,
+      });
+      dataStatus.setArray((prev) => prev.map((item) => {
+        if (item.id === itemId) {
+          const updatedItemPropsStyle = { ...item.itemProps.style };
+          updatedItemPropsStyle.border = "2px solid yellow";
+          const updatedItem = {
+            ...item,
+            itemProps: {
+              ...item.itemProps,
+              style: updatedItemPropsStyle,
+            },
+          };
+          return updatedItem;
+        }
+        return item;
+      }));
+      setIsClickedItem(true);
+    }
+  };
+
+  const handleCancelWindow = () => {
+    setSelectedConflictDate(null);
+    deactivatedCells();
+  };
+
   const handleDeleteItem = () => {
     if (elementForChange) {
       let setArrayStatus = null;
@@ -386,10 +385,10 @@ export default function WindowTimeline({
       success: modifSuccessArr.filter((order) => order.isDeleted === false)
         .map((order) => (
           {
-            shiftTime: order.shiftTime,
             date: order.date,
-            grid: addGrid(Math.floor(order.shiftTime / PR_COM.shiftCateg), PR_COM.shiftCateg),
             group: order.group,
+            shiftTime: order.shiftTime,
+            grid: addGrid(Math.floor(order.shiftTime / PR_COM.shiftCateg), PR_COM.shiftCateg),
           }
         )),
       //   {
@@ -402,8 +401,8 @@ export default function WindowTimeline({
       conflicts: modifConflictArr.filter((order) => order.isDeleted === false)
         .map((order) => (
           {
-            shiftTime: order.shiftTime,
             groupId: order.group,
+            shiftTime: order.shiftTime,
           }
         )),
     });
@@ -417,7 +416,7 @@ export default function WindowTimeline({
 
   return (
     <>
-      <div className={style.containerTimeline}>
+      <div className={style.containerTimeline} style={isAddNewItem ? { zIndex: "201" } : {}}>
         <div className="style">
           <Timeline
             className={style.tableTimeline}
@@ -548,8 +547,8 @@ export default function WindowTimeline({
         <button
           type="button"
           className={elementForChange !== null
-            ? styleConflict.reserveBtnDisable
-            : styleConflict.reserveBtn}
+            ? styleConflict.resolveBtnDisable
+            : styleConflict.resolveBtn}
           disabled={elementForChange !== null}
           onClick={handleResolveConflict}
         >
@@ -557,16 +556,16 @@ export default function WindowTimeline({
         </button>
         <button
           type="button"
-          className={styleConflict.closeBtn}
+          className={styleConflict.rejectBtn}
           onClick={() => (
             elementForChange === null
-              ? handleCancelSelectedItem()
-              : handleClearSelectedItem()
+              ? handleCancelWindow()
+              : handleDeselectItem()
           )}
         >
           {elementForChange === null
             ? buttonTitleConstants.CANCEL
-            : buttonTitleConstants.REMOVE_SELECTION}
+            : buttonTitleConstants.DESELECT}
         </button>
       </div>
       <ViewChanges

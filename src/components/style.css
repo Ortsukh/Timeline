@@ -88,11 +88,11 @@
     padding-bottom: 3px;
 }
 
-.messageWindow .reserved-btn{
+.messageWindow .reserved-btn {
     padding: 7px 10px;
 }
 
-.messageWindow .button-select-date{
+.messageWindow .button-select-date {
     min-height: 0;
     min-width: 0;
     margin: 0;
@@ -105,7 +105,7 @@
     gap: 8px;
 }
 
-.messageWindow-item.status-messageWindow{
+.messageWindow-item.status-messageWindow {
     flex-direction: row;
     align-items: center;
     gap: 15px;
@@ -115,19 +115,21 @@
     font-weight: 600;
 }
 
-.messageWindow .btn-messageWindow{
+.messageWindow .btn-messageWindow {
     display: flex;
     gap: 10px;
 }
-.messageWindow-overlay{
+
+.messageWindow-overlay {
     width: 100%;
     height: 100%;
     position: absolute;
     top: 0;
     bottom: 0;
-    z-index: 499;}
+    z-index: 499;
+}
 
-.messageWindow .btn-messageWindow button{
+.messageWindow .btn-messageWindow button {
     margin: 0;
 }
 
@@ -210,7 +212,7 @@
     margin-top: 10px;
 }
 
-.sort-box_item .reserved-btn{
+.sort-box_item .reserved-btn {
     margin-bottom: 35px;
 }
 
@@ -269,7 +271,8 @@
     padding-left: 0;
 }
 
-.react-calendar-timeline .rct-sidebar, .react-calendar-timeline .rct-header-root{
+.react-calendar-timeline .rct-sidebar,
+.react-calendar-timeline .rct-header-root {
     font-size: 14px;
 }
 
@@ -529,7 +532,7 @@
     font-size: 14px;
 }
 
-.input-checkbox label{
+.input-checkbox label {
     margin-bottom: 0 !important;
 }
 
@@ -609,7 +612,7 @@
 }
 
 .react-tooltip {
-    background: #5b5b5b  !important;
+    background: #5b5b5b !important;
     z-index: 101;
     opacity: 1 !important;
 }
@@ -619,25 +622,31 @@
     border: 1px solid #2684ff !important;
     box-sizing: border-box;
 }
+
 .fc {
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none;   /* Chrome/Safari/Opera */
-    -moz-user-select: none;      /* Firefox */
-    -ms-user-select: none;       /* Internet Explorer/Edge */
-    user-select: none;           /* Non-prefixed version, currently
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Chrome/Safari/Opera */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
                                   not supported by any browser */
 }
 
-.container.sort-box #riddler{
+.container.sort-box #riddler {
     top: 10px;
     right: 10px;
 }
 
-.company-filter{
+.company-filter {
     margin-bottom: 35px;
 }
 
-.category-count-box{
+.category-count-box {
     display: flex;
     gap: 15px;
 }
@@ -645,39 +654,58 @@
 .activeCell {
     border: 3px solid #2684ff;
 }
-.fc a, .fc a:hover {
+
+.fc a,
+.fc a:hover {
     color: #333 !important;
 }
 
-a.fc-col-header-cell-cushion.red-color,  a.fc-col-header-cell-cushion.red-color:hover{
+a.fc-col-header-cell-cushion.red-color,
+a.fc-col-header-cell-cushion.red-color:hover {
     color: red !important;
 }
 
-.select-count-box.select-choose-time{
+.select-count-box.select-choose-time {
     align-items: start;
 }
 
-.select-count-box.select-choose-time div:last-child{
+.select-count-box.select-choose-time div:last-child {
     max-width: 250px;
 }
 
 .timeLineOverlay {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
-    z-index: 497;
+    z-index: 200;
     background-color: rgba(91, 91, 91, 0.25);
 }
+
 .closeOverlayButton {
-    width: 40px;
-    height: 40px;
-    background-color: red;
-    position: absolute;
-    top: 10%;
-    left: 80%
+    position: fixed;
+    top: 3vw;
+    right: 3vw;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(91, 91, 91, 0.75);
+    border: transparent;
+    border-radius: 25px;
+    color: rgb(199, 199, 199);
+    font-size: 30px;
 }
+
+.closeOverlayButton:hover {
+    transform: scale(1.1);
+}
+
+.closeOverlayButton:active {
+    background-color: rgb(199, 199, 199);
+    border: 1px solid rgba(91, 91, 91, 0.75);
+    color: rgba(91, 91, 91, 0.75);
+}
+
 .fc-h-event {
     border: none;
 }
