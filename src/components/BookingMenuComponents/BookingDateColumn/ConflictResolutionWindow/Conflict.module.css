@@ -12,7 +12,7 @@
   border-bottom: 1px solid red !important; */
 }
 
-.reserveBtn {
+.resolveBtn {
   border: 1px solid rgb(39, 128, 252);
   background-color: rgb(39, 128, 252);
   padding: 10px 5px;
@@ -25,13 +25,13 @@
   margin-top: 20px;
 }
 
-.reserveBtn:hover {
+.resolveBtn:hover {
   transition: .5s;
   background-color: white;
   color: rgb(4, 20, 42);
 }
 
-.reserveBtnDisable {
+.resolveBtnDisable {
   border: 1px solid gray;
   background-color: gray;
   padding: 10px 5px;
@@ -44,14 +44,14 @@
   margin-top: 20px;
 }
 
-.reserveBtnDisable:hover {
+.resolveBtnDisable:hover {
   transition: .5s;
   background-color: rgb(209, 209, 209);
   color: rgb(4, 20, 42);
   cursor: not-allowed;
 }
 
-.closeBtn {
+.rejectBtn {
   padding: 10px 5px;
   color: white;
   background-color: #f03333;
@@ -62,7 +62,7 @@
   margin-left: 20px;
 }
 
-.closeBtn:hover {
+.rejectBtn:hover {
   cursor: pointer;
   background-color: white;
   color: black;
