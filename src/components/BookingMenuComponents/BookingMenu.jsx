@@ -123,13 +123,13 @@ export default function BookingMenu({
       shiftTime,
     };
   };
-  const generateEvents = (equipmentId) => {
+  const generateEvents = (equipmentId, selectedDatesArr = selectedDates, isNew = false) => {
     const events = [];
 
-    selectedDates.forEach((selectedDate) => {
+    selectedDatesArr.forEach((selectedDate) => {
       const currentDate = moment(selectedDate);
       const baseOrderShiftTimes = baseOrder.shiftTime;
-      const currentEquipment = mapsEquipment[equipmentId];
+      const currentEquipment = isNew ? baseOrder.equipment : mapsEquipment[equipmentId];
       let resultColor = 0;
       baseOrderShiftTimes.forEach(({ value: baseOrderShiftTime }) => {
         if (currentDate.isBefore(moment().startOf("day"))) {
@@ -234,8 +234,36 @@ export default function BookingMenu({
       }
     });
 
-    setCalendarEvent(events);
+    setCalendarEvent((prev) => prev.concat(events));
   };
+  const addConflictsAndSuccessInMap = (groupId, selectedDate) => {
+    baseOrder.shiftTime.forEach(({ value: shiftTime }) => {
+      console.log(baseOrder.equipment);
+      const { equipment } = baseOrder;
+
+      if (!equipment.conflicts[selectedDate]) {
+        equipment.conflicts[selectedDate] = [];
+      }
+      if (!equipment.success[selectedDate]) {
+        equipment.success[selectedDate] = [];
+      }
+      if (
+        equipment.dates[selectedDate]
+          && equipment.dates[selectedDate][shiftTime] === "1"
+      ) {
+        equipment.countConflicts++;
+        equipment.conflicts[selectedDate].push({ shiftTime, groupId });
+      } else {
+        equipment.success[selectedDate].push({ shiftTime, groupId });
+      }
+    });
+  };
+  const addAnotherDay = (date) => {
+    setSelectedDates((prev) => [...prev, date]);
+    addConflictsAndSuccessInMap(baseOrder.equipment.id, date);
+    generateEvents(baseOrder.equipment.id, [date], true);
+  };
+
   const calcBestMap = () => {
     setIsActiveCalendar(false);
     Object.keys(mapsEquipment).forEach((group) => {
@@ -364,9 +392,6 @@ export default function BookingMenu({
 
   const pushOrderInBasePreOrder = (newOrders) => {
     console.log("newOrders!!!", newOrders);
-    if (newOrders.success.length === 0) {
-      return;
-    }
 
     const successArr = newOrders.success.map((item) => ({ shiftTime: item.shiftTime, groupId: item.group }));
 
@@ -397,7 +422,16 @@ export default function BookingMenu({
       default:
         backgroundColor = ITEMS_PREORDER_COLOR.orderedInAllEquipment.backgroundColor;
     }
-
+    if (newOrders.success.length === 0 && newOrders.conflicts.length === 0) {
+      if (selectedDates.length === 1) {
+        handleClear();
+        setSelectedDates((prev) => prev.filter((date) => date !== newOrders.date));
+        return;
+      }
+      setSelectedDates((prev) => prev.filter((date) => date !== newOrders.date));
+      setCalendarEvent((prev) => prev.filter((event) => moment(event.start).format("YYYY-MM-DD") !== newOrders.date));
+      return;
+    }
     setCalendarEvent((prev) => prev.map((el) => (el.start === newOrders.date
       ? {
         ...el,
@@ -446,7 +480,8 @@ export default function BookingMenu({
     // }));
   };
   // console.log(baseOrder);
-
+  console.log(mapsEquipment);
+  console.log(selectedDates);
   const openOverLay = (status) => {
     if (status === false) {
       setIsAddNewItem(false);
@@ -493,6 +528,7 @@ export default function BookingMenu({
             selectedCompany={selectedCompany}
             user={user}
             deactivatedCell={deactivatedCell}
+            addAnotherDay={addAnotherDay}
           />
         </div>
 
@@ -537,6 +573,7 @@ export default function BookingMenu({
             openOverLay={openOverLay}
             isAddNewItem={isAddNewItem}
             setIsAddNewItem={setIsAddNewItem}
+
           />
         </div>
       </div>
