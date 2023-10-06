@@ -12,6 +12,23 @@
   border-bottom: 1px solid red !important; */
 }
 
+.displayActionBtns {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 0 2%;
+  /* padding: 10px; */
+  /* background-color: lightblue; */
+}
+
+.actionBtns {
+  display: flex;
+  justify-content: space-between;
+  width: 43%;
+  /* margin: 2% 0; */
+  /* padding: 10px; */
+}
+
 .resolveBtn {
   border: 1px solid rgb(39, 128, 252);
   background-color: rgb(39, 128, 252);
@@ -21,34 +38,13 @@
   cursor: pointer;
   box-sizing: border-box;
   font-size: 14px;
-  width: 200px;
-  margin-top: 20px;
+  width: 140px;
 }
 
 .resolveBtn:hover {
   transition: .5s;
   background-color: white;
   color: rgb(4, 20, 42);
-}
-
-.resolveBtnDisable {
-  border: 1px solid gray;
-  background-color: gray;
-  padding: 10px 5px;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: 14px;
-  width: 200px;
-  margin-top: 20px;
-}
-
-.resolveBtnDisable:hover {
-  transition: .5s;
-  background-color: rgb(209, 209, 209);
-  color: rgb(4, 20, 42);
-  cursor: not-allowed;
 }
 
 .rejectBtn {
@@ -58,8 +54,7 @@
   font-size: 14px;
   border-radius: 5px;
   border: 1px solid #f03333;
-  margin-top: 20px;
-  margin-left: 20px;
+  width: 140px;
 }
 
 .rejectBtn:hover {
@@ -67,6 +62,25 @@
   background-color: white;
   color: black;
   transition: .3s;
+}
+
+.disableBtn {
+  border: 1px solid gray;
+  background-color: gray;
+  padding: 10px 5px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: 14px;
+  width: 140px;
+}
+
+.disableBtn:hover {
+  transition: .5s;
+  background-color: rgb(209, 209, 209);
+  color: rgb(4, 20, 42);
+  cursor: not-allowed;
 }
 
 .riddler {

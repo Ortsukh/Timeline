@@ -7,6 +7,7 @@ import Timeline, {
 import moment from "moment";
 import "moment/locale/ru";
 import { v4 as uuidv4 } from "uuid";
+import { Tooltip } from "react-tooltip";
 import { addGrid } from "../../../../common/DataConvertHelper";
 import buttonTitleConstants from "../../../../constants/buttonTitleConstants";
 import ViewChanges from "../components/ViewChanges";
@@ -15,6 +16,8 @@ import "../../../style.css";
 import style from "../BookingTimeline.module.css";
 import styleConflict from "./Conflict.module.css";
 import { ConflCirle } from "../../../../others/importImg";
+import { generateClue } from "../../../../common/GenerateElementsData";
+import PluralizeWordConflict from "../../../../common/PluralizeWordConflict";
 
 export default function WindowTimeline({
   items,
@@ -417,6 +420,10 @@ export default function WindowTimeline({
   return (
     <>
       <div className={style.containerTimeline} style={isAddNewItem ? { zIndex: "201" } : {}}>
+        <div id="riddler" className={styleConflict.riddler}>?</div>
+        <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
+          {generateClue("TIMELINE_ROLE_COMPANY_CONFLICT")}
+        </Tooltip>
         <div className="style">
           <Timeline
             className={style.tableTimeline}
@@ -541,32 +548,67 @@ export default function WindowTimeline({
         </div>
       </div>
       <div style={{
-        display: "flex", justifyContent: "space-between", width: "auto", margin: "0 auto",
+        // display: "flex", justifyContent: "space-between",
+        width: "auto", margin: "0 auto",
       }}
       >
-        <button
-          type="button"
-          className={elementForChange !== null
-            ? styleConflict.resolveBtnDisable
-            : styleConflict.resolveBtn}
-          disabled={elementForChange !== null}
-          onClick={handleResolveConflict}
-        >
-          {buttonTitleConstants.CONFIRM}
-        </button>
-        <button
-          type="button"
-          className={styleConflict.rejectBtn}
-          onClick={() => (
-            elementForChange === null
-              ? handleCancelWindow()
-              : handleDeselectItem()
-          )}
-        >
-          {elementForChange === null
-            ? buttonTitleConstants.CANCEL
-            : buttonTitleConstants.DESELECT}
-        </button>
+        <div>
+          {modifConflictArr.length > 0
+            ? (
+              <p style={{ fontSize: "14px" }}>
+                {"У вас "}
+                <span style={{ fontWeight: "bold", color: "#f03333" }}>{modifConflictArr.length}</span>
+                {" "}
+                { PluralizeWordConflict(modifConflictArr.length, "конфликт")}
+                .
+                {/* . Нажмите на нужную смену и измените её путём нажатия на пустую ячейку. */}
+              </p>
+            )
+            : (
+              <p style={{ fontSize: "14px" }}>Подсчет смен прошел успешно.</p>
+            )}
+        </div>
+        <div className={styleConflict.displayActionBtns}>
+          <div className={styleConflict.actionBtns}>
+            <button
+              type="button"
+              className={elementForChange ? styleConflict.disableBtn : styleConflict.resolveBtn}
+              disabled={elementForChange}
+              onClick={handleResolveConflict}
+            >
+              {buttonTitleConstants.CONFIRM}
+            </button>
+            <button
+              type="button"
+              className={elementForChange ? styleConflict.disableBtn : styleConflict.rejectBtn}
+              disabled={elementForChange}
+              onClick={handleCancelWindow}
+            >
+              {buttonTitleConstants.CANCEL}
+            </button>
+          </div>
+          <div className={styleConflict.actionBtns}>
+            <button
+              type="button"
+              className={elementForChange ? styleConflict.disableBtn : styleConflict.resolveBtn}
+              disabled={elementForChange}
+              onClick={() => {
+                setIsAddNewItem(true);
+                openOverLay(true);
+              }}
+            >
+              {buttonTitleConstants.ADD_NEW}
+            </button>
+            <button
+              type="button"
+              className={!elementForChange ? styleConflict.disableBtn : styleConflict.rejectBtn}
+              disabled={!elementForChange}
+              onClick={handleDeleteItem}
+            >
+              {buttonTitleConstants.DELETE}
+            </button>
+          </div>
+        </div>
       </div>
       <ViewChanges
         prevItems={initConflictArr.concat(initSuccessArr)}
