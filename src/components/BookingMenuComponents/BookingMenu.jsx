@@ -460,7 +460,7 @@ export default function BookingMenu({
         role="presentation"
         className="timeLineOverlay"
       >
-        <button type="button" onClick={() => openOverLay(false)} className="closeOverlayButton"> x </button>
+        <button type="button" onClick={() => openOverLay(false)} className="closeOverlayButton">x</button>
       </div>
       )}
       <div className={style.container}>
