@@ -35,6 +35,7 @@ export default function WindowTimeline({
   openOverLay,
   isAddNewItem,
   setIsAddNewItem,
+  calculatedOrSelectedDevice,
 }) {
   const PR_COM = {
     category: baseOrder.equipment.category,
@@ -42,6 +43,7 @@ export default function WindowTimeline({
     shiftCateg: baseOrder.equipment.shiftLength,
     preferredGroupId: baseOrder.equipment.id,
     workTime: baseOrder.equipment.workTime,
+    calcGroup: calculatedOrSelectedDevice,
   };
   const PR_SEL = {
     today: moment(selectedConflictDate.start),
@@ -175,8 +177,26 @@ export default function WindowTimeline({
     return {
       ...el,
       title: (
-        <div className={selectedElInGroup && !isEditMode ? styleConflict.highlightRow : ""}>
-          {el.title}
+        <div
+          className={selectedElInGroup && !isEditMode ? styleConflict.highlightRow : ""}
+          style={{ display: "flex", alignItems: "center", height: "100%" }}
+        >
+          <div
+            aria-hidden="true"
+            style={{
+              cursor: "pointer",
+              whiteSpace: "break-spaces",
+              overflow: "hidden",
+              height: "100%",
+              maxWidth: "155px",
+              lineHeight: "15px",
+              display: "flex",
+              alignItems: "center",
+              fontSize: "0.85rem",
+            }}
+          >
+            {el.title}
+          </div>
         </div>
       ),
     };
@@ -437,6 +457,18 @@ export default function WindowTimeline({
     //   return;
     // }
     // openAlertWindow("Заказ не сохранён! Ошибка общего количества заказов.");
+  };
+
+  const sortingArrayViewChanges = (array) => {
+    array.sort((a, b) => {
+      if (a.shiftTime < b.shiftTime) return -1;
+      if (a.shiftTime > b.shiftTime) return 1;
+      // Если shift равны, то сравниваем по полю id
+      if (a.group < b.group) return -1;
+      if (a.group > b.group) return 1;
+      return 0;
+    });
+    return array;
   };
 
   return (
