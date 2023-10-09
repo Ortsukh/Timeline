@@ -8,7 +8,6 @@ import interaction from "@fullcalendar/interaction";
 import moment from "moment";
 import RectangleSelection from "react-rectangle-selection";
 import { Tooltip } from "react-tooltip";
-import style from "../EditButtonColumn.module.css";
 import { generateClue } from "../../../../common/GenerateElementsData";
 import CalendarSwitch from "../../../Switch/CalendarSwitch";
 import "../../../style.css";
@@ -59,6 +58,7 @@ export default function BookingCalendar({
   isActiveCalendar,
   deactivatedCell,
   addAnotherDay,
+  currentDevice,
 }) {
   const [startCoord, setStartCoord] = useState([0, 0]);
   const [endCoord, setEndCoord] = useState([0, 0]);
@@ -84,7 +84,6 @@ export default function BookingCalendar({
   };
 
   const handleEventClick = (clickInfo) => {
-    console.log(clickInfo);
     if (clickInfo.event.extendedProps.isEmpty) {
       addAnotherDay(moment(clickInfo.event.start).format("YYYY-MM-DD"));
       clickInfo.el.parentElement.parentElement.parentElement.classList.add("gridActiveBG");
@@ -118,12 +117,14 @@ export default function BookingCalendar({
         day = day.format("YYYY-MM-DD");
 
         if (selectedDates.indexOf(day) === -1) {
-          emptyCellArr.push({
-            extendedProps:
+          if (currentDevice.workTime.dayMap[moment(day).locale("en").format("dddd").toLowerCase()]) {
+            emptyCellArr.push({
+              extendedProps:
                 { isEmpty: true },
-            start: day,
+              start: day,
 
-          });
+            });
+          }
         }
       }
     }
@@ -143,7 +144,6 @@ export default function BookingCalendar({
   useEffect(() => {
     getCalendarCellsByClassNames(".fc-day.fc-daygrid-day:not(.fc-day-other)").forEach((cell) => {
       if (!selectedDates.find((date) => date === cell.dataset.date)) {
-        console.log(cell.dataset.date);
         if (!isActiveCalendar) { calendarRef.current.getApi().unselect(); }
         cell.firstChild.classList.remove("gridActiveBG");
       }
@@ -179,7 +179,7 @@ export default function BookingCalendar({
           || moment(cell.dataset.date).isBefore(moment().startOf("day"))) {
         cell.firstChild.classList.remove("gridActiveBG");
         setSelectedDates((prev) => prev.filter((date) => date !== cell.dataset.date));
-      } else {
+      } else if (currentDevice.workTime.dayMap[moment(cell.dataset.date).locale("en").format("dddd").toLowerCase()]) {
         selectedDays.push(cell.dataset.date);
       }
     });
@@ -242,7 +242,14 @@ export default function BookingCalendar({
   const disabledCells = () => {
     if (!calendarRef.current) return;
     getCalendarCellsByClassNames(".fc-day-past").forEach((cell) => {
-      cell.firstChild.classList.add(style.gridDisabledBG);
+      cell.firstChild.classList.add("gridDisabledBG");
+    });
+    Object.keys(currentDevice.workTime.dayMap).forEach((day) => {
+      if (!currentDevice.workTime.dayMap[day]) {
+        getCalendarCellsByClassNames(`.fc-day.fc-day-${day.slice(0, 3)}`).forEach((cell) => {
+          cell.firstChild.classList.add("gridDisabledBG");
+        });
+      }
     });
   };
 
@@ -284,11 +291,14 @@ export default function BookingCalendar({
       cell.firstChild.classList.remove("gridActiveBG");
     });
     let date1 = data.start;
+
     while (moment(date1).isBefore(data.end)) {
       if (moment(date1).isBefore(moment().startOf("day"))) {
         date1 = moment(date1).add(1, "d");
       } else {
-        selectedDays.push(moment(date1).format("YYYY-MM-DD"));
+        if (currentDevice.workTime.dayMap[moment(date1).locale("en").format("dddd").toLowerCase()]) {
+          selectedDays.push(moment(date1).format("YYYY-MM-DD"));
+        }
         date1 = moment(date1).add(1, "d");
       }
     }
@@ -364,6 +374,7 @@ export default function BookingCalendar({
             locale="ru"
             firstDay="1"
             weekends
+            // hiddenDays={[2, 4]}
             selectAllow={(date) => selectAllow(date)}
             eventClick={handleEventClick}
             events={event.concat(emptyCellsForMonth)}
