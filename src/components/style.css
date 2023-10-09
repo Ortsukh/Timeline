@@ -694,16 +694,18 @@ a.fc-col-header-cell-cushion.red-color:hover {
 }
 
 .closeOverlayButton {
-    position: fixed;
-    top: 3vw;
-    left: 3vw;
-    width: 50px;
-    height: 50px;
+    position: absolute;
+    top: 4.5vw;
+    right: 22vw;
+    width: 40px;
+    height: 40px;
     background-color: rgba(91, 91, 91, 0.75);
     border: transparent;
     border-radius: 25px;
     color: rgb(199, 199, 199);
-    font-size: 30px;
+    font-size: 25px;
+    line-height: 10px;
+    padding-bottom: 5px;
 }
 
 .closeOverlayButton:hover {
@@ -723,4 +725,5 @@ a.fc-col-header-cell-cushion.red-color:hover {
 .reserve-timeline{
     margin: 0;
     width: 140px;
+    font-size: 14px;
 }
