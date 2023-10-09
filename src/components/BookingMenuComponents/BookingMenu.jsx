@@ -31,9 +31,9 @@ export default function BookingMenu({
   selectedCompany,
   user,
 }) {
-  const { workTime } = currentDevice;
   // new
-  const [baseOrder, setBaseOrder] = useState({ shiftTime: [{ value: workTime.start, label: `${workTime.start} - ${workTime.start + currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
+  const startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
+  const [baseOrder, setBaseOrder] = useState({ shiftTime: [{ value: startWorkDay, label: `${startWorkDay} - ${startWorkDay + currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
   const [selectedConflictDate, setSelectedConflictDate] = useState(null);
   const [keyRerenderConflictResolutionWindow, setKeyRerenderConflictResolutionWindow] = useState(0);
@@ -100,7 +100,7 @@ export default function BookingMenu({
     initialCurrentDeviceIndex,
   );
   const handleClear = () => {
-    setBaseOrder({ shiftTime: [{ value: workTime.start, label: `${workTime.start} - ${workTime.start + currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
+    setBaseOrder({ shiftTime: [{ value: startWorkDay, label: `${startWorkDay} - ${startWorkDay + currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
     setCalendarEvent([]);
     setSelectedConflictDate("");
     setIsActiveCalendar(true);

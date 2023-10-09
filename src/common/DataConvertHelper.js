@@ -2,6 +2,62 @@ import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
 import orderStatus from "../constants/constants";
 
+const createWorkTimeMap = (workTimesArr) => {
+  let shiftTimes = { start: "0:00", end: "23:00" };
+  const dayMap = {
+    monday: null,
+    tuesday: null,
+    wednesday: null,
+    thursday: null,
+    friday: null,
+    saturday: null,
+    sunday: null,
+  };
+  if (!workTimesArr.length) {
+    return {
+      monday: { start: "0:00", end: "23:00" },
+      tuesday: { start: "0:00", end: "23:00" },
+      wednesday: { start: "0:00", end: "23:00" },
+      thursday: { start: "0:00", end: "23:00" },
+      friday: { start: "0:00", end: "23:00" },
+      saturday: { start: "0:00", end: "23:00" },
+      sunday: { start: "0:00", end: "23:00" },
+    };
+  }
+  workTimesArr.forEach((time) => {
+    if (time.monday) {
+      dayMap.monday = { start: time.timeFrom, end: time.timeTo };
+      shiftTimes = { start: time.timeFrom, end: time.timeTo };
+    }
+    if (time.tuesday) {
+      dayMap.tuesday = { start: time.timeFrom, end: time.timeTo };
+      shiftTimes = { start: time.timeFrom, end: time.timeTo };
+    }
+    if (time.wednesday) {
+      dayMap.wednesday = { start: time.timeFrom, end: time.timeTo };
+      shiftTimes = { start: time.timeFrom, end: time.timeTo };
+    }
+    if (time.thursday) {
+      dayMap.thursday = { start: time.timeFrom, end: time.timeTo };
+      shiftTimes = { start: time.timeFrom, end: time.timeTo };
+    }
+    if (time.friday) {
+      dayMap.friday = { start: time.timeFrom, end: time.timeTo };
+      shiftTimes = { start: time.timeFrom, end: time.timeTo };
+    }
+    if (time.saturday) {
+      dayMap.saturday = { start: time.timeFrom, end: time.timeTo };
+      shiftTimes = { start: time.timeFrom, end: time.timeTo };
+    }
+    if (time.sunday) {
+      dayMap.sunday = { start: time.timeFrom, end: time.timeTo };
+      shiftTimes = { start: time.timeFrom, end: time.timeTo };
+    }
+  });
+
+  return { dayMap, shiftTimes };
+};
+
 const createEquipmentObject = (item, elem) => ({
   id: item.id,
   title: item.name,
@@ -10,7 +66,7 @@ const createEquipmentObject = (item, elem) => ({
   shiftLength: elem.shiftLength,
   price: item.price,
   description: item.description,
-  workTime: { start: 8, end: 22 },
+  workTime: createWorkTimeMap(item.marketPlace.conditionTimes),
   img: item.image,
   shortTitle: item.shortName,
 });
