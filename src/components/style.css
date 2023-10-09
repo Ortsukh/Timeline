@@ -705,7 +705,7 @@ a.fc-col-header-cell-cushion.red-color:hover {
 }
 
 .closeOverlayButton {
-    position: fixed;
+    position: absolute;
     top: 3vw;
     left: 3vw;
     width: 50px;

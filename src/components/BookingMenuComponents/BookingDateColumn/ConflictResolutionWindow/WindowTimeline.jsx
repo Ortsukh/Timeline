@@ -118,6 +118,7 @@ export default function WindowTimeline({
   // console.log("modifSuccessArr", modifSuccessArr);
   // console.log("modifConflictArr", modifConflictArr);
   const [isClickedItem, setIsClickedItem] = useState(false);
+  const [isOrderChanged, setIsOrderChanged] = useState(false);
   const [elementForChange, setElementForChange] = useState(null);
 
   const [filteredItems, setFilteredItems] = useState([]);
@@ -142,8 +143,30 @@ export default function WindowTimeline({
   const generateGroup = () => groups.map((el) => ({
     category: el.category,
     id: el.id,
-    title: el.title,
     date: el.category,
+    title: (
+      <div style={{
+        display: "flex", alignItems: "center", height: "100%",
+      }}
+      >
+        <div
+          aria-hidden="true"
+          style={{
+            cursor: "pointer",
+            whiteSpace: "break-spaces",
+            overflow: "hidden",
+            height: "100%",
+            maxWidth: "155px",
+            lineHeight: "15px",
+            display: "flex",
+            alignItems: "center",
+            fontSize: "0.85rem",
+          }}
+        >
+          {el.title}
+        </div>
+      </div>
+    ),
     height: 36,
   }));
   const elInGroup = generateGroup().filter((el) => el.category === PR_COM.category);
@@ -222,6 +245,7 @@ export default function WindowTimeline({
         return newSuccArr;
       });
       setIsClickedItem(false);
+      setIsOrderChanged(true);
       setElementForChange(null);
     }
     if (isAddNewItem) {
@@ -240,6 +264,7 @@ export default function WindowTimeline({
         return prev;
       });
       setIsAddNewItem(false);
+      setIsOrderChanged(true);
       openOverLay(false);
     }
   };
@@ -380,6 +405,7 @@ export default function WindowTimeline({
         return item;
       }));
       setIsClickedItem(false);
+      setIsOrderChanged(true);
       setElementForChange(null);
     }
   };
@@ -397,13 +423,6 @@ export default function WindowTimeline({
             grid: addGrid(Math.floor(order.shiftTime / PR_COM.shiftCateg), PR_COM.shiftCateg),
           }
         )),
-      //   {
-      //     shiftTime: order.shiftTime,
-      //     date: order.date,
-      //     grid: addGrid(Math.floor(order.shiftTime / PR_COM.shiftCateg), PR_COM.shiftCateg),
-      //     group: order.group,
-      //   }
-      // )),
       conflicts: modifConflictArr.filter((order) => order.isDeleted === false)
         .map((order) => (
           {
@@ -575,8 +594,10 @@ export default function WindowTimeline({
           <div className={styleConflict.actionBtns}>
             <button
               type="button"
-              className={elementForChange ? styleConflict.disableBtn : styleConflict.resolveBtn}
-              disabled={elementForChange}
+              className={elementForChange || !isOrderChanged
+                ? styleConflict.disableBtn
+                : styleConflict.resolveBtn}
+              disabled={elementForChange || !isOrderChanged}
               onClick={handleResolveConflict}
             >
               {buttonTitleConstants.CONFIRM}
