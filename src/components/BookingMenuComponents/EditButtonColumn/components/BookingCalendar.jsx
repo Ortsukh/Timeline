@@ -35,7 +35,6 @@ function renderEventContent(eventInfo) {
   const obj = {
     height: 40,
     backgroundColor: color,
-    width: 50,
     color: (color === "#100e0e" ? "#ffffff" : "#000000"),
     display: "flex",
     flexDirection: "column",
@@ -59,6 +58,7 @@ export default function BookingCalendar({
   deactivatedCell,
   addAnotherDay,
   currentDevice,
+  selectedConflictDate,
 }) {
   const [startCoord, setStartCoord] = useState([0, 0]);
   const [endCoord, setEndCoord] = useState([0, 0]);
@@ -85,12 +85,10 @@ export default function BookingCalendar({
 
   const handleEventClick = (clickInfo) => {
     if (clickInfo.event.extendedProps.isEmpty) {
-      addAnotherDay(moment(clickInfo.event.start).format("YYYY-MM-DD"));
+      addAnotherDay(moment(clickInfo.event.start).format("YYYY-MM-DD"), clickInfo);
       clickInfo.el.parentElement.parentElement.parentElement.classList.add("gridActiveBG");
       return;
     }
-    unselectDefaultCalendar();
-    clickInfo.el.classList.add("activeCell");
     const data = {
       start: clickInfo.event.start,
       extendedProps: clickInfo.event.extendedProps,
@@ -99,11 +97,21 @@ export default function BookingCalendar({
   };
 
   useEffect(() => {
-    const calendarDayCell = getCalendarCellsByClassNames(".activeCell");
-    if (calendarDayCell[0]) {
-      calendarDayCell[0].classList.remove("activeCell");
-    }
+    unselectDefaultCalendar();
   }, [deactivatedCell]);
+
+  useEffect(() => {
+    if (!selectedConflictDate) {
+      return;
+    }
+    unselectDefaultCalendar();
+    const el = calendarRef.current.elRef.current.querySelectorAll(
+      `[data-date="${moment(selectedConflictDate.start).format("YYYY-MM-DD")}"] 
+            > div > .fc-daygrid-day-events`,
+    )[0];
+
+    el.classList.add("activeCell");
+  }, [selectedConflictDate]);
 
   const generateEmptyCells = () => {
     if (isActiveCalendar) return;

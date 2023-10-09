@@ -55,6 +55,7 @@
 
 .react-calendar-timeline .rct-sidebar s.rct-sidebar-row {
   padding: 0 !important;
+  line-height: 16px !important;
 }
 
 .equipment_component {
