@@ -92,6 +92,7 @@ export default function BookingMenu({
       setShowStartDisplayConflict(false);
     }
   }, [editOrderData, isEditMode]);
+
   const initialCurrentDeviceIndex = groups
     .map((current) => current.id)
     .indexOf(currentDevice.id);
@@ -99,6 +100,7 @@ export default function BookingMenu({
   const [currentDeviceIndex, setCurrentDeviceIndex] = useState(
     initialCurrentDeviceIndex,
   );
+
   const handleClear = () => {
     setBaseOrder({ shiftTime: [{ value: startWorkDay, label: `${startWorkDay} - ${startWorkDay + currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
     setCalendarEvent([]);
