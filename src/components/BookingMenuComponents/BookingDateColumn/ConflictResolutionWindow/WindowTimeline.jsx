@@ -666,25 +666,36 @@ export default function WindowTimeline({
           </div>
         </div>
       </div>
-      <ViewChanges
-        prevItems={initConflictArr.concat(initSuccessArr)}
-        newItems={modifConflictArr.concat(modifSuccessArr)}
-        groups={groups}
-        elementForChange={elementForChange}
-        openOverLay={openOverLay}
-        setIsAddNewItem={setIsAddNewItem}
-        handleDeleteItem={handleDeleteItem}
-      />
-      {elementForChange !== null
-        ? (
-          <EquipmentDescription equipment={
-            groups.find((group) => group.id === elementForChange.group)
-          }
+      <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+        <div style={{ width: "49%" }}>
+          <ViewChanges
+            prevItems={initConflictArr.concat(sortingArrayViewChanges(initSuccessArr))}
+            newItems={modifConflictArr.concat(modifSuccessArr)}
+            groups={groups}
+            elementForChange={elementForChange}
+            openOverLay={openOverLay}
+            setIsAddNewItem={setIsAddNewItem}
+            handleDeleteItem={handleDeleteItem}
           />
-        )
-        : (
-          <div style={{ height: "106px", margin: "25px auto 5px" }} />
-        )}
+        </div>
+        <div style={{ width: "49%" }}>
+          {elementForChange !== null
+            ? (
+              <EquipmentDescription
+                equipment={
+                  groups.find((group) => group.id === elementForChange.group)
+                }
+                text="Выбранная ячейка соответствует оборудованию: "
+              />
+            )
+            : (
+              <EquipmentDescription
+                equipment={PR_COM.calcGroup}
+                text="Рассчёт дня производился по оборудованию: "
+              />
+            )}
+        </div>
+      </div>
     </>
   );
 }
