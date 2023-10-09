@@ -643,7 +643,7 @@
     box-sizing: border-box;
 }
 
-.gridActiveBG .fc-highlight{
+.gridActiveBG .fc-highlight {
     border: none !important;
     background: none !important;
 
@@ -658,7 +658,7 @@
     border: none !important;
 }
 
-.container.sort-box #riddler{
+.container.sort-box #riddler {
     top: 10px;
     right: 10px;
 }
@@ -672,7 +672,7 @@
     gap: 15px;
 }
 
-.activeCell.fc-h-event{
+.activeCell.fc-h-event {
     border: 3px solid #2684ff;
 }
 
@@ -701,13 +701,13 @@ a.fc-col-header-cell-cushion.red-color:hover {
     top: 0;
     bottom: 0;
     z-index: 200;
-    background-color: rgba(91, 91, 91, 0.25);
+    background-color: rgba(0, 0, 0, 0.9);
 }
 
 .closeOverlayButton {
     position: fixed;
     top: 3vw;
-    right: 3vw;
+    left: 3vw;
     width: 50px;
     height: 50px;
     background-color: rgba(91, 91, 91, 0.75);
@@ -729,4 +729,9 @@ a.fc-col-header-cell-cushion.red-color:hover {
 
 .fc-h-event {
     border: none;
+}
+
+.reserve-timeline{
+    margin: 0;
+    width: 140px;
 }

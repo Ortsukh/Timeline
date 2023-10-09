@@ -9,7 +9,7 @@ import ManagerFailConfInfo from "./InformationTablesConflicts/ManagerFailConfInf
 import { generateClue } from "../../../../common/GenerateElementsData";
 import styleConflict from "./Conflict.module.css";
 import WindowTimeline from "./WindowTimeline";
-import CompanyDayConfInfo from "./InformationTablesConflicts/CompanyDayConfInfo";
+// import CompanyDayConfInfo from "./InformationTablesConflicts/CompanyDayConfInfo";
 import EditConfInfo from "./InformationTablesConflicts/EditConfInfo";
 
 export default function ConfirmBookingWindow({
@@ -47,7 +47,7 @@ export default function ConfirmBookingWindow({
       {showStartDisplayConflict && !isEditMode && <MainConfInfo />}
       {showStartDisplayConflict && isEditMode && <EditConfInfo />}
 
-      {!showStartDisplayConflict && "conflicts" in baseOrder.equipment
+      {!showStartDisplayConflict && "conflicts" in baseOrder.equipment && !selectedConflictDate
         && (
         <div
           style={{
@@ -85,13 +85,13 @@ export default function ConfirmBookingWindow({
           />
           )}
 
-          {selectedConflictDate
+          {/* {selectedConflictDate
           && (
           <CompanyDayConfInfo
             baseOrder={baseOrder}
             selectedConflictDate={selectedConflictDate}
           />
-          )}
+          )} */}
 
           <div id="riddler" className={styleConflict.riddler}>?</div>
           <Tooltip anchorSelect="#riddler" openOnClick place="bottom">

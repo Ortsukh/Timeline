@@ -88,9 +88,13 @@
 .view_changes_row {
   display: flex;
   align-items: center;
-  border: 1px solid #5b5b5b;
+  border: 1px solid #a0a0a0;
   margin-bottom: 3px;
-  width: 300px;
+  width: auto;
+  max-width: 410px;
+  padding: 5px;
+  border-radius: 5px;
+  gap: 5px;
 }
 
 .view_changes_items_status {
@@ -108,4 +112,5 @@
 
 .view_changes_arrow {
   min-width: 20px;
+  font-size: 20px;
 }
