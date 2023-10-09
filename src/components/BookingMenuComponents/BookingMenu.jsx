@@ -235,6 +235,9 @@ export default function BookingMenu({
     });
 
     setCalendarEvent((prev) => prev.concat(events));
+    if (isNew) {
+      handleSetSelectedConflictDate(events[0]);
+    }
   };
   const addConflictsAndSuccessInMap = (groupId, selectedDate) => {
     baseOrder.shiftTime.forEach(({ value: shiftTime }) => {
@@ -529,6 +532,7 @@ export default function BookingMenu({
             user={user}
             deactivatedCell={deactivatedCell}
             addAnotherDay={addAnotherDay}
+            selectedConflictDate={selectedConflictDate}
           />
         </div>
 
