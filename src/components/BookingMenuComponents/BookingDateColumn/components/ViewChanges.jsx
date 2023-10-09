@@ -29,7 +29,7 @@ export default function ViewChanges({
             : <img src={ConflCirle} alt="conflict" /> }
         </div>
         <div className={style.view_changes_arrow}>
-          {newItem.isChanged && "->"}
+          {newItem.isChanged && "➜"}
         </div>
         <div className={style.view_changes_items_title}>
           {!newItem.isDeleted

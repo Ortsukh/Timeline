@@ -719,3 +719,8 @@ a.fc-col-header-cell-cushion.red-color:hover {
 .fc-h-event {
     border: none;
 }
+
+.reserve-timeline{
+    margin: 0;
+    width: 140px;
+}

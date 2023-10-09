@@ -590,7 +590,7 @@ export default function WindowTimeline({
           <div className={styleConflict.actionBtns}>
             <button
               type="button"
-              className={elementForChange ? styleConflict.disableBtn : styleConflict.resolveBtn}
+              className={elementForChange ? styleConflict.disableBtn : "reserved-btn reserve-timeline"}
               disabled={elementForChange}
               onClick={() => {
                 setIsAddNewItem(true);
