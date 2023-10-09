@@ -92,6 +92,7 @@ export default function BookingMenu({
       setShowStartDisplayConflict(false);
     }
   }, [editOrderData, isEditMode]);
+
   const initialCurrentDeviceIndex = groups
     .map((current) => current.id)
     .indexOf(currentDevice.id);
@@ -99,6 +100,7 @@ export default function BookingMenu({
   const [currentDeviceIndex, setCurrentDeviceIndex] = useState(
     initialCurrentDeviceIndex,
   );
+
   const handleClear = () => {
     setBaseOrder({ shiftTime: [{ value: startWorkDay, label: `${startWorkDay} - ${startWorkDay + currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
     setCalendarEvent([]);
@@ -235,6 +237,9 @@ export default function BookingMenu({
     });
 
     setCalendarEvent((prev) => prev.concat(events));
+    if (isNew) {
+      handleSetSelectedConflictDate(events[0]);
+    }
   };
   const addConflictsAndSuccessInMap = (groupId, selectedDate) => {
     baseOrder.shiftTime.forEach(({ value: shiftTime }) => {
@@ -529,6 +534,7 @@ export default function BookingMenu({
             user={user}
             deactivatedCell={deactivatedCell}
             addAnotherDay={addAnotherDay}
+            selectedConflictDate={selectedConflictDate}
           />
         </div>
 

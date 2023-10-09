@@ -34,6 +34,7 @@ export default function EditButtonColumn({
   user,
   deactivatedCell,
   addAnotherDay,
+  selectedConflictDate,
 }) {
   const [isShowConflictNotification, setIsShowConflictNotification] = useState("");
   const back = `< ${buttonTitleConstants.BACK}`;
@@ -174,6 +175,7 @@ export default function EditButtonColumn({
         isActiveCalendar={isActiveCalendar}
         deactivatedCell={deactivatedCell}
         addAnotherDay={addAnotherDay}
+        selectedConflictDate={selectedConflictDate}
       />
       <div>
         {isShowConflictNotification && notification()}

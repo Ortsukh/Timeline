@@ -455,8 +455,9 @@ export default function WindowTimeline({
             verticalLineClassNamesForTime={(timeStart, timeEnd) => {
               const currentTimeStart = moment(timeStart).format("HH");
               const currentTimeEnd = moment(timeEnd).format("HH");
-              if (moment(currentTimeStart, "HH").isBefore(moment(PR_COM.workTime.shiftTimes.start, "HH"), "hours")
-                || moment(currentTimeEnd, "HH").isSameOrAfter(moment(PR_COM.workTime.shiftTimes.end, "HH"), "hours")
+              const day = moment(selectedConflictDate.start).locale("en").format("dddd").toLowerCase();
+              if (moment(currentTimeStart, "HH").isBefore(moment(PR_COM.workTime.dayMap[day].start, "HH"), "hours")
+                || moment(currentTimeEnd, "HH").isSameOrAfter(moment(PR_COM.workTime.dayMap[day].end, "HH"), "hours")
               ) {
                 return [styleConflict.highlightColumn];
               }
