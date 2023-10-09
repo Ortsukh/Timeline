@@ -86,7 +86,7 @@ export default function EditButtonColumn({
       </div>
     );
   };
-
+  console.log(currentDevice);
   return (
     <div>
       <div className={style.backButtonBlock}>
@@ -163,6 +163,7 @@ export default function EditButtonColumn({
         </div>
       </div>
       )}
+
       <BookingCalendar
         items={items}
         selectedDates={selectedDates}

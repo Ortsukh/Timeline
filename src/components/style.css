@@ -645,6 +645,17 @@
 
 .gridActiveBG .fc-highlight {
     border: none !important;
+    background: none !important;
+
+}
+
+.gridDisabledBG {
+    background: hsla(0, 0%, 82%, .3);
+}
+
+.gridDisabledBG .fc-highlight{
+    background: none !important;
+    border: none !important;
 }
 
 .container.sort-box #riddler {

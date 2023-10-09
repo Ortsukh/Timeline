@@ -161,7 +161,10 @@ export default function WindowTimeline({
 
   const handleCanvasClick = (groupId, time) => {
     const formattedTime = Math.floor(moment(time).hours() / PR_COM.shiftCateg) * PR_COM.shiftCateg;
-    if (formattedTime < PR_COM.workTime.start || formattedTime >= PR_COM.workTime.end) {
+    const startWorkDay = Number(PR_COM.workTime.shiftTimes.start.split(":")[0]);
+    const endWorkDay = Number(PR_COM.workTime.shiftTimes.end.split(":")[0]);
+
+    if (formattedTime < startWorkDay || formattedTime >= endWorkDay) {
       return;
     }
     const newObjItem = {
@@ -433,8 +436,8 @@ export default function WindowTimeline({
             verticalLineClassNamesForTime={(timeStart, timeEnd) => {
               const currentTimeStart = moment(timeStart).format("HH");
               const currentTimeEnd = moment(timeEnd).format("HH");
-              if (moment(currentTimeStart, "HH").isBefore(moment(PR_COM.workTime.start, "HH"), "hours")
-                || moment(currentTimeEnd, "HH").isSameOrAfter(moment(PR_COM.workTime.end, "HH"), "hours")
+              if (moment(currentTimeStart, "HH").isBefore(moment(PR_COM.workTime.shiftTimes.start, "HH"), "hours")
+                || moment(currentTimeEnd, "HH").isSameOrAfter(moment(PR_COM.workTime.shiftTimes.end, "HH"), "hours")
               ) {
                 return [styleConflict.highlightColumn];
               }
