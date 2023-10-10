@@ -10,6 +10,7 @@ import {
   createOrderGroup, formatOrder,
 } from "../common/DataConvertHelper";
 import ToolsFilter from "../components/FilterComponents/ToolsFilter";
+// eslint-disable-next-line
 import CountTools from "../components/FilterComponents/CountToolsFilter";
 import DateFilter from "../components/FilterComponents/DateFilter";
 import Spinner from "../components/Spinner/Spinner";
@@ -84,7 +85,7 @@ export default function TimelinePage() {
   }, []);
 
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
     setIsLoadingEquipment(true);
     if (!user) return;
     if (user && user.role === "ROLE_MANAGER" && false) { //! для дева!
@@ -239,7 +240,7 @@ export default function TimelinePage() {
   const openBookingWindow = (time, posX, posY, kindModal, itemId) => {
     const item = itemId ? items.find((el) => el.id === itemId) : null;
     if (
-      item.status !== "pending"
+      !["pending", "accepted"].includes(item.status)
     ) return;
     if (user.role === "ROLE_COMPANY") {
       return;
@@ -248,9 +249,9 @@ export default function TimelinePage() {
     setIsActiveMessage((current) => !current);
     const formattedDate = getFormattedDate(item.group, time);
     const date = moment(time).format("YYYY-MM-DD");
-    const result = `${date} : ${moment(formattedDate.start).format(
-      "HH-mm",
-    )} - ${moment(formattedDate.end).format("HH-mm")}`;
+    const result = `${date} / ${moment(formattedDate.start).format(
+      "HH:mm",
+    )}-${moment(formattedDate.end).format("HH:mm")}`;
     setEditOrderItems(items.filter((currentItem) => currentItem.rentOrderId === item.rentOrderId));
     setEditOrderData(item);
     setChosenDate({
@@ -279,11 +280,13 @@ export default function TimelinePage() {
     }
   };
 
-  const getFilteredItemsByCompany = (companyId) => items.filter((item) => item.company.id === companyId);
+  const getFilteredItemsByCompany = (companyId) => (
+    items.filter((item) => item.company.id === companyId)
+  );
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };
-  console.log(selectedCompany);
+
   return !isLoading && !isLoadingEquipment ? (
     <div>
       {isBookingMenu ? (
@@ -389,7 +392,7 @@ export default function TimelinePage() {
             setSelectedGroups={setSelectedGroups}
             setCurrentDevice={setCurrentDevice}
           />
-          {isActiveMessage && (
+          {(isActiveMessage) && (
             <MessageWindow
               closeBookingWindow={closeBookingWindow}
               data={chosenDate}

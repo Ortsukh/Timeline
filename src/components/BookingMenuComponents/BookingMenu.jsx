@@ -244,7 +244,7 @@ export default function BookingMenu({
   };
   const addConflictsAndSuccessInMap = (groupId, selectedDate) => {
     baseOrder.shiftTime.forEach(({ value: shiftTime }) => {
-      console.log(baseOrder.equipment);
+      // console.log(baseOrder.equipment);
       const { equipment } = baseOrder;
 
       if (!equipment.conflicts[selectedDate]) {
@@ -397,7 +397,7 @@ export default function BookingMenu({
   };
 
   const pushOrderInBasePreOrder = (newOrders) => {
-    console.log("newOrders!!!", newOrders);
+    // console.log("newOrders", newOrders);
 
     const successArr = newOrders.success.map((item) => ({ shiftTime: item.shiftTime, groupId: item.group }));
 
@@ -486,8 +486,8 @@ export default function BookingMenu({
     // }));
   };
   // console.log(baseOrder);
-  console.log(mapsEquipment);
-  console.log(selectedDates);
+  // console.log(mapsEquipment);
+  // console.log(selectedDates);
   const openOverLay = (status) => {
     if (status === false) {
       setIsAddNewItem(false);

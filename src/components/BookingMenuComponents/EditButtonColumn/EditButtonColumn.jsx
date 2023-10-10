@@ -87,7 +87,7 @@ export default function EditButtonColumn({
       </div>
     );
   };
-  console.log(currentDevice);
+  // console.log(currentDevice);
   return (
     <div>
       <div className={style.backButtonBlock}>
