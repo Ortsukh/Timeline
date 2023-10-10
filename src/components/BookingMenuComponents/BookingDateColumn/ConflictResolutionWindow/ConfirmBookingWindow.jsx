@@ -39,8 +39,8 @@ export default function ConfirmBookingWindow({
       (group) => group.id === baseOrder.equipment.id,
     );
   }
-  console.log("baseOrder", baseOrder);
-  console.log("selectedConflictDate", selectedConflictDate);
+  // console.log("baseOrder", baseOrder);
+  // console.log("selectedConflictDate", selectedConflictDate);
 
   return (
     <>

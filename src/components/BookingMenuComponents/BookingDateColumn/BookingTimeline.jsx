@@ -208,7 +208,6 @@ export default function BookingTimeline({
 
   const handleCanvasClick = (groupId, time) => {
     if (openGroups[groupId]) return;
-    console.log(groupId, time);
     clickOnEmptySpace(groupId, time);
   };
 
@@ -239,7 +238,6 @@ export default function BookingTimeline({
     setCurrentMonth(newDate);
     setShowCalendar(false);
   };
-  console.log(itemsPreOrder);
 
   const getCurrentDevicePreOrderedItems = () => itemsPreOrder.filter(
     (item) => item.deviceGroup === currentDevice.id,
