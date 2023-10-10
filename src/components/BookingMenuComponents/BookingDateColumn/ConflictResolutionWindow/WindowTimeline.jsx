@@ -203,9 +203,11 @@ export default function WindowTimeline({
   });
 
   const handleCanvasClick = (groupId, time) => {
-    const formattedTime = Math.floor(moment(time).hours() / PR_COM.shiftCateg) * PR_COM.shiftCateg;
+    // const formattedTime = Math.floor(moment(time).hours() / PR_COM.shiftCateg) * PR_COM.shiftCateg;
     const startWorkDay = Number(PR_COM.workTime.shiftTimes.start.split(":")[0]);
     const endWorkDay = Number(PR_COM.workTime.shiftTimes.end.split(":")[0]);
+    const formattedTime = Math.floor((moment(time).hours() - startWorkDay) / PR_COM.shiftCateg)
+        * PR_COM.shiftCateg + startWorkDay;
 
     if (formattedTime < startWorkDay || formattedTime >= endWorkDay) {
       return;
@@ -534,7 +536,7 @@ export default function WindowTimeline({
             // onMouseUp={handleCellMouseUp} //! Выделение нескольки
             // onMouseDown={handleCellMouseDown} //! Выделение нескольки
             timeSteps={{
-              hour: PR_COM.shiftCateg,
+              hour: 1,
               day: 1,
               month: 1,
               year: 1,
@@ -559,59 +561,64 @@ export default function WindowTimeline({
                   </div>
                 )}
               </SidebarHeader>
-              {PR_COM.shiftCateg < 2
-                ? (
-                  <DateHeader
-                    unit="hour"
-                    labelFormat="H"
-                  />
-                )
-                : (
-                  <DateHeader
-                    unit="hour"
-                // eslint-disable-next-line react/no-unstable-nested-components
-                    intervalRenderer={({
-                      getIntervalProps,
-                      intervalContext,
-                    }) => (
-                      <div {...getIntervalProps()}>
-                        {/* eslint-disable-next-line */}
-                        {/* {moment(+getIntervalProps().key.slice(6)).isSame(setStartTimeSelectedItem(curTime), "hours")
-                        && statusCheckboxSelected === "AUTO"
-                          ? (
-                            <div
-                              style={{
-                                border: "1px solid rgba(0, 0, 0)",
-                                display: "flex",
-                                justifyContent: "center",
-                              }}
-                              className={styleConflict.highlightColumn}
-                            >
-                              {
-                              `${moment(intervalContext.interval.startTime).format("H")}-${
-                                moment(intervalContext.interval.endTime).format("H")}`
-                            }
-                            </div>
-                          )
-                          : ( */}
-                        <div
-                          style={{
-                            border: "1px solid rgba(0, 0, 0)",
-                            backgroundColor: "white",
-                            display: "flex",
-                            justifyContent: "center",
-                          }}
-                        >
-                          {
-                              `${moment(intervalContext.interval.startTime).format("H")}-${
-                                moment(intervalContext.interval.endTime).format("H")}`
-                            }
-                        </div>
-                        {/* )} */}
-                      </div>
-                    )}
-                  />
-                )}
+              <DateHeader
+                unit="hour"
+                labelFormat="H"
+              />
+
+              {/* {PR_COM.shiftCateg < 2 */}
+              {/*  ? ( */}
+              {/*    <DateHeader */}
+              {/*      unit="hour" */}
+              {/*      labelFormat="H" */}
+              {/*    /> */}
+              {/* ) */}
+              {/*: ( */}
+              {/*  <DateHeader */}
+              {/*    unit="hour" */}
+              {/* // eslint-disable-next-line react/no-unstable-nested-components */}
+              {/*    intervalRenderer={({ */}
+              {/*      getIntervalProps, */}
+              {/*      intervalContext, */}
+              {/*    }) => ( */}
+              {/*      <div {...getIntervalProps()}> */}
+              {/*        /!* eslint-disable-next-line *!/ */}
+              {/*        /!* {moment(+getIntervalProps().key.slice(6)).isSame(setStartTimeSelectedItem(curTime), "hours") */}
+              {/*        && statusCheckboxSelected === "AUTO" */}
+              {/*          ? ( */}
+              {/*            <div */}
+              {/*              style={{ */}
+              {/*                border: "1px solid rgba(0, 0, 0)", */}
+              {/*                display: "flex", */}
+              {/*                justifyContent: "center", */}
+              {/*              }} */}
+              {/*              className={styleConflict.highlightColumn} */}
+              {/*            > */}
+              {/*              { */}
+              {/*              `${moment(intervalContext.interval.startTime).format("H")}-${ */}
+              {/*                moment(intervalContext.interval.endTime).format("H")}` */}
+              {/*            } */}
+              {/*            </div> */}
+              {/*          ) */}
+              {/*          : ( *!/ */}
+              {/*        <div */}
+              {/*          style={{ */}
+              {/*            border: "1px solid rgba(0, 0, 0)", */}
+              {/*            backgroundColor: "white", */}
+              {/*            display: "flex", */}
+              {/*            justifyContent: "center", */}
+              {/*          }} */}
+              {/*        > */}
+              {/*          { */}
+              {/*              `${moment(intervalContext.interval.startTime).format("H")}-${ */}
+              {/*                moment(intervalContext.interval.endTime).format("H")}` */}
+              {/*            } */}
+              {/*        </div> */}
+              {/*        /!* )} *!/ */}
+              {/*      </div> */}
+              {/*    )} */}
+              {/*  /> */}
+              {/* )} */}
             </TimelineHeaders>
           </Timeline>
         </div>
