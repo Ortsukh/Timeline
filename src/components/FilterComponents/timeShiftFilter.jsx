@@ -6,15 +6,8 @@ import makeAnimated from "react-select/animated";
 export default function TimeShift({
   currentDevice, setBaseOrder, isActiveCalendar, baseOrder,
 }) {
-<<<<<<< HEAD
   const startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
   const endWorkDay = Number(currentDevice.workTime.shiftTimes.end.split(":")[0]);
-=======
-  // console.log(currentDevice.workTime.shiftTimes);
-  const startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
-  const endWorkDay = Number(currentDevice.workTime.shiftTimes.end.split(":")[0]);
-  // console.log(startWorkDay, endWorkDay);
->>>>>>> view-changes
   const [value, setValue] = useState([
     {
       value: startWorkDay,

@@ -243,10 +243,6 @@ export default function BookingMenu({
   };
   const addConflictsAndSuccessInMap = (groupId, selectedDate) => {
     baseOrder.shiftTime.forEach(({ value: shiftTime }) => {
-<<<<<<< HEAD
-=======
-      // console.log(baseOrder.equipment);
->>>>>>> view-changes
       const { equipment } = baseOrder;
 
       if (!equipment.conflicts[selectedDate]) {
@@ -487,13 +483,6 @@ export default function BookingMenu({
     //   return el;
     // }));
   };
-<<<<<<< HEAD
-
-=======
-  // console.log(baseOrder);
-  // console.log(mapsEquipment);
-  // console.log(selectedDates);
->>>>>>> view-changes
   const openOverLay = (status) => {
     if (status === false) {
       setIsAddNewItem(false);

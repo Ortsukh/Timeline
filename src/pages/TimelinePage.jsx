@@ -10,11 +10,8 @@ import {
   createOrderGroup, formatOrder,
 } from "../common/DataConvertHelper";
 import ToolsFilter from "../components/FilterComponents/ToolsFilter";
-<<<<<<< HEAD
-=======
 // eslint-disable-next-line
 import CountTools from "../components/FilterComponents/CountToolsFilter";
->>>>>>> view-changes
 import DateFilter from "../components/FilterComponents/DateFilter";
 import Spinner from "../components/Spinner/Spinner";
 import MessageWindow from "../components/Popup/MessageWindow";
@@ -88,10 +85,6 @@ export default function TimelinePage() {
   }, []);
 
   useEffect(() => {
-<<<<<<< HEAD
-=======
-    // console.log(user);
->>>>>>> view-changes
     setIsLoadingEquipment(true);
     if (!user) return;
     if (user && user.role === "ROLE_MANAGER" && false) { //! для дева!
@@ -288,21 +281,12 @@ export default function TimelinePage() {
     }
   };
 
-<<<<<<< HEAD
   const getFilteredItemsByCompany = (companyId) => items.filter(
     (item) => item.company.id === companyId,
-=======
-  const getFilteredItemsByCompany = (companyId) => (
-    items.filter((item) => item.company.id === companyId)
->>>>>>> view-changes
   );
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };
-<<<<<<< HEAD
-=======
-
->>>>>>> view-changes
   return !isLoading && !isLoadingEquipment ? (
     <div>
       {isBookingMenu ? (
