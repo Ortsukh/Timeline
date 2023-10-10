@@ -35,6 +35,7 @@ export default function WindowTimeline({
   openOverLay,
   isAddNewItem,
   setIsAddNewItem,
+  calculatedOrSelectedDevice,
 }) {
   const PR_COM = {
     category: baseOrder.equipment.category,
@@ -42,6 +43,7 @@ export default function WindowTimeline({
     shiftCateg: baseOrder.equipment.shiftLength,
     preferredGroupId: baseOrder.equipment.id,
     workTime: baseOrder.equipment.workTime,
+    calcGroup: calculatedOrSelectedDevice,
   };
   const PR_SEL = {
     today: moment(selectedConflictDate.start),
@@ -175,8 +177,26 @@ export default function WindowTimeline({
     return {
       ...el,
       title: (
-        <div className={selectedElInGroup && !isEditMode ? styleConflict.highlightRow : ""}>
-          {el.title}
+        <div
+          className={selectedElInGroup && !isEditMode ? styleConflict.highlightRow : ""}
+          style={{ display: "flex", alignItems: "center", height: "100%" }}
+        >
+          <div
+            aria-hidden="true"
+            style={{
+              cursor: "pointer",
+              whiteSpace: "break-spaces",
+              overflow: "hidden",
+              height: "100%",
+              maxWidth: "155px",
+              lineHeight: "15px",
+              display: "flex",
+              alignItems: "center",
+              fontSize: "0.85rem",
+            }}
+          >
+            {el.title}
+          </div>
         </div>
       ),
     };
@@ -439,6 +459,18 @@ export default function WindowTimeline({
     // openAlertWindow("Заказ не сохранён! Ошибка общего количества заказов.");
   };
 
+  const sortingArrayViewChanges = (array) => {
+    array.sort((a, b) => {
+      if (a.shiftTime < b.shiftTime) return -1;
+      if (a.shiftTime > b.shiftTime) return 1;
+      // Если shift равны, то сравниваем по полю id
+      if (a.group < b.group) return -1;
+      if (a.group > b.group) return 1;
+      return 0;
+    });
+    return array;
+  };
+
   return (
     <>
       <div className={style.containerTimeline} style={isAddNewItem ? { zIndex: "201" } : {}}>
@@ -635,25 +667,36 @@ export default function WindowTimeline({
           </div>
         </div>
       </div>
-      <ViewChanges
-        prevItems={initConflictArr.concat(initSuccessArr)}
-        newItems={modifConflictArr.concat(modifSuccessArr)}
-        groups={groups}
-        elementForChange={elementForChange}
-        openOverLay={openOverLay}
-        setIsAddNewItem={setIsAddNewItem}
-        handleDeleteItem={handleDeleteItem}
-      />
-      {elementForChange !== null
-        ? (
-          <EquipmentDescription equipment={
-            groups.find((group) => group.id === elementForChange.group)
-          }
+      <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+        <div style={{ width: "49%" }}>
+          <ViewChanges
+            prevItems={initConflictArr.concat(sortingArrayViewChanges(initSuccessArr))}
+            newItems={modifConflictArr.concat(modifSuccessArr)}
+            groups={groups}
+            elementForChange={elementForChange}
+            openOverLay={openOverLay}
+            setIsAddNewItem={setIsAddNewItem}
+            handleDeleteItem={handleDeleteItem}
           />
-        )
-        : (
-          <div style={{ height: "106px", margin: "25px auto 5px" }} />
-        )}
+        </div>
+        <div style={{ width: "49%" }}>
+          {elementForChange !== null
+            ? (
+              <EquipmentDescription
+                equipment={
+                  groups.find((group) => group.id === elementForChange.group)
+                }
+                text="Выбранная ячейка соответствует оборудованию: "
+              />
+            )
+            : (
+              <EquipmentDescription
+                equipment={PR_COM.calcGroup}
+                text="Рассчёт дня производился по оборудованию: "
+              />
+            )}
+        </div>
+      </div>
     </>
   );
 }

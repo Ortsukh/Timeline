@@ -58,32 +58,33 @@
   line-height: 16px !important;
 }
 
-.equipment_description {
-  padding: 5px 10px;
+.equipment_component {
+  /* padding: 5px 10px; */
+  padding: 10px;
   border: 1px solid #b7b7b7;
   border-radius: 5px;
   width: auto;
-  height: 105px;
-  display: flex;
-  margin: 20px auto 0;
+  /* height: 220px; */
+  /* display: flex; */
+  /* margin: auto; */
   align-items: center;
   gap: 15px;
   font-size: 14px;
   background-color: #fff;
 }
 
-.equipment_description img {
-  width: 100px;
-  height: 100px;
+.equipment_component img {
+  width: 200px;
+  height: 200px;
   object-fit: contain;
 }
 
 .view_changes_container {
-  width: fit-content;
+  width: 100%;
+  /* width: fit-content; */
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  min-height: 400px;
 }
 
 .view_changes_row {

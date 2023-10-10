@@ -118,6 +118,7 @@ export default function ConfirmBookingWindow({
         openOverLay={openOverLay}
         isAddNewItem={isAddNewItem}
         setIsAddNewItem={setIsAddNewItem}
+        calculatedOrSelectedDevice={calculatedOrSelectedDevice}
       />
       )}
     </>
