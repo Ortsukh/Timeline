@@ -72,7 +72,6 @@ const createEquipmentObject = (item, elem) => ({
 
 export const createEquipmentGroup = (equipments) => {
   const result = [];
-  // console.log(equipments);
   equipments.forEach((elem) => {
     if (elem.kitchenEquipment.length > 0) {
       elem.kitchenEquipment.forEach((item) => {
@@ -80,29 +79,28 @@ export const createEquipmentGroup = (equipments) => {
       });
     }
   });
-  // console.log(result);
   return result;
 };
 
 const convertGrid = (length, grid, date) => {
   const arr = grid.split("");
   const times = [];
-  for (let i = 0; i < 24; i += length) {
+  for (let i = 0; i < 24; i++) {
     if (arr[i] === "1") {
       times.push({
         start_time: moment(`${date} ${i}:00`).valueOf(),
         end_time: moment(`${date} ${i + length}:00`).valueOf(),
       });
+      i += length - 1;
     }
   }
   return times;
 };
 
-export const addGrid = (formatHour, shiftLength) => {
+export const addGrid = (formatHour, shiftLength, startWorkDay = 0) => {
   const grid = new Array(24).fill(0);
-
   for (let i = 0; i < shiftLength; i++) {
-    grid[formatHour * shiftLength + i] = 1;
+    grid[formatHour * shiftLength + startWorkDay + i] = 1;
   }
 
   return grid.join("");
@@ -135,8 +133,6 @@ const createOrderObject = (order, el, shiftLength, interval, user) => {
   const statusColor = getOrderColor(order, user);
   const itemProps = { style: { background: statusColor } };
   const hour = moment(el.start_time).hours();
-  const formatHour = Math.floor(hour / shiftLength);
-
   return {
     id: uuidv4(),
     orderId: order.id,
@@ -149,7 +145,7 @@ const createOrderObject = (order, el, shiftLength, interval, user) => {
     status: order.rentOrder.status || "pending",
     itemProps,
     date: interval.date,
-    grid: addGrid(formatHour, shiftLength),
+    grid: addGrid(1, hour),
   };
 };
 
