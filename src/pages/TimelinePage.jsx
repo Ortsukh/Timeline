@@ -85,7 +85,6 @@ export default function TimelinePage() {
   }, []);
 
   useEffect(() => {
-    // console.log(user);
     setIsLoadingEquipment(true);
     if (!user) return;
     if (user && user.role === "ROLE_MANAGER" && false) { //! для дева!
@@ -143,16 +142,18 @@ export default function TimelinePage() {
   };
 
   const getFormattedDate = (groupId, time) => {
+    const { shiftLength, workTime } = groups.find((group) => group.id === groupId);
+    const startWorkDay = Number(workTime.shiftTimes.start.split(":")[0]);
     const date = moment(time).format("YYYY-MM-DD");
-    const hour = moment(time).hours();
-    const { shiftLength } = groups.find((group) => group.id === groupId);
-    const formatHour = Math.floor(hour / shiftLength);
+    // const hour = moment(time).hours();
+    // const formatHour = Math.floor(hour / shiftLength);
+    const formatHour = Math.floor((moment(time).hours() - startWorkDay) / shiftLength);
 
     let start;
     let end;
 
-    start = formatHour * shiftLength;
-    end = start + shiftLength;
+    start = formatHour * shiftLength + startWorkDay;
+    end = start + shiftLength + startWorkDay;
     start = `${date} ${start}:00`;
     end = `${date} ${end}:00`;
     return {
@@ -280,13 +281,12 @@ export default function TimelinePage() {
     }
   };
 
-  const getFilteredItemsByCompany = (companyId) => (
-    items.filter((item) => item.company.id === companyId)
+  const getFilteredItemsByCompany = (companyId) => items.filter(
+    (item) => item.company.id === companyId,
   );
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };
-
   return !isLoading && !isLoadingEquipment ? (
     <div>
       {isBookingMenu ? (
@@ -386,7 +386,6 @@ export default function TimelinePage() {
             orderDate={orderDate}
             openBookingWindow={openBookingWindow}
             items={selectedCompany ? getFilteredItemsByCompany(selectedCompany.id) : items}
-            clickOnEmptySpace={clickOnEmptySpace}
             clickOnItem={clickOnItem}
             setIsBookingMenu={setIsBookingMenu}
             setSelectedGroups={setSelectedGroups}

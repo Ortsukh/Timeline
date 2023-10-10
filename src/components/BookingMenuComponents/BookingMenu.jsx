@@ -66,7 +66,6 @@ export default function BookingMenu({
         }
         successEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
       });
-      // console.log("successEvent", successEvent);
       Object.keys(successEvent).forEach((date) => {
         events.push({
           start: date,
@@ -116,13 +115,13 @@ export default function BookingMenu({
     setSelectedConflictDate(date);
   };
   const generatePreOrders = (group, date, shiftTime) => {
-    const formatHour = Math.floor(shiftTime / group.shiftLength);
+    const formatHour = Math.floor((shiftTime - startWorkDay) / group.shiftLength);
     return {
       id: uuidv4(),
       group: group.id,
       status: "preOrder",
       date,
-      grid: addGrid(formatHour, group.shiftLength),
+      grid: addGrid(formatHour, group.shiftLength, startWorkDay),
       shiftTime,
     };
   };
@@ -244,7 +243,6 @@ export default function BookingMenu({
   };
   const addConflictsAndSuccessInMap = (groupId, selectedDate) => {
     baseOrder.shiftTime.forEach(({ value: shiftTime }) => {
-      // console.log(baseOrder.equipment);
       const { equipment } = baseOrder;
 
       if (!equipment.conflicts[selectedDate]) {
@@ -485,9 +483,6 @@ export default function BookingMenu({
     //   return el;
     // }));
   };
-  // console.log(baseOrder);
-  // console.log(mapsEquipment);
-  // console.log(selectedDates);
   const openOverLay = (status) => {
     if (status === false) {
       setIsAddNewItem(false);
