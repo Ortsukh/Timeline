@@ -290,28 +290,6 @@ export default function WindowTimeline({
   };
 
   const handleDeselectItem = () => {
-    // const choseStatus = elementForChange.status === "success"
-    //   ? { array: modifSuccessArr, setArray: setModifSuccessArr }
-    //   : { array: modifConflictArr, setArray: setModifConflictArr };
-
-    // const updatedData = choseStatus.array.map((item) => {
-    //   if (item.id === elementForChange.id) {
-    //     const updatedItemPropsStyle = { ...item.itemProps.style };
-    //     updatedItemPropsStyle.border = "1px solid gray";
-    //     const updatedItem = {
-    //       ...item,
-    //       itemProps: {
-    //         ...item.itemProps,
-    //         style: updatedItemPropsStyle,
-    //       },
-    //     };
-    //     return updatedItem;
-    //   }
-    //   return item;
-    // });
-    // choseStatus.setArray(updatedData);
-    // setIsClickedItem(false);
-    // setElementForChange(null);
     if (elementForChange) {
       let setArrayStatus = null;
       switch (elementForChange.status) {
@@ -344,20 +322,19 @@ export default function WindowTimeline({
     }
   };
 
-  // const escFunction = useCallback((event) => {
-  //   if (event.key === "Escape") {
-  //     console.log(123);
-  //
-  //     handleDeselectItem();
-  //   }
-  // }, []);
-  //
-  // useEffect(() => {
-  //   document.addEventListener("keydown", escFunction, false);
-  //   return function cleanup() {
-  //     document.removeEventListener("keydown", escFunction, false);
-  //   };
-  // }, [escFunction]);
+  const escFunction = useCallback((event) => {
+    if (event.key === "Escape") {
+      handleDeselectItem();
+    }
+  }, [elementForChange]);
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false);
+    return function cleanup() {
+      document.removeEventListener("keydown", escFunction, false);
+    };
+  }, [escFunction]);
+
   const handleItemSelect = (itemId) => {
     // console.log("itemId", itemId);
     if (elementForChange && itemId === elementForChange.id) {
@@ -691,6 +668,7 @@ export default function WindowTimeline({
             openOverLay={openOverLay}
             setIsAddNewItem={setIsAddNewItem}
             handleDeleteItem={handleDeleteItem}
+            handleItemSelect={handleItemSelect}
           />
         </div>
         <div style={{ width: "49%" }}>
