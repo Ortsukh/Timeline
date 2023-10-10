@@ -14,6 +14,7 @@ import ConfirmBookingWindow from "./BookingDateColumn/ConflictResolutionWindow/C
 import style from "./BookingMenu.module.css";
 import ITEMS_PREORDER_COLOR from "../../constants/itemsPreOrderColor";
 import EditButtonColumn from "./EditButtonColumn/EditButtonColumn";
+import Overlay from "./BookingDateColumn/components/Overlay";
 
 export default function BookingMenu({
   setIsBookingMenu,
@@ -496,12 +497,13 @@ export default function BookingMenu({
   return (
     <>
       {isOpenOverlay && (
-      <div
-        role="presentation"
-        className="timeLineOverlay"
-      >
-        <button type="button" onClick={() => openOverLay(false)} className="closeOverlayButton">x</button>
-      </div>
+      <Overlay openOverLay={openOverLay} />
+      // <div
+      //   role="presentation"
+      //   className="timeLineOverlay"
+      // >
+      //   <button type="button" onClick={() => openOverLay(false)} className="closeOverlayButton">x</button>
+      // </div>
       )}
       <div className={style.container}>
         <div className={style.editButtonColumn}>

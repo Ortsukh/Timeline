@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
@@ -344,6 +344,20 @@ export default function WindowTimeline({
     }
   };
 
+  // const escFunction = useCallback((event) => {
+  //   if (event.key === "Escape") {
+  //     console.log(123);
+  //
+  //     handleDeselectItem();
+  //   }
+  // }, []);
+  //
+  // useEffect(() => {
+  //   document.addEventListener("keydown", escFunction, false);
+  //   return function cleanup() {
+  //     document.removeEventListener("keydown", escFunction, false);
+  //   };
+  // }, [escFunction]);
   const handleItemSelect = (itemId) => {
     // console.log("itemId", itemId);
     if (elementForChange && itemId === elementForChange.id) {
