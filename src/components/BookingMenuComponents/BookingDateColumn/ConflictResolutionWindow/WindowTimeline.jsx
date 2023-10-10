@@ -205,6 +205,11 @@ export default function WindowTimeline({
   });
 
   const handleCanvasClick = (groupId, time) => {
+<<<<<<< HEAD
+=======
+    // eslint-disable-next-line
+    // const formattedTime = Math.floor(moment(time).hours() / PR_COM.shiftCateg) * PR_COM.shiftCateg;
+>>>>>>> view-changes
     const startWorkDay = Number(PR_COM.workTime.shiftTimes.start.split(":")[0]);
     const endWorkDay = Number(PR_COM.workTime.shiftTimes.end.split(":")[0]);
     const formattedTime = Math.floor((moment(time).hours() - startWorkDay) / PR_COM.shiftCateg)
@@ -565,8 +570,12 @@ export default function WindowTimeline({
               {/*      intervalContext, */}
               {/*    }) => ( */}
               {/*      <div {...getIntervalProps()}> */}
+<<<<<<< HEAD
               {/*        /!* eslint-disable-next-line *!/ */}
               {/* eslint-disable-next-line max-len */}
+=======
+              {/*        eslint-disable-next-line */}
+>>>>>>> view-changes
               {/*        /!* {moment(+getIntervalProps().key.slice(6)).isSame(setStartTimeSelectedItem(curTime), "hours") */}
               {/*        && statusCheckboxSelected === "AUTO" */}
               {/*          ? ( */}
@@ -675,7 +684,8 @@ export default function WindowTimeline({
       <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
         <div style={{ width: "49%" }}>
           <ViewChanges
-            prevItems={initConflictArr.concat(sortingArrayViewChanges(initSuccessArr))}
+            prevItems={sortingArrayViewChanges(initConflictArr)
+              .concat(sortingArrayViewChanges(initSuccessArr))}
             newItems={modifConflictArr.concat(modifSuccessArr)}
             groups={groups}
             elementForChange={elementForChange}

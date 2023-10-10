@@ -87,6 +87,10 @@ export default function EditButtonColumn({
       </div>
     );
   };
+<<<<<<< HEAD
+=======
+  // console.log(currentDevice);
+>>>>>>> view-changes
   return (
     <div>
       <div className={style.backButtonBlock}>
