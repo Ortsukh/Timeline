@@ -15,45 +15,44 @@ const createWorkTimeMap = (workTimesArr) => {
   };
   if (!workTimesArr.length) {
     return {
-      monday: { start: "0:00", end: "23:00" },
-      tuesday: { start: "0:00", end: "23:00" },
-      wednesday: { start: "0:00", end: "23:00" },
-      thursday: { start: "0:00", end: "23:00" },
-      friday: { start: "0:00", end: "23:00" },
-      saturday: { start: "0:00", end: "23:00" },
-      sunday: { start: "0:00", end: "23:00" },
+      monday: { start: "0:00", end: "24:00" },
+      tuesday: { start: "0:00", end: "24:00" },
+      wednesday: { start: "0:00", end: "24:00" },
+      thursday: { start: "0:00", end: "24:00" },
+      friday: { start: "0:00", end: "24:00" },
+      saturday: { start: "0:00", end: "24:00" },
+      sunday: { start: "0:00", end: "24:00" },
     };
   }
-  workTimesArr.forEach((time) => {
-    if (time.monday) {
-      dayMap.monday = { start: time.timeFrom, end: time.timeTo };
-      shiftTimes = { start: time.timeFrom, end: time.timeTo };
-    }
-    if (time.tuesday) {
-      dayMap.tuesday = { start: time.timeFrom, end: time.timeTo };
-      shiftTimes = { start: time.timeFrom, end: time.timeTo };
-    }
-    if (time.wednesday) {
-      dayMap.wednesday = { start: time.timeFrom, end: time.timeTo };
-      shiftTimes = { start: time.timeFrom, end: time.timeTo };
-    }
-    if (time.thursday) {
-      dayMap.thursday = { start: time.timeFrom, end: time.timeTo };
-      shiftTimes = { start: time.timeFrom, end: time.timeTo };
-    }
-    if (time.friday) {
-      dayMap.friday = { start: time.timeFrom, end: time.timeTo };
-      shiftTimes = { start: time.timeFrom, end: time.timeTo };
-    }
-    if (time.saturday) {
-      dayMap.saturday = { start: time.timeFrom, end: time.timeTo };
-      shiftTimes = { start: time.timeFrom, end: time.timeTo };
-    }
-    if (time.sunday) {
-      dayMap.sunday = { start: time.timeFrom, end: time.timeTo };
-      shiftTimes = { start: time.timeFrom, end: time.timeTo };
-    }
-  });
+  const time = workTimesArr[0];
+  if (time.monday) {
+    dayMap.monday = { start: time.timeFrom, end: time.timeTo };
+    shiftTimes = { start: time.timeFrom, end: time.timeTo };
+  }
+  if (time.tuesday) {
+    dayMap.tuesday = { start: time.timeFrom, end: time.timeTo };
+    shiftTimes = { start: time.timeFrom, end: time.timeTo };
+  }
+  if (time.wednesday) {
+    dayMap.wednesday = { start: time.timeFrom, end: time.timeTo };
+    shiftTimes = { start: time.timeFrom, end: time.timeTo };
+  }
+  if (time.thursday) {
+    dayMap.thursday = { start: time.timeFrom, end: time.timeTo };
+    shiftTimes = { start: time.timeFrom, end: time.timeTo };
+  }
+  if (time.friday) {
+    dayMap.friday = { start: time.timeFrom, end: time.timeTo };
+    shiftTimes = { start: time.timeFrom, end: time.timeTo };
+  }
+  if (time.saturday) {
+    dayMap.saturday = { start: time.timeFrom, end: time.timeTo };
+    shiftTimes = { start: time.timeFrom, end: time.timeTo };
+  }
+  if (time.sunday) {
+    dayMap.sunday = { start: time.timeFrom, end: time.timeTo };
+    shiftTimes = { start: time.timeFrom, end: time.timeTo };
+  }
 
   return { dayMap, shiftTimes };
 };

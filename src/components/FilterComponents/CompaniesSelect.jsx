@@ -30,6 +30,11 @@ export default function CompaniesSelect({
     });
   }, [selectedCompany]);
 
+  const handleReset = () => {
+    setSelectValue(null);
+    setSelectedCompany(null);
+  };
+
   return (
     <div className="tools-filter company-filter">
       <span> Выбрать компанию</span>
@@ -43,9 +48,9 @@ export default function CompaniesSelect({
       {!selectedCompany && isClickedOnNew && (
         <div className="tooltip">Пожалуйста, выберите компанию</div>
       )}
-      {/* <button type="button" className="clear-button" onClick={handleReset}> */}
-      {/*  Отчистить */}
-      {/* </button> */}
+      <button type="button" className="clear-button" onClick={handleReset}>
+        Отчистить
+      </button>
     </div>
   );
 }

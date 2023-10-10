@@ -214,9 +214,9 @@ export default function TimelinePage() {
     setToolsCount(0);
   };
 
-  const choseCount = (e) => {
-    setToolsCount(e.target.value);
-  };
+  // const choseCount = (e) => {
+  //   setToolsCount(e.target.value);
+  // };
 
   const showDatePicker = () => {
     setIsActiveDate((current) => !current);
@@ -241,7 +241,7 @@ export default function TimelinePage() {
     if (
       item.status !== "pending"
     ) return;
-    if (user.role === "ROLE_COMPANY" && user.id !== item.company.id) {
+    if (user.role === "ROLE_COMPANY") {
       return;
     }
     if (!item || item.status === "preOrder" || isEditMode) return;
@@ -278,9 +278,12 @@ export default function TimelinePage() {
       setIsClickedOnNew(false);
     }
   };
+
+  const getFilteredItemsByCompany = (companyId) => items.filter((item) => item.company.id === companyId);
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };
+  console.log(selectedCompany);
   return !isLoading && !isLoadingEquipment ? (
     <div>
       {isBookingMenu ? (
@@ -332,13 +335,6 @@ export default function TimelinePage() {
                 showButtonClear={showButtonClear}
                 setCurrentDeviceIndex={() => {}}
               />
-              {selectedGroups.length ? (
-                <CountTools
-                  choseCount={choseCount}
-                  groupsCount={getGroupsToShow()}
-                  toolsCount={toolsCount}
-                />
-              ) : null}
             </div>
             <div className="sort-box_item">
               <DateFilter
@@ -386,7 +382,7 @@ export default function TimelinePage() {
             isActiveDate={isActiveDate}
             orderDate={orderDate}
             openBookingWindow={openBookingWindow}
-            items={items.concat(itemsPreOrder)}
+            items={selectedCompany ? getFilteredItemsByCompany(selectedCompany.id) : items}
             clickOnEmptySpace={clickOnEmptySpace}
             clickOnItem={clickOnItem}
             setIsBookingMenu={setIsBookingMenu}
