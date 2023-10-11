@@ -678,6 +678,7 @@
 .category-count-box {
     display: flex;
     gap: 15px;
+    margin-left: 15px;
 }
 
 .activeCell a>div>div {
@@ -744,7 +745,8 @@ a.fc-col-header-cell-cushion.red-color:hover {
 .reserve-timeline {
     margin: 0;
     width: 140px;
-    font-size: 0.875rem;
+    font-size: 14px;
+    padding: 0 5px;
     /* line-height: 12px; */
     white-space: nowrap;
     cursor: pointer;

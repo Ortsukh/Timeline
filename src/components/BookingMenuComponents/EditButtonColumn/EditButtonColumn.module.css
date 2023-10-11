@@ -12,6 +12,9 @@
   font-size: 14px;
   border-radius: 5px;
   border: 1px solid #f03333;
+  white-space: nowrap;
+  height: 38px;
+  margin: auto 0;
 }
 
 .filterContainer {
