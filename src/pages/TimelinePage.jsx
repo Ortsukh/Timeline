@@ -286,7 +286,6 @@ export default function TimelinePage() {
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };
-
   return !isLoading && !isLoadingEquipment ? (
     <div>
       {isBookingMenu ? (

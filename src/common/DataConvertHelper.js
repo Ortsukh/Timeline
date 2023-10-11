@@ -3,8 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import orderStatus from "../constants/constants";
 
 const createWorkTimeMap = (workTimesArr) => {
-  let shiftTimes = { start: "0:00", end: "23:00" };
-  const dayMap = {
+  let shiftTimes = { start: "0:00", end: "24:00" };
+  let dayMap = {
     monday: null,
     tuesday: null,
     wednesday: null,
@@ -14,7 +14,7 @@ const createWorkTimeMap = (workTimesArr) => {
     sunday: null,
   };
   if (!workTimesArr.length) {
-    return {
+    dayMap = {
       monday: { start: "0:00", end: "24:00" },
       tuesday: { start: "0:00", end: "24:00" },
       wednesday: { start: "0:00", end: "24:00" },
@@ -23,6 +23,7 @@ const createWorkTimeMap = (workTimesArr) => {
       saturday: { start: "0:00", end: "24:00" },
       sunday: { start: "0:00", end: "24:00" },
     };
+    return { dayMap, shiftTimes };
   }
   const time = workTimesArr[0];
   if (time.monday) {
