@@ -19,7 +19,7 @@ function renderEventContent(eventInfo) {
   if (eventInfo.event.extendedProps.isEmpty) {
     const styleObj = {
       height: 40,
-      backgroundColor: "white",
+      backgroundColor: "#ecf0f5",
       border: "none",
       display: "flex",
       justifyContent: "center",
