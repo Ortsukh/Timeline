@@ -162,7 +162,7 @@ export default function WindowTimeline({
             lineHeight: "15px",
             display: "flex",
             alignItems: "center",
-            fontSize: "0.85rem",
+            // fontSize: "0.85rem",
           }}
         >
           {el.title}
@@ -192,7 +192,7 @@ export default function WindowTimeline({
               lineHeight: "15px",
               display: "flex",
               alignItems: "center",
-              fontSize: "0.85rem",
+              // fontSize: "0.85rem",
             }}
           >
             {el.title}

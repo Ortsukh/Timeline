@@ -101,6 +101,7 @@
   border-radius: 5px;
   gap: 5px;
   user-select: none;
+  cursor: pointer;
 }
 
 .view_changes_items_status {
@@ -113,7 +114,7 @@
 }
 
 .view_changes_items_title {
-  min-width: 100px;
+  /* width: 100px; */
 }
 
 .view_changes_arrow {

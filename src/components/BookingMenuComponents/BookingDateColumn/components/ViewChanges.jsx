@@ -12,19 +12,23 @@ export default function ViewChanges({
     item.currentGroup = groups.find((groupItem) => groupItem.id === item.group);
     newItemsMap[item.id.split("_")[1]] = item;
   });
-  // console.log("newItemsMap", newItemsMap);
   const content = prevItems.map((item) => {
     const group = groups.find((groupItem) => groupItem.id === item.group);
     const newItem = newItemsMap[item.id.split("_")[1]];
-    // console.log("item", item.id, elementForChange?.id);
     const isActiveItemStyle = item.id.split("_")[1] === elementForChange?.id.split("_")[1] ? { backgroundColor: "rgb(255 231 115)" } : {};
+    const isDeletedItemStyle = newItem.isDeleted === true ? { cursor: "not-allowed" } : {};
+
     return (
       <div
         className={style.view_changes_row}
-        style={isActiveItemStyle}
+        style={{ ...isActiveItemStyle, ...isDeletedItemStyle }}
         key={item.id}
         aria-hidden="true"
-        onClick={() => handleItemSelect(newItem.id)}
+        onClick={() => {
+          if (newItem.isDeleted === false) {
+            handleItemSelect(newItem.id);
+          }
+        }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", width: "47%" }}>
           <div className={style.view_changes_items_title}>

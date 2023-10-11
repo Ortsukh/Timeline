@@ -19,7 +19,6 @@ function renderEventContent(eventInfo) {
   if (eventInfo.event.extendedProps.isEmpty) {
     const styleObj = {
       height: 40,
-      backgroundColor: "#ecf0f5",
       border: "none",
       display: "flex",
       justifyContent: "center",
@@ -398,6 +397,7 @@ export default function BookingCalendar({
 
               },
             }}
+            eventBackgroundColor="transparent"
           />
         </RectangleSelection>
         <Tooltip anchorSelect=".fc-clue-button" openOnClick place="right">
