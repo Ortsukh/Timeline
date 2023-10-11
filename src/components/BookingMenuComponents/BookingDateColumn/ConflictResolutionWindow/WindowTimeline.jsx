@@ -618,10 +618,7 @@ export default function WindowTimeline({
               <p style={{ fontSize: "14px" }}>
                 {"У вас "}
                 <span style={{ fontWeight: "bold", color: "#f03333" }}>{modifConflictArr.length}</span>
-                {" "}
-                { PluralizeWordConflict(modifConflictArr.length, "конфликт")}
-                .
-                {/* . Нажмите на нужную смену и измените её путём нажатия на пустую ячейку. */}
+                {` ${PluralizeWordConflict(modifConflictArr.length, "конфликт")}.`}
               </p>
             )
             : (

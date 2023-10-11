@@ -65,7 +65,8 @@
 }
 
 .messageWindow {
-    width: 205px;
+    /*! width: 205px; */
+    width: 227px;
     position: absolute;
     background-color: rgb(252, 253, 253);
     top: 5%;
@@ -743,5 +744,9 @@ a.fc-col-header-cell-cushion.red-color:hover {
 .reserve-timeline {
     margin: 0;
     width: 140px;
-    font-size: 14px;
+    font-size: 0.875rem;
+    /* line-height: 12px; */
+    white-space: nowrap;
+    cursor: pointer;
+    height: 38px;
 }
