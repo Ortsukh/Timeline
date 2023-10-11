@@ -65,7 +65,6 @@
 }
 
 .messageWindow {
-    /*! width: 205px; */
     width: 227px;
     position: absolute;
     background-color: rgb(252, 253, 253);
