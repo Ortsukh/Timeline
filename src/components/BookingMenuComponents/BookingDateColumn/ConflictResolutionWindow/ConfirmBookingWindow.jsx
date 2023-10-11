@@ -9,8 +9,8 @@ import ManagerFailConfInfo from "./InformationTablesConflicts/ManagerFailConfInf
 import { generateClue } from "../../../../common/GenerateElementsData";
 import styleConflict from "./Conflict.module.css";
 import WindowTimeline from "./WindowTimeline";
-// import CompanyDayConfInfo from "./InformationTablesConflicts/CompanyDayConfInfo";
 import EditConfInfo from "./InformationTablesConflicts/EditConfInfo";
+// import CompanyDayConfInfo from "./InformationTablesConflicts/CompanyDayConfInfo";
 
 export default function ConfirmBookingWindow({
   keyRerenderConflictResolutionWindow,
