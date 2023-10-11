@@ -14,7 +14,10 @@ export default function EquipmentDescription({ equipment, text }) {
         {text}
         <span style={{ fontWeight: "bold", color: "#f03333" }}>{equipment.title}</span>
       </p>
-      <div style={{ width: "auto", height: "100px", textAlign: "center" }}>
+      <div style={{
+        width: "auto", height: "100px", textAlign: "center", marginTop: "10px",
+      }}
+      >
         <img src={equipment.img} alt="description" />
       </div>
       <p style={{ margin: "10px 0 0" }}>

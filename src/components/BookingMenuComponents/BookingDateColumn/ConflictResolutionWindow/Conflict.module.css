@@ -30,7 +30,7 @@
 }
 
 .resolveBtn {
-  padding: 10px 5px;
+  padding: 0 5px;
   border-radius: 5px;
   color: rgb(4, 20, 42);
   cursor: pointer;
@@ -50,7 +50,7 @@
 }
 
 .rejectBtn {
-  padding: 10px 5px;
+  padding: 0 5px;
   color: white;
   background-color: #f03333;
   font-size: 14px;
@@ -70,7 +70,7 @@
 .disableBtn {
   border: 1px solid gray;
   background-color: gray;
-  padding: 10px 5px;
+  padding: 0 5px;
   border-radius: 5px;
   color: white;
   cursor: pointer;
