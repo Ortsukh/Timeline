@@ -38,7 +38,7 @@ export default function BookingMenu({
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
   const [selectedConflictDate, setSelectedConflictDate] = useState(null);
   const [keyRerenderConflictResolutionWindow, setKeyRerenderConflictResolutionWindow] = useState(0);
-  const [mapsEquipment, setMapsEquipment] = useState([]);
+  const [mapsEquipment, setMapsEquipment] = useState({});
   const [commonMapsEquipment, setCommonMapsEquipment] = useState([]);
   const [selectedDates, setSelectedDates] = useState([]);
   const [calendarEvent, setCalendarEvent] = useState([]);
@@ -49,50 +49,6 @@ export default function BookingMenu({
   const [deactivatedCell, setDeactivatedCell] = useState(false);
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
   const [isAddNewItem, setIsAddNewItem] = useState(false);
-
-  useEffect(() => {
-    if (isEditMode) {
-      const editItems = items.filter(
-        (item) => item.rentOrderId === editOrderData.rentOrderId,
-      );
-
-      const editDates = [];
-      const events = [];
-      const successEvent = {};
-      editItems.forEach((item) => {
-        editDates.push(item.date);
-        if (!successEvent[item.date]) {
-          successEvent[item.date] = [];
-        }
-        successEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
-      });
-      // console.log("successEvent", successEvent);
-      Object.keys(successEvent).forEach((date) => {
-        events.push({
-          start: date,
-          extendedProps: {
-            // shortTitle: groups.find((group) => group.id === item.group).shortTitle, //! хз
-            shiftLength: currentDevice.shiftLength,
-            conflicts: [],
-            success: successEvent[date],
-          },
-          backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
-        });
-      });
-      setBaseOrder((prev) => ({
-        ...prev,
-        preOrders: editItems,
-        equipment: {
-          ...currentDevice, conflicts: [], success: successEvent, countConflicts: 0,
-        },
-      }));
-
-      setSelectedDates(editDates);
-      setIsActiveCalendar(false);
-      setCalendarEvent(events);
-      setShowStartDisplayConflict(false);
-    }
-  }, [editOrderData, isEditMode]);
 
   const initialCurrentDeviceIndex = groups
     .map((current) => current.id)
@@ -107,8 +63,8 @@ export default function BookingMenu({
     setCalendarEvent([]);
     setSelectedConflictDate("");
     setIsActiveCalendar(true);
-    setMapsEquipment([]);
-    setCommonMapsEquipment([]);
+    // setMapsEquipment({});
+    // setCommonMapsEquipment([]);
     setSelectedDates([]);
   };
   const handleSetSelectedConflictDate = (date) => {
@@ -143,14 +99,6 @@ export default function BookingMenu({
         } else if (!currentEquipment.dates[selectedDate]
             || (currentEquipment.dates[selectedDate]
                 && currentEquipment.dates[selectedDate][baseOrderShiftTime] === "0")) {
-          // events.push({
-          //   start: selectedDate,
-          //   extendedProps: {
-          //     shift: baseOrderShiftTime, shortTitle: currentEquipment.shortTitle, shiftLength: currentDevice.shiftLength, groupId: equipmentId,
-          //   },
-          //   backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
-          // });
-
           baseOrder.preOrders.push(generatePreOrders(currentEquipment, selectedDate, baseOrderShiftTime));
         } else {
           const commonMapsEquipmentSelectedDate = commonMapsEquipment[selectedDate];
@@ -244,7 +192,7 @@ export default function BookingMenu({
   };
   const addConflictsAndSuccessInMap = (groupId, selectedDate) => {
     baseOrder.shiftTime.forEach(({ value: shiftTime }) => {
-      // console.log(baseOrder.equipment);
+      console.log(baseOrder.equipment);
       const { equipment } = baseOrder;
 
       if (!equipment.conflicts[selectedDate]) {
@@ -297,7 +245,7 @@ export default function BookingMenu({
         });
       });
     });
-
+    console.log(mapsEquipment);
     const min = Object.keys(mapsEquipment).reduce((acc, curr) => {
       const accConflictsLength = mapsEquipment[acc].countConflicts;
       const currConflictsLength = mapsEquipment[curr].countConflicts;
@@ -314,10 +262,18 @@ export default function BookingMenu({
     setSelectedPreferredDevice(null);
   };
 
+  console.log(mapsEquipment, commonMapsEquipment);
   const createEquipmentsMap = () => {
     const map = {};
     const commonMap = {};
-    const filteredItemsByDate = items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day")));
+
+    let filteredItemsByDate = items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day")));
+
+    if (isEditMode) {
+      filteredItemsByDate = filteredItemsByDate.filter(
+        (item) => item.rentOrderId !== editOrderData.rentOrderId,
+      );
+    }
 
     groups.forEach((group) => {
       map[group.id] = {};
@@ -342,14 +298,77 @@ export default function BookingMenu({
         dates: dayGrids,
       };
     });
-
+    console.log(map);
     setCommonMapsEquipment(commonMap);
     setMapsEquipment(map);
   };
 
   useEffect(() => {
     createEquipmentsMap();
-  }, [groups, baseOrder.equipment]);
+  }, [groups]);
+
+  useEffect(() => {
+    if (!Object.keys(mapsEquipment).length) {
+      return;
+    }
+    if (isEditMode) {
+      const editItems = items.filter(
+        (item) => item.rentOrderId === editOrderData.rentOrderId,
+      );
+
+      const editDates = [];
+      const events = [];
+      const successEvent = {};
+      const conflictEvent = {};
+      editItems.forEach((item) => {
+        editDates.push(item.date);
+        if (!successEvent[item.date]) {
+          successEvent[item.date] = [];
+        }
+
+        if (!conflictEvent[item.date]) {
+          conflictEvent[item.date] = [];
+        }
+        const itemStartIndex = item.grid.indexOf("1");
+        console.log(mapsEquipment);
+        if (mapsEquipment[item.group].dates[item.date][itemStartIndex] === "1") {
+          conflictEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
+        } else {
+          successEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
+        }
+      });
+
+      editDates.forEach((date) => {
+        events.push({
+          start: date,
+          extendedProps: {
+            // shortTitle: groups.find((group) => group.id === item.group).shortTitle, //! хз
+            shiftLength: currentDevice.shiftLength,
+            conflicts: conflictEvent[date],
+            success: successEvent[date],
+          },
+          backgroundColor: conflictEvent[date].length ? ITEMS_PREORDER_COLOR.orderedInAllEquipment : ITEMS_PREORDER_COLOR.empty.backgroundColor,
+        });
+      });
+
+      setBaseOrder((prev) => ({
+        ...prev,
+        preOrders: editItems,
+        equipment: {
+          ...currentDevice,
+          conflicts: conflictEvent,
+          success: successEvent,
+          countConflicts: Object.keys(conflictEvent).length,
+          dates: mapsEquipment[currentDevice.id],
+        },
+      }));
+
+      setSelectedDates(editDates);
+      setIsActiveCalendar(false);
+      setCalendarEvent(events);
+      setShowStartDisplayConflict(false);
+    }
+  }, [editOrderData, isEditMode, mapsEquipment]);
 
   const editOrder = (status) => {
     const orderItemsGrid = createOrderGrid(baseOrder.preOrders);
