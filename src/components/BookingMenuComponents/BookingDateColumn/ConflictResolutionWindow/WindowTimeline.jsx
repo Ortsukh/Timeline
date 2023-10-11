@@ -45,7 +45,6 @@ export default function WindowTimeline({
     workTime: baseOrder.equipment.workTime,
     calcGroup: calculatedOrSelectedDevice,
     startWorkDay: Number(baseOrder.equipment.workTime.shiftTimes.start.split(":")[0]),
-
   };
   const PR_SEL = {
     today: moment(selectedConflictDate.start),

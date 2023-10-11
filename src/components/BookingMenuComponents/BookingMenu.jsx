@@ -33,6 +33,7 @@ export default function BookingMenu({
   user,
 }) {
   // new
+  console.log(currentDevice);
   const startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
   const [baseOrder, setBaseOrder] = useState({ shiftTime: [{ value: startWorkDay, label: `${startWorkDay} - ${startWorkDay + currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
@@ -322,7 +323,7 @@ export default function BookingMenu({
       const dayGrids = groupByDateItems(
         filteredItemsByDate.filter((item) => item.group === group.id),
       );
-
+      console.log(dayGrids);
       Object.keys(dayGrids).forEach((day) => {
         if (!commonMap[day]) {
           commonMap[day] = dayGrids[day];
@@ -489,6 +490,8 @@ export default function BookingMenu({
     }
     setIsOpenOverlay(status);
   };
+  console.log("baseOrder", baseOrder);
+  console.log(mapsEquipment);
   return (
     <>
       {isOpenOverlay && (
