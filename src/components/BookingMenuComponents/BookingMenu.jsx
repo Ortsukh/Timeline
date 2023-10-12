@@ -15,6 +15,7 @@ import style from "./BookingMenu.module.css";
 import ITEMS_PREORDER_COLOR from "../../constants/itemsPreOrderColor";
 import EditButtonColumn from "./EditButtonColumn/EditButtonColumn";
 import Overlay from "./BookingDateColumn/components/Overlay";
+import EquipmentInfoWindow from "../Popup/EquipmentInfoWindow";
 
 export default function BookingMenu({
   setIsBookingMenu,
@@ -49,6 +50,7 @@ export default function BookingMenu({
   const [deactivatedCell, setDeactivatedCell] = useState(false);
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
   const [isAddNewItem, setIsAddNewItem] = useState(false);
+  const [isEquipmentInfoWindowOpen, setIsEquipmentInfoWindowOpen] = useState(null);
 
   const initialCurrentDeviceIndex = groups
     .map((current) => current.id)
@@ -331,7 +333,7 @@ export default function BookingMenu({
         }
         const itemStartIndex = item.grid.indexOf("1");
         console.log(mapsEquipment);
-        if (mapsEquipment[item.group].dates[item.date][itemStartIndex] === "1") {
+        if (mapsEquipment[item.group].dates[item.date] && mapsEquipment[item.group].dates[item.date][itemStartIndex] === "1") {
           conflictEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
         } else {
           successEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
@@ -600,7 +602,7 @@ export default function BookingMenu({
             openOverLay={openOverLay}
             isAddNewItem={isAddNewItem}
             setIsAddNewItem={setIsAddNewItem}
-
+            setIsEquipmentInfoWindowOpen={setIsEquipmentInfoWindowOpen}
           />
         </div>
       </div>
@@ -611,6 +613,12 @@ export default function BookingMenu({
           groups={groups}
           closeBookingWindow={setIsConfirmWindowOpen}
           confirmFunc={() => (isEditMode ? editOrder(isConfirmWindowOpen) : sendNewOrder(isConfirmWindowOpen))}
+        />
+      )}
+      {isEquipmentInfoWindowOpen && (
+        <EquipmentInfoWindow
+          isEquipmentInfoWindowOpen={isEquipmentInfoWindowOpen}
+          setIsEquipmentInfoWindowOpen={setIsEquipmentInfoWindowOpen}
         />
       )}
     </>

@@ -36,6 +36,7 @@ export default function WindowTimeline({
   isAddNewItem,
   setIsAddNewItem,
   calculatedOrSelectedDevice,
+  setIsEquipmentInfoWindowOpen,
 }) {
   const PR_COM = {
     category: baseOrder.equipment.category,
@@ -147,14 +148,15 @@ export default function WindowTimeline({
     id: el.id,
     date: el.category,
     title: (
-      <div style={{
-        display: "flex", alignItems: "center", height: "100%",
-      }}
+      <div
+        aria-hidden="true"
+        onClick={() => setIsEquipmentInfoWindowOpen(el)}
+        style={{ display: "flex", alignItems: "center", height: "100%" }}
       >
         <div
-          aria-hidden="true"
+          className={styleConflict.groupClick}
           style={{
-            cursor: "pointer",
+            cursor: "help",
             whiteSpace: "break-spaces",
             overflow: "hidden",
             height: "100%",
@@ -162,7 +164,6 @@ export default function WindowTimeline({
             lineHeight: "15px",
             display: "flex",
             alignItems: "center",
-            // fontSize: "0.85rem",
           }}
         >
           {el.title}
@@ -184,7 +185,7 @@ export default function WindowTimeline({
           <div
             aria-hidden="true"
             style={{
-              cursor: "pointer",
+              cursor: "help",
               whiteSpace: "break-spaces",
               overflow: "hidden",
               height: "100%",
@@ -192,7 +193,6 @@ export default function WindowTimeline({
               lineHeight: "15px",
               display: "flex",
               alignItems: "center",
-              // fontSize: "0.85rem",
             }}
           >
             {el.title}
@@ -203,12 +203,11 @@ export default function WindowTimeline({
   });
 
   const handleCanvasClick = (groupId, time) => {
-    // eslint-disable-next-line
-    // const formattedTime = Math.floor(moment(time).hours() / PR_COM.shiftCateg) * PR_COM.shiftCateg;
+    const formattedTime = Math.floor(moment(time).hours() / PR_COM.shiftCateg) * PR_COM.shiftCateg;
     const startWorkDay = Number(PR_COM.workTime.shiftTimes.start.split(":")[0]);
     const endWorkDay = Number(PR_COM.workTime.shiftTimes.end.split(":")[0]);
-    const formattedTime = Math.floor((moment(time).hours() - startWorkDay) / PR_COM.shiftCateg)
-        * PR_COM.shiftCateg + startWorkDay;
+    // const formattedTime = Math.floor((moment(time).hours() - startWorkDay) / PR_COM.shiftCateg)
+    //     * PR_COM.shiftCateg + startWorkDay;
 
     if (formattedTime < startWorkDay || formattedTime >= endWorkDay) {
       return;
@@ -623,26 +622,6 @@ export default function WindowTimeline({
           <div className={styleConflict.actionBtns}>
             <button
               type="button"
-              className={elementForChange || !isOrderChanged
-                ? styleConflict.disableBtn
-                : styleConflict.resolveBtn}
-              disabled={elementForChange || !isOrderChanged}
-              onClick={handleResolveConflict}
-            >
-              {buttonTitleConstants.CONFIRM}
-            </button>
-            <button
-              type="button"
-              className={elementForChange ? styleConflict.disableBtn : styleConflict.rejectBtn}
-              disabled={elementForChange}
-              onClick={handleCancelWindow}
-            >
-              {buttonTitleConstants.CANCEL}
-            </button>
-          </div>
-          <div className={styleConflict.actionBtns}>
-            <button
-              type="button"
               className={elementForChange ? styleConflict.disableBtn : "reserved-btn reserve-timeline"}
               disabled={elementForChange}
               onClick={() => {
@@ -659,6 +638,26 @@ export default function WindowTimeline({
               onClick={handleDeleteItem}
             >
               {buttonTitleConstants.DELETE}
+            </button>
+          </div>
+          <div className={styleConflict.actionBtns}>
+            <button
+              type="button"
+              className={elementForChange || !isOrderChanged
+                ? styleConflict.disableBtn
+                : styleConflict.resolveBtn}
+              disabled={elementForChange || !isOrderChanged}
+              onClick={handleResolveConflict}
+            >
+              {buttonTitleConstants.CONFIRM}
+            </button>
+            <button
+              type="button"
+              className={elementForChange ? styleConflict.disableBtn : styleConflict.rejectBtn}
+              disabled={elementForChange}
+              onClick={handleCancelWindow}
+            >
+              {buttonTitleConstants.CANCEL}
             </button>
           </div>
         </div>
