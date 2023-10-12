@@ -472,7 +472,7 @@ export default function WindowTimeline({
         <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
           {generateClue("TIMELINE_ROLE_COMPANY_CONFLICT")}
         </Tooltip>
-        <div className="style">
+        <div className={style.bookingTimelineContainer}>
           <Timeline
             className={style.tableTimeline}
             groups={statusCheckboxSelected === "AUTO" ? elInGroup : highlightElInGroup}

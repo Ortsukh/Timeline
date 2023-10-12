@@ -1,17 +1,14 @@
 /* eslint-disable no-undef */
 import moment from "moment";
 import React, { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 import { Tooltip } from "react-tooltip";
 import {
-  addGrid,
   createEquipmentGroup, createOrderGrid,
   createOrderGroup, formatOrder,
 } from "../common/DataConvertHelper";
 import ToolsFilter from "../components/FilterComponents/ToolsFilter";
 // eslint-disable-next-line
-import CountTools from "../components/FilterComponents/CountToolsFilter";
 import DateFilter from "../components/FilterComponents/DateFilter";
 import Spinner from "../components/Spinner/Spinner";
 import MessageWindow from "../components/Popup/MessageWindow";
@@ -161,30 +158,6 @@ export default function TimelinePage() {
     };
   };
 
-  const clickOnEmptySpace = (groupId, time) => {
-    if (!isEditMode) return;
-    const date = moment(time).format("YYYY-MM-DD");
-    const hour = moment(time).hours();
-    const { shiftLength } = groups.find((group) => group.id === groupId);
-    const formatHour = Math.floor(hour / shiftLength);
-
-    const formattedDate = getFormattedDate(groupId, time);
-
-    const obj = {
-      id: uuidv4(),
-      group: groupId,
-      status: "preOrder",
-      canMove: false,
-      date,
-      grid: addGrid(formatHour, shiftLength),
-      start_time: moment(formattedDate.start).valueOf(),
-      end_time: moment(formattedDate.end).valueOf(),
-      itemTouchSendsClick: false,
-      itemProps: { style: { background: "gray" } },
-    };
-    setItemsPreOrder((pred) => [...pred, obj]);
-  };
-
   const sendNewStatusOrder = (status) => {
     const orderItemsGrid = createOrderGrid(editOrderItems);
     const dateIntervals = formatOrder(orderItemsGrid);
@@ -214,10 +187,6 @@ export default function TimelinePage() {
     setSelectedGroups([]);
     setToolsCount(0);
   };
-
-  // const choseCount = (e) => {
-  //   setToolsCount(e.target.value);
-  // };
 
   const showDatePicker = () => {
     setIsActiveDate((current) => !current);
@@ -290,38 +259,24 @@ export default function TimelinePage() {
     <div>
       {isBookingMenu ? (
         <BookingMenu
-          //! Нужные
           setIsBookingMenu={setIsBookingMenu}
           selectedGroups={selectedGroups}
-          //!
           setUpdate={setUpdate}
           groups={
             toolsCount
               ? getGroupsToShow().slice(0, toolsCount)
               : getGroupsToShow()
           }
-          allGroups={groups}
-          isEditMode={isEditMode}
           editOrderData={editOrderData}
-          orderDate={orderDate}
+          isEditMode={isEditMode}
           items={items}
-          clickOnEmptySpace={clickOnEmptySpace}
           currentDevice={currentDevice}
           setCurrentDevice={setCurrentDevice}
           setIsEditMode={setIsEditMode}
           openAlertWindow={openAlertWindow}
-          //! ToolsFilter->
-          toolNames={mapToolsNames()}
-          onInputChange={handleInputChange}
-          clearFilter={clearFilter}
-          isClickingOnEmptyFilter={isClickingOnEmptyFilter}
-          setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
           setShowButtonClear={setShowButtonClear}
-          showButtonClear={showButtonClear}
           user={user}
-          companies={companies}
           selectedCompany={selectedCompany}
-          //! <-ToolsFilter
         />
       ) : (
         <>
@@ -385,7 +340,6 @@ export default function TimelinePage() {
             orderDate={orderDate}
             openBookingWindow={openBookingWindow}
             items={selectedCompany ? getFilteredItemsByCompany(selectedCompany.id) : items}
-            clickOnEmptySpace={clickOnEmptySpace}
             clickOnItem={clickOnItem}
             setIsBookingMenu={setIsBookingMenu}
             setSelectedGroups={setSelectedGroups}
