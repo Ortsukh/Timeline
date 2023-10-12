@@ -32,6 +32,7 @@ export default function ConfirmBookingWindow({
   openOverLay,
   isAddNewItem,
   setIsAddNewItem,
+  setIsEquipmentInfoWindowOpen,
 }) {
   let calculatedOrSelectedDevice = null;
   if ("id" in baseOrder.equipment) {
@@ -119,6 +120,7 @@ export default function ConfirmBookingWindow({
         isAddNewItem={isAddNewItem}
         setIsAddNewItem={setIsAddNewItem}
         calculatedOrSelectedDevice={calculatedOrSelectedDevice}
+        setIsEquipmentInfoWindowOpen={setIsEquipmentInfoWindowOpen}
       />
       )}
     </>
