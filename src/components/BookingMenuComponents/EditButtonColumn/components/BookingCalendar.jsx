@@ -12,7 +12,7 @@ import moment from "moment";
 import RectangleSelection from "react-rectangle-selection";
 import { Tooltip } from "react-tooltip";
 import { generateClue } from "../../../../common/GenerateElementsData";
-import CalendarSwitch from "../../../Switch/CalendarSwitch";
+import DayCheckbox from "../../../Checkbox/DayCheckbox";
 import "../../../style.css";
 
 const events = [];
@@ -28,10 +28,13 @@ export default function BookingCalendar({
   currentDevice,
   selectedConflictDate,
 }) {
-  const [isDefaultSelect, setIsDefaultSelect] = useState(true);
+  const [isDefaultSelect] = useState(true);
   const calendarRef = useRef();
   const [event, setEvent] = useState(events);
   const [emptyCellsForMonth, setEmptyCellsForMonth] = useState([]);
+  const [startSelectCell, setStartSelectCell] = useState(null);
+  const [defaultSelect, setDefaultSelect] = useState(true);
+  const [selectedWeekdays, setSelectedWeekdays] = useState(["mon", "tue", "wed", "thu", "fri", "sat", "sun"]);
   const getCalendarCellsByClassNames = (classNames) => {
     const calendar = calendarRef.current.elRef.current;
     return calendar.querySelectorAll(
@@ -72,11 +75,11 @@ export default function BookingCalendar({
   };
 
   const checkShiftPerDay = (cell) => {
+    console.log("add");
     cell.firstChild.classList.add("gridActiveBG");
   };
 
   const handleEventClick = (clickInfo) => {
-    console.log(123);
     const data = {
       start: clickInfo.event.start,
       extendedProps: clickInfo.event.extendedProps,
@@ -111,6 +114,7 @@ export default function BookingCalendar({
   }, [calendarEvent]);
 
   useEffect(() => {
+    console.log(selectedDates);
     getCalendarCellsByClassNames(".fc-day.fc-daygrid-day:not(.fc-day-other)").forEach((cell) => {
       if (!selectedDates.find((date) => date === cell.dataset.date)) {
         if (!isActiveCalendar) { calendarRef.current.getApi().unselect(); }
@@ -145,7 +149,9 @@ export default function BookingCalendar({
     days.forEach((cell) => {
       checkShiftPerDay(cell);
       if (selectedDates.find((date) => date === cell.dataset.date)
-          || moment(cell.dataset.date).isBefore(moment().startOf("day"))) {
+          || moment(cell.dataset.date).isBefore(moment().startOf("day"))
+          || (!selectedWeekdays.includes(moment(cell.dataset.date).locale("en").format("ddd").toLowerCase()))
+      ) {
         cell.firstChild.classList.remove("gridActiveBG");
         setSelectedDates((prev) => prev.filter((date) => date !== cell.dataset.date));
       } else if (currentDevice.workTime.dayMap[moment(cell.dataset.date).locale("en").format("dddd").toLowerCase()]) {
@@ -174,7 +180,7 @@ export default function BookingCalendar({
       [, endY] = startCoord;
       [, startY] = endCoord;
     }
-    setEvent([]);
+    // setEvent([]);
     if (!calendarRef.current) return;
 
     const cells = [];
@@ -227,8 +233,6 @@ export default function BookingCalendar({
   useEffect(() => {
     if (!calendarRef.current && !isDefaultSelect) return;
     getCalendarCellsByClassNames(".fc-col-header-cell").forEach((element, index) => {
-      element.onclick = function selectDays() { selectAllSimilarDayInMonth(element.classList[2]); };
-      element.style.cursor = "pointer";
       if (index === 5 || index === 6) {
         element.firstChild.firstChild.classList.add("red-color");
       }
@@ -252,7 +256,8 @@ export default function BookingCalendar({
     let iterateDate = start;
     const selectedDays = [];
     while (moment(iterateDate).isSameOrBefore(end)) {
-      if (moment(iterateDate).isBefore(moment().startOf("day"))) {
+      if (moment(iterateDate).isBefore(moment().startOf("day"))
+          || (!selectedWeekdays.includes(moment(iterateDate).locale("en").format("ddd").toLowerCase()))) {
         iterateDate = moment(iterateDate).add(1, "d");
       } else {
         if (currentDevice.workTime.dayMap[moment(iterateDate).locale("en").format("dddd").toLowerCase()]) {
@@ -298,6 +303,8 @@ export default function BookingCalendar({
   };
 
   const onClickCell = (e) => {
+    const startSelect = e.target.closest(".fc-day.fc-daygrid-day");
+    if (!startSelect || !startSelect.dataset.date) return;
     if (!isActiveCalendar) {
       const cell = e.target.closest(".fc-day.fc-daygrid-day");
       if (!cell) return;
@@ -307,15 +314,18 @@ export default function BookingCalendar({
       }
       if (selectedDates.indexOf(cellDate) === -1) {
         if (currentDevice.workTime.dayMap[moment(cellDate).locale("en").format("dddd").toLowerCase()]) {
-          addAnotherDay(moment(cell.dataset.date).format("YYYY-MM-DD"));
-          checkShiftPerDay(cell);
+          if (selectedWeekdays.includes(moment(cellDate).locale("en").format("ddd").toLowerCase())) {
+            addAnotherDay(moment(cell.dataset.date).format("YYYY-MM-DD"));
+            checkShiftPerDay(cell);
+          }
         }
       }
       return;
     }
-    if (!isDefaultSelect) {
+    if (e.ctrlKey) {
       const startCoord = [e.clientX, e.clientY];
       let endCoord = [e.clientX, e.clientY];
+      setStartSelectCell(startSelect.dataset.date);
       const setCoord = (mouseupEvent) => {
         endCoord = [mouseupEvent.clientX, mouseupEvent.clientY];
         rectangleSelect(startCoord, endCoord);
@@ -323,7 +333,7 @@ export default function BookingCalendar({
       };
       document.addEventListener("mouseup", setCoord);
     }
-    if (!isDefaultSelect || !isActiveCalendar) return;
+    if (e.ctrlKey || !isActiveCalendar) return;
     setEvent([]);
     let startSelectedDate;
     let endSelectedDate;
@@ -341,9 +351,22 @@ export default function BookingCalendar({
       setSelectedDates(selectedDays);
     };
 
-    const startSelect = e.target.closest(".fc-day.fc-daygrid-day");
     if (startSelect) {
+      if (e.shiftKey) {
+        let start;
+        if (!startSelectCell) {
+          start = moment().format("YYYY-MM-DD");
+        } else {
+          start = startSelectCell;
+        }
+        setStartSelectCell(startSelect.dataset.date);
+        const selectedDays = getSelectedDatesArray(start, startSelect.dataset.date);
+        setSelectedDates(selectedDays);
+        handleSelectCustom(start, startSelect.dataset.date);
+        return;
+      }
       startSelectedDate = startSelect.dataset.date;
+      setStartSelectCell(startSelect.dataset.date);
       endSelectedDate = startSelect.dataset.date;
       handleSelectCustom(startSelectedDate, endSelectedDate);
       document.addEventListener("mouseup", endMove);
@@ -362,29 +385,60 @@ export default function BookingCalendar({
     return false;
   }, [isDefaultSelect, isActiveCalendar, selectedDates]);
 
-  const handleSwitchChange = () => {
-    setIsDefaultSelect((prev) => !prev);
-  };
+  // const handleSwitchChange = () => {
+  //   setIsDefaultSelect((prev) => !prev);
+  // };
 
-  const selectAllow = (date) => {
-    const { calendar } = calendarRef.current;
+  useEffect(() => {
+    const changeDef = (e) => {
+      if (e.key === "Control") {
+        setDefaultSelect((prev) => !prev);
+      }
+    };
 
-    if (calendar.view.type === "multiMonthYear") {
-      return true;
+    document.addEventListener("keydown", changeDef);
+    document.addEventListener("keyup", changeDef);
+    return function cleanup() {
+      document.addEventListener("keydown", changeDef);
+      document.addEventListener("keyup", changeDef);
+    };
+  }, []);
+
+  const checkDay = (e) => {
+    console.log(e.target.checked, e.target.value);
+    if (!e.target.checked) {
+      setSelectedWeekdays((prev) => prev.filter((day) => day !== e.target.value));
+      setSelectedDates((prev) => prev.filter((date) => (moment(date).locale("en").format("ddd").toLowerCase() !== e.target.value)));
+      return;
     }
-
-    const range = calendar.currentData.dateProfile.currentRange;
-    return !!moment(date.start).isSameOrAfter(moment().startOf("day"))
-        && !!moment(date.end).isSameOrBefore(moment(range.end).startOf("day"))
-        && !!moment(date.start).isSameOrAfter(moment(range.start).startOf("day"));
+    const sortedDates = selectedDates.sort((a, b) => (moment(b).isBefore(moment(a)) ? 1 : -1));
+    console.log(sortedDates);
+    let iterateDay = sortedDates[0];
+    const end = sortedDates[sortedDates.length - 1];
+    const newSelectedDates = [];
+    while (moment(iterateDay).isSameOrBefore(end)) {
+      if (moment(iterateDay).locale("en").format("ddd").toLowerCase() === e.target.value
+          && !selectedDates.includes(moment(iterateDay).format("YYYY-MM-DD"))) {
+        newSelectedDates.push(moment(iterateDay).format("YYYY-MM-DD"));
+        const el = calendarRef.current.elRef.current.querySelectorAll(
+          `[data-date="${moment(iterateDay).format("YYYY-MM-DD")}"] `,
+        )[0];
+        console.log(el);
+        checkShiftPerDay(el);
+      }
+      iterateDay = moment(iterateDay).add(1, "d");
+    }
+    console.log(newSelectedDates);
+    setSelectedDates((prev) => prev.concat(newSelectedDates));
+    setSelectedWeekdays((prev) => prev.concat(...prev, e.target.value));
   };
 
   return (
     <div className="calendar-count">
-      <CalendarSwitch
+      <DayCheckbox
         isActiveCalendar={isActiveCalendar}
-        isDefaultSelect={isDefaultSelect}
-        handleSwitchChange={handleSwitchChange}
+        checkDay={checkDay}
+        selectedWeekdays={selectedWeekdays}
       />
       <div
         role="presentation"
@@ -392,7 +446,7 @@ export default function BookingCalendar({
       >
         <RectangleSelection
           onSelect={() => { }}
-          disabled={(isDefaultSelect && isActiveCalendar) || !isActiveCalendar}
+          disabled={(defaultSelect && isActiveCalendar) || !isActiveCalendar}
           style={{
             backgroundColor: "rgba(0,0,255,0.4)",
             borderColor: "blue",
@@ -411,13 +465,12 @@ export default function BookingCalendar({
             initialView="dayGridMonth"
                 // selectable={isDefaultSelect && isActiveCalendar}
                 // select={(data) => handleSelect(data)}
+            showNonCurrentDates={false}
             locale="ru"
             firstDay="1"
             multiMonthMinWidth="200"
             multiMonthMaxColumns={2}
             weekends
-                // hiddenDays={[2, 4]}
-            selectAllow={(date) => selectAllow(date)}
             eventClick={handleEventClick}
             events={event.concat(emptyCellsForMonth)}
             eventContent={renderEventContent}
