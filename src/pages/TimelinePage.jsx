@@ -29,6 +29,8 @@ import { generateClue } from "../common/GenerateElementsData";
 import CompaniesSelect from "../components/FilterComponents/CompaniesSelect";
 import buttonTitleConstants from "../constants/buttonTitleConstants";
 import ConfirmWindow from "../components/Popup/ConfirmWindow";
+import EquipmentInfoWindow from "../components/Popup/EquipmentInfoWindow";
+import Overlay from "../components/BookingMenuComponents/BookingDateColumn/components/Overlay";
 
 export default function TimelinePage() {
   const [groups, setGroups] = useState([]);
@@ -43,10 +45,7 @@ export default function TimelinePage() {
   const [editOrderData, setEditOrderData] = useState(null);
   const [editOrderItems, setEditOrderItems] = useState(null);
   const [isActiveMessage, setIsActiveMessage] = useState(false);
-  const [isOpenAlertWindow, setIsOpenAlertWindow] = useState({
-    status: false,
-    message: "",
-  });
+  const [isOpenAlertWindow, setIsOpenAlertWindow] = useState({ status: false, message: "" });
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [currentDevice, setCurrentDevice] = useState(groups[0]);
   const [toolsCount, setToolsCount] = useState(0);
@@ -55,7 +54,6 @@ export default function TimelinePage() {
   const [orderDate, setOrderDate] = useState({
     selection1: {
       startDate: new Date(),
-
       endDate: new Date(moment().add(2, "days").valueOf()),
       key: "selection1",
     },
@@ -66,6 +64,8 @@ export default function TimelinePage() {
   const [isClickedOnNew, setIsClickedOnNew] = useState(false);
   const [isConfirmWindowOpen, setIsConfirmWindowOpen] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
+  const [isEquipmentInfoWindowOpen, setIsEquipmentInfoWindowOpen] = useState(null);
+  const [isOpenOverlay, setIsOpenOverlay] = useState(false);
 
   useEffect(() => {
     getUser().then((res) => {
@@ -258,96 +258,104 @@ export default function TimelinePage() {
     setIsActiveMessage((current) => !current);
   };
   return !isLoading && !isLoadingEquipment ? (
-    <div>
-      {isBookingMenu ? (
-        <BookingMenu
-          setIsBookingMenu={setIsBookingMenu}
-          selectedGroups={selectedGroups}
-          setUpdate={setUpdate}
-          groups={
+    <>
+      {isOpenOverlay && (
+      <Overlay openOverLay={setIsOpenOverlay} isAddNewItem={false} />
+      )}
+      <div>
+        {isBookingMenu ? (
+          <BookingMenu
+            setIsBookingMenu={setIsBookingMenu}
+            selectedGroups={selectedGroups}
+            setUpdate={setUpdate}
+            groups={
             toolsCount
               ? getGroupsToShow().slice(0, toolsCount)
               : getGroupsToShow()
           }
-          editOrderData={editOrderData}
-          isEditMode={isEditMode}
-          items={items}
-          currentDevice={currentDevice}
-          setCurrentDevice={setCurrentDevice}
-          setIsEditMode={setIsEditMode}
-          openAlertWindow={openAlertWindow}
-          setShowButtonClear={setShowButtonClear}
-          user={user}
-          selectedCompany={selectedCompany}
-        />
-      ) : (
-        <>
-
-          <div className="container sort-box">
-            <div className="sort-box_item">
-              <ToolsFilter
-                toolNames={mapToolsNames()}
-                onInputChange={handleInputChange}
-                clearFilter={clearFilter}
-                isClickingOnEmptyFilter={isClickingOnEmptyFilter}
-                setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
-                showButtonClear={showButtonClear}
-                setCurrentDeviceIndex={() => {}}
-              />
-            </div>
-            <div className="sort-box_item">
-              <DateFilter
-                showDatePicker={showDatePicker}
-                isActiveDate={isActiveDate}
-                setOrderDate={setOrderDate}
-                orderDate={orderDate}
-              />
-            </div>
-            {user.role === "ROLE_MANAGER" && (
-            <div className="sort-box_item">
-              <CompaniesSelect
-                selectedCompany={selectedCompany}
-                companies={companies}
-                setSelectedCompany={setSelectedCompany}
-                isClickedOnNew={isClickedOnNew}
-              />
-            </div>
-
-            )}
-            <div className="sort-box_item">
-              <div>
-                <button
-                  type="button"
-                  className="reserved-btn"
-                  onClick={createBook}
-                >
-                  {buttonTitleConstants.ADD_NEW}
-                </button>
+            editOrderData={editOrderData}
+            isEditMode={isEditMode}
+            items={items}
+            currentDevice={currentDevice}
+            setCurrentDevice={setCurrentDevice}
+            setIsEditMode={setIsEditMode}
+            openAlertWindow={openAlertWindow}
+            setShowButtonClear={setShowButtonClear}
+            user={user}
+            selectedCompany={selectedCompany}
+            setIsEquipmentInfoWindowOpen={setIsEquipmentInfoWindowOpen}
+            isOpenOverlay={isOpenOverlay}
+            setIsOpenOverlay={setIsOpenOverlay}
+          />
+        ) : (
+          <>
+            <div className="container sort-box">
+              <div className="sort-box_item">
+                <ToolsFilter
+                  toolNames={mapToolsNames()}
+                  onInputChange={handleInputChange}
+                  clearFilter={clearFilter}
+                  isClickingOnEmptyFilter={isClickingOnEmptyFilter}
+                  setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
+                  showButtonClear={showButtonClear}
+                  setCurrentDeviceIndex={() => {}}
+                />
               </div>
-            </div>
+              <div className="sort-box_item">
+                <DateFilter
+                  showDatePicker={showDatePicker}
+                  isActiveDate={isActiveDate}
+                  setOrderDate={setOrderDate}
+                  orderDate={orderDate}
+                />
+              </div>
+              {user.role === "ROLE_MANAGER" && (
+              <div className="sort-box_item">
+                <CompaniesSelect
+                  selectedCompany={selectedCompany}
+                  companies={companies}
+                  setSelectedCompany={setSelectedCompany}
+                  isClickedOnNew={isClickedOnNew}
+                />
+              </div>
 
-            <div id="riddler" className={styleConflict.riddler}>?</div>
-            <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
-              {generateClue(user.role === "ROLE_MANAGER" ? "TIMELINE_ROLE_MANAGER_MAIN" : "TIMELINE_ROLE_COMPANY_MAIN")}
-            </Tooltip>
-          </div>
-          <TimeLineRenderer
-            groups={
+              )}
+              <div className="sort-box_item">
+                <div>
+                  <button
+                    type="button"
+                    className="reserved-btn"
+                    onClick={createBook}
+                  >
+                    {buttonTitleConstants.ADD_NEW}
+                  </button>
+                </div>
+              </div>
+
+              <div id="riddler" className={styleConflict.riddler}>?</div>
+              <Tooltip anchorSelect="#riddler" openOnClick place="bottom">
+                {generateClue(user.role === "ROLE_MANAGER" ? "TIMELINE_ROLE_MANAGER_MAIN" : "TIMELINE_ROLE_COMPANY_MAIN")}
+              </Tooltip>
+            </div>
+            <TimeLineRenderer
+              groups={
               toolsCount
                 ? getGroupsToShow().slice(0, toolsCount)
                 : getGroupsToShow()
             }
-            toolsCount={toolsCount}
-            isActiveDate={isActiveDate}
-            orderDate={orderDate}
-            openBookingWindow={openBookingWindow}
-            items={selectedCompany ? getFilteredItemsByCompany(selectedCompany.id) : items}
-            clickOnItem={clickOnItem}
-            setIsBookingMenu={setIsBookingMenu}
-            setSelectedGroups={setSelectedGroups}
-            setCurrentDevice={setCurrentDevice}
-          />
-          {(isActiveMessage) && (
+              toolsCount={toolsCount}
+              isActiveDate={isActiveDate}
+              orderDate={orderDate}
+              openBookingWindow={openBookingWindow}
+              items={selectedCompany ? getFilteredItemsByCompany(selectedCompany.id) : items}
+              clickOnItem={clickOnItem}
+            // eslint-disable-next-line
+            // setIsBookingMenu={setIsBookingMenu} //! При нажатии на группу, переходит к бронированию в этой группе
+            // setSelectedGroups={setSelectedGroups}
+            // setCurrentDevice={setCurrentDevice}
+              setIsEquipmentInfoWindowOpen={setIsEquipmentInfoWindowOpen}
+            />
+            {(isActiveMessage) && (
             <MessageWindow
               closeBookingWindow={closeBookingWindow}
               data={chosenDate}
@@ -358,25 +366,33 @@ export default function TimelinePage() {
               openConfirmWindow={openConfirmWindow}
               user={user}
             />
-          )}
+            )}
 
-        </>
-      )}
-      {isConfirmWindowOpen && (
-      <ConfirmWindow
-        selectedCompany={editOrderData.company}
-        data={editOrderItems}
-        groups={groups}
-        closeBookingWindow={setIsConfirmWindowOpen}
-        confirmFunc={() => sendNewStatusOrder(isConfirmWindowOpen)}
-        isConfirmWindowOpen={isConfirmWindowOpen}
-
-      />
-      )}
-      {isOpenAlertWindow.status ? (
-        <AlertWindow message={isOpenAlertWindow.message} />
-      ) : null}
-    </div>
+          </>
+        )}
+        {isConfirmWindowOpen && (
+        <ConfirmWindow
+          selectedCompany={editOrderData.company}
+          data={editOrderItems}
+          groups={groups}
+          closeBookingWindow={setIsConfirmWindowOpen}
+          confirmFunc={() => sendNewStatusOrder(isConfirmWindowOpen)}
+          isConfirmWindowOpen={isConfirmWindowOpen}
+        />
+        )}
+        {isEquipmentInfoWindowOpen && (
+        <EquipmentInfoWindow
+          isEquipmentInfoWindowOpen={isEquipmentInfoWindowOpen}
+          setIsEquipmentInfoWindowOpen={setIsEquipmentInfoWindowOpen}
+          isOpenOverlay={isOpenOverlay}
+          setIsOpenOverlay={setIsOpenOverlay}
+        />
+        )}
+        {isOpenAlertWindow.status ? (
+          <AlertWindow message={isOpenAlertWindow.message} />
+        ) : null}
+      </div>
+    </>
   ) : (
     <Spinner />
   );

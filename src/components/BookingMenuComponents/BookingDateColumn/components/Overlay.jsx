@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from "react";
 
-export default function Overlay({ openOverLay }) {
+export default function Overlay({ openOverLay, isAddNewItem }) {
   const escFunction = useCallback((event) => {
     if (event.key === "Escape") {
       openOverLay(false);
@@ -19,7 +19,7 @@ export default function Overlay({ openOverLay }) {
       role="presentation"
       className="timeLineOverlay"
     >
-      <button type="button" onClick={() => openOverLay(false)} className="closeOverlayButton">x</button>
+      {isAddNewItem && <button type="button" onClick={() => openOverLay(false)} className="closeOverlayButton">x</button>}
     </div>
   );
 }

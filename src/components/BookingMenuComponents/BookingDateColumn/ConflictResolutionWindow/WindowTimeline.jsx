@@ -148,6 +148,7 @@ export default function WindowTimeline({
     category: el.category,
     id: el.id,
     date: el.category,
+    elementDate: el,
     title: (
       <div
         aria-hidden="true"
@@ -155,7 +156,7 @@ export default function WindowTimeline({
         style={{ display: "flex", alignItems: "center", height: "100%" }}
       >
         <div
-          className={styleConflict.groupClick}
+          className={style.groupClick}
           style={{
             cursor: "help",
             whiteSpace: "break-spaces",
@@ -180,11 +181,13 @@ export default function WindowTimeline({
       ...el,
       title: (
         <div
+          aria-hidden="true"
+          onClick={() => setIsEquipmentInfoWindowOpen(el.elementDate)}
           className={selectedElInGroup && !isEditMode ? styleConflict.highlightRow : ""}
           style={{ display: "flex", alignItems: "center", height: "100%" }}
         >
           <div
-            aria-hidden="true"
+            className={style.groupClick}
             style={{
               cursor: "help",
               whiteSpace: "break-spaces",
@@ -204,7 +207,8 @@ export default function WindowTimeline({
   });
 
   const handleCanvasClick = (groupId, time) => {
-    // const formattedTime = Math.floor(moment(time).hours() / PR_COM.shiftCateg) * PR_COM.shiftCateg;
+    // const formattedTime =
+    // Math.floor(moment(time).hours() / PR_COM.shiftCateg) * PR_COM.shiftCateg;
     const startWorkDay = Number(PR_COM.workTime.shiftTimes.start.split(":")[0]);
     const endWorkDay = Number(PR_COM.workTime.shiftTimes.end.split(":")[0]);
     const formattedTime = Math.floor((moment(time).hours() - startWorkDay) / PR_COM.shiftCateg)
@@ -683,21 +687,12 @@ export default function WindowTimeline({
           />
         </div>
         <div style={{ width: "49%" }}>
-          {elementForChange !== null
-            ? (
-              <EquipmentDescription
-                equipment={
-                  groups.find((group) => group.id === elementForChange.group)
-                }
-                text="Выбранная ячейка соответствует оборудованию: "
-              />
-            )
-            : (
-              <EquipmentDescription
-                equipment={PR_COM.calcGroup}
-                text="Рассчёт дня производился по оборудованию: "
-              />
-            )}
+          <EquipmentDescription
+            equipment={elementForChange !== null
+              ? { ...groups.find((group) => group.id === elementForChange.group), supportText: "Выбранная ячейка соответствует оборудованию: " }
+              : { ...PR_COM.calcGroup, supportText: "Рассчёт дня производился по оборудованию: " }}
+            setIsEquipmentInfoWindowOpen={setIsEquipmentInfoWindowOpen}
+          />
         </div>
       </div>
     </>

@@ -76,6 +76,7 @@
   gap: 15px;
   font-size: 14px;
   background-color: #fff;
+  overflow: auto;
 }
 
 .equipment_component img {
@@ -158,4 +159,10 @@
 .equipmentDescrBtnClose:hover {
   background-color: red;
   color: white;
+}
+
+.groupClick:hover {
+  color: blue;
+  text-decoration: underline;
+  cursor: help;
 }
