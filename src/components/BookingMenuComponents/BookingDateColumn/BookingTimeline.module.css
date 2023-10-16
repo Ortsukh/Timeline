@@ -17,6 +17,11 @@
   width: 100%;
 }
 
+.bookingTimelineContainer {
+  height: 50vh;
+  overflow: scroll;
+}
+
 /*
 .rct-outer {
   margin-top: 500px;
@@ -122,4 +127,35 @@
   text-align: center;
   min-width: 20px;
   font-size: 20px;
+}
+
+.equipmentDescrBtnExpand {
+  /* background-color: lightblue; */
+  width: 16px;
+  height: 16px;
+  padding: 1px;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+.equipmentDescrBtnExpand:hover {
+  background-color: rgb(196, 196, 196);
+}
+
+.equipmentDescrBtnClose {
+  width: 16px;
+  height: 16px;
+  padding: 1px;
+  border: 1px solid black;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  cursor: default;
+}
+
+.equipmentDescrBtnClose:hover {
+  background-color: red;
+  color: white;
 }
