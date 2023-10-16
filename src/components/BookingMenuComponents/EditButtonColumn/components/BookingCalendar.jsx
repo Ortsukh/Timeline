@@ -1,9 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useRef, useState, useEffect } from "react";
+import React, {
+  useRef, useState, useEffect,
+} from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGrid from "@fullcalendar/timegrid";
 import calenderList from "@fullcalendar/list";
+import multiMonthPlugin from "@fullcalendar/multimonth";
 import interaction from "@fullcalendar/interaction";
 import moment from "moment";
 import RectangleSelection from "react-rectangle-selection";
@@ -11,43 +14,9 @@ import { Tooltip } from "react-tooltip";
 import { generateClue } from "../../../../common/GenerateElementsData";
 import CalendarSwitch from "../../../Switch/CalendarSwitch";
 import "../../../style.css";
-import { Plus } from "../../../../others/importImg";
 
 const events = [];
 
-function renderEventContent(eventInfo) {
-  if (eventInfo.event.extendedProps.isEmpty) {
-    const styleObj = {
-      height: 40,
-      border: "none",
-      display: "flex",
-      justifyContent: "center",
-
-    };
-    return (
-      <div style={styleObj}>
-        <img style={{ height: 40, cursor: "pointer", opacity: 0.3 }} src={Plus} alt="Добавить" />
-      </div>
-    );
-  }
-  const color = eventInfo.backgroundColor || "#ffa4a4";
-  const obj = {
-    height: 40,
-    backgroundColor: color,
-    color: (color === "#100e0e" ? "#ffffff" : "#000000"),
-    display: "flex",
-    flexDirection: "column",
-  };
-  return <div style={obj}>  </div>;
-  // return (
-  //   <div style={obj}>
-  //     <span>{`${eventInfo.event.extendedProps.shift}
-  //            -${eventInfo.event.extendedProps.shift
-  //            + eventInfo.event.extendedProps.shiftLength}`}</span>
-  //     <span>{eventInfo.event.extendedProps.shortTitle}</span>
-  //   </div>
-  // );
-}
 export default function BookingCalendar({
   handleSetSelectedConflictDate,
   setSelectedDates,
@@ -59,8 +28,6 @@ export default function BookingCalendar({
   currentDevice,
   selectedConflictDate,
 }) {
-  const [startCoord, setStartCoord] = useState([0, 0]);
-  const [endCoord, setEndCoord] = useState([0, 0]);
   const [isDefaultSelect, setIsDefaultSelect] = useState(true);
   const calendarRef = useRef();
   const [event, setEvent] = useState(events);
@@ -70,6 +37,32 @@ export default function BookingCalendar({
     return calendar.querySelectorAll(
       classNames,
     );
+  };
+
+  const renderEventContent = (eventInfo) => {
+    const { calendar } = calendarRef.current;
+
+    if (calendar.view.type === "multiMonthYear") {
+      const color = eventInfo.backgroundColor || "#ffa4a4";
+      const obj = {
+        height: "1.6em",
+        backgroundColor: color,
+        color: (color === "#100e0e" ? "#ffffff" : "#000000"),
+        display: "flex",
+        flexDirection: "column",
+      };
+      return <div style={obj}>  </div>;
+    }
+
+    const color = eventInfo.backgroundColor || "#ffa4a4";
+    const obj = {
+      height: 40,
+      backgroundColor: color,
+      color: (color === "#100e0e" ? "#ffffff" : "#000000"),
+      display: "flex",
+      flexDirection: "column",
+    };
+    return <div style={obj}>  </div>;
   };
   const unselectDefaultCalendar = () => {
     const calendarDayCell = getCalendarCellsByClassNames(".activeCell");
@@ -112,39 +105,12 @@ export default function BookingCalendar({
     el.classList.add("activeCell");
   }, [selectedConflictDate]);
 
-  const generateEmptyCells = () => {
-    if (isActiveCalendar) return;
-    const date = (moment(calendarRef.current.getApi().getDate()));
-
-    const month = moment(date).format("YYYY-MM-");
-    const emptyCellArr = [];
-    for (let i = Number(moment(date).startOf("month").format("DD")); i <= Number(moment().endOf("month").format("DD")); i++) {
-      let day = moment(`${month}${i}`);
-      if (day.isSameOrAfter(moment().startOf("day"))) {
-        day = day.format("YYYY-MM-DD");
-
-        if (selectedDates.indexOf(day) === -1) {
-          if (currentDevice.workTime.dayMap[moment(day).locale("en").format("dddd").toLowerCase()]) {
-            emptyCellArr.push({
-              extendedProps:
-                { isEmpty: true },
-              start: day,
-
-            });
-          }
-        }
-      }
-    }
-    setEmptyCellsForMonth(emptyCellArr);
-  };
-
   useEffect(() => {
     const date = (moment(calendarRef.current.getApi().getDate()).endOf("month"));
     if (moment(date).isBefore(moment())) {
       setEvent(calendarEvent);
       return;
     }
-    generateEmptyCells();
     setEvent(calendarEvent);
   }, [calendarEvent]);
 
@@ -158,7 +124,7 @@ export default function BookingCalendar({
     if (!selectedDates.length) {
       setEmptyCellsForMonth([]);
       calendarRef.current.getApi().unselect();
-      getCalendarCellsByClassNames(".fc-day.fc-daygrid-day:not(.fc-day-other)").forEach(
+      getCalendarCellsByClassNames(".fc-day.fc-daygrid-day").forEach(
         (cell) => {
           cell.firstChild.classList.remove("gridActiveBG");
         },
@@ -193,7 +159,7 @@ export default function BookingCalendar({
     setSelectedDates((prev) => prev.concat(selectedDays));
   };
 
-  const rectangleSelect = () => {
+  const rectangleSelect = (startCoord, endCoord) => {
     let startX;
     let startY;
     let endX;
@@ -222,18 +188,18 @@ export default function BookingCalendar({
         const cellCoord = cell.getBoundingClientRect();
         if (
           ((cellCoord.right > startX && cellCoord.right < endX)
-              || (cellCoord.left > startX && cellCoord.left < endX)
-              || (cellCoord.right > startX
-                  && cellCoord.right > endX
-                  && cellCoord.left < startX
-                  && cellCoord.left < endX))
-          && ((cellCoord.top > startY && cellCoord.top < endY)
-              || (cellCoord.bottom > startY
-                  && cellCoord.bottom < endY)
-              || (cellCoord.top < startY
-                  && cellCoord.top < endY
-                  && cellCoord.bottom > startY
-                  && cellCoord.bottom > endY))
+                  || (cellCoord.left > startX && cellCoord.left < endX)
+                  || (cellCoord.right > startX
+                      && cellCoord.right > endX
+                      && cellCoord.left < startX
+                      && cellCoord.left < endX))
+              && ((cellCoord.top > startY && cellCoord.top < endY)
+                  || (cellCoord.bottom > startY
+                      && cellCoord.bottom < endY)
+                  || (cellCoord.top < startY
+                      && cellCoord.top < endY
+                      && cellCoord.bottom > startY
+                      && cellCoord.bottom > endY))
         ) {
           cells.push(cell);
         }
@@ -241,10 +207,6 @@ export default function BookingCalendar({
     );
     checkAndActiveCell(cells);
   };
-
-  useEffect(() => {
-    rectangleSelect();
-  }, [endCoord]);
 
   const disabledCells = () => {
     if (!calendarRef.current) return;
@@ -280,67 +242,142 @@ export default function BookingCalendar({
   useEffect(() => {
     disabledCells();
   }, []);
-  const handleChangeMouse = (e) => {
-    if (isDefaultSelect || !isActiveCalendar) {
-      return;
+
+  const getSelectedDatesArray = (startDate, endSDate) => {
+    let end; let
+      start;
+    if (moment(startDate).isSameOrBefore(moment(endSDate))) {
+      start = moment(startDate);
+      end = moment(endSDate);
+    } else {
+      start = moment(endSDate);
+      end = moment(startDate);
     }
-    if (e.type === "mouseup") {
-      setEndCoord([e.clientX, e.clientY]);
-    }
-    if (e.type === "mousedown") {
-      setStartCoord([e.clientX, e.clientY]);
-    }
-  };
-  const handleSelect = (data) => {
-    setEvent([]);
+    let iterateDate = start;
     const selectedDays = [];
+    while (moment(iterateDate).isSameOrBefore(end)) {
+      if (moment(iterateDate).isBefore(moment().startOf("day"))) {
+        iterateDate = moment(iterateDate).add(1, "d");
+      } else {
+        if (currentDevice.workTime.dayMap[moment(iterateDate).locale("en").format("dddd").toLowerCase()]) {
+          selectedDays.push(moment(iterateDate).format("YYYY-MM-DD"));
+        }
+        iterateDate = moment(iterateDate).add(1, "d");
+      }
+    }
+    return selectedDays;
+  };
+
+  const handleSelectCustom = (start, end) => {
     getCalendarCellsByClassNames(".fc-day.fc-daygrid-day").forEach((cell) => {
       cell.firstChild.classList.remove("gridActiveBG");
     });
-    let date1 = data.start;
 
-    while (moment(date1).isBefore(data.end)) {
-      if (moment(date1).isBefore(moment().startOf("day"))) {
-        date1 = moment(date1).add(1, "d");
-      } else {
-        if (currentDevice.workTime.dayMap[moment(date1).locale("en").format("dddd").toLowerCase()]) {
-          selectedDays.push(moment(date1).format("YYYY-MM-DD"));
-        }
-        date1 = moment(date1).add(1, "d");
-      }
-    }
-
-    setSelectedDates(selectedDays);
-  };
-  const handleSwitchChange = () => {
-    calendarRef.current.getApi().unselect();
-
-    setIsDefaultSelect((prev) => !prev);
-    setSelectedDates([]);
-    getCalendarCellsByClassNames(".fc-day.fc-daygrid-day:not(.fc-day-other)").forEach(
-      (cell) => {
-        cell.firstChild.classList.remove("gridActiveBG");
-      },
+    const selectedDays = getSelectedDatesArray(
+      start,
+      end,
     );
-  };
 
+    selectedDays.forEach((date) => {
+      const cell = calendarRef.current.elRef.current.querySelectorAll(
+        `[data-date="${date}"]`,
+      )[0];
+
+      checkShiftPerDay(cell);
+    });
+  };
   const handleChangeMonth = (time) => {
     disabledCells();
-    generateEmptyCells();
+    // generateEmptyCells();
     if (!calendarRef.current) return;
     getCalendarCellsByClassNames(".fc-day.fc-daygrid-day:not(.fc-day-other)").forEach(
       (cell) => {
         if (moment(cell.dataset.date).isBefore(moment(time.end))
-          && moment(cell.dataset.date).isSameOrAfter(moment(time.start))
-          && selectedDates.includes(cell.dataset.date)) {
+              && moment(cell.dataset.date).isSameOrAfter(moment(time.start))
+              && selectedDates.includes(cell.dataset.date)) {
           checkShiftPerDay(cell);
         }
       },
     );
   };
+
+  const onClickCell = (e) => {
+    if (!isActiveCalendar) {
+      const cell = e.target.closest(".fc-day.fc-daygrid-day");
+      if (!cell) return;
+      const cellDate = cell.dataset.date;
+      if (moment(cellDate).isBefore(moment())) {
+        return;
+      }
+      if (selectedDates.indexOf(cellDate) === -1) {
+        if (currentDevice.workTime.dayMap[moment(cellDate).locale("en").format("dddd").toLowerCase()]) {
+          addAnotherDay(moment(cell.dataset.date).format("YYYY-MM-DD"));
+          checkShiftPerDay(cell);
+        }
+      }
+      return;
+    }
+    if (!isDefaultSelect) {
+      const startCoord = [e.clientX, e.clientY];
+      let endCoord = [e.clientX, e.clientY];
+      const setCoord = (mouseupEvent) => {
+        endCoord = [mouseupEvent.clientX, mouseupEvent.clientY];
+        rectangleSelect(startCoord, endCoord);
+        document.removeEventListener("mouseup", setCoord, false);
+      };
+      document.addEventListener("mouseup", setCoord);
+    }
+    if (!isDefaultSelect || !isActiveCalendar) return;
+    setEvent([]);
+    let startSelectedDate;
+    let endSelectedDate;
+    const mousemove = (event1) => {
+      const endSelect = event1.target.closest(".fc-day.fc-daygrid-day");
+      if (endSelect) {
+        endSelectedDate = endSelect.dataset.date;
+        handleSelectCustom(startSelectedDate, endSelectedDate);
+      }
+    };
+    const endMove = () => {
+      document.removeEventListener("mouseover", mousemove, false);
+      document.removeEventListener("mouseup", endMove, false);
+      const selectedDays = getSelectedDatesArray(startSelectedDate, endSelectedDate);
+      setSelectedDates(selectedDays);
+    };
+
+    const startSelect = e.target.closest(".fc-day.fc-daygrid-day");
+    if (startSelect) {
+      startSelectedDate = startSelect.dataset.date;
+      endSelectedDate = startSelect.dataset.date;
+      handleSelectCustom(startSelectedDate, endSelectedDate);
+      document.addEventListener("mouseup", endMove);
+      document.addEventListener("mouseover", mousemove);
+    }
+  };
+
+  useEffect(() => {
+    if (calendarRef.current) {
+      const calendar = calendarRef.current.elRef.current;
+      calendar.addEventListener("mousedown", onClickCell);
+      return function cleanup() {
+        calendar.removeEventListener("mousedown", onClickCell);
+      };
+    }
+    return false;
+  }, []);
+
+  const handleSwitchChange = () => {
+    setIsDefaultSelect((prev) => !prev);
+  };
+
   const selectAllow = (date) => {
-    const calendar = calendarRef.current;
-    const range = calendar.calendar.currentData.dateProfile.currentRange;
+    const { calendar } = calendarRef.current;
+
+    if (calendar.view.type === "multiMonthYear") {
+      return true;
+    }
+
+    const range = calendar.currentData.dateProfile.currentRange;
     return !!moment(date.start).isSameOrAfter(moment().startOf("day"))
         && !!moment(date.end).isSameOrBefore(moment(range.end).startOf("day"))
         && !!moment(date.start).isSameOrAfter(moment(range.start).startOf("day"));
@@ -355,8 +392,6 @@ export default function BookingCalendar({
       />
       <div
         role="presentation"
-        onMouseUp={(e) => handleChangeMouse(e)}
-        onMouseDown={(e) => handleChangeMouse(e)}
         className="presentation"
       >
         <RectangleSelection
@@ -372,16 +407,20 @@ export default function BookingCalendar({
             className="unselectable"
             datesSet={(e) => handleChangeMonth(e)}
             height={550}
+            contentHeight={400}
             fixedWeekCount={false}
             ref={calendarRef}
-            plugins={[dayGridPlugin, interaction, timeGrid, calenderList]}
-            selectable={isDefaultSelect && isActiveCalendar}
-            selectMirror
-            select={(data) => handleSelect(data)}
+            eventOverlap={false}
+            plugins={[dayGridPlugin, interaction, timeGrid, calenderList, multiMonthPlugin]}
+            initialView="dayGridMonth"
+                // selectable={isDefaultSelect && isActiveCalendar}
+                // select={(data) => handleSelect(data)}
             locale="ru"
             firstDay="1"
+            multiMonthMinWidth="200"
+            multiMonthMaxColumns={2}
             weekends
-            // hiddenDays={[2, 4]}
+                // hiddenDays={[2, 4]}
             selectAllow={(date) => selectAllow(date)}
             eventClick={handleEventClick}
             events={event.concat(emptyCellsForMonth)}
@@ -389,10 +428,10 @@ export default function BookingCalendar({
             headerToolbar={{
               left: "",
               center: "title",
-              right: "prev,next clue",
+              right: "multiMonthYear,dayGridMonth prev,next tooltip",
             }}
             customButtons={{
-              clue: {
+              tooltip: {
                 text: "?",
 
               },
