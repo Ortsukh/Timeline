@@ -364,7 +364,7 @@ export default function BookingCalendar({
       };
     }
     return false;
-  }, []);
+  }, [isDefaultSelect, isActiveCalendar, selectedDates]);
 
   const handleSwitchChange = () => {
     setIsDefaultSelect((prev) => !prev);

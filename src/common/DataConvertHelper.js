@@ -54,7 +54,6 @@ const createWorkTimeMap = (workTimesArr) => {
     dayMap.sunday = { start: time.timeFrom, end: time.timeTo };
     shiftTimes = { start: time.timeFrom, end: time.timeTo };
   }
-  console.log(shiftTimes);
   return { dayMap, shiftTimes };
 };
 
@@ -84,12 +83,9 @@ export const createEquipmentGroup = (equipments) => {
 };
 
 const convertGrid = (length, grid, date) => {
-  console.log(length);
-  console.log(grid);
   const arr = grid.split("");
   const times = [];
   for (let i = 0; i < 24; i++) {
-    console.log(arr[i]);
     if (arr[i] === "1") {
       times.push({
         start_time: moment(`${date} ${i}:00`).valueOf(),
@@ -98,7 +94,6 @@ const convertGrid = (length, grid, date) => {
       i += length - 1;
     }
   }
-  console.log(times);
   return times;
 };
 
@@ -107,6 +102,7 @@ const addStartGrid = (formatHour, shiftLength) => {
   for (let i = 0; i < shiftLength; i++) {
     grid[formatHour + i] = 1;
   }
+  return grid.join("");
 };
 
 export const addGrid = (formatHour, shiftLength, startWorkDay = 0) => {
@@ -253,7 +249,6 @@ export const createOrderGrid = (itemsPreOrder) => {
 
 export const groupByDateItems = (items) => {
   const dateObj = {};
-  console.log(items);
   items.forEach((item) => {
     if (!dateObj[item.date]) {
       dateObj[item.date] = [];

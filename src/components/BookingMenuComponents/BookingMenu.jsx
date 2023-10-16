@@ -52,6 +52,7 @@ export default function BookingMenu({
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
   const [isAddNewItem, setIsAddNewItem] = useState(false);
   const [isEquipmentInfoWindowOpen, setIsEquipmentInfoWindowOpen] = useState(null);
+
   useEffect(() => {
     if (isEditMode) {
       const editItems = items.filter(
@@ -250,6 +251,7 @@ export default function BookingMenu({
           && equipment.dates[selectedDate][shiftTime] === "1"
       ) {
         equipment.countConflicts++;
+        console.log("count", equipment.countConflicts);
         equipment.conflicts[selectedDate].push({ shiftTime, groupId });
       } else {
         equipment.success[selectedDate].push({ shiftTime, groupId });
@@ -277,10 +279,12 @@ export default function BookingMenu({
         }
         baseOrder.shiftTime.forEach(({ value: shiftTime }) => {
           const equipment = mapsEquipment[group];
+          console.log(equipment.dates[selectedDate]);
           if (
             equipment.dates[selectedDate]
               && equipment.dates[selectedDate][shiftTime] === "1"
           ) {
+            console.log(123);
             mapsEquipment[group].countConflicts++;
             mapsEquipment[group].conflicts[selectedDate].push({ shiftTime, groupId: group });
           } else {
