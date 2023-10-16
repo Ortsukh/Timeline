@@ -762,3 +762,15 @@ a.fc-col-header-cell-cushion.red-color:hover {
 .fc .fc-multimonth-compact .fc-multimonth-daygrid-table {
     font-size: 0.7em;
 }
+
+.dayCheckbox {
+    display: flex;
+    justify-content: space-between;
+    width: 190px;
+
+}
+
+.dayCheckbox label{
+    display: flex;
+    flex-direction: column;
+}
