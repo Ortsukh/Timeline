@@ -15,7 +15,7 @@ import style from "./BookingMenu.module.css";
 import ITEMS_PREORDER_COLOR from "../../constants/itemsPreOrderColor";
 import EditButtonColumn from "./EditButtonColumn/EditButtonColumn";
 import Overlay from "./BookingDateColumn/components/Overlay";
-import EquipmentInfoWindow from "../Popup/EquipmentInfoWindow";
+// import EquipmentInfoWindow from "../Popup/EquipmentInfoWindow";
 
 export default function BookingMenu({
   setIsBookingMenu,
@@ -32,9 +32,11 @@ export default function BookingMenu({
   setShowButtonClear,
   selectedCompany,
   user,
+  setIsEquipmentInfoWindowOpen,
+  isOpenOverlay,
+  setIsOpenOverlay,
 }) {
-  // new
-  console.log(currentDevice);
+  // console.log(currentDevice);
   const startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
   const [baseOrder, setBaseOrder] = useState({ shiftTime: [{ value: startWorkDay, label: `${startWorkDay} - ${startWorkDay + currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
@@ -49,9 +51,7 @@ export default function BookingMenu({
   const [statusCheckboxSelected, setStatusCheckboxSelected] = useState("AUTO");
   const [isConfirmWindowOpen, setIsConfirmWindowOpen] = useState(false);
   const [deactivatedCell, setDeactivatedCell] = useState(false);
-  const [isOpenOverlay, setIsOpenOverlay] = useState(false);
   const [isAddNewItem, setIsAddNewItem] = useState(false);
-  const [isEquipmentInfoWindowOpen, setIsEquipmentInfoWindowOpen] = useState(null);
 
   useEffect(() => {
     if (isEditMode) {
@@ -161,6 +161,7 @@ export default function BookingMenu({
           )
           ) {
             resultColor += 3;
+
             // events.push({
             //   start: selectedDate,
             //   extendedProps: {
@@ -310,7 +311,7 @@ export default function BookingMenu({
     setSelectedPreferredDevice(null);
   };
 
-  console.log(mapsEquipment, commonMapsEquipment);
+  // console.log(mapsEquipment, commonMapsEquipment);
   const createEquipmentsMap = () => {
     const map = {};
     const commonMap = {};
@@ -552,24 +553,19 @@ export default function BookingMenu({
     //   return el;
     // }));
   };
+
   const openOverLay = (status) => {
     if (status === false) {
       setIsAddNewItem(false);
     }
     setIsOpenOverlay(status);
   };
-  console.log("baseOrder", baseOrder);
-  console.log(mapsEquipment);
+  // console.log("baseOrder", baseOrder);
+  // console.log(mapsEquipment);
   return (
     <>
       {isOpenOverlay && (
-      <Overlay openOverLay={openOverLay} />
-      // <div
-      //   role="presentation"
-      //   className="timeLineOverlay"
-      // >
-      //   <button type="button" onClick={() => openOverLay(false)} className="closeOverlayButton">x</button>
-      // </div>
+      <Overlay openOverLay={openOverLay} isAddNewItem={isAddNewItem} />
       )}
       <div className={style.container}>
         <div className={style.editButtonColumn}>
@@ -658,12 +654,6 @@ export default function BookingMenu({
           groups={groups}
           closeBookingWindow={setIsConfirmWindowOpen}
           confirmFunc={() => (isEditMode ? editOrder(isConfirmWindowOpen) : sendNewOrder(isConfirmWindowOpen))}
-        />
-      )}
-      {isEquipmentInfoWindowOpen && (
-        <EquipmentInfoWindow
-          isEquipmentInfoWindowOpen={isEquipmentInfoWindowOpen}
-          setIsEquipmentInfoWindowOpen={setIsEquipmentInfoWindowOpen}
         />
       )}
     </>

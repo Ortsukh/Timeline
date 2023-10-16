@@ -13,9 +13,10 @@ export default function TimeLineRenderer({
   openBookingWindow,
   items,
   clickOnItem,
-  setIsBookingMenu,
-  setSelectedGroups,
-  setCurrentDevice,
+  // setIsBookingMenu,
+  // setSelectedGroups,
+  // setCurrentDevice,
+  setIsEquipmentInfoWindowOpen,
 }) {
   const [visibleTimeRange, setVisibleTimeRange] = useState({
     start: moment(),
@@ -34,12 +35,13 @@ export default function TimeLineRenderer({
     clickOnItem(time, itemId);
   };
 
-  const handleToSelectedGroup = (group, category) => {
-    setIsBookingMenu(true);
-    localStorage.setItem("toolsFilter", category);
-    setSelectedGroups(() => [category]);
-    setCurrentDevice(group);
-  };
+  //! При нажатии на группу, переходит к бронированию в этой группе
+  // const handleToSelectedGroup = (group, category) => {
+  //   setIsBookingMenu(true);
+  //   localStorage.setItem("toolsFilter", category);
+  //   setSelectedGroups(() => [category]);
+  //   setCurrentDevice(group);
+  // };
 
   const newGroups = groups.map((group) => {
     const color = EQUIPMENT_COLOR[group.category] || "#622525";
@@ -49,8 +51,9 @@ export default function TimeLineRenderer({
         <div style={{ display: "flex", alignItems: "center" }}>
           <div style={{ backgroundColor: color }} className="equipment_color_block" />
           <div
-            onClick={() => handleToSelectedGroup(group, group.category)}
-            onKeyDown={() => handleToSelectedGroup(group, group.category)}
+            // onClick={() => handleToSelectedGroup(group, group.category)}
+            // onKeyDown={() => handleToSelectedGroup(group, group.category)}
+            onClick={() => setIsEquipmentInfoWindowOpen(group)}
             aria-hidden="true"
             style={{
               cursor: "pointer", whiteSpace: "break-spaces", overflow: "hidden", height: "40px", maxWidth: "155px", lineHeight: "20px", display: "flex", alignItems: "center",
