@@ -429,11 +429,24 @@ export default function WindowTimeline({
     }
   };
 
+  const sortingArrayViewChanges = (array) => {
+    array.sort((a, b) => {
+      if (a.shiftTime < b.shiftTime) return -1;
+      if (a.shiftTime > b.shiftTime) return 1;
+      // Если shift равны, то сравниваем по полю id
+      if (a.group < b.group) return -1;
+      if (a.group > b.group) return 1;
+      return 0;
+    });
+    return array;
+  };
+
   const handleResolveConflict = () => {
     // console.log("SEND MESSAGE");
     pushOrderInBasePreOrder({
       date: PR_SEL.todayFormated,
-      success: modifSuccessArr.filter((order) => order.isDeleted === false)
+      success: sortingArrayViewChanges(modifSuccessArr)
+        .filter((order) => order.isDeleted === false)
         .map((order) => (
           {
             date: order.date,
@@ -447,7 +460,8 @@ export default function WindowTimeline({
             ),
           }
         )),
-      conflicts: modifConflictArr.filter((order) => order.isDeleted === false)
+      conflicts: sortingArrayViewChanges(modifConflictArr)
+        .filter((order) => order.isDeleted === false)
         .map((order) => (
           {
             groupId: order.group,
@@ -461,18 +475,6 @@ export default function WindowTimeline({
     //   return;
     // }
     // openAlertWindow("Заказ не сохранён! Ошибка общего количества заказов.");
-  };
-
-  const sortingArrayViewChanges = (array) => {
-    array.sort((a, b) => {
-      if (a.shiftTime < b.shiftTime) return -1;
-      if (a.shiftTime > b.shiftTime) return 1;
-      // Если shift равны, то сравниваем по полю id
-      if (a.group < b.group) return -1;
-      if (a.group > b.group) return 1;
-      return 0;
-    });
-    return array;
   };
 
   return (
@@ -689,9 +691,15 @@ export default function WindowTimeline({
         </div>
         <div style={{ width: "49%" }}>
           <EquipmentDescription
-            equipment={elementForChange !== null
-              ? { ...groups.find((group) => group.id === elementForChange.group), supportText: "Выбранная ячейка соответствует оборудованию: " }
-              : { ...PR_COM.calcGroup, supportText: "Рассчёт дня производился по оборудованию: " }}
+            equipment={elementForChange === null
+              ? {
+                ...PR_COM.calcGroup,
+                supportText: "Рассчёт дня производился по оборудованию: ",
+              }
+              : {
+                ...groups.find((group) => group.id === elementForChange.group),
+                supportText: "Выбранная ячейка соответствует оборудованию: ",
+              }}
             setIsEquipmentInfoWindowOpen={setIsEquipmentInfoWindowOpen}
           />
         </div>

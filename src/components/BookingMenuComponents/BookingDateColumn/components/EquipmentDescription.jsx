@@ -8,7 +8,7 @@ export default function EquipmentDescription({ equipment, setIsEquipmentInfoWind
   useEffect(() => {
     setUpdate((prev) => !prev);
   }, [equipment]);
-  console.log("equipment", equipment);
+  // console.log("equipment", equipment);
   return (
     <div className={style.equipment_component}>
       <div style={{
