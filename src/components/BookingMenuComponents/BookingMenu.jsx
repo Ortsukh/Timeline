@@ -34,6 +34,7 @@ export default function BookingMenu({
   user,
 }) {
   // new
+  console.log(currentDevice);
   const startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
   const [baseOrder, setBaseOrder] = useState({ shiftTime: [{ value: startWorkDay, label: `${startWorkDay} - ${startWorkDay + currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
@@ -51,6 +52,49 @@ export default function BookingMenu({
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
   const [isAddNewItem, setIsAddNewItem] = useState(false);
   const [isEquipmentInfoWindowOpen, setIsEquipmentInfoWindowOpen] = useState(null);
+
+  useEffect(() => {
+    if (isEditMode) {
+      const editItems = items.filter(
+        (item) => item.rentOrderId === editOrderData.rentOrderId,
+      );
+
+      const editDates = [];
+      const events = [];
+      const successEvent = {};
+      editItems.forEach((item) => {
+        editDates.push(item.date);
+        if (!successEvent[item.date]) {
+          successEvent[item.date] = [];
+        }
+        successEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
+      });
+      Object.keys(successEvent).forEach((date) => {
+        events.push({
+          start: date,
+          extendedProps: {
+            // shortTitle: groups.find((group) => group.id === item.group).shortTitle, //! хз
+            shiftLength: currentDevice.shiftLength,
+            conflicts: [],
+            success: successEvent[date],
+          },
+          backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
+        });
+      });
+      setBaseOrder((prev) => ({
+        ...prev,
+        preOrders: editItems,
+        equipment: {
+          ...currentDevice, conflicts: [], success: successEvent, countConflicts: 0,
+        },
+      }));
+
+      setSelectedDates(editDates);
+      setIsActiveCalendar(false);
+      setCalendarEvent(events);
+      setShowStartDisplayConflict(false);
+    }
+  }, [editOrderData, isEditMode]);
 
   const initialCurrentDeviceIndex = groups
     .map((current) => current.id)
@@ -74,13 +118,13 @@ export default function BookingMenu({
     setSelectedConflictDate(date);
   };
   const generatePreOrders = (group, date, shiftTime) => {
-    const formatHour = Math.floor(shiftTime / group.shiftLength);
+    const formatHour = Math.floor((shiftTime - startWorkDay) / group.shiftLength);
     return {
       id: uuidv4(),
       group: group.id,
       status: "preOrder",
       date,
-      grid: addGrid(formatHour, group.shiftLength),
+      grid: addGrid(formatHour, group.shiftLength, startWorkDay),
       shiftTime,
     };
   };
@@ -194,7 +238,6 @@ export default function BookingMenu({
   };
   const addConflictsAndSuccessInMap = (groupId, selectedDate) => {
     baseOrder.shiftTime.forEach(({ value: shiftTime }) => {
-      console.log(baseOrder.equipment);
       const { equipment } = baseOrder;
 
       if (!equipment.conflicts[selectedDate]) {
@@ -208,6 +251,7 @@ export default function BookingMenu({
           && equipment.dates[selectedDate][shiftTime] === "1"
       ) {
         equipment.countConflicts++;
+        console.log("count", equipment.countConflicts);
         equipment.conflicts[selectedDate].push({ shiftTime, groupId });
       } else {
         equipment.success[selectedDate].push({ shiftTime, groupId });
@@ -235,10 +279,12 @@ export default function BookingMenu({
         }
         baseOrder.shiftTime.forEach(({ value: shiftTime }) => {
           const equipment = mapsEquipment[group];
+          console.log(equipment.dates[selectedDate]);
           if (
             equipment.dates[selectedDate]
               && equipment.dates[selectedDate][shiftTime] === "1"
           ) {
+            console.log(123);
             mapsEquipment[group].countConflicts++;
             mapsEquipment[group].conflicts[selectedDate].push({ shiftTime, groupId: group });
           } else {
@@ -282,7 +328,7 @@ export default function BookingMenu({
       const dayGrids = groupByDateItems(
         filteredItemsByDate.filter((item) => item.group === group.id),
       );
-
+      console.log(dayGrids);
       Object.keys(dayGrids).forEach((day) => {
         if (!commonMap[day]) {
           commonMap[day] = dayGrids[day];
@@ -506,15 +552,14 @@ export default function BookingMenu({
     //   return el;
     // }));
   };
-  // console.log(baseOrder);
-  // console.log(mapsEquipment);
-  // console.log(selectedDates);
   const openOverLay = (status) => {
     if (status === false) {
       setIsAddNewItem(false);
     }
     setIsOpenOverlay(status);
   };
+  console.log("baseOrder", baseOrder);
+  console.log(mapsEquipment);
   return (
     <>
       {isOpenOverlay && (

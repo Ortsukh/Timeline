@@ -45,6 +45,7 @@ export default function WindowTimeline({
     preferredGroupId: baseOrder.equipment.id,
     workTime: baseOrder.equipment.workTime,
     calcGroup: calculatedOrSelectedDevice,
+    startWorkDay: Number(baseOrder.equipment.workTime.shiftTimes.start.split(":")[0]),
   };
   const PR_SEL = {
     today: moment(selectedConflictDate.start),
@@ -203,11 +204,11 @@ export default function WindowTimeline({
   });
 
   const handleCanvasClick = (groupId, time) => {
-    const formattedTime = Math.floor(moment(time).hours() / PR_COM.shiftCateg) * PR_COM.shiftCateg;
+    // const formattedTime = Math.floor(moment(time).hours() / PR_COM.shiftCateg) * PR_COM.shiftCateg;
     const startWorkDay = Number(PR_COM.workTime.shiftTimes.start.split(":")[0]);
     const endWorkDay = Number(PR_COM.workTime.shiftTimes.end.split(":")[0]);
-    // const formattedTime = Math.floor((moment(time).hours() - startWorkDay) / PR_COM.shiftCateg)
-    //     * PR_COM.shiftCateg + startWorkDay;
+    const formattedTime = Math.floor((moment(time).hours() - startWorkDay) / PR_COM.shiftCateg)
+        * PR_COM.shiftCateg + startWorkDay;
 
     if (formattedTime < startWorkDay || formattedTime >= endWorkDay) {
       return;
@@ -433,7 +434,12 @@ export default function WindowTimeline({
             date: order.date,
             group: order.group,
             shiftTime: order.shiftTime,
-            grid: addGrid(Math.floor(order.shiftTime / PR_COM.shiftCateg), PR_COM.shiftCateg),
+            grid: addGrid(
+              Math.floor((
+                order.shiftTime - PR_COM.startWorkDay) / PR_COM.shiftCateg),
+              PR_COM.shiftCateg,
+              PR_COM.startWorkDay,
+            ),
           }
         )),
       conflicts: modifConflictArr.filter((order) => order.isDeleted === false)
