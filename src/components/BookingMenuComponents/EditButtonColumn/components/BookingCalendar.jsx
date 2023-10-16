@@ -76,11 +76,7 @@ export default function BookingCalendar({
   };
 
   const handleEventClick = (clickInfo) => {
-    if (clickInfo.event.extendedProps.isEmpty) {
-      addAnotherDay(moment(clickInfo.event.start).format("YYYY-MM-DD"), clickInfo);
-      clickInfo.el.parentElement.parentElement.parentElement.classList.add("gridActiveBG");
-      return;
-    }
+    console.log(123);
     const data = {
       start: clickInfo.event.start,
       extendedProps: clickInfo.event.extendedProps,
@@ -364,7 +360,7 @@ export default function BookingCalendar({
       };
     }
     return false;
-  }, []);
+  }, [isDefaultSelect, isActiveCalendar, selectedDates]);
 
   const handleSwitchChange = () => {
     setIsDefaultSelect((prev) => !prev);
