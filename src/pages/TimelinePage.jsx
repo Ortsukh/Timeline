@@ -140,16 +140,18 @@ export default function TimelinePage() {
   };
 
   const getFormattedDate = (groupId, time) => {
+    const { shiftLength, workTime } = groups.find((group) => group.id === groupId);
+    const startWorkDay = Number(workTime.shiftTimes.start.split(":")[0]);
     const date = moment(time).format("YYYY-MM-DD");
-    const hour = moment(time).hours();
-    const { shiftLength } = groups.find((group) => group.id === groupId);
-    const formatHour = Math.floor(hour / shiftLength);
+    // const hour = moment(time).hours();
+    // const formatHour = Math.floor(hour / shiftLength);
+    const formatHour = Math.floor((moment(time).hours() - startWorkDay) / shiftLength);
 
     let start;
     let end;
 
-    start = formatHour * shiftLength;
-    end = start + shiftLength;
+    start = formatHour * shiftLength + startWorkDay;
+    end = start + shiftLength + startWorkDay;
     start = `${date} ${start}:00`;
     end = `${date} ${end}:00`;
     return {
