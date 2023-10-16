@@ -16,10 +16,7 @@
 .tableTimeline {
   width: 100%;
 }
-.bookingTimelineContainer{
-  height: 50vh;
-  overflow: scroll;
-}
+
 /*
 .rct-outer {
   margin-top: 500px;

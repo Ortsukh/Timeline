@@ -331,7 +331,8 @@ export default function BookingMenu({
         }
         const itemStartIndex = item.grid.indexOf("1");
         console.log(mapsEquipment);
-        if (mapsEquipment[item.group].dates[item.date][itemStartIndex] === "1") {
+
+        if (mapsEquipment[item.group].dates[item.date] && mapsEquipment[item.group].dates[item.date][itemStartIndex] === "1") {
           conflictEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
         } else {
           successEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
