@@ -111,6 +111,7 @@ export default function BookingCalendar({
       setEvent(calendarEvent);
       return;
     }
+    console.log(calendarEvent);
     setEvent(calendarEvent);
   }, [calendarEvent]);
 
@@ -299,6 +300,7 @@ export default function BookingCalendar({
   };
 
   const onClickCell = (e) => {
+    console.log("click");
     const startSelect = e.target.closest(".fc-day.fc-daygrid-day");
     if (!startSelect || !startSelect.dataset.date) return;
 
@@ -399,6 +401,7 @@ export default function BookingCalendar({
       setSelectedDates((prev) => prev.filter((date) => (getDayName(date) !== e.target.value)));
       return;
     }
+    if (selectedDates.length < 2) { return; }
     const sortedDates = selectedDates.sort((a, b) => (moment(b).isBefore(moment(a)) ? 1 : -1));
     let iterateDay = sortedDates[0];
     const end = sortedDates[sortedDates.length - 1];
