@@ -36,7 +36,6 @@ export default function BookingMenu({
   isOpenOverlay,
   setIsOpenOverlay,
 }) {
-  // console.log(currentDevice);
   const startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
   const [baseOrder, setBaseOrder] = useState({ shiftTime: [{ value: startWorkDay, label: `${startWorkDay} - ${startWorkDay + currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
@@ -96,21 +95,11 @@ export default function BookingMenu({
     }
   }, [editOrderData, isEditMode]);
 
-  const initialCurrentDeviceIndex = groups
-    .map((current) => current.id)
-    .indexOf(currentDevice.id);
-  // eslint-disable-next-line
-  const [currentDeviceIndex, setCurrentDeviceIndex] = useState(
-    initialCurrentDeviceIndex,
-  );
-
   const handleClear = () => {
     setBaseOrder({ shiftTime: [{ value: startWorkDay, label: `${startWorkDay} - ${startWorkDay + currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
     setCalendarEvent([]);
     setSelectedConflictDate("");
     setIsActiveCalendar(true);
-    // setMapsEquipment({});
-    // setCommonMapsEquipment([]);
     setSelectedDates([]);
   };
   const handleSetSelectedConflictDate = (date) => {
@@ -161,34 +150,10 @@ export default function BookingMenu({
           )
           ) {
             resultColor += 3;
-
-            // events.push({
-            //   start: selectedDate,
-            //   extendedProps: {
-            //     shift: baseOrderShiftTime, shortTitle: currentEquipment.shortTitle, shiftLength: currentDevice.shiftLength, groupId: equipmentId,
-            //   },
-            //   backgroundColor: ITEMS_PREORDER_COLOR.orderedInThisShiftAndNear.backgroundColor,
-            // });
           } else if (commonMapsEquipmentSelectedDate[shiftTime] < groupsLength) {
             resultColor += 1;
-
-            // events.push({
-            //   start: selectedDate,
-            //   extendedProps: {
-            //     shift: baseOrderShiftTime, shortTitle: currentEquipment.shortTitle, shiftLength: currentDevice.shiftLength, groupId: equipmentId,
-            //   },
-            //   backgroundColor: ITEMS_PREORDER_COLOR.orderedButFreeInOtherEquipment.backgroundColor,
-            // });
           } else {
             resultColor += 2;
-
-            // events.push({
-            //   start: selectedDate,
-            //   extendedProps: {
-            //     shift: baseOrderShiftTime, shortTitle: currentEquipment.shortTitle, shiftLength: currentDevice.shiftLength, groupId: equipmentId,
-            //   },
-            //   backgroundColor: ITEMS_PREORDER_COLOR.orderedInAllEquipment.backgroundColor,
-            // });
           }
         }
       });
@@ -257,6 +222,7 @@ export default function BookingMenu({
       } else {
         equipment.success[selectedDate].push({ shiftTime, groupId });
       }
+      setBaseOrder((prev) => ({ ...prev, equipment }));
     });
   };
   const addAnotherDay = (date) => {
@@ -294,7 +260,6 @@ export default function BookingMenu({
         });
       });
     });
-    console.log(mapsEquipment);
     const min = Object.keys(mapsEquipment).reduce((acc, curr) => {
       const accConflictsLength = mapsEquipment[acc].countConflicts;
       const currConflictsLength = mapsEquipment[curr].countConflicts;
@@ -347,7 +312,6 @@ export default function BookingMenu({
         dates: dayGrids,
       };
     });
-    console.log(map);
     setCommonMapsEquipment(commonMap);
     setMapsEquipment(map);
   };
@@ -471,8 +435,7 @@ export default function BookingMenu({
 
     const newPreOrder = baseOrder.preOrders.filter((item) => item.date !== newOrders.date).concat(newOrders.success);
 
-    const countResolveConflicts = isEditMode ? 0
-      : baseOrder.equipment.countConflicts + newOrders.conflicts.length - baseOrder.equipment.conflicts[newOrders.date].length;
+    const countResolveConflicts = baseOrder.equipment.countConflicts + newOrders.conflicts.length - baseOrder.equipment.conflicts[newOrders.date].length;
 
     setBaseOrder((prev) => ({
       ...prev,
@@ -518,40 +481,6 @@ export default function BookingMenu({
         backgroundColor,
       }
       : el)));
-    // let newPreOrder;
-    // let isNew = false;
-    // newPreOrder = baseOrder.preOrders.map((order) => {
-    //   if (order.date === newOrder.date) {
-    //     isNew = true;
-    //     return newOrder;
-    //   }
-    //   return order;
-    // });
-    // if (!isNew) {
-    //   newPreOrder = [...baseOrder.preOrders, newOrder];
-    // }
-    // setBaseOrder((prev) => ({
-    //   ...prev,
-    //   preOrders: newPreOrder,
-    //   equipment: {
-    //     ...prev.equipment,
-    //     conflicts: prev.equipment.conflicts.filter((conflict) => conflict !== newOrder.date),
-    //   },
-    // }));
-    // setCalendarEvent((prev) => prev.map((el) => {
-    //   if (el.start === newOrder.date) {
-    //     return {
-    //       ...el,
-    //       backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
-    //       extendedProps: {
-    //         shiftLength: currentDevice.shiftLength,
-    //         shortTitle: groups.find((group) => newOrder.group === group.id).shortTitle,
-    //         groupId: newOrder.group,
-    //       },
-    //     };
-    //   }
-    //   return el;
-    // }));
   };
 
   const openOverLay = (status) => {
@@ -603,26 +532,6 @@ export default function BookingMenu({
         </div>
 
         <div className={style.bookingDateColumn}>
-          {/* {isEditMode ? ( */}
-          {/*  <div> */}
-          {/*    <BookingTimeline */}
-          {/*      editOrderData={editOrderData} */}
-          {/*      isEditMode={isEditMode} */}
-          {/*      setCurrentDevice={setCurrentDevice} */}
-          {/*      currentDevice={currentDevice} */}
-          {/*      groups={groups} */}
-          {/*      itemsPreOrder={itemsPreOrder} */}
-          {/*      setItemsPreOrder={setItemsPreOrder} */}
-          {/*      setCopyEditItems={setCopyEditItems} */}
-          {/*      items={items} */}
-          {/*      orderDatePlanning={orderDatePlanning} */}
-          {/*      currentDeviceIndex={currentDeviceIndex} */}
-          {/*      setCurrentDeviceIndex={setCurrentDeviceIndex} */}
-          {/*      selectedCompany={selectedCompany} */}
-          {/*    /> */}
-          {/*  </div> */}
-          {/* ) */}
-          {/*  : ( */}
           <ConfirmBookingWindow
             keyRerenderConflictResolutionWindow={keyRerenderConflictResolutionWindow}
             user={user}
