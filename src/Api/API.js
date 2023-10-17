@@ -7903,7 +7903,7 @@ export async function sendEditOrder(order) {
   return true;
 }
 
-export async function createOrder(order, company) {
+export async function createOrder(order, company, comment) {
   console.log(company);
   const str = `${backendUrl}save_order`;
   const dateIntervals = formatOrder(order);
@@ -7913,6 +7913,7 @@ export async function createOrder(order, company) {
       name: company.name,
     },
     status: "pending",
+    comment,
     equipmentItems: dateIntervals,
   };
   // eslint-disable-next-line
