@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 
-function DayCheckbox({ isActiveCalendar, checkDay, selectedWeekdays }) {
+function DayCheckbox({
+  isActiveCalendar, checkDay, selectedWeekdays, currentDevice,
+}) {
   const containerRef = useRef(null);
   const portalContainer = document.createElement("div");
 
@@ -17,38 +19,39 @@ function DayCheckbox({ isActiveCalendar, checkDay, selectedWeekdays }) {
   }, [containerRef, portalContainer]);
   const dayArray = [{
     label: "пн",
-    value: "mon",
+    value: "monday",
   }, {
     label: "вт",
-    value: "tue",
+    value: "tuesday",
   }, {
     label: "ср",
-    value: "wed",
+    value: "wednesday",
   }, {
     label: "чт",
-    value: "thu",
+    value: "thursday",
   }, {
     label: "пт",
-    value: "fri",
+    value: "friday",
   }, {
     label: "сб",
-    value: "sat",
+    value: "saturday",
   }, {
     label: "вс",
-    value: "sun",
+    value: "sunday",
   }];
 
   const toRender = (
     <div className="dayCheckbox">
       {dayArray.map((day) => (
-        <label htmlFor={day.value}>
+        <label htmlFor={day.value} key={day.value}>
           {day.label}
           <input
             id={day.value}
             type="checkbox"
-            checked={selectedWeekdays.includes(day.value)}
+            checked={selectedWeekdays.includes(day.value)
+                && currentDevice.workTime.dayMap[(day.value)]}
             onChange={checkDay}
-            disabled={!isActiveCalendar}
+            disabled={!isActiveCalendar || !currentDevice.workTime.dayMap[(day.value)]}
             value={day.value}
           />
         </label>

@@ -34,13 +34,15 @@ export default function BookingCalendar({
   const [emptyCellsForMonth, setEmptyCellsForMonth] = useState([]);
   const [startSelectCell, setStartSelectCell] = useState(null);
   const [defaultSelect, setDefaultSelect] = useState(true);
-  const [selectedWeekdays, setSelectedWeekdays] = useState(["mon", "tue", "wed", "thu", "fri", "sat", "sun"]);
+  const [selectedWeekdays, setSelectedWeekdays] = useState(["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]);
   const getCalendarCellsByClassNames = (classNames) => {
     const calendar = calendarRef.current.elRef.current;
     return calendar.querySelectorAll(
       classNames,
     );
   };
+
+  const workingDayMap = currentDevice.workTime.dayMap;
 
   const renderEventContent = (eventInfo) => {
     const { calendar } = calendarRef.current;
@@ -75,7 +77,6 @@ export default function BookingCalendar({
   };
 
   const checkShiftPerDay = (cell) => {
-    console.log("add");
     cell.firstChild.classList.add("gridActiveBG");
   };
 
@@ -114,7 +115,6 @@ export default function BookingCalendar({
   }, [calendarEvent]);
 
   useEffect(() => {
-    console.log(selectedDates);
     getCalendarCellsByClassNames(".fc-day.fc-daygrid-day:not(.fc-day-other)").forEach((cell) => {
       if (!selectedDates.find((date) => date === cell.dataset.date)) {
         if (!isActiveCalendar) { calendarRef.current.getApi().unselect(); }
@@ -144,17 +144,19 @@ export default function BookingCalendar({
     }
   }, [isActiveCalendar]);
 
-  const checkAndActiveCell = (days) => {
+  const getDayName = (date) => moment(date).locale("en").format("dddd").toLowerCase();
+
+  const checkAndActivateCell = (days) => {
     const selectedDays = [];
     days.forEach((cell) => {
       checkShiftPerDay(cell);
       if (selectedDates.find((date) => date === cell.dataset.date)
           || moment(cell.dataset.date).isBefore(moment().startOf("day"))
-          || (!selectedWeekdays.includes(moment(cell.dataset.date).locale("en").format("ddd").toLowerCase()))
+          || (!selectedWeekdays.includes(getDayName(cell.dataset.date)))
       ) {
         cell.firstChild.classList.remove("gridActiveBG");
         setSelectedDates((prev) => prev.filter((date) => date !== cell.dataset.date));
-      } else if (currentDevice.workTime.dayMap[moment(cell.dataset.date).locale("en").format("dddd").toLowerCase()]) {
+      } else if (workingDayMap[getDayName(cell.dataset.date)]) {
         selectedDays.push(cell.dataset.date);
       }
     });
@@ -207,7 +209,7 @@ export default function BookingCalendar({
         }
       },
     );
-    checkAndActiveCell(cells);
+    checkAndActivateCell(cells);
   };
 
   const disabledCells = () => {
@@ -215,19 +217,13 @@ export default function BookingCalendar({
     getCalendarCellsByClassNames(".fc-day-past").forEach((cell) => {
       cell.firstChild.classList.add("gridDisabledBG");
     });
-    Object.keys(currentDevice.workTime.dayMap).forEach((day) => {
-      if (!currentDevice.workTime.dayMap[day]) {
+    Object.keys(workingDayMap).forEach((day) => {
+      if (!workingDayMap[day]) {
         getCalendarCellsByClassNames(`.fc-day.fc-day-${day.slice(0, 3)}`).forEach((cell) => {
           cell.firstChild.classList.add("gridDisabledBG");
         });
       }
     });
-  };
-
-  const selectAllSimilarDayInMonth = (element) => {
-    if (isDefaultSelect) return;
-    const days = getCalendarCellsByClassNames(`.fc-day.${element}.fc-daygrid-day:not(.fc-day-other)`);
-    checkAndActiveCell(days);
   };
 
   useEffect(() => {
@@ -257,10 +253,10 @@ export default function BookingCalendar({
     const selectedDays = [];
     while (moment(iterateDate).isSameOrBefore(end)) {
       if (moment(iterateDate).isBefore(moment().startOf("day"))
-          || (!selectedWeekdays.includes(moment(iterateDate).locale("en").format("ddd").toLowerCase()))) {
+          || (!selectedWeekdays.includes(getDayName(iterateDate)))) {
         iterateDate = moment(iterateDate).add(1, "d");
       } else {
-        if (currentDevice.workTime.dayMap[moment(iterateDate).locale("en").format("dddd").toLowerCase()]) {
+        if (workingDayMap[getDayName(iterateDate)]) {
           selectedDays.push(moment(iterateDate).format("YYYY-MM-DD"));
         }
         iterateDate = moment(iterateDate).add(1, "d");
@@ -305,23 +301,24 @@ export default function BookingCalendar({
   const onClickCell = (e) => {
     const startSelect = e.target.closest(".fc-day.fc-daygrid-day");
     if (!startSelect || !startSelect.dataset.date) return;
+
     if (!isActiveCalendar) {
       const cell = e.target.closest(".fc-day.fc-daygrid-day");
       if (!cell) return;
       const cellDate = cell.dataset.date;
-      if (moment(cellDate).isBefore(moment())) {
+      if (moment(cellDate).isBefore(moment().startOf("day"))) {
         return;
       }
       if (selectedDates.indexOf(cellDate) === -1) {
-        if (currentDevice.workTime.dayMap[moment(cellDate).locale("en").format("dddd").toLowerCase()]) {
-          if (selectedWeekdays.includes(moment(cellDate).locale("en").format("ddd").toLowerCase())) {
-            addAnotherDay(moment(cell.dataset.date).format("YYYY-MM-DD"));
-            checkShiftPerDay(cell);
-          }
+        if (workingDayMap[getDayName(cellDate)]
+            && selectedWeekdays.includes(getDayName(cellDate))) {
+          addAnotherDay(moment(cell.dataset.date).format("YYYY-MM-DD"));
+          checkShiftPerDay(cell);
         }
       }
       return;
     }
+
     if (e.ctrlKey) {
       const startCoord = [e.clientX, e.clientY];
       let endCoord = [e.clientX, e.clientY];
@@ -333,33 +330,30 @@ export default function BookingCalendar({
       };
       document.addEventListener("mouseup", setCoord);
     }
+
     if (e.ctrlKey || !isActiveCalendar) return;
     setEvent([]);
     let startSelectedDate;
     let endSelectedDate;
-    const mousemove = (event1) => {
-      const endSelect = event1.target.closest(".fc-day.fc-daygrid-day");
+
+    const handleMousemove = (mouseEvent) => {
+      const endSelect = mouseEvent.target.closest(".fc-day.fc-daygrid-day");
       if (endSelect) {
         endSelectedDate = endSelect.dataset.date;
         handleSelectCustom(startSelectedDate, endSelectedDate);
       }
     };
-    const endMove = () => {
-      document.removeEventListener("mouseover", mousemove, false);
-      document.removeEventListener("mouseup", endMove, false);
+
+    const handleMouseup = () => {
+      document.removeEventListener("mouseover", handleMousemove, false);
+      document.removeEventListener("mouseup", handleMouseup, false);
       const selectedDays = getSelectedDatesArray(startSelectedDate, endSelectedDate);
       setSelectedDates(selectedDays);
     };
 
     if (startSelect) {
       if (e.shiftKey) {
-        let start;
-        if (!startSelectCell) {
-          start = moment().format("YYYY-MM-DD");
-        } else {
-          start = startSelectCell;
-        }
-        setStartSelectCell(startSelect.dataset.date);
+        const start = startSelectCell || moment().format("YYYY-MM-DD");
         const selectedDays = getSelectedDatesArray(start, startSelect.dataset.date);
         setSelectedDates(selectedDays);
         handleSelectCustom(start, startSelect.dataset.date);
@@ -369,11 +363,10 @@ export default function BookingCalendar({
       setStartSelectCell(startSelect.dataset.date);
       endSelectedDate = startSelect.dataset.date;
       handleSelectCustom(startSelectedDate, endSelectedDate);
-      document.addEventListener("mouseup", endMove);
-      document.addEventListener("mouseover", mousemove);
+      document.addEventListener("mouseup", handleMouseup);
+      document.addEventListener("mouseover", handleMousemove);
     }
   };
-
   useEffect(() => {
     if (calendarRef.current) {
       const calendar = calendarRef.current.elRef.current;
@@ -384,10 +377,6 @@ export default function BookingCalendar({
     }
     return false;
   }, [isDefaultSelect, isActiveCalendar, selectedDates]);
-
-  // const handleSwitchChange = () => {
-  //   setIsDefaultSelect((prev) => !prev);
-  // };
 
   useEffect(() => {
     const changeDef = (e) => {
@@ -405,30 +394,26 @@ export default function BookingCalendar({
   }, []);
 
   const checkDay = (e) => {
-    console.log(e.target.checked, e.target.value);
     if (!e.target.checked) {
       setSelectedWeekdays((prev) => prev.filter((day) => day !== e.target.value));
-      setSelectedDates((prev) => prev.filter((date) => (moment(date).locale("en").format("ddd").toLowerCase() !== e.target.value)));
+      setSelectedDates((prev) => prev.filter((date) => (getDayName(date) !== e.target.value)));
       return;
     }
     const sortedDates = selectedDates.sort((a, b) => (moment(b).isBefore(moment(a)) ? 1 : -1));
-    console.log(sortedDates);
     let iterateDay = sortedDates[0];
     const end = sortedDates[sortedDates.length - 1];
     const newSelectedDates = [];
     while (moment(iterateDay).isSameOrBefore(end)) {
-      if (moment(iterateDay).locale("en").format("ddd").toLowerCase() === e.target.value
+      if (getDayName(iterateDay) === e.target.value
           && !selectedDates.includes(moment(iterateDay).format("YYYY-MM-DD"))) {
         newSelectedDates.push(moment(iterateDay).format("YYYY-MM-DD"));
         const el = calendarRef.current.elRef.current.querySelectorAll(
           `[data-date="${moment(iterateDay).format("YYYY-MM-DD")}"] `,
         )[0];
-        console.log(el);
         checkShiftPerDay(el);
       }
       iterateDay = moment(iterateDay).add(1, "d");
     }
-    console.log(newSelectedDates);
     setSelectedDates((prev) => prev.concat(newSelectedDates));
     setSelectedWeekdays((prev) => prev.concat(...prev, e.target.value));
   };
@@ -439,6 +424,7 @@ export default function BookingCalendar({
         isActiveCalendar={isActiveCalendar}
         checkDay={checkDay}
         selectedWeekdays={selectedWeekdays}
+        currentDevice={currentDevice}
       />
       <div
         role="presentation"

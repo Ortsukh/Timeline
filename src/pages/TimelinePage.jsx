@@ -143,8 +143,6 @@ export default function TimelinePage() {
     const { shiftLength, workTime } = groups.find((group) => group.id === groupId);
     const startWorkDay = Number(workTime.shiftTimes.start.split(":")[0]);
     const date = moment(time).format("YYYY-MM-DD");
-    // const hour = moment(time).hours();
-    // const formatHour = Math.floor(hour / shiftLength);
     const formatHour = Math.floor((moment(time).hours() - startWorkDay) / shiftLength);
 
     let start;
@@ -349,10 +347,6 @@ export default function TimelinePage() {
               openBookingWindow={openBookingWindow}
               items={selectedCompany ? getFilteredItemsByCompany(selectedCompany.id) : items}
               clickOnItem={clickOnItem}
-            // eslint-disable-next-line
-            // setIsBookingMenu={setIsBookingMenu} //! При нажатии на группу, переходит к бронированию в этой группе
-            // setSelectedGroups={setSelectedGroups}
-            // setCurrentDevice={setCurrentDevice}
               setIsEquipmentInfoWindowOpen={setIsEquipmentInfoWindowOpen}
             />
             {(isActiveMessage) && (
