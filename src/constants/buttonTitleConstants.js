@@ -9,6 +9,7 @@ const buttonTitleConstants = {
   CONFIRM: "Подтвердить",
   CONFIRM_ORDER: "Подтвердить бронирование",
   DELETE: "Удалить",
+  EDIT: "Редактировать",
   REJECT: "Отклонить",
   SAVE: "Сохранить",
   SAVE_ORDER: "Сохранить и отправить заявку",

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import style from "../BookingTimeline.module.css";
-import { Expand } from "../../../../others/importImg";
+// import { Expand } from "../../../../others/importImg";
 
 export default function EquipmentDescription({ equipment, setIsEquipmentInfoWindowOpen }) {
   const [, setUpdate] = useState(false);
@@ -11,7 +11,7 @@ export default function EquipmentDescription({ equipment, setIsEquipmentInfoWind
   // console.log("equipment", equipment);
   return (
     <div className={style.equipment_component}>
-      <div style={{
+      {/* <div style={{
         display: "flex", justifyContent: "right", height: "20px", gap: "10px",
       }}
       >
@@ -25,7 +25,7 @@ export default function EquipmentDescription({ equipment, setIsEquipmentInfoWind
         >
           X
         </div>
-      </div>
+      </div> */}
       <p style={{ height: "3.5rem", margin: "0", cursor: "default" }}>
         {equipment.supportText}
         <span

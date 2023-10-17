@@ -1,6 +1,7 @@
 import React from "react";
 import "../style.css";
 import orderStatus from "../../constants/constants";
+import buttonTitleConstants from "../../constants/buttonTitleConstants";
 
 export default function MessageWindow({
   data,
@@ -12,10 +13,12 @@ export default function MessageWindow({
   openConfirmWindow,
   user,
 }) {
+  const comment = "";
   const heightModal = 250;
   const weightModal = 225;
   const isLeftPart = window.innerWidth / 2 - data.posX > 0;
   const isBottomPart = window.innerHeight / 2 - data.posY > 0;
+
   return (
     <div
       className="messageWindow"
@@ -36,9 +39,19 @@ export default function MessageWindow({
       </div>
       <div className="messageWindow-item status-messageWindow">
         <span>Статус:</span>
-        {/* <span>{data.item.status}</span> */}
         <span>{orderStatus[data.item.status]?.translatRU}</span>
       </div>
+      {comment
+        && (
+        <div className="messageWindow-item">
+          <span>Комментарий к заказу:</span>
+          <span style={{ wordWrap: "break-word", hyphens: "auto", fontStyle: "italic" }}>
+            `
+            {comment}
+            `
+          </span>
+        </div>
+        )}
 
       {data.item.status === "accepted"
         && (
@@ -63,7 +76,7 @@ export default function MessageWindow({
                 });
               }}
             >
-              Редактировать
+              {buttonTitleConstants.EDIT}
             </button>
             {user.role === "ROLE_MANAGER"
           && (
@@ -75,7 +88,7 @@ export default function MessageWindow({
                 openConfirmWindow("accepted");
               }}
             >
-              Подтвердить
+              {buttonTitleConstants.CONFIRM}
             </button>
             <button
               type="button"
@@ -84,7 +97,7 @@ export default function MessageWindow({
                 openConfirmWindow("rejected");
               }}
             >
-              Отклонить
+              {buttonTitleConstants.REJECT}
             </button>
           </div>
           )}
