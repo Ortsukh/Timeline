@@ -50,7 +50,7 @@ export default function BookingCalendar({
     if (calendar.view.type === "multiMonthYear") {
       const color = eventInfo.backgroundColor || "#ffa4a4";
       const obj = {
-        height: "1.6em",
+        height: 18,
         backgroundColor: color,
         color: (color === "#100e0e" ? "#ffffff" : "#000000"),
         display: "flex",
