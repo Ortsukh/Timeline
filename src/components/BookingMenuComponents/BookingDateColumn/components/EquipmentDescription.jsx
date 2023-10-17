@@ -26,7 +26,10 @@ export default function EquipmentDescription({ equipment, setIsEquipmentInfoWind
           X
         </div>
       </div> */}
-      <p style={{ height: "3.5rem", margin: "0", cursor: "default" }}>
+      <p style={{
+        width: "auto", margin: "0", wordWrap: "break-word", hyphens: "auto", textAlign: "justify", cursor: "default",
+      }}
+      >
         {equipment.supportText}
         <span
           aria-hidden="true"
@@ -37,15 +40,26 @@ export default function EquipmentDescription({ equipment, setIsEquipmentInfoWind
           {equipment.title}
         </span>
       </p>
-      <div style={{
-        width: "auto", height: "100px", textAlign: "center", marginTop: "10px",
+      {equipment.img
+        ? (
+          <div style={{
+            width: "auto", height: "100px", margin: "10px 0 0", textAlign: "center",
+          }}
+          >
+            <img src={equipment.img} alt="description" />
+          </div>
+        )
+        : (
+          <p style={{ margin: "10px 0 0", color: "red", textAlign: "center" }}>
+            Фото отсутствует :|
+          </p>
+        )}
+      <p style={{
+        width: "auto", margin: "10px 0 0", wordWrap: "break-word", hyphens: "auto", textAlign: "justify",
       }}
       >
-        <img src={equipment.img} alt="description" />
-      </div>
-      <p style={{ margin: "10px 0 0" }}>
         <span style={{ fontWeight: "bold" }}>Описание: </span>
-        <span>{equipment.description}</span>
+        {equipment.description}
       </p>
     </div>
   );

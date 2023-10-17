@@ -41,9 +41,20 @@ export default function EquipmentInfoWindow({
             >
               X
             </button>
-            <div className="titlePopup">{isEquipmentInfoWindowOpen.title}</div>
+            <div
+              className="titlePopup"
+              style={{ wordWrap: "break-word", hyphens: "auto" }}
+            >
+              {isEquipmentInfoWindowOpen.title}
+            </div>
             <div style={{
-              width: "300px", height: "300px", margin: "10px auto", border: "1px solid black", borderRadius: "5px", overflow: "hidden", cursor: "zoom-in",
+              width: "300px",
+              height: "300px",
+              margin: "10px auto",
+              border: "1px solid black",
+              borderRadius: "5px",
+              overflow: "hidden",
+              cursor: "zoom-in",
             }}
             >
               <img
@@ -56,11 +67,24 @@ export default function EquipmentInfoWindow({
             </div>
             <p style={{ margin: "0" }}>
               <span style={{ fontWeight: "bold" }}>Сокращённое название: </span>
-              <span>{isEquipmentInfoWindowOpen.shortTitle}</span>
+              {isEquipmentInfoWindowOpen.shortTitle}
             </p>
-            <div style={{ margin: "0", maxHeight: "150px", overflow: "auto" }}>
+            <p style={{ margin: "0" }}>
+              <span style={{ fontWeight: "bold" }}>Цена: </span>
+              {parseFloat(isEquipmentInfoWindowOpen.price).toFixed(2)}
+            </p>
+            <div style={{
+              margin: "0",
+              maxHeight: "150px",
+              overflow: "auto",
+              width: "auto",
+              wordWrap: "break-word",
+              hyphens: "auto",
+              textAlign: "justify",
+            }}
+            >
               <span style={{ fontWeight: "bold" }}>Описание: </span>
-              <span>{isEquipmentInfoWindowOpen.description}</span>
+              {isEquipmentInfoWindowOpen.description}
             </div>
           </div>
         </div>
