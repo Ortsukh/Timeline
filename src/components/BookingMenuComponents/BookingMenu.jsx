@@ -52,49 +52,6 @@ export default function BookingMenu({
   const [deactivatedCell, setDeactivatedCell] = useState(false);
   const [isAddNewItem, setIsAddNewItem] = useState(false);
 
-  useEffect(() => {
-    if (isEditMode) {
-      const editItems = items.filter(
-        (item) => item.rentOrderId === editOrderData.rentOrderId,
-      );
-
-      const editDates = [];
-      const events = [];
-      const successEvent = {};
-      editItems.forEach((item) => {
-        editDates.push(item.date);
-        if (!successEvent[item.date]) {
-          successEvent[item.date] = [];
-        }
-        successEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
-      });
-      Object.keys(successEvent).forEach((date) => {
-        events.push({
-          start: date,
-          extendedProps: {
-            // shortTitle: groups.find((group) => group.id === item.group).shortTitle, //! хз
-            shiftLength: currentDevice.shiftLength,
-            conflicts: [],
-            success: successEvent[date],
-          },
-          backgroundColor: ITEMS_PREORDER_COLOR.empty.backgroundColor,
-        });
-      });
-      setBaseOrder((prev) => ({
-        ...prev,
-        preOrders: editItems,
-        equipment: {
-          ...currentDevice, conflicts: [], success: successEvent, countConflicts: 0,
-        },
-      }));
-
-      setSelectedDates(editDates);
-      setIsActiveCalendar(false);
-      setCalendarEvent(events);
-      setShowStartDisplayConflict(false);
-    }
-  }, [editOrderData, isEditMode]);
-
   const handleClear = () => {
     setBaseOrder({ shiftTime: [{ value: startWorkDay, label: `${startWorkDay} - ${startWorkDay + currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
     setCalendarEvent([]);
@@ -196,7 +153,7 @@ export default function BookingMenu({
           });
       }
     });
-
+    console.log(events);
     setCalendarEvent((prev) => prev.concat(events));
     if (isNew) {
       handleSetSelectedConflictDate(events[0]);
@@ -329,12 +286,12 @@ export default function BookingMenu({
         (item) => item.rentOrderId === editOrderData.rentOrderId,
       );
 
-      const editDates = [];
+      const editDates = {};
       const events = [];
       const successEvent = {};
       const conflictEvent = {};
       editItems.forEach((item) => {
-        editDates.push(item.date);
+        editDates[item.date] = [];
         if (!successEvent[item.date]) {
           successEvent[item.date] = [];
         }
@@ -343,7 +300,7 @@ export default function BookingMenu({
           conflictEvent[item.date] = [];
         }
         const itemStartIndex = item.grid.indexOf("1");
-        console.log(mapsEquipment);
+
         if (mapsEquipment[item.group].dates[item.date] && mapsEquipment[item.group].dates[item.date][itemStartIndex] === "1") {
           conflictEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
         } else {
@@ -351,7 +308,7 @@ export default function BookingMenu({
         }
       });
 
-      editDates.forEach((date) => {
+      Object.keys(editDates).forEach((date) => {
         events.push({
           start: date,
           extendedProps: {
@@ -375,8 +332,8 @@ export default function BookingMenu({
           dates: mapsEquipment[currentDevice.id],
         },
       }));
-
-      setSelectedDates(editDates);
+      console.log(events);
+      setSelectedDates(Object.keys(editDates));
       setIsActiveCalendar(false);
       setCalendarEvent(events);
       setShowStartDisplayConflict(false);
