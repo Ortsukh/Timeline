@@ -13,7 +13,6 @@ export default function ConfirmWindow({
 }) {
   const [comment, setComment] = useState("");
   let fullPrice = 0;
-
   const sortingByDate = (array) => {
     array.sort((a, b) => {
       if (moment(a.date).isBefore(moment(b.date))) return -1;
@@ -24,12 +23,11 @@ export default function ConfirmWindow({
   };
 
   const orderItems = [];
-
   sortingByDate(data).forEach((item, index) => {
     const group = groups.find((groupItem) => groupItem.id === item.group);
     fullPrice += +group.price;
     orderItems.push(
-      <div className="order" key={`${item.id}`}>
+      <div className="order" key={`${item.id}-${+item.group + +item.shiftTime}`}>
         <div className="numberOrder">
           {`#${index + 1}`}
         </div>
@@ -54,7 +52,7 @@ export default function ConfirmWindow({
       </div>,
     );
   });
-  // console.log("data", data);
+
   return (
     <div
       role="presentation"
@@ -87,7 +85,11 @@ export default function ConfirmWindow({
           {orderItems}
         </div>
         <div className="orderBtn">
-          <button type="button" className="button-submit reserved-btn" onClick={confirmFunc}>
+          <button
+            type="button"
+            className="button-submit reserved-btn"
+            onClick={() => confirmFunc(comment)}
+          >
             {isConfirmWindowOpen === "rejected" ? buttonTitleConstants.REJECT : buttonTitleConstants.CONFIRM}
           </button>
         </div>

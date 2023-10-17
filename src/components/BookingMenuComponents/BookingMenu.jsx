@@ -363,10 +363,10 @@ export default function BookingMenu({
       .catch(() => openAlertWindow("error"));
   };
 
-  const sendNewOrder = (status = "pending") => {
+  const sendNewOrder = (commentToOrder, status = "pending") => {
     if (baseOrder.preOrders.length < 1) return;
     const orderItems = createOrderGrid(baseOrder.preOrders);
-    createOrder(orderItems, selectedCompany, status)
+    createOrder(orderItems, selectedCompany, commentToOrder, status)
       .then(() => {
         openAlertWindow("success");
         setIsBookingMenu(false);
@@ -519,7 +519,7 @@ export default function BookingMenu({
           data={baseOrder.preOrders}
           groups={groups}
           closeBookingWindow={setIsConfirmWindowOpen}
-          confirmFunc={() => (isEditMode ? editOrder(isConfirmWindowOpen) : sendNewOrder(isConfirmWindowOpen))}
+          confirmFunc={(commentToOrder) => (isEditMode ? editOrder(isConfirmWindowOpen) : sendNewOrder(commentToOrder, isConfirmWindowOpen))}
         />
       )}
     </>
