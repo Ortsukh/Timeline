@@ -213,8 +213,9 @@ export default function WindowTimeline({
     const endWorkDay = Number(PR_COM.workTime.shiftTimes.end.split(":")[0]);
     const formattedTime = Math.floor((moment(time).hours() - startWorkDay) / PR_COM.shiftCateg)
         * PR_COM.shiftCateg + startWorkDay;
-
-    if (formattedTime < startWorkDay || formattedTime >= endWorkDay) {
+    console.log(setEndTimeSelectedItem(formattedTime).format("HH"));
+    console.log(endWorkDay);
+    if (formattedTime < startWorkDay || formattedTime >= endWorkDay || setEndTimeSelectedItem(formattedTime).format("HH") > endWorkDay) {
       return;
     }
 
@@ -493,11 +494,21 @@ export default function WindowTimeline({
             verticalLineClassNamesForTime={(timeStart, timeEnd) => {
               const currentTimeStart = moment(timeStart).format("HH");
               const currentTimeEnd = moment(timeEnd).format("HH");
+              const startWorkDay = Number(PR_COM.workTime.shiftTimes.start.split(":")[0]);
+
+              const endWorkDay = Number(PR_COM.workTime.shiftTimes.end.split(":")[0]);
+              const formattedTime = Math.floor((currentTimeEnd - startWorkDay) / PR_COM.shiftCateg)
+                  * PR_COM.shiftCateg + startWorkDay;
+              console.log(setEndTimeSelectedItem(formattedTime).format("HH"), currentTimeEnd, endWorkDay);
               const day = moment(selectedConflictDate.start).locale("en").format("dddd").toLowerCase();
+
               if (moment(currentTimeStart, "HH").isBefore(moment(PR_COM.workTime.dayMap[day].start, "HH"), "hours")
                 || moment(currentTimeEnd, "HH").isSameOrAfter(moment(PR_COM.workTime.dayMap[day].end, "HH"), "hours")
               ) {
                 return [styleConflict.highlightColumn];
+              }
+              if (setEndTimeSelectedItem(formattedTime).format("HH") > endWorkDay) {
+                return [styleConflict.highlightSameColumn];
               }
               return [];
             }}
