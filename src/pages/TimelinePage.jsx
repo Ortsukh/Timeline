@@ -31,6 +31,7 @@ import buttonTitleConstants from "../constants/buttonTitleConstants";
 import ConfirmWindow from "../components/Popup/ConfirmWindow";
 import EquipmentInfoWindow from "../components/Popup/EquipmentInfoWindow";
 import Overlay from "../components/BookingMenuComponents/BookingDateColumn/components/Overlay";
+import sortingArrayGroups from "../constants/priorityGroups";
 
 export default function TimelinePage() {
   const [groups, setGroups] = useState([]);
@@ -88,12 +89,12 @@ export default function TimelinePage() {
     if (user && user.role === "ROLE_MANAGER" && false) { //! для дева!
     // if (user && user.role === "ROLE_MANAGER") {
       getManagerEquipments().then((response) => {
-        setGroups(createEquipmentGroup(response.data));
+        setGroups(sortingArrayGroups(createEquipmentGroup(response.data)));
         setIsLoadingEquipment(false);
       });
     } else {
       getAllEquipments().then((response) => {
-        setGroups(createEquipmentGroup(response.data));
+        setGroups(sortingArrayGroups(createEquipmentGroup(response.data)));
         setIsLoadingEquipment(false);
       });
     }
