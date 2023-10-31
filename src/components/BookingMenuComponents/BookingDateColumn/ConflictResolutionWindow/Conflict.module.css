@@ -5,6 +5,13 @@
   border-right: 1px solid red !important; */
 }
 
+.highlightSameColumn {
+  background-color: rgba(243, 178, 178, 0.31) !important;
+  /*border: 1px solid red !important;*/
+  /* border-left: 1px solid red !important;
+  border-right: 1px solid red !important; */
+}
+
 .highlightRow {
   background-color: #acecf0 !important;
   border: 1px solid red !important;
