@@ -250,7 +250,7 @@ export default function TimelinePage() {
   };
 
   const getFilteredItemsByCompany = (companyId) => (
-    items.filter((item) => item.company.id === companyId)
+    items.filter((item) => item.company?.id === companyId)
   );
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
