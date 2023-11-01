@@ -1,7 +1,7 @@
-.profitChartContainer {
+/* .profitChartContainer {
     height : 230px;
     width: 800px;
-}
+} */
 
 .containerChart {
     width: 400px;
@@ -15,8 +15,6 @@
 .btn-cont-dash{
     display: flex;
     gap: 5px;
-    margin: 0 0 10px auto;
-    width: fit-content;
 }
 
 .title-table{
@@ -27,11 +25,43 @@
     width: 100%;
 }
 .calendarContainer {
-    left: 4px
-}
-.containerCalendarDashboard {
+    left: 4px;
 }
 
 .button-wrapper {
     width: 100px;
+}
+
+#canvas{
+    background-color: white;
+    padding: 5px;
+}
+
+.table{
+    background-color: white;
+}
+
+.cont-btn-dash{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.info-box{
+    min-height: 0 !important;
+    margin-bottom: 0 !important;
+    box-shadow: none !important;
+    border: 2px solid #d0d0d0;
+    width: fit-content !important;
+}
+
+.info-box-content{
+    margin-left: 0 !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info-box-text, .info-box-number{
+    font-size: 14px !important;
 }
