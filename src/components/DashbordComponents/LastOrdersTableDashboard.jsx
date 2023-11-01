@@ -17,6 +17,8 @@ export default function LastOrdersTableDashboard() {
       <td>{item.name}</td>
       <td>{item.contactPerson}</td>
       <td>{item.lastPlace}</td>
+      <td>{item.lastPlace}</td>
+      <td>{item.lastPlace}</td>
     </tr>
   ));
   return (
@@ -25,9 +27,12 @@ export default function LastOrdersTableDashboard() {
       <table className="table table-bordered">
         <thead className="thead-light">
           <tr>
-            <th>Название</th>
-            <th>Контактное лицо</th>
-            <th>Последнее используемое мместо</th>
+            <th>№</th>
+            <th>Дата</th>
+            <th>Компания</th>
+            <th>ОБорудование</th>
+            <th>Статус</th>
+            <th>Цена</th>
           </tr>
         </thead>
         <tbody>

@@ -25,7 +25,7 @@ export const getProfitData = (start, end) => {
 };
 
 export async function getRentCompanies() {
-  // const str = "http://freekitchen.loc/admin/api/get_lessee_companies";
+  // const str = "http://freekitchen.loc/admin/api/get_companies";
   // const res = await fetch(str, {});
   // if (!res.ok) {
   //   throw new Error("Something went wrong. Sorry");
@@ -34,7 +34,25 @@ export async function getRentCompanies() {
   return testCompany;
   // return res.json();
 }
-
+export async function getUserInfo() {
+  // const str = "http://freekitchen.loc/admin/api/get_manager_info";
+  // const res = await fetch(str, {});
+  // if (!res.ok) {
+  //   throw new Error("Something went wrong. Sorry");
+  // }
+  // console.log(res);
+  return testUser;
+  // return res.json();
+}
+const testUser = {
+  lesseeCompanies: 3,
+  kitchens: 2,
+  kitchensFree: 1,
+  equipment: 6,
+  equipmentFree: 5,
+  marketPlaces: 3,
+  name: "Франчайзи 001",
+};
 const testCompany = [
   {
     id: 23,
