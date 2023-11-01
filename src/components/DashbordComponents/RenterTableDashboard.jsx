@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { getRentCompanies } from "../../Api/DashboardApi";
 import "./style.css";
 
@@ -34,9 +33,9 @@ export default function RenterTableDashboard() {
           {generateRentCompaniesItem()}
         </tbody>
       </table>
-      <Link rel="stylesheet" href="#s">
-        Посмотеть всех арендаторов
-      </Link>
+      {/* <Link rel="stylesheet" href="#s"> */}
+      {/*  Посмотеть всех арендаторов */}
+      {/* </Link> */}
     </div>
   );
 }

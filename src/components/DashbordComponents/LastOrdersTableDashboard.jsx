@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { getRentCompanies } from "../../Api/DashboardApi";
 import "./style.css";
 
@@ -39,9 +38,9 @@ export default function LastOrdersTableDashboard() {
           {generateRentCompaniesItem()}
         </tbody>
       </table>
-      <Link rel="stylesheet" href="#s">
-        Посмотеть все заказы
-      </Link>
+      {/* <Link rel="stylesheet" href="#s"> */}
+      {/*  Посмотеть все заказы */}
+      {/* </Link> */}
     </div>
   );
 }

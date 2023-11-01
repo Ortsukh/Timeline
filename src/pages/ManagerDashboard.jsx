@@ -9,6 +9,7 @@ import LastOrdersTableDashboard from "../components/DashbordComponents/LastOrder
 import CalendarDashboard from "../components/DashbordComponents/CalendarDashboard";
 
 export default function ManagerDashboard() {
+  console.log("load");
   const [selectedTime, setSelctedTime] = useState({ start: moment().add(-7, "day"), end: moment() });
   return (
     <div>

@@ -55,6 +55,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "build1": "react-scripts build",
     "build": "webpack",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
