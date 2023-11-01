@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import moment from "moment";
 import UserBox from "../components/DashbordComponents/UserBox";
 import ProfitByTimeChart from "../components/DashbordComponents/ProfitByTimeChart";
 import RenterTableDashboard from "../components/DashbordComponents/RenterTableDashboard";
@@ -7,6 +8,8 @@ import LastOrdersTableDashboard from "../components/DashbordComponents/LastOrder
 import StatsDashboard from "../components/DashbordComponents/StatsDashboard";
 
 export default function ManagerDashboard() {
+  const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
+
   console.log("load");
   return (
     <div>
@@ -15,9 +18,9 @@ export default function ManagerDashboard() {
           <UserBox />
         </div>
         <div className="col-lg-6 col-md-8">
-          <ProfitByTimeChart />
+          <ProfitByTimeChart selectedTime={selectedTime} setSelectedTime={setSelectedTime} />
           {" "}
-          <StatsDashboard />
+          <StatsDashboard selectedTime={selectedTime} />
         </div>
 
       </div>

@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { getRentCompanies } from "../../Api/DashboardApi";
+import { getRentCompanies, getRepairingEquipments } from "../../Api/DashboardApi";
 import "./style.css";
+import moment from "moment";
 
 export default function RepairKitchenTableDashboard() {
   const [rentCompanies, setRentCompanies] = useState([]);
   useEffect(() => {
-    getRentCompanies().then((response) => {
+    getRepairingEquipments().then((response) => {
       console.log(response);
       setRentCompanies(response);
     });
   }, []);
 
-  const generateRentCompaniesItem = () => rentCompanies.map((item) => (
+  const generateRentCompaniesItem = () => rentCompanies.slice(0, 3).map((item) => (
     <tr key={item.name}>
       <td>{item.name}</td>
-      <td>{item.contactPerson}</td>
-      <td>{item.lastPlace}</td>
+      <td>{item.kitchenEquipment[0].name}</td>
+      <td>В ремонте</td>
+      <td>{moment().add(-(Math.floor(Math.random() * 300)), "day").format("DD-MM-YYYY")}</td>
     </tr>
   ));
   return (
@@ -24,9 +26,10 @@ export default function RepairKitchenTableDashboard() {
       <table className="table table-bordered">
         <thead className="thead-light">
           <tr>
-            <th>Название</th>
-            <th>Контактное лицо</th>
-            <th>Пространство</th>
+            <th>Категория</th>
+            <th>Оборудование</th>
+            <th>Статус</th>
+            <th>Дата ремонта</th>
           </tr>
         </thead>
         <tbody>

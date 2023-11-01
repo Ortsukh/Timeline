@@ -6,16 +6,18 @@ export default function RenterTableDashboard() {
   const [rentCompanies, setRentCompanies] = useState([]);
   useEffect(() => {
     getRentCompanies().then((response) => {
-      console.log(response);
       setRentCompanies(response);
     });
   }, []);
 
-  const generateRentCompaniesItem = () => rentCompanies.map((item) => (
-    <tr key={item.name}>
-      <td>{item.name}</td>
-      <td>{item.contactPerson}</td>
-      <td>{item.lastPlace}</td>
+  const generateRentCompaniesItem = () => rentCompanies.slice(0, 5).map((item, index) => (
+    <tr key={item.name + index.toString()}>
+      <td>
+        {item.company.name
+        || "Компания"}
+      </td>
+      <td>{item.company.contactPerson || "Олег"}</td>
+      <td>{item.balance}</td>
     </tr>
   ));
   return (
@@ -26,16 +28,16 @@ export default function RenterTableDashboard() {
           <tr>
             <th>Название</th>
             <th>Контактное лицо</th>
-            <th>Пространство</th>
+            <th>Баланс</th>
           </tr>
         </thead>
         <tbody>
           {generateRentCompaniesItem()}
         </tbody>
       </table>
-      {/* <Link rel="stylesheet" href="#s"> */}
+      {/* <a rel="stylesheet" href="#s"> */}
       {/*  Посмотеть всех арендаторов */}
-      {/* </Link> */}
+      {/* </a> */}
     </div>
   );
 }

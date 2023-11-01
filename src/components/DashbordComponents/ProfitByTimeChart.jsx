@@ -32,12 +32,11 @@ ChartJS.register(
 
 );
 
-export default function ProfitByTimeChart() {
+export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
   const [profitItems, setProfitItems] = useState([]);
-  const [update, setUpdate] = useState(false);
   const [timeStep, setTimeStep] = useState(1);
   const chart = useRef(null);
-  const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
+  // const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
 
   const options = {
     response: true,
@@ -45,6 +44,8 @@ export default function ProfitByTimeChart() {
       tooltip: {
         // Disable the on-canvas tooltip
         enabled: false,
+        mode: "index",
+        intersect: false,
         external(context) {
           // Tooltip Element
           let tooltipEl = document.getElementById("chartjs-tooltip");
@@ -78,7 +79,6 @@ export default function ProfitByTimeChart() {
 
           // Set Text
           if (tooltipModel.body) {
-            console.log(tooltipModel);
             const bodyLines = tooltipModel.body.map(getBody);
 
             let innerHtml = "<thead>";
@@ -89,7 +89,7 @@ export default function ProfitByTimeChart() {
               let style = "background:  linear-gradient(336deg, rgba(0,0,255, 0.5), rgba(0,0,255, 0.5) );";
               style += "; border-color:rgb(100, 100, 255)";
               style += "; border-width: 2px";
-              const span = `<span style="${style}">${tooltipModel.dataPoints[0].raw.x}: ${tooltipModel.dataPoints[0].raw.y}$</span>`;
+              const span = `<span style="${style}">${tooltipModel.dataPoints[0].raw.x}: ${tooltipModel.dataPoints[0].raw.y} BYN</span>`;
               innerHtml += `<tr><td>${span}</td></tr>`;
             });
             innerHtml += "</tbody>";
@@ -113,6 +113,7 @@ export default function ProfitByTimeChart() {
       },
 
     },
+
     hover: {
       mode: "index",
       intersect: false,
@@ -142,7 +143,7 @@ export default function ProfitByTimeChart() {
       y: {
         ticks: {
           callback(value) {
-            return `${value}$`;
+            return `${value} BYN`;
           },
         },
       },
@@ -160,14 +161,9 @@ export default function ProfitByTimeChart() {
   };
 
   useEffect(() => {
-    console.log(profitItems);
-    setUpdate((prev) => !prev);
-  }, [profitItems]);
-
-  useEffect(() => {
     console.log(chart);
     getProfitData(selectedTime.startDate, selectedTime.endDate).then((response) => {
-      setProfitItems([...response]);
+      setProfitItems(response);
     });
   }, []);
   const handleChangeTimeStep = (step) => {
@@ -176,7 +172,7 @@ export default function ProfitByTimeChart() {
   };
   const handleSelectTime = (item) => {
     getProfitData(item.startDate, item.endDate).then((response) => {
-      setProfitItems((prev) => [...response]);
+      setProfitItems(response);
       setSelectedTime(item);
     });
   };

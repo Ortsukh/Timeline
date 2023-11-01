@@ -10,7 +10,7 @@ export default function StatsDashboard() {
       </div>
       <div className="statsItem">
         <span>Прибыль за период</span>
-        <span>23300</span>
+        <span>{Math.floor(Math.random() * 30000 + 15000)}</span>
       </div>
       <div className="statsItem">
         <span>Просроченные платежи</span>

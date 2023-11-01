@@ -12,7 +12,7 @@ export default function LastOrdersTableDashboard() {
   }, []);
 
   const generateRentCompaniesItem = () => rentCompanies.map((item) => (
-    <tr>
+    <tr key={item.id}>
       <td>{item.name}</td>
       <td>{item.contactPerson}</td>
       <td>{item.lastPlace}</td>

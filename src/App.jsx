@@ -20,7 +20,7 @@ function App() {
   const getPage = () => {
     let result = "";
     switch (route) {
-      case "4": result = <ManagerDashboard />;
+      case "main_dashboard": result = <ManagerDashboard />;
         break;
       case "": result = <TimelinePage />;
         break;
