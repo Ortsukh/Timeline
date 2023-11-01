@@ -20,13 +20,13 @@ export default function RenterTableDashboard() {
   ));
   return (
     <div className="containerChart">
-      Арендаторы
+      <h4 className="title-table">Арендаторы</h4>
       <table className="table table-bordered">
         <thead className="thead-light">
           <tr>
             <th>Название</th>
             <th>Контактное лицо</th>
-            <th>Последнее используемое мместо</th>
+            <th>Пространство</th>
           </tr>
         </thead>
         <tbody>

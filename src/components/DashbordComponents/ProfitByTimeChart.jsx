@@ -188,18 +188,18 @@ export default function ProfitByTimeChart() {
 
   return (
     <div className="profitChartContainer">
-      <div>
-        <button type="button" onClick={() => handleChangeTimeStep(1)}>
+      <div className="btn-cont-dash">
+        <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(1)}>
           day
         </button>
-        <button type="button" onClick={() => handleChangeTimeStep(7)}>
+        <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(7)}>
           week
         </button>
-        <button type="button" onClick={() => handleChangeTimeStep(30)}>
+        <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(30)}>
           month
         </button>
       </div>
-      <Line ref={chart} width={1000} height={300} id="canvas" options={options} data={data} redraw />
+      <Line ref={chart} width={1100} height={300} id="canvas" options={options} data={data} redraw />
 
     </div>
   );

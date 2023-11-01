@@ -20,13 +20,13 @@ export default function RepairKitchenTableDashboard() {
   ));
   return (
     <div className="containerChart">
-      Оборудование в ремонте
+      <h4 className="title-table"> Оборудование в ремонте</h4>
       <table className="table table-bordered">
         <thead className="thead-light">
           <tr>
             <th>Название</th>
             <th>Контактное лицо</th>
-            <th>Последнее используемое мместо</th>
+            <th>Пространство</th>
           </tr>
         </thead>
         <tbody>
