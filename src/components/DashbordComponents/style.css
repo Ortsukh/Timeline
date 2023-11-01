@@ -4,12 +4,10 @@
 } */
 
 .containerChart {
-    width: 400px;
     height: 345px;
 }
 .containerUserBox{
-    width: 420px;
-    height: 403px;
+    width: auto;
 }
 
 .btn-cont-dash{
@@ -37,6 +35,8 @@
 #canvas{
     background-color: white;
     padding: 5px;
+    height: 260px !important;
+    width: 100% !important;
 }
 
 .table{
@@ -99,4 +99,16 @@
 
 .negative-values{
     color: #f03333;
+}
+
+.dash-chart-first{
+    width: 75% !important;
+}
+
+.width-fif{
+    width: 50% !important;
+}
+
+.width-hun{
+    width: 50%;
 }
