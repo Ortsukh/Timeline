@@ -17,7 +17,7 @@ export default function ManagerDashboard() {
         <div className="col-lg-3 col-md-4">
           <UserBox />
         </div>
-        <div className="col-lg-6 col-md-8">
+        <div className="col-lg-6 col-md-8 dash-chart-first">
           <ProfitByTimeChart selectedTime={selectedTime} setSelectedTime={setSelectedTime} />
           {" "}
           <StatsDashboard selectedTime={selectedTime} />
@@ -25,11 +25,11 @@ export default function ManagerDashboard() {
 
       </div>
       <div className="row">
-        <div className="col-lg-3  col-md-6"><RenterTableDashboard /></div>
-        <div className="col-lg-3  col-md-6"><RepairKitchenTableDashboard /></div>
+        <div className="col-lg-3  col-md-6 width-fif"><RenterTableDashboard /></div>
+        <div className="col-lg-3  col-md-6 width-fif"><RepairKitchenTableDashboard /></div>
       </div>
       <div className="row">
-        <div className="col-lg-3  col-md-6"><LastOrdersTableDashboard /></div>
+        <div className="col-lg-3  col-md-6 width-hun"><LastOrdersTableDashboard /></div>
       </div>
     </div>
   );
