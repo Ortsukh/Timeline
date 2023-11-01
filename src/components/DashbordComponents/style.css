@@ -26,3 +26,12 @@
 .containerChart.last-orders{
     width: 100%;
 }
+.calendarContainer {
+    left: 4px
+}
+.containerCalendarDashboard {
+}
+
+.button-wrapper {
+    width: 100px;
+}

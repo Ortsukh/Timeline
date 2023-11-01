@@ -10,7 +10,6 @@ import CalendarDashboard from "../components/DashbordComponents/CalendarDashboar
 
 export default function ManagerDashboard() {
   console.log("load");
-  const [selectedTime, setSelctedTime] = useState({ start: moment().add(-7, "day"), end: moment() });
   return (
     <div>
       <div className="row">
@@ -19,12 +18,7 @@ export default function ManagerDashboard() {
         </div>
 
         <div className="col-lg-6 col-md-8"><ProfitByTimeChart /></div>
-        <div>
-          <CalendarDashboard setSelctedTime />
-        </div>
-        <div className="col-lg-3 col-md-8">
-          <UserAccountDashBoard />
-        </div>
+
       </div>
       <div className="row">
         <div className="col-lg-3  col-md-6"><RenterTableDashboard /></div>
