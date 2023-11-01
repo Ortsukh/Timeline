@@ -200,21 +200,23 @@ export default function ProfitByTimeChart() {
   console.log(data);
   return (
     <div className="profitChartContainer">
-      <div>
-        <CalendarDashboard setSelectedTime={handleSelectTime} />
-      </div>
-      <div className="btn-cont-dash">
-        <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(1)}>
-          day
-        </button>
-        <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(7)}>
-          week
-        </button>
-        <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(30)}>
-          month
-        </button>
+      <div className="cont-btn-dash">
         <div className="col-lg-3 col-md-8">
           <UserAccountDashBoard />
+        </div>
+        <div className="btn-cont-dash">
+          <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(1)}>
+            day
+          </button>
+          <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(7)}>
+            week
+          </button>
+          <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(30)}>
+            month
+          </button>
+          <div>
+            <CalendarDashboard setSelectedTime={handleSelectTime} />
+          </div>
         </div>
       </div>
       <Line ref={chart} width={1100} height={300} id="canvas" options={options} data={data} redraw />
