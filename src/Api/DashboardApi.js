@@ -62,7 +62,6 @@ export async function getRepairingEquipments() {
   // // console.log("getOrders:", res);
   // return res.json();
   return testRepairingEquip.data;
-
 }
 const testUser = {
   lesseeCompanies: 3,
@@ -655,7 +654,6 @@ const testRepairingEquip = {
     },
   ],
 };
-];
 const testOrders = [
   {
     id: 272,
