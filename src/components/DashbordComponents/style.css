@@ -5,9 +5,24 @@
 
 .containerChart {
     width: 400px;
-    height: 300px;
+    height: 345px;
 }
 .containerUserBox{
     width: 420px;
     height: 403px;
+}
+
+.btn-cont-dash{
+    display: flex;
+    gap: 5px;
+    margin: 0 0 10px auto;
+    width: fit-content;
+}
+
+.title-table{
+    font-weight: 600;
+}
+
+.containerChart.last-orders{
+    width: 100%;
 }

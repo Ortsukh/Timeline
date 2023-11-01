@@ -22,8 +22,8 @@ export default function LastOrdersTableDashboard() {
     </tr>
   ));
   return (
-    <div className="containerChart">
-      Последние Заказы
+    <div className="containerChart last-orders">
+      <h4 className="title-table"> Последние Заказы</h4>
       <table className="table table-bordered">
         <thead className="thead-light">
           <tr>

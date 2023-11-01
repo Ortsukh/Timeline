@@ -21,10 +21,11 @@ export default function ManagerDashboard() {
       </div>
       <div className="row">
         <div className="col-lg-3  col-md-6"><RenterTableDashboard /></div>
-        <div className="col-lg-3  col-md-6"><LastOrdersTableDashboard /></div>
         <div className="col-lg-3  col-md-6"><RepairKitchenTableDashboard /></div>
       </div>
-
+      <div className="row">
+        <div className="col-lg-3  col-md-6"><LastOrdersTableDashboard /></div>
+      </div>
     </div>
   );
 }
