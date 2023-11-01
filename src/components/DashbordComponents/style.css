@@ -25,11 +25,13 @@
     width: 100%;
 }
 .calendarContainer {
-    left: 4px;
+    right: 15px;
+    top: 45px;
+    border: 1px solid #d0d0d0;
 }
 
 .button-wrapper {
-    width: 100px;
+    width: auto;
 }
 
 #canvas{
@@ -68,7 +70,33 @@
 .statsItem {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 .statsDashboardContainer {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 35px;
+}
+
+.btn-cont-dash .containerCalendarDashboard .button-wrapper .btn-sm{
+    font-size: 14px;
+}
+
+.info-box-number, .positive-values{
+    color: #1fcb22;
+}
+
+.active.calendarContainer{
+    position: absolute;
+}
+
+.statsItem .values{
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.negative-values{
+    color: #f03333;
 }

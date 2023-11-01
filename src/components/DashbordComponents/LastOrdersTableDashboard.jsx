@@ -1,25 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { getRentCompanies } from "../../Api/DashboardApi";
+import moment from "moment";
+import { getOrders } from "../../Api/DashboardApi";
 import "./style.css";
 
 export default function LastOrdersTableDashboard() {
-  const [rentCompanies, setRentCompanies] = useState([]);
+  const [orders, setOrders] = useState([]);
+
   useEffect(() => {
-    getRentCompanies().then((response) => {
-      console.log(response);
-      setRentCompanies(response);
+    getOrders().then((response) => {
+      setOrders(response);
     });
   }, []);
 
-  const generateRentCompaniesItem = () => rentCompanies.map((item) => (
-    <tr key={item.id}>
-      <td>{item.name}</td>
-      <td>{item.contactPerson}</td>
-      <td>{item.lastPlace}</td>
-      <td>{item.lastPlace}</td>
-      <td>{item.lastPlace}</td>
-    </tr>
-  ));
+  const generateRentCompaniesItem = () => {
+    const roundedPrice = (price) => {
+      const numPrice = +price;
+      return numPrice.toFixed(2);
+    };
+    const arrayOrders = orders.map((item) => (
+      <tr>
+        <td>{item.id}</td>
+        <td>{moment(item.date).format("D MMM")}</td>
+        <td>{item.company}</td>
+        <td>{item.equipment}</td>
+        <td>{item.status}</td>
+        <td>{roundedPrice(item.price)}</td>
+      </tr>
+    ));
+    return arrayOrders.filter((_, ind) => ind < 5);
+  };
+
   return (
     <div className="containerChart last-orders">
       <h4 className="title-table"> Последние Заказы</h4>
@@ -29,7 +39,7 @@ export default function LastOrdersTableDashboard() {
             <th>№</th>
             <th>Дата</th>
             <th>Компания</th>
-            <th>ОБорудование</th>
+            <th>Оборудование</th>
             <th>Статус</th>
             <th>Цена</th>
           </tr>
