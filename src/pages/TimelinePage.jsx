@@ -149,7 +149,7 @@ export default function TimelinePage() {
     let end;
 
     start = formatHour * shiftLength + startWorkDay;
-    end = start + shiftLength + startWorkDay;
+    end = start + shiftLength;
     start = `${date} ${start}:00`;
     end = `${date} ${end}:00`;
     return {

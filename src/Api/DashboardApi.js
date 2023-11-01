@@ -4,7 +4,6 @@ const backendUrl = "http://freekitchen.loc/";
 
 export const getProfitData = (start, end) => {
   const generateTimeRangeData = () => {
-    console.log(start, end);
     let day = moment(start);
     const result = [];
     while (day.isSameOrBefore(moment(end))) {
@@ -13,7 +12,6 @@ export const getProfitData = (start, end) => {
       result.push({
         y: profitValue, x: profitDate,
       });
-      console.log(day);
       day = day.add(1, "day");
     }
     return result;
