@@ -34,6 +34,7 @@ ChartJS.register(
 
 export default function ProfitByTimeChart() {
   const [profitItems, setProfitItems] = useState([]);
+  const [update, setUpdate] = useState(false);
   const [timeStep, setTimeStep] = useState(1);
   const chart = useRef(null);
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
@@ -122,7 +123,7 @@ export default function ProfitByTimeChart() {
         time: {
           unit: "day",
           displayFormats: {
-            month: "MMM MM",
+            month: "MMM DD",
             quarter: "MMM YYYY",
           },
         },
@@ -154,20 +155,19 @@ export default function ProfitByTimeChart() {
     for (let i = 0; i < profitItems.length; i += timeStep) {
       result.push(profitItems[i]);
     }
-    result.push(profitItems[profitItems.length - 1]);
+    // result.push(profitItems[profitItems.length - 1]);
     return result;
   };
-  const update = () => {
-    console.log(chart);
-    console.log(chart.current.update);
-  };
+
+  useEffect(() => {
+    console.log(profitItems);
+    setUpdate((prev) => !prev);
+  }, [profitItems]);
+
   useEffect(() => {
     console.log(chart);
     getProfitData(selectedTime.startDate, selectedTime.endDate).then((response) => {
-      const cnv = document.querySelector("#canvas");
       setProfitItems([...response]);
-
-      update();
     });
   }, []);
   const handleChangeTimeStep = (step) => {
@@ -175,16 +175,15 @@ export default function ProfitByTimeChart() {
     setTimeStep(step);
   };
   const handleSelectTime = (item) => {
-    setSelectedTime(item);
     getProfitData(item.startDate, item.endDate).then((response) => {
-      setProfitItems([...response]);
-    }).then(() => {
+      setProfitItems((prev) => [...response]);
+      setSelectedTime(item);
     });
   };
   const data = {
     datasets: [{
       label: "Profit",
-      data: profitItems,
+      data: filterDataByTimeStep(),
       showLine: true,
       lineTension: 0.3,
       borderColor: "rgb(100, 100, 255)",
