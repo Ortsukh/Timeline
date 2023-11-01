@@ -6,19 +6,19 @@ export default function StatsDashboard() {
     <div className="statsDashboardContainer">
       <div className="statsItem">
         <span>Прибыль за день</span>
-        <span>2600</span>
+        <span className="positive-values values">2600</span>
       </div>
       <div className="statsItem">
         <span>Прибыль за период</span>
-        <span>23300</span>
+        <span className="positive-values values">23300</span>
       </div>
       <div className="statsItem">
         <span>Просроченные платежи</span>
-        <span>0</span>
+        <span className="negative-values values">0</span>
       </div>
       <div className="statsItem">
         <span>Количество транзакций</span>
-        <span>200</span>
+        <span className="positive-values values">200</span>
       </div>
     </div>
   );
