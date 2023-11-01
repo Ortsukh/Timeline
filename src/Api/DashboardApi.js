@@ -1,3 +1,4 @@
+/* eslint-disable */
 import moment from "moment";
 
 const backendUrl = "http://freekitchen.loc/";
@@ -23,35 +24,34 @@ export const getProfitData = (start, end) => {
 };
 
 export async function getRentCompanies() {
-  // const str = "http://freekitchen.loc/admin/api/get_contracts";
-  // const res = await fetch(str, {});
-  // if (!res.ok) {
-  //   throw new Error("Something went wrong. Sorry");
-  // }
-  // console.log(res);
-  return testCompany.data;
-  // return res.json();
+  const str = "/admin/api/get_contracts";
+  const res = await fetch(str, {});
+  if (!res.ok) {
+    throw new Error("Something went wrong. Sorry");
+  }
+  return res.json();
+  // return testCompany.data;
 }
 export async function getUserInfo() {
-  // const str = "http://freekitchen.loc/admin/api/get_manager_info";
-  // const res = await fetch(str, {});
-  // if (!res.ok) {
-  //   throw new Error("Something went wrong. Sorry");
-  // }
-  // console.log(res);
-  return testUser;
-  // return res.json();
+  const str = "/admin/api/get_manager_info";
+  const res = await fetch(str, {});
+  if (!res.ok) {
+    throw new Error("Something went wrong. Sorry");
+  }
+  console.log(res);
+  return res.json();
+  // return testUser;
 }
 export async function getOrders() {
-  // const str = "http://freekitchen.loc/admin/api/get_orders";
-  // const res = await fetch(str, {});
-  // if (!res.ok) {
-  //   throw new Error("Something went wrong. Sorry");
-  // }
-  // console.log(res);
-  return testOrders;
+  const str = "/admin/api/get_orders";
+  const res = await fetch(str, {});
+  if (!res.ok) {
+    throw new Error("Something went wrong. Sorry");
+  }
+  console.log(res);
+  return res.json();
 
-  // return res.json();
+  // return testOrders;
 }
 export async function getRepairingEquipments() {
   // const str = "http://freekitchen.loc/admin/api/get_manager_info";?

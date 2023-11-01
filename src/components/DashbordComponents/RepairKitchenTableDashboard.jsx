@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getRentCompanies, getRepairingEquipments } from "../../Api/DashboardApi";
-import "./style.css";
 import moment from "moment";
+import { getRepairingEquipments } from "../../Api/DashboardApi";
+import "./style.css";
 
 export default function RepairKitchenTableDashboard() {
   const [rentCompanies, setRentCompanies] = useState([]);

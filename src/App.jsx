@@ -1,10 +1,6 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TimelinePage from "./pages/TimelinePage";
-import ProfitByTimeChart from "./components/DashbordComponents/ProfitByTimeChart";
-import RenterTableDashboard from "./components/DashbordComponents/RenterTableDashboard";
-import UserBox from "./components/DashbordComponents/UserBox";
 import ManagerDashboard from "./pages/ManagerDashboard";
 
 function App() {
