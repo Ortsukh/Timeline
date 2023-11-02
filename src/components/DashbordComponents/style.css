@@ -96,6 +96,7 @@
 
 .active.calendarContainer{
     position: absolute;
+    z-index: 12;
 }
 
 .statsItem .values{
@@ -184,4 +185,8 @@
 
 .description-text{
     font-size: 12px;
+}
+
+.lesseeCell.btn.btn-info{
+    padding: 3px 10px;
 }
