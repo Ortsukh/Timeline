@@ -23,7 +23,7 @@ export default function LastOrdersTableDashboard() {
         <td>{moment(item.date).format("D MMM")}</td>
         <td>{item.company}</td>
         <td>{item.equipment}</td>
-        <td>{item.status}</td>
+        <td className="badge badge-success">{item.status}</td>
         <td>{roundedPrice(item.price)}</td>
       </tr>
     ));

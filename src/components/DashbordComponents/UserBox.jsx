@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { getRentCompanies, getUserInfo } from "../../Api/DashboardApi";
+import UserAccountDashBoard from "./UserAccountDashBoard";
 
 export default function UserBox() {
   const [userInfo, setUserInfo] = useState({});
@@ -67,6 +68,9 @@ export default function UserBox() {
           </div>
         </div>
       </div>
+      <div className="col-lg-3 col-md-8 cont-check">
+          <UserAccountDashBoard />
+        </div>
     </div>
   );
 }
