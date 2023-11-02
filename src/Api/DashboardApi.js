@@ -24,34 +24,34 @@ export const getProfitData = (start, end) => {
 };
 
 export async function getRentCompanies() {
-  const str = "/admin/api/get_contracts";
-  const res = await fetch(str, {});
-  if (!res.ok) {
-    throw new Error("Something went wrong. Sorry");
-  }
-  return res.json();
-  // return testCompany.data;
+  // const str = "/admin/api/get_contracts";
+  // const res = await fetch(str, {});
+  // if (!res.ok) {
+  //   throw new Error("Something went wrong. Sorry");
+  // }
+  // return res.json();
+  return testCompany;
 }
 export async function getUserInfo() {
-  const str = "/admin/api/get_manager_info";
-  const res = await fetch(str, {});
-  if (!res.ok) {
-    throw new Error("Something went wrong. Sorry");
-  }
-  console.log(res);
-  return res.json();
-  // return testUser;
+  // const str = "/admin/api/get_manager_info";
+  // const res = await fetch(str, {});
+  // if (!res.ok) {
+  //   throw new Error("Something went wrong. Sorry");
+  // }
+  // console.log(res);
+  // return res.json();
+  return testUser;
 }
 export async function getOrders() {
-  const str = "/admin/api/get_orders";
-  const res = await fetch(str, {});
-  if (!res.ok) {
-    throw new Error("Something went wrong. Sorry");
-  }
-  console.log(res);
-  return res.json();
+  // const str = "/admin/api/get_orders";
+  // const res = await fetch(str, {});
+  // if (!res.ok) {
+  //   throw new Error("Something went wrong. Sorry");
+  // }
+  // console.log(res);
+  // return res.json();
 
-  // return testOrders;
+  return testOrders;
 }
 export async function getRepairingEquipments() {
   // const str = "http://freekitchen.loc/admin/api/get_manager_info";?
