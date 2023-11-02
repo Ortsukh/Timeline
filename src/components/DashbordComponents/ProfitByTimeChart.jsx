@@ -112,7 +112,7 @@ export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
       },
 
     },
-
+    devicePixelRatio: 4,
     hover: {
       mode: "index",
       intersect: false,

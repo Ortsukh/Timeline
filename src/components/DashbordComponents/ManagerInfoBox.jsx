@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
-import { getRentCompanies, getUserInfo } from "../../Api/DashboardApi";
+import { getUserInfo } from "../../Api/DashboardApi";
 
-export default function UserBox() {
+export default function ManagerInfoBox() {
   const [userInfo, setUserInfo] = useState({});
   const today = moment().format("DD MMM YYYY");
   useEffect(() => {

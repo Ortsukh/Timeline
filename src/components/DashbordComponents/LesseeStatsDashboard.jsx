@@ -1,15 +1,15 @@
 import React from "react";
 import "./style.css";
 
-export default function StatsDashboard() {
+export default function ManagerStatsDashboard() {
   return (
     <div className="statsDashboardContainer">
       <div className="statsItem">
-        <span>Прибыль за день</span>
+        <span>Затраты за день</span>
         <span className="positive-values values">2600</span>
       </div>
       <div className="statsItem">
-        <span>Прибыль за период</span>
+        <span>Затраты за период</span>
         <span className="positive-values values">
           {Math.floor(Math.random() * 30000 + 15000)}
         </span>

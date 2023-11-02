@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getRentCompanies } from "../../Api/DashboardApi";
 import "./style.css";
 
-export default function RenterTableDashboard() {
+export default function LesseeRentalZoneTableDashboard() {
   const [rentCompanies, setRentCompanies] = useState([]);
   useEffect(() => {
     getRentCompanies().then((response) => {
@@ -14,7 +14,7 @@ export default function RenterTableDashboard() {
     <tr key={item.name + index.toString()}>
       <td>
         {item.company.name
-        || "Компания"}
+                    || "Компания"}
       </td>
       <td>{item.company.contactPerson || "Олег"}</td>
       <td>{item.balance}</td>
@@ -22,13 +22,15 @@ export default function RenterTableDashboard() {
   ));
   return (
     <div className="containerChart">
-      <h4 className="title-table">Арендаторы</h4>
+      <h4 className="title-table">Арендованные зоны</h4>
       <table className="table table-bordered">
         <thead className="thead-light">
           <tr>
+            <th>№</th>
             <th>Название</th>
-            <th>Контактное лицо</th>
-            <th>Баланс</th>
+            <th>Дата</th>
+            <th>Стоимость</th>
+            <th>Статус</th>
           </tr>
         </thead>
         <tbody>

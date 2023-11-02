@@ -2,13 +2,16 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import TimelinePage from "./pages/TimelinePage";
 import ManagerDashboard from "./pages/ManagerDashboard";
+import LesseeDashboard from "./pages/LesseeDashboard";
 
 function App() {
   console.log(12312);
   console.log(window.location.search);
   const [route, setRoute] = useState("");
+  let lesseeId = null;
   useEffect(() => {
     const rout = window.location.search.substring(1).split("&").find((query) => query.startsWith("page"))?.split("=")[1];
+    lesseeId = window.location.search.substring(1).split("&").find((query) => query.startsWith("id"))?.split("=")[1];
     console.log(rout);
     setRoute(rout);
   }, [window.location.search]);
@@ -20,7 +23,7 @@ function App() {
         break;
       case "": result = <TimelinePage />;
         break;
-      case "2": result = <TimelinePage />;
+      case "lessee_dashboard": result = <LesseeDashboard lesseeId={lesseeId} />;
         break;
       default:
         result = <TimelinePage />;
