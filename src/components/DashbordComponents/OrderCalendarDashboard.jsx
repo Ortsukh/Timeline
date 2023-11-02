@@ -6,21 +6,25 @@ import timeGrid from "@fullcalendar/timegrid";
 import calenderList from "@fullcalendar/list";
 import multiMonthPlugin from "@fullcalendar/multimonth";
 import interaction from "@fullcalendar/interaction";
+import { wholeDivideDurations } from "@fullcalendar/core/internal";
+import { logDOM } from "@testing-library/react";
+import moment from "moment";
 import { getAllOrdersDashboard } from "../../Api/DashboardApi";
 import { getAllOrders1 } from "../../Api/API";
 import { createOrderGroup } from "../../common/DataConvertHelper";
+import ITEMS_PREORDER_COLOR from "../../constants/itemsPreOrderColor";
 
 export default function OrderCalendarDashboard() {
   const [orders, setOrders] = useState([]);
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    getAllOrders1().then((response) => {
+    getAllOrdersDashboard().then((response) => {
       setOrders(groupByCategory(groupByDay(createOrderGroup(response.data))));
     });
   }, []);
 
   const groupByDay = (data) => {
-    console.log(data);
     const groupingByDay = {};
     data.forEach((item) => {
       if (!groupingByDay[item.date]) {
@@ -32,31 +36,60 @@ export default function OrderCalendarDashboard() {
 
   const groupByCategory = (data) => {
     const gropingByCategory = {};
-    console.log(data);
     Object.keys(data).forEach((date) => {
-      gropingByCategory[data[date]] = {};
+      gropingByCategory[date] = {};
       data[date].forEach((item) => {
-        console.log();
-        if (!gropingByCategory[data[date]].group) {
-          gropingByCategory[data[date]].group = [gropingByCategory[data[date]][item]];
+        if (!gropingByCategory[date][item.categoryId]) {
+          gropingByCategory[date][item.categoryId] = [item];
         } else {
-          gropingByCategory[data[date]].group.push(gropingByCategory[data[date]][item]);
+          gropingByCategory[date][item.categoryId].push(item);
         }
       });
     });
     return gropingByCategory;
   };
+  const renderEventContent = (eventInfo) => {
+    console.log(eventInfo);
+    const color = eventInfo.backgroundColor || "#ffa4a4";
+    const obj = {
+      height: 15,
+      width: 15,
+      backgroundColor: "red",
+      color: (color === "#100e0e" ? "#ffffff" : "#000000"),
+      display: "flex",
+      wrap: "wrap",
+      alignItems: "center",
+      justifyContent: "space-around",
+    };
 
-  const generateEvents = () => {
-    console.log(orders);
-    if (!orders.length) return;
-    const groupngitems = groupByDay(groupByCategory(orders));
-    console.log(groupngitems);
+    return (
+      <div style={obj} />
+    );
   };
-  console.log(orders);
-  // generateEvents();
+  const generateEvents = (data) => {
+    console.log(data);
+    const event = [];
+    Object.keys(data).forEach((date) => {
+      Object.keys(data[date]).forEach((item) => {
+        console.log(data[date][item]);
+        event.push(
+          {
+            start: `${date}T${`${data[date][item][0].grid.indexOf("1")}:00`}`,
+            end: `${date}T${`${data[date][item][0].grid.lastIndexOf("1")}:00`}`,
+            data: data[date][item],
+            backgroundColor: "red",
+          },
+        );
+      });
+    });
+    console.log(event);
+    return event;
+  };
+
   return (
     <FullCalendar
+      dayMaxEventColumn
+      dayClick={(date, jsEvent, view) => console.log(date, jsEvent, view)}
       unselectAuto={false}
       // datesSet={(e) => handleChangeMonth(e)}
       height={550}
@@ -68,19 +101,18 @@ export default function OrderCalendarDashboard() {
       initialView="dayGridMonth"
             // selectable={isDefaultSelect && isActiveCalendar}
             // select={(data) => handleSelect(data)}
-      showNonCurrentDates={false}
       locale="ru"
       firstDay="1"
       multiMonthMinWidth="200"
       multiMonthMaxColumns={2}
       weekends
       eventClick={() => {}}
-      // events={event.concat(emptyCellsForMonth)}
-      // eventContent={renderEventContent}
+      events={generateEvents(orders)}
+      eventContent={renderEventContent}
       headerToolbar={{
         left: "",
         center: "title",
-        right: "dayGridWeek,dayGridDay,dayGridMonth prev,next tooltip",
+        right: "dayGridMonth prev,next tooltip",
       }}
       customButtons={{
         tooltip: {

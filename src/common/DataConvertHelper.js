@@ -149,6 +149,8 @@ const createOrderObject = (order, el, shiftLength, interval, user) => {
     intervalId: interval.id,
     start_time: el.start_time,
     end_time: el.end_time,
+    categoryId: order.equipment.category.id || null,
+    categoryName: order.equipment.category.name || null,
     company: order.rentOrder.company || null,
     status: order.rentOrder.status || "pending",
     itemProps,

@@ -44,12 +44,7 @@ export default function LesseeInfoBox() {
                 <h5 className="description-header">12</h5>
               </div>
             </div>
-            <div className="col-xs-6 border-right">
-              <div className="description-block">
-                <span className="description-text">Кухонь свободно</span>
-                <h5 className="description-header">{userInfo.equipmentFree}</h5>
-              </div>
-            </div>
+
           </div>
         </div>
       </div>
