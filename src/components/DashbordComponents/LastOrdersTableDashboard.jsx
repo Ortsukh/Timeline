@@ -38,7 +38,7 @@ export default function LastOrdersTableDashboard() {
     <div className="containerChart last-orders">
       <div className="orderTableHeader">
         <h4 className="title-table"> Последние Заказы</h4>
-        <button type="button" className="lesseeCell" onClick={handleLinkToTimeLine}>{"Timeline->"}</button>
+        <button type="button" className="lesseeCell btn btn-info" onClick={handleLinkToTimeLine}>{"Timeline->"}</button>
       </div>
       <table className="table table-bordered">
         <thead className="thead-light">
