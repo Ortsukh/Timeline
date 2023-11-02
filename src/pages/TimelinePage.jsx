@@ -292,6 +292,7 @@ export default function TimelinePage() {
           <>
 
             <div className="container sort-box">
+              <BackButton />
               <div className="sort-box_item">
                 <ToolsFilter
                   toolNames={mapToolsNames()}
