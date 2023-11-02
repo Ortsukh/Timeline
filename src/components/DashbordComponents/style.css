@@ -46,8 +46,9 @@
 
 .cont-btn-dash{
     display: flex;
-    justify-content: space-between;
+    margin-left: auto;
     margin-bottom: 10px;
+    width: fit-content;
 }
 
 .info-box{
@@ -162,11 +163,13 @@
 }
 
 .item-green-bg{
-    background: linear-gradient(0deg, rgba(0, 255, 43, 0.20) 0%, rgba(0, 255, 43, 0.07) 1%, rgba(0, 255, 43, 0.00) 76%);
+    background: linear-gradient(0deg, rgba(0, 255, 43, 0.20) 0%, rgba(0, 255, 43, 0.07) 1%, rgba(0, 255, 43, 0.00) 76%); 
+    backdrop-filter: blur();
 }
 
 .item-red-bg{
     background: linear-gradient(0deg, rgba(238, 55, 45, 0.20) 0%, rgba(238, 55, 45, 0.07) 1%, rgba(238, 55, 45, 0.00) 76%);
+    backdrop-filter: blur(5px);
 }
 
 .description-block>.description-header{
@@ -177,4 +180,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.description-text{
+    font-size: 12px;
 }
