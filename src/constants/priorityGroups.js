@@ -46,8 +46,9 @@ const sortingArrayGroups = (array) => {
     // if (chapterPriority.indexOf(a.chapter) > chapterPriority.indexOf(b.chapter)) return 1;
 
     // Если одинаковые разделы, то сравниваем по полю категории
-    if (categoryPriority.indexOf(a.category) < categoryPriority.indexOf(b.category)) return -1;
-    if (categoryPriority.indexOf(a.category) > categoryPriority.indexOf(b.category)) return 1;
+    const indexCategory = (category) => categoryPriority.indexOf(category);
+    if (indexCategory(a.category) < indexCategory(b.category)) return -1;
+    if (indexCategory(a.category) > indexCategory(b.category)) return 1;
 
     // Если в одном разделе, то сравниваем по алфавиту
     if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
