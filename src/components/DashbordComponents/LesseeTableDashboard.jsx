@@ -10,9 +10,15 @@ export default function LesseeTableDashboard() {
     });
   }, []);
 
+  const handleLinkToLessee = (id) => {
+    console.log(window.location);
+    const { origin } = window.location;
+    window.location.replace(`${origin}?page=lessee_dashboard&id=${id}`);
+  };
+
   const generateRentCompaniesItem = () => rentCompanies.slice(0, 5).map((item, index) => (
     <tr key={item.name + index.toString()}>
-      <td>
+      <td className="lesseeCell" onClick={() => handleLinkToLessee(item.company.id)}>
         {item.company.name
         || "Компания"}
       </td>

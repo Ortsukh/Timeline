@@ -21,12 +21,12 @@ function App() {
     switch (route) {
       case "main_dashboard": result = <ManagerDashboard />;
         break;
-      case "": result = <TimelinePage />;
+      case "timeline": result = <TimelinePage />;
         break;
       case "lessee_dashboard": result = <LesseeDashboard lesseeId={lesseeId} />;
         break;
       default:
-        result = <TimelinePage />;
+        result = <ManagerDashboard />;
     }
     return result;
   };

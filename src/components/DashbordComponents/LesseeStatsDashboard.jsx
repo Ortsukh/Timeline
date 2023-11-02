@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
 
-export default function ManagerStatsDashboard() {
+export default function LesseeStatsDashboard() {
   return (
     <div className="statsDashboardContainer">
       <div className="statsItem">

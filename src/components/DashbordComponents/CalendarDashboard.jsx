@@ -30,7 +30,9 @@ export default function CalendarDashboard({ setSelectedTime }) {
           <span className="p-desktop-only">
 
             {moment(orderDate.selection1.startDate).format("DD MMM")}
+            {" "}
             —
+            {" "}
             {moment(orderDate.selection1.endDate).format("DD MMM")}
 
           </span>

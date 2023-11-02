@@ -18,7 +18,7 @@ export default function LastOrdersTableDashboard() {
       return numPrice.toFixed(2);
     };
     const arrayOrders = orders.map((item) => (
-      <tr>
+      <tr key={item.id}>
         <td>{item.id}</td>
         <td>{moment(item.date).format("D MMM")}</td>
         <td>{item.company}</td>

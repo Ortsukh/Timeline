@@ -13,11 +13,12 @@ export default function LesseeRentalZoneTableDashboard() {
   const generateRentCompaniesItem = () => rentCompanies.slice(0, 5).map((item, index) => (
     <tr key={item.name + index.toString()}>
       <td>
-        {item.company.name
-                    || "Компания"}
+        1
       </td>
-      <td>{item.company.contactPerson || "Олег"}</td>
-      <td>{item.balance}</td>
+      <td>кухня1</td>
+      <td>11.12</td>
+      <td>200</td>
+      <td className="badge badge-success">Принято</td>
     </tr>
   ));
   return (

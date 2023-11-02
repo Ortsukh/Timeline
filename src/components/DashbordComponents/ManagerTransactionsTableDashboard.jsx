@@ -19,7 +19,7 @@ export default function ManagerTransactionsTableDashboard() {
       <td>2</td>
       <td>11.11</td>
       <td>200</td>
-      <td>Успешно</td>
+      <td className="badge badge-success">Успешно</td>
     </tr>
   ));
   return (

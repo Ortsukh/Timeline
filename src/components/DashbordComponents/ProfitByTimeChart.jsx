@@ -36,8 +36,8 @@ export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
   const chart = useRef(null);
 
   const options = {
+    devicePixelRatio: 2,
     maintainAspectRatio: false,
-    // devicePixelRatio: 2,
     response: true,
     plugins: {
       tooltip: {
@@ -119,6 +119,7 @@ export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
     },
     scales: {
       x: {
+
         type: "time",
         time: {
           unit: "day",
@@ -131,6 +132,9 @@ export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
         min: selectedTime.startDate,
         max: selectedTime.endDate,
         ticks: {
+          font: {
+            size: 20,
+          },
           autoSkip: false,
           maxRotation: 0,
           major: {
@@ -141,6 +145,9 @@ export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
       },
       y: {
         ticks: {
+          font: {
+            size: 16,
+          },
           callback(value) {
             return `${value} BYN`;
           },
