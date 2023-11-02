@@ -782,7 +782,16 @@ a.fc-col-header-cell-cushion.red-color:hover {
     flex-direction: column;
 }
 
-.lesseeCell:hover{
-    color: lightskyblue;
-    cursor: pointer;
+
+
+.backButton {
+    padding: 5px 10px;
+    color: white;
+    background-color: #f03333;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #f03333;
+    white-space: nowrap;
+    height: 38px;
+    margin: auto 0;
 }

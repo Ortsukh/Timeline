@@ -11,7 +11,6 @@ export default function LesseeTableDashboard() {
   }, []);
 
   const handleLinkToLessee = (id) => {
-    console.log(window.location);
     const { origin } = window.location;
     window.location.replace(`${origin}?page=lessee_dashboard&id=${id}`);
   };

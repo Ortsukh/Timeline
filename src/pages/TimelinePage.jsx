@@ -32,6 +32,7 @@ import ConfirmWindow from "../components/Popup/ConfirmWindow";
 import EquipmentInfoWindow from "../components/Popup/EquipmentInfoWindow";
 import Overlay from "../components/BookingMenuComponents/BookingDateColumn/components/Overlay";
 import sortingArrayGroups from "../constants/priorityGroups";
+import BackButton from "../components/Button/BackButton";
 
 export default function TimelinePage() {
   const [groups, setGroups] = useState([]);
@@ -256,6 +257,7 @@ export default function TimelinePage() {
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };
+
   return !isLoading && !isLoadingEquipment ? (
     <>
       {isOpenOverlay && (
@@ -288,6 +290,7 @@ export default function TimelinePage() {
           />
         ) : (
           <>
+            <BackButton />
             <div className="container sort-box">
               <div className="sort-box_item">
                 <ToolsFilter

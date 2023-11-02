@@ -155,3 +155,8 @@
 .badge-danger{
     background-color: #dc3545;
 }
+
+.lesseeCell:hover{
+    color: lightskyblue;
+    cursor: pointer;
+}
