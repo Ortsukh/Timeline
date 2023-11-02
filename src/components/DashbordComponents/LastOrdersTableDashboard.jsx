@@ -8,7 +8,7 @@ export default function LastOrdersTableDashboard() {
 
   useEffect(() => {
     getOrders().then((response) => {
-      setOrders(response);
+      setOrders(response.data);
     });
   }, []);
 
@@ -37,7 +37,7 @@ export default function LastOrdersTableDashboard() {
   return (
     <div className="containerChart last-orders">
       <div className="orderTableHeader">
-        <h4 className="title-table"> Последние Заказы</h4>
+        <h4 className="title-table"> Последние заказы</h4>
         <button type="button" className="lesseeCell btn btn-info" onClick={handleLinkToTimeLine}>{"Timeline->"}</button>
       </div>
       <table className="table table-bordered">
