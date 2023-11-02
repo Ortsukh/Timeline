@@ -781,3 +781,8 @@ a.fc-col-header-cell-cushion.red-color:hover {
     display: flex;
     flex-direction: column;
 }
+
+.lesseeCell:hover{
+    color: lightskyblue;
+    cursor: pointer;
+}

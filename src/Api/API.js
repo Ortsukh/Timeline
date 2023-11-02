@@ -8224,17 +8224,17 @@ export async function sendEditOrder(order) {
     headers: {
       "Content-Type": "application/json;charset=utf-8",
     },
-    mode: "no-cors",
+    // mode: "no-cors",
 
     body: JSON.stringify(order),
   });
 
-  // if (!res.ok) {
-  //   throw new Error("Something went wrong. Sorry");
-  // }
+  if (!res.ok) {
+    throw new Error("Something went wrong. Sorry");
+  }
 
-  // return res.json();
-  return true;
+  return res.json();
+  // return true;
 }
 
 export async function createOrder(order, company, comment) {
@@ -8257,13 +8257,13 @@ export async function createOrder(order, company, comment) {
       "Content-Type": "application/json;charset=utf-8",
       "Access-Control-Allow-Origin": "*",
     },
-    mode: "no-cors",
+    // mode: "no-cors",
     body: JSON.stringify(body),
   });
-  // if (!res.ok) {
-  //   throw new Error("Something went wrong. Sorry");
-  // }
+  if (!res.ok) {
+    throw new Error("Something went wrong. Sorry");
+  }
 
-  // return res.json();
-  return true;
+  return res.json();
+  // return true;
 }

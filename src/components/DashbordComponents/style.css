@@ -1,0 +1,157 @@
+/* .profitChartContainer {
+    height : 230px;
+    width: 800px;
+} */
+
+.containerChart {
+    height: 345px;
+}
+.containerUserBox{
+    width: auto;
+    position: relative;
+}
+
+.btn-cont-dash{
+    display: flex;
+    gap: 5px;
+}
+
+.title-table{
+    font-weight: 600;
+}
+
+.containerChart.last-orders{
+    width: 100%;
+}
+.calendarContainer {
+    right: 15px;
+    top: 45px;
+    border: 1px solid #d0d0d0;
+}
+
+.button-wrapper {
+    width: auto;
+}
+
+#canvas{
+    background-color: white;
+    padding: 5px;
+    height: 260px !important;
+    width: 100% !important;
+}
+
+.table{
+    background-color: white;
+}
+
+.cont-btn-dash{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.info-box{
+    min-height: 0 !important;
+    margin-bottom: 0 !important;
+    box-shadow: none !important;
+    border: 2px solid #d0d0d0;
+    width: 100px !important;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.info-box-content{
+    margin: 0 auto !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info-box-text{
+    font-size: 14px !important;
+}
+.statsItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+.statsDashboardContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.btn-cont-dash .containerCalendarDashboard .button-wrapper .btn-sm{
+    font-size: 14px;
+}
+
+.info-box-number, .positive-values{
+    color: #1fcb22;
+}
+
+.active.calendarContainer{
+    position: absolute;
+}
+
+.statsItem .values{
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.negative-values{
+    color: #f03333;
+}
+
+.dash-chart-first{
+    width: 75% !important;
+}
+
+.width-fif{
+    width: 50% !important;
+}
+
+.width-hun{
+    width: 50%;
+}
+
+.col-lg-3.col-md-8.cont-check{
+    position: absolute;
+    top: 20%;
+    left: 37%;
+    padding: 0 !important;
+}
+
+.info-box-number{
+    font-size: 18px !important;
+}
+
+.badge{
+    padding: 5px !important;
+    margin: 2px 5%;
+    width: 90%;
+}
+
+/* завершен */
+.badge-success{
+    background-color: #1fcb22;
+}
+
+/*  новый*/
+.badge-info{
+    background-color: #17a2b8;
+}
+
+/* в работе */
+.badge-warning{
+    background-color: #ffc107;
+}
+
+/* просрочен, отменен */
+.badge-danger{
+    background-color: #dc3545;
+}
