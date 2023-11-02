@@ -7,7 +7,7 @@ export default function BackButton() {
     window.location.replace(`${origin}?page=main_dashboard`);
   };
   return (
-    <button type="button" className="backButton" onClick={backToDashboard}>
+    <button type="button" className="backButton back-dash-timeline" onClick={backToDashboard}>
       {buttonTitleConstants.BACK}
     </button>
   );

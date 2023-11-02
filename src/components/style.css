@@ -795,3 +795,11 @@ a.fc-col-header-cell-cushion.red-color:hover {
     height: 38px;
     margin: auto 0;
 }
+
+.back-dash-timeline{
+    margin: 25px 0 auto;
+}
+
+.container.sort-box::before{
+    display: none !important;
+}

@@ -64,6 +64,17 @@ export async function getAllOrdersDashboard() {
 
   return res.json();
 }
+export async function getTransactions() {
+  // const str = "/admin/api/get_transactions";
+  // const res = await fetch(str, {});
+  // if (!res.ok) {
+  //   throw new Error("Something went wrong. Sorry");
+  // }
+  // console.log(res);
+  // return res.json();
+
+  return testTransactions;
+}
 export async function getRepairingEquipments() {
   // const str = "http://freekitchen.loc/admin/api/get_manager_info";?
 // if (!res.ok) {
@@ -665,104 +676,296 @@ const testRepairingEquip = {
     },
   ],
 };
-const testOrders = [
-  {
-    id: 272,
-    category: "Кухни",
-    company: "компания1",
-    price: "50.0000",
-    total: 400,
-    date: "2023-11-01",
-    shift: 8,
-    status: "Принято",
-    equipment: "Кухня 1",
-  },
-  {
-    id: 271,
-    category: "Другое",
-    company: "Франчайзи 001",
-    price: "100.0000",
-    total: 100,
-    date: "2023-11-01",
-    shift: 1,
-    status: "Принято",
-    equipment: "Альпака",
-  },
-  {
-    id: 270,
-    category: "Кухни",
-    company: "компания1",
-    price: "50.0000",
-    total: 400,
-    date: "2023-11-01",
-    shift: 8,
-    status: "Принято",
-    equipment: "Кухня 1",
-  },
-  {
-    id: 269,
-    category: "Морозилки",
-    company: "Франчайзи 001",
-    price: "28.0000",
-    total: 112,
-    date: "2023-11-01",
-    shift: 4,
-    status: "Принято",
-    equipment: "Морозидка",
-  },
-  {
-    id: 268,
-    category: "Печи",
-    company: "компания1",
-    price: "88.0000",
-    total: 352,
-    date: "2023-11-01",
-    shift: 4,
-    status: "Принято",
-    equipment: "Плавильная печь",
-  },
-  {
-    id: 267,
-    category: "Холодильники",
-    company: "Франчайзи 001",
-    price: "10.0000",
-    total: 40,
-    date: "2023-11-01",
-    shift: 4,
-    status: "Принято",
-    equipment: "Холодильник Sumsung",
-  },
-  {
-    id: 266,
-    category: "Кухни",
-    company: "Франчайзи 001",
-    price: "50.0000",
-    total: 400,
-    date: "2023-11-01",
-    shift: 8,
-    status: "Принято",
-    equipment: "Кухня 1",
-  },
-  {
-    id: 265,
-    category: "Другое",
-    company: "компания",
-    price: "5.0000",
-    total: 5,
-    date: "2023-10-31",
-    shift: 1,
-    status: "Принято",
-    equipment: "Чайник",
-  },
-  {
-    id: 264,
-    category: "Кухни",
-    company: "компания1",
-    price: "50.0000",
-    total: 200,
-    date: "2023-10-27",
-    shift: 4,
-    status: "Принято",
-    equipment: "Кухня 1",
-  },
-];
+
+const testOrders = {
+  success: true,
+  data: [
+    {
+      id: 272,
+      category: "Кухни",
+      company: "компания1",
+      price: "50.0000",
+      total: 400,
+      date: "2023-11-01",
+      shift: 8,
+      status: "Принято",
+      equipment: "Кухня 1",
+    },
+    {
+      id: 271,
+      category: "Другое",
+      company: "Франчайзи 001",
+      price: "100.0000",
+      total: 100,
+      date: "2023-11-01",
+      shift: 1,
+      status: "Принято",
+      equipment: "Альпака",
+    },
+    {
+      id: 270,
+      category: "Кухни",
+      company: "компания1",
+      price: "50.0000",
+      total: 400,
+      date: "2023-11-01",
+      shift: 8,
+      status: "Принято",
+      equipment: "Кухня 1",
+    },
+    {
+      id: 269,
+      category: "Морозилки",
+      company: "Франчайзи 001",
+      price: "28.0000",
+      total: 112,
+      date: "2023-11-01",
+      shift: 4,
+      status: "Принято",
+      equipment: "Морозидка",
+    },
+    {
+      id: 268,
+      category: "Печи",
+      company: "компания1",
+      price: "88.0000",
+      total: 352,
+      date: "2023-11-01",
+      shift: 4,
+      status: "Принято",
+      equipment: "Плавильная печь",
+    },
+    {
+      id: 267,
+      category: "Холодильники",
+      company: "Франчайзи 001",
+      price: "10.0000",
+      total: 40,
+      date: "2023-11-01",
+      shift: 4,
+      status: "Принято",
+      equipment: "Холодильник Sumsung",
+    },
+    {
+      id: 266,
+      category: "Кухни",
+      company: "Франчайзи 001",
+      price: "50.0000",
+      total: 400,
+      date: "2023-11-01",
+      shift: 8,
+      status: "Принято",
+      equipment: "Кухня 1",
+    },
+    {
+      id: 265,
+      category: "Другое",
+      company: "компания",
+      price: "5.0000",
+      total: 5,
+      date: "2023-10-31",
+      shift: 1,
+      status: "Принято",
+      equipment: "Чайник",
+    },
+    {
+      id: 264,
+      category: "Кухни",
+      company: "компания1",
+      price: "50.0000",
+      total: 200,
+      date: "2023-10-27",
+      shift: 4,
+      status: "Принято",
+      equipment: "Кухня 1",
+    },
+  ]
+}
+
+
+const testTransactions = {
+  success: true,
+  data: [
+    {
+      "id": 394,
+      "status": "Принято",
+      "amount": "3.0000",
+      "amountAfter": "89227.0000",
+      "updatedAt": {
+      "date": "2023-10-20 18:00:03.000000",
+      "timezone_type": 3,
+      "timezone": "Europe/Moscow"
+      },
+      "contract": {
+      "id": 22,
+      "company": {
+      "id": 3,
+      "name": "компания1"
+      }
+      }
+      },
+      {
+      "id": 385,
+      "status": "Принято",
+      "amount": "42.0000",
+      "amountAfter": "1848.0000",
+      "updatedAt": {
+      "date": "2023-10-20 18:00:03.000000",
+      "timezone_type": 3,
+      "timezone": "Europe/Moscow"
+      },
+      "contract": {
+      "id": 22,
+      "company": {
+      "id": 3,
+      "name": "компания1"
+      }
+      }
+      },
+      {
+      "id": 387,
+      "status": "Принято",
+      "amount": "12.0000",
+      "amountAfter": "1860.0000",
+      "updatedAt": {
+      "date": "2023-10-20 18:00:03.000000",
+      "timezone_type": 3,
+      "timezone": "Europe/Moscow"
+      },
+      "contract": {
+      "id": 22,
+      "company": {
+      "id": 3,
+      "name": "компания1"
+      }
+      }
+      },
+      {
+      "id": 389,
+      "status": "Принято",
+      "amount": "9.0000",
+      "amountAfter": "1869.0000",
+      "updatedAt": {
+      "date": "2023-10-20 18:00:03.000000",
+      "timezone_type": 3,
+      "timezone": "Europe/Moscow"
+      },
+      "contract": {
+      "id": 22,
+      "company": {
+      "id": 3,
+      "name": "компания1"
+      }
+      }
+      },
+      {
+      "id": 391,
+      "status": "Принято",
+      "amount": "8.0000",
+      "amountAfter": "1877.0000",
+      "updatedAt": {
+      "date": "2023-10-20 18:00:03.000000",
+      "timezone_type": 3,
+      "timezone": "Europe/Moscow"
+      },
+      "contract": {
+      "id": 22,
+      "company": {
+      "id": 3,
+      "name": "компания1"
+      }
+      }
+      },
+      {
+      "id": 393,
+      "status": "processed",
+      "amount": "3.0000",
+      "amountAfter": "1880.0000",
+      "updatedAt": {
+      "date": "2023-10-20 18:00:03.000000",
+      "timezone_type": 3,
+      "timezone": "Europe/Moscow"
+      },
+      "contract": {
+      "id": 22,
+      "company": {
+      "id": 3,
+      "name": "компания1"
+      }
+      }
+      },
+      {
+      "id": 386,
+      "status": "processed",
+      "amount": "42.0000",
+      "amountAfter": "211.0000",
+      "updatedAt": {
+      "date": "2023-10-20 18:00:03.000000",
+      "timezone_type": 3,
+      "timezone": "Europe/Moscow"
+      },
+      "contract": {
+      "id": 22,
+      "company": {
+      "id": 3,
+      "name": "компания1"
+      }
+      }
+      },
+      {
+      "id": 388,
+      "status": "processed",
+      "amount": "12.0000",
+      "amountAfter": "199.0000",
+      "updatedAt": {
+      "date": "2023-10-20 18:00:03.000000",
+      "timezone_type": 3,
+      "timezone": "Europe/Moscow"
+      },
+      "contract": {
+      "id": 22,
+      "company": {
+      "id": 3,
+      "name": "компания1"
+      }
+      }
+      },
+      {
+      "id": 390,
+      "status": "processed",
+      "amount": "9.0000",
+      "amountAfter": "190.0000",
+      "updatedAt": {
+      "date": "2023-10-20 18:00:03.000000",
+      "timezone_type": 3,
+      "timezone": "Europe/Moscow"
+      },
+      "contract": {
+      "id": 22,
+      "company": {
+      "id": 3,
+      "name": "компания1"
+      }
+      }
+      },
+      {
+      "id": 392,
+      "status": "processed",
+      "amount": "8.0000",
+      "amountAfter": "182.0000",
+      "updatedAt": {
+      "date": "2023-10-20 18:00:03.000000",
+      "timezone_type": 3,
+      "timezone": "Europe/Moscow"
+      },
+      "contract": {
+      "id": 22,
+      "company": {
+      "id": 3,
+      "name": "компания1"
+      }
+      }
+      }
+  ]
+}
+

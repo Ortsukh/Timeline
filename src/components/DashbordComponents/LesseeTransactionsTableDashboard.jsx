@@ -1,32 +1,38 @@
 import React, { useEffect, useState } from "react";
-import { getRentCompanies } from "../../Api/DashboardApi";
 import "./style.css";
+import moment from "moment";
+import { getTransactions } from "../../Api/DashboardApi";
 
-export default function LesseeTransactionsTableDashboard() {
-  const [rentCompanies, setRentCompanies] = useState([]);
+export default function ManagerTransactionsTableDashboard() {
+  const [transactions, setTransactions] = useState([]);
+  console.log("transactions", transactions);
   useEffect(() => {
-    getRentCompanies().then((response) => {
-      setRentCompanies(response.data);
+    getTransactions().then((response) => {
+      setTransactions(response.data);
     });
   }, []);
 
-  const generateRentCompaniesItem = () => rentCompanies.slice(0, 5).map((item, index) => (
-    <tr key={item.name + index.toString()}>
-      <td>
-        1
-      </td>
-      <td>2</td>
-      <td>11.11</td>
-      <td>200</td>
-    </tr>
-  ));
+  const generateRentCompaniesItem = () => {
+    const roundedPrice = (price) => {
+      const numPrice = +price;
+      return numPrice.toFixed(2);
+    };
+    const arrayTransaction = transactions.map((item, index) => (
+      <tr key={item.name + index.toString()}>
+        <td>{item.id}</td>
+        <td>{moment(item.updatedAt.date).format("D MMM")}</td>
+        <td>{roundedPrice(item.amount)}</td>
+        <td className="badge badge-success">{item.status}</td>
+      </tr>
+    ));
+    return arrayTransaction.filter((_, ind) => ind < 5);
+  };
   return (
     <div className="containerChart">
       <h4 className="title-table">Последние транзакции</h4>
       <table className="table table-bordered">
         <thead className="thead-light">
           <tr>
-            <th>№</th>
             <th>№ заказа</th>
             <th>Дата</th>
             <th>Стоимость</th>
