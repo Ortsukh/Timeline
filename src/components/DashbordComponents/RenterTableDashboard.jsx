@@ -6,7 +6,7 @@ export default function RenterTableDashboard() {
   const [rentCompanies, setRentCompanies] = useState([]);
   useEffect(() => {
     getRentCompanies().then((response) => {
-      setRentCompanies(response);
+      setRentCompanies(response.data);
     });
   }, []);
 

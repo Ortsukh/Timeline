@@ -46,7 +46,7 @@ export default function UserBox() {
             <div className="col-xs-6 border-right">
               <div className="description-block">
                 <h5 className="description-header">{userInfo.equipmentFree}</h5>
-                <span className="description-text">Кузонь свободно</span>
+                <span className="description-text">Кухонь свободно</span>
               </div>
             </div>
           </div>

@@ -84,9 +84,10 @@ export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
             innerHtml += "</thead><tbody>";
 
             bodyLines.forEach(() => {
-              let style = "background:  linear-gradient(336deg, rgba(0,0,255, 0.5), rgba(0,0,255, 0.5) );";
+              let style = "background:  linear-gradient(336deg, rgba(0,0,255, 0.8), rgba(0,0,255, 0.8) );";
               style += "; border-color:rgb(100, 100, 255)";
               style += "; border-width: 2px";
+              style += "; color: white";
               const span = `<span style="${style}">${tooltipModel.dataPoints[0].raw.x}: ${tooltipModel.dataPoints[0].raw.y} BYN</span>`;
               innerHtml += `<tr><td>${span}</td></tr>`;
             });
