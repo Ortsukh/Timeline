@@ -8,6 +8,7 @@
 }
 .containerUserBox{
     width: auto;
+    position: relative;
 }
 
 .btn-cont-dash{
@@ -54,29 +55,34 @@
     margin-bottom: 0 !important;
     box-shadow: none !important;
     border: 2px solid #d0d0d0;
-    width: fit-content !important;
+    width: 100px !important;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
 }
 
 .info-box-content{
-    margin-left: 0 !important;
+    margin: 0 auto !important;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 10px;
 }
 
-.info-box-text, .info-box-number{
+.info-box-text{
     font-size: 14px !important;
 }
 .statsItem {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 10px;
 }
 .statsDashboardContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 35px;
+    margin-top: 20px;
 }
 
 .btn-cont-dash .containerCalendarDashboard .button-wrapper .btn-sm{
@@ -111,4 +117,41 @@
 
 .width-hun{
     width: 50%;
+}
+
+.col-lg-3.col-md-8.cont-check{
+    position: absolute;
+    top: 20%;
+    left: 37%;
+    padding: 0 !important;
+}
+
+.info-box-number{
+    font-size: 18px !important;
+}
+
+.badge{
+    padding: 5px !important;
+    margin: 2px 5%;
+    width: 90%;
+}
+
+/* завершен */
+.badge-success{
+    background-color: #1fcb22;
+}
+
+/*  новый*/
+.badge-info{
+    background-color: #17a2b8;
+}
+
+/* в работе */
+.badge-warning{
+    background-color: #ffc107;
+}
+
+/* просрочен, отменен */
+.badge-danger{
+    background-color: #dc3545;
 }

@@ -16,7 +16,6 @@ import {
 
 } from "chart.js";
 import { getProfitData } from "../../Api/DashboardApi";
-import UserAccountDashBoard from "./UserAccountDashBoard";
 import CalendarDashboard from "./CalendarDashboard";
 
 ChartJS.register(
@@ -37,6 +36,8 @@ export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
   const chart = useRef(null);
 
   const options = {
+    maintainAspectRatio: false,
+    // devicePixelRatio: 2,
     response: true,
     plugins: {
       tooltip: {
@@ -84,10 +85,10 @@ export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
             innerHtml += "</thead><tbody>";
 
             bodyLines.forEach(() => {
-              let style = "background:  linear-gradient(336deg, rgba(0,0,255, 0.8), rgba(0,0,255, 0.8) );";
-              style += "; border-color:rgb(100, 100, 255)";
-              style += "; border-width: 2px";
+              let style = "background:  #7E7CFB";
+              style += "; border-radius: 5px";
               style += "; color: white";
+              style += "; padding: 5px";
               const span = `<span style="${style}">${tooltipModel.dataPoints[0].raw.x}: ${tooltipModel.dataPoints[0].raw.y} BYN</span>`;
               innerHtml += `<tr><td>${span}</td></tr>`;
             });
@@ -112,7 +113,6 @@ export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
       },
 
     },
-    devicePixelRatio: 4,
     hover: {
       mode: "index",
       intersect: false,
@@ -165,16 +165,19 @@ export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
       setProfitItems(response);
     });
   }, []);
+
   const handleChangeTimeStep = (step) => {
     console.log(chart.current.update);
     setTimeStep(step);
   };
+
   const handleSelectTime = (item) => {
     getProfitData(item.startDate, item.endDate).then((response) => {
       setProfitItems(response);
       setSelectedTime(item);
     });
   };
+
   const data = {
     datasets: [{
       label: "Profit",
@@ -196,18 +199,15 @@ export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
   return (
     <div className="profitChartContainer">
       <div className="cont-btn-dash">
-        <div className="col-lg-3 col-md-8">
-          <UserAccountDashBoard />
-        </div>
         <div className="btn-cont-dash">
           <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(1)}>
-            day
+            день
           </button>
           <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(7)}>
-            week
+            неделя
           </button>
           <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(30)}>
-            month
+            месяц
           </button>
           <div>
             <CalendarDashboard setSelectedTime={handleSelectTime} />

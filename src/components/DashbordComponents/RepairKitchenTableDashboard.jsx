@@ -16,7 +16,7 @@ export default function RepairKitchenTableDashboard() {
     <tr key={item.name}>
       <td>{item.name}</td>
       <td>{item.kitchenEquipment[0].name}</td>
-      <td>В ремонте</td>
+      <td className="badge badge-danger">В ремонте</td>
       <td>{moment().add(-(Math.floor(Math.random() * 300)), "day").format("DD-MM-YYYY")}</td>
     </tr>
   ));
