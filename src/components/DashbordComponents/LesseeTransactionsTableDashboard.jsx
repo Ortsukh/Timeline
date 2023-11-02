@@ -18,7 +18,6 @@ export default function LesseeTransactionsTableDashboard() {
       <td>2</td>
       <td>11.11</td>
       <td>200</td>
-      <td className="badge badge-success">Принято</td>
     </tr>
   ));
   return (
@@ -31,7 +30,6 @@ export default function LesseeTransactionsTableDashboard() {
             <th>№ заказа</th>
             <th>Дата</th>
             <th>Стоимость</th>
-            <th>Статус</th>
           </tr>
         </thead>
         <tbody>

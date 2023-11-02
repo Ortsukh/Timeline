@@ -23,6 +23,7 @@ export default function LesseeTableDashboard() {
       </td>
       <td>{item.company.contactPerson || "Олег"}</td>
       <td>{item.balance}</td>
+      <td>123</td>
     </tr>
   ));
   return (
@@ -34,6 +35,7 @@ export default function LesseeTableDashboard() {
             <th>Название</th>
             <th>Контактное лицо</th>
             <th>Баланс</th>
+            <th>Забронировано средств</th>
           </tr>
         </thead>
         <tbody>

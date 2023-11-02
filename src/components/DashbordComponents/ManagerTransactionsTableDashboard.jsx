@@ -19,7 +19,6 @@ export default function ManagerTransactionsTableDashboard() {
       <td>2</td>
       <td>11.11</td>
       <td>200</td>
-      <td className="badge badge-success">Успешно</td>
     </tr>
   ));
   return (
@@ -33,7 +32,6 @@ export default function ManagerTransactionsTableDashboard() {
             <th>№ заказа</th>
             <th>Дата</th>
             <th>Стоимость</th>
-            <th>Статус</th>
           </tr>
         </thead>
         <tbody>

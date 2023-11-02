@@ -173,3 +173,8 @@
     font-size: 20px !important;
     margin-bottom: 2px;
 }
+.orderTableHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

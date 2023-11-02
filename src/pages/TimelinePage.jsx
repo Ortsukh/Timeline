@@ -290,7 +290,7 @@ export default function TimelinePage() {
           />
         ) : (
           <>
-            <BackButton />
+
             <div className="container sort-box">
               <div className="sort-box_item">
                 <ToolsFilter

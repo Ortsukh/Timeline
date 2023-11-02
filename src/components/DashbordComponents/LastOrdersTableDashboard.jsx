@@ -25,14 +25,21 @@ export default function LastOrdersTableDashboard() {
         <td>{item.equipment}</td>
         <td className="badge badge-success">{item.status}</td>
         <td>{roundedPrice(item.price)}</td>
+        <td>{roundedPrice(item.price)}</td>
       </tr>
     ));
     return arrayOrders.filter((_, ind) => ind < 5);
   };
-
+  const handleLinkToTimeLine = () => {
+    const { origin } = window.location;
+    window.location.replace(`${origin}?page=timeline`);
+  };
   return (
     <div className="containerChart last-orders">
-      <h4 className="title-table"> Последние Заказы</h4>
+      <div className="orderTableHeader">
+        <h4 className="title-table"> Последние Заказы</h4>
+        <button type="button" className="lesseeCell" onClick={handleLinkToTimeLine}>{"Timeline->"}</button>
+      </div>
       <table className="table table-bordered">
         <thead className="thead-light">
           <tr>
@@ -41,7 +48,8 @@ export default function LastOrdersTableDashboard() {
             <th>Компания</th>
             <th>Оборудование</th>
             <th>Статус</th>
-            <th>Цена</th>
+            <th>Сумма</th>
+            <th>Остаточная стоимость</th>
           </tr>
         </thead>
         <tbody>

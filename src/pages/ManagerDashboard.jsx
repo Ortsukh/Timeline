@@ -7,6 +7,7 @@ import RepairKitchenTableDashboard from "../components/DashbordComponents/Repair
 import LastOrdersTableDashboard from "../components/DashbordComponents/LastOrdersTableDashboard";
 import ManagerStatsDashboard from "../components/DashbordComponents/ManagerStatsDashboard";
 import ManagerTransactionsTableDashboard from "../components/DashbordComponents/ManagerTransactionsTableDashboard";
+import OrderCalendarDashboard from "../components/DashbordComponents/OrderCalendarDashboard";
 
 export default function ManagerDashboard() {
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
@@ -31,6 +32,11 @@ export default function ManagerDashboard() {
       <div className="row">
         <div className="col-lg-3  col-md-6 width-hun"><LastOrdersTableDashboard /></div>
         <div className="col-lg-3  col-md-6 width-hun"><ManagerTransactionsTableDashboard /></div>
+      </div>
+      <div className="row">
+        <div className="col-lg-3 col-md-6 width-hun">
+          <OrderCalendarDashboard />
+        </div>
       </div>
     </div>
   );

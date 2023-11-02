@@ -53,6 +53,17 @@ export async function getOrders() {
 
   return testOrders;
 }
+
+export async function getAllOrdersDashboard() {
+  const str = `${backendUrl}get_equipment_items`;
+  const res = await fetch(str, {});
+
+  if (!res.ok) {
+    throw new Error("Something went wrong. Sorry");
+  }
+
+  return res.json();
+}
 export async function getRepairingEquipments() {
   // const str = "http://freekitchen.loc/admin/api/get_manager_info";?
 // if (!res.ok) {
