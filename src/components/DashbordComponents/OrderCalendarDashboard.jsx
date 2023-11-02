@@ -7,17 +7,20 @@ import calenderList from "@fullcalendar/list";
 import multiMonthPlugin from "@fullcalendar/multimonth";
 import interaction from "@fullcalendar/interaction";
 import { getAllOrdersDashboard } from "../../Api/DashboardApi";
+import { getAllOrders1 } from "../../Api/API";
+import { createOrderGroup } from "../../common/DataConvertHelper";
 
 export default function OrderCalendarDashboard() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    getAllOrdersDashboard().then((response) => {
-      setOrders(response);
+    getAllOrders1().then((response) => {
+      setOrders(groupByCategory(groupByDay(createOrderGroup(response.data))));
     });
   }, []);
 
   const groupByDay = (data) => {
+    console.log(data);
     const groupingByDay = {};
     data.forEach((item) => {
       if (!groupingByDay[item.date]) {
@@ -28,13 +31,30 @@ export default function OrderCalendarDashboard() {
   };
 
   const groupByCategory = (data) => {
-
+    const gropingByCategory = {};
+    console.log(data);
+    Object.keys(data).forEach((date) => {
+      gropingByCategory[data[date]] = {};
+      data[date].forEach((item) => {
+        console.log();
+        if (!gropingByCategory[data[date]].group) {
+          gropingByCategory[data[date]].group = [gropingByCategory[data[date]][item]];
+        } else {
+          gropingByCategory[data[date]].group.push(gropingByCategory[data[date]][item]);
+        }
+      });
+    });
+    return gropingByCategory;
   };
 
   const generateEvents = () => {
-
+    console.log(orders);
+    if (!orders.length) return;
+    const groupngitems = groupByDay(groupByCategory(orders));
+    console.log(groupngitems);
   };
-
+  console.log(orders);
+  // generateEvents();
   return (
     <FullCalendar
       unselectAuto={false}

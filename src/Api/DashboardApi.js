@@ -1,7 +1,7 @@
 /* eslint-disable */
 import moment from "moment";
 
-const backendUrl = "http://freekitchen.loc/";
+const backendUrl = "http://freekitchen.loc/test/";
 
 export const getProfitData = (start, end) => {
   const generateTimeRangeData = () => {
