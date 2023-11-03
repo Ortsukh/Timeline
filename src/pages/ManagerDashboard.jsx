@@ -33,14 +33,6 @@ export default function ManagerDashboard() {
 
       </div>
       <div className="row">
-        <div className="col-lg-3  col-md-6 width-fif"><LesseeTableDashboard /></div>
-        <div className="col-lg-3  col-md-6 width-fif"><RepairKitchenTableDashboard /></div>
-      </div>
-      <div className="row">
-        <div className="col-lg-3  col-md-6 width-hun"><ManagerLastOrdersTableDashboard /></div>
-        <div className="col-lg-3  col-md-6 width-hun"><ManagerTransactionsTableDashboard /></div>
-      </div>
-      <div className="row">
         <div className="col-lg-3 col-md-6 width-hun">
           <OrderCalendarDashboard setOrderCalendarSelectDay={setOrderCalendarSelectDay} />
         </div>
@@ -51,6 +43,15 @@ export default function ManagerDashboard() {
           />
         </div>
       </div>
+      <div className="row">
+        <div className="col-lg-3  col-md-6 width-hun"><ManagerLastOrdersTableDashboard /></div>
+        <div className="col-lg-3  col-md-6 width-fif"><RepairKitchenTableDashboard /></div>
+      </div>
+      <div className="row">
+        <div className="col-lg-3  col-md-6 width-fif"><LesseeTableDashboard /></div>
+        <div className="col-lg-3  col-md-6 width-hun"><ManagerTransactionsTableDashboard /></div>
+      </div>
+
     </div>
   );
 }

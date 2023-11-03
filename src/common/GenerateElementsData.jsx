@@ -146,7 +146,7 @@ export const getStatusComponent = (status) => {
       result = <td className="badge badge-warning">{status}</td>;
       break;
     default:
-      result = <td> </td>;
+      result = <td className="badge badge-success">Принято</td>;
   }
   return result;
 };

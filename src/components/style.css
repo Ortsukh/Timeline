@@ -27,7 +27,7 @@
 }
 
 .container.sort-box {
-    height: 15vh;
+    height: 18vh !important;
     display: flex;
     align-items: end;
     gap: 40px;

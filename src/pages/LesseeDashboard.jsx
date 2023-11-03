@@ -8,7 +8,8 @@ import LesseeLastOrdersTableDashboard from "../components/DashbordComponents/Les
 import LesseeStatsDashboard from "../components/DashbordComponents/LesseeStatsDashboard";
 import BackButton from "../components/Button/BackButton";
 
-export default function LesseeDashboard(id) {
+export default function LesseeDashboard({ lesseeId }) {
+  console.log(lesseeId);
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
   const [orderCalendarSelectDay, setOrderCalendarSelectDay] = useState(moment().format("YYYY-MM-DD"));
   const [profitItems, setProfitItems] = useState([]);
@@ -17,13 +18,13 @@ export default function LesseeDashboard(id) {
       <BackButton classButton="tut" />
       <div className="row">
         <div className="col-lg-3 col-md-4">
-          <LesseeInfoBox id={id} />
+          <LesseeInfoBox id={lesseeId} />
         </div>
         <div className="col-lg-6 col-md-8 dash-chart-first">
           <ProfitByTimeChart
             selectedTime={selectedTime}
             setSelectedTime={setSelectedTime}
-            id={id}
+            id={lesseeId}
             profitItems={profitItems}
             setProfitItems={setProfitItems}
           />
@@ -32,11 +33,11 @@ export default function LesseeDashboard(id) {
 
       </div>
       <div className="row">
-        <div className="col-lg-3 col-md-6 width-fif"><LesseeLastOrdersTableDashboard id={id} /></div>
+        <div className="col-lg-3 col-md-6 width-fif"><LesseeLastOrdersTableDashboard id={lesseeId} /></div>
         <div className="col-lg-3 col-md-6 width-fif"><LesseeRentalZoneTableDashboard /></div>
       </div>
       <div className="row">
-        <div className="col-lg-3 col-md-6 width-hun"><LesseeTransactionsTableDashboard id={id} /></div>
+        <div className="col-lg-3 col-md-6 width-hun"><LesseeTransactionsTableDashboard id={lesseeId} /></div>
       </div>
     </div>
   );

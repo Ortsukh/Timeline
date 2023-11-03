@@ -1,8 +1,8 @@
 /* eslint-disable */
 import moment from "moment";
 
-// const backendUrl = "http://freekitchen.loc/test/";
-const backendUrl = "/admin/manager/";
+const backendUrl = "http://freekitchen.loc/test/";
+// const backendUrl = "/admin/manager/";
 export const getProfitData = (start, end) => {
   const generateTimeRangeData = () => {
     let day = moment(start);
@@ -64,6 +64,17 @@ export async function getOrders(id) {
 
   return testOrders;
 }
+export async function getRentZone(id) {
+  // const str = `/admin/api/get_current_kitchens${id ? `/${id}` : ''}`;
+  // const res = await fetch(str, {}) ;
+  // if (!res.ok) {
+  //   throw new Error("Something went wrong. Sorry");
+  // }
+  // console.log(res);
+  // return res.json();
+
+  return rentZone;
+}
 
 export async function getAllOrdersDashboard() {
   const str = `${backendUrl}get_equipment_items`;
@@ -98,6 +109,222 @@ export async function getRepairingEquipments() {
 //   return res.json();
   return testRepairingEquip;
 }
+const rentZone = {
+  "success": true,
+  "data": [
+    {
+      "id": 271,
+      "status": "accepted",
+      "totalSum": "0.0000",
+      "createdAt": {
+        "date": "2023-11-01 12:07:25.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "contract": {
+        "id": 3,
+        "marketPlace": {
+          "id": 1,
+          "kitchensEquipment": [
+            {
+              "id": 22,
+              "status": "maintenance",
+              "type": "kitchen",
+              "name": "Цех 2",
+              "shortName": "Ц2",
+              "parameters": [],
+              "description": "Длинна: 98м. Широта:  96м. Градус: 38.",
+              "price": "55.0000",
+              "updatedAt": {
+                "date": "1970-01-02 00:00:00.000000",
+                "timezone_type": 3,
+                "timezone": "Europe/Moscow"
+              },
+              "image": null,
+              "deleted": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 272,
+      "status": "accepted",
+      "totalSum": "0.0000",
+      "createdAt": {
+        "date": "2023-11-01 12:25:30.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "contract": {
+        "id": 3,
+        "marketPlace": {
+          "id": 1,
+          "kitchensEquipment": [
+            {
+              "id": 22,
+              "status": "maintenance",
+              "type": "kitchen",
+              "name": "Цех 2",
+              "shortName": "Ц2",
+              "parameters": [],
+              "description": "Длинна: 98м. Широта:  96м. Градус: 38.",
+              "price": "55.0000",
+              "updatedAt": {
+                "date": "1970-01-02 00:00:00.000000",
+                "timezone_type": 3,
+                "timezone": "Europe/Moscow"
+              },
+              "image": null,
+              "deleted": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 277,
+      "status": "accepted",
+      "totalSum": "440.0000",
+      "createdAt": {
+        "date": "2023-11-02 00:00:00.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "contract": {
+        "id": 3,
+        "marketPlace": {
+          "id": 1,
+          "kitchensEquipment": [
+            {
+              "id": 22,
+              "status": "maintenance",
+              "type": "kitchen",
+              "name": "Цех 2",
+              "shortName": "Ц2",
+              "parameters": [],
+              "description": "Длинна: 98м. Широта:  96м. Градус: 38.",
+              "price": "55.0000",
+              "updatedAt": {
+                "date": "1970-01-02 00:00:00.000000",
+                "timezone_type": 3,
+                "timezone": "Europe/Moscow"
+              },
+              "image": null,
+              "deleted": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 278,
+      "status": "accepted",
+      "totalSum": "440.0000",
+      "createdAt": {
+        "date": "2023-11-02 00:00:00.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "contract": {
+        "id": 3,
+        "marketPlace": {
+          "id": 1,
+          "kitchensEquipment": [
+            {
+              "id": 22,
+              "status": "maintenance",
+              "type": "kitchen",
+              "name": "Цех 2",
+              "shortName": "Ц2",
+              "parameters": [],
+              "description": "Длинна: 98м. Широта:  96м. Градус: 38.",
+              "price": "55.0000",
+              "updatedAt": {
+                "date": "1970-01-02 00:00:00.000000",
+                "timezone_type": 3,
+                "timezone": "Europe/Moscow"
+              },
+              "image": null,
+              "deleted": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 279,
+      "status": "accepted",
+      "totalSum": "440.0000",
+      "createdAt": {
+        "date": "2023-11-02 00:00:00.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "contract": {
+        "id": 3,
+        "marketPlace": {
+          "id": 1,
+          "kitchensEquipment": [
+            {
+              "id": 22,
+              "status": "maintenance",
+              "type": "kitchen",
+              "name": "Цех 2",
+              "shortName": "Ц2",
+              "parameters": [],
+              "description": "Длинна: 98м. Широта:  96м. Градус: 38.",
+              "price": "55.0000",
+              "updatedAt": {
+                "date": "1970-01-02 00:00:00.000000",
+                "timezone_type": 3,
+                "timezone": "Europe/Moscow"
+              },
+              "image": null,
+              "deleted": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 280,
+      "status": "rejected",
+      "totalSum": "0.0000",
+      "createdAt": {
+        "date": "2023-11-03 00:00:00.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "contract": {
+        "id": 3,
+        "marketPlace": {
+          "id": 1,
+          "kitchensEquipment": [
+            {
+              "id": 22,
+              "status": "maintenance",
+              "type": "kitchen",
+              "name": "Цех 2",
+              "shortName": "Ц2",
+              "parameters": [],
+              "description": "Длинна: 98м. Широта:  96м. Градус: 38.",
+              "price": "55.0000",
+              "updatedAt": {
+                "date": "1970-01-02 00:00:00.000000",
+                "timezone_type": 3,
+                "timezone": "Europe/Moscow"
+              },
+              "image": null,
+              "deleted": false
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+
 const testUser = {
   lesseeCompanies: 3,
   kitchens: 2,

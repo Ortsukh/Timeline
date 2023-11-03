@@ -8,11 +8,12 @@ function App() {
   console.log(12312);
   console.log(window.location.search);
   const [route, setRoute] = useState("");
-  let lesseeId = null;
+  const [lesseeId, setLesseeId] = useState("");
   useEffect(() => {
     const rout = window.location.search.substring(1).split("&").find((query) => query.startsWith("page"))?.split("=")[1];
-    lesseeId = window.location.search.substring(1).split("&").find((query) => query.startsWith("id"))?.split("=")[1];
+    const lessee = window.location.search.substring(1).split("&").find((query) => query.startsWith("id"))?.split("=")[1];
     console.log(rout);
+    setLesseeId(lessee);
     setRoute(rout);
   }, [window.location.search]);
 

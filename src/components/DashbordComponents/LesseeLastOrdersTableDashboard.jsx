@@ -22,7 +22,6 @@ export default function LesseeLastOrdersTableDashboard({ id }) {
       <tr key={item.id}>
         <td>{item.id}</td>
         <td>{moment(item.date).format("D MMM")}</td>
-        <td>{item.company}</td>
         <td>{item.equipment}</td>
         {getStatusComponent(item.status)}
         <td className="moneyCell">{roundedPrice(item.price)}</td>
@@ -47,7 +46,6 @@ export default function LesseeLastOrdersTableDashboard({ id }) {
           <tr>
             <th>№</th>
             <th>Дата</th>
-            <th>Компания</th>
             <th>Оборудование</th>
             <th>Статус</th>
             <th>Сумма</th>

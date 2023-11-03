@@ -85,8 +85,12 @@ export default function TimelineOrders({ orderCalendarSelectDay }) {
         borderRadius: "20px",
       }}
       >
-        <p style={{ fontSize: "24px", fontWeight: "400", color: "black" }}>
+        <p style={{
+          fontSize: "24px", fontWeight: "400", color: "black", textAlign: "center",
+        }}
+        >
           {"У вас нет заказов "}
+          <br />
           {selectedDay.format("D MMMM YYYY")}
         </p>
       </div>

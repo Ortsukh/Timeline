@@ -7,11 +7,13 @@ export default function UserAccountDashBoard({ id }) {
   useEffect(() => {
     getRentCompanies(id).then((response) => {
       console.log(response);
+      console.log(id);
 
       const company = response.data.find((item) => item.company.id == id);
       setContract(company);
     });
   }, []);
+  console.log(contract);
   return (
     <div className="info-box bg-success">
       <div className="info-box-content">

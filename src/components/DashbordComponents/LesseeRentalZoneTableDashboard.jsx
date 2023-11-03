@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { getRentCompanies } from "../../Api/DashboardApi";
+import { getRentZone } from "../../Api/DashboardApi";
 import "./style.css";
 import { getStatusComponent } from "../../common/GenerateElementsData";
 
 export default function LesseeRentalZoneTableDashboard() {
   const [rentCompanies, setRentCompanies] = useState([]);
   useEffect(() => {
-    getRentCompanies().then((response) => {
+    getRentZone().then((response) => {
       setRentCompanies(response.data);
     });
   }, []);
@@ -14,12 +14,14 @@ export default function LesseeRentalZoneTableDashboard() {
   const generateRentCompaniesItem = () => rentCompanies.slice(0, 5).map((item, index) => (
     <tr key={item.name + index.toString()}>
       <td>
-        1
+        {item.id}
       </td>
-      <td>кухня1</td>
-      <td>11.12</td>
-      <td>200</td>
-      { getStatusComponent("Принято")}
+      <td>{item.contract.marketPlace.kitchensEquipment.name}</td>
+      <td>{item.createdAt.date.split(" ")[0]}</td>
+      <td>
+        {item.totalSum}
+      </td>
+      { getStatusComponent(item.status)}
     </tr>
   ));
   return (

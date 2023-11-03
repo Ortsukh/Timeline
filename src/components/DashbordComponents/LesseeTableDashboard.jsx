@@ -22,7 +22,7 @@ export default function LesseeTableDashboard() {
         || "Компания"}
       </td>
       <td>{item.company.contactPerson || "Олег"}</td>
-      <td className="moneyCell">
+      <td className="moneyCell" style={{ color: item.balance <= 0 ? "red" : "black" }}>
         {item.balance}
       </td>
       <td className="moneyCell">{item.reservedBalance}</td>
