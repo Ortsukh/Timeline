@@ -4,11 +4,11 @@ import ManagerInfoBox from "../components/DashbordComponents/ManagerInfoBox";
 import ProfitByTimeChart from "../components/DashbordComponents/ProfitByTimeChart";
 import LesseeTableDashboard from "../components/DashbordComponents/LesseeTableDashboard";
 import RepairKitchenTableDashboard from "../components/DashbordComponents/RepairKitchenTableDashboard";
-import LastOrdersTableDashboard from "../components/DashbordComponents/LastOrdersTableDashboard";
 import ManagerStatsDashboard from "../components/DashbordComponents/ManagerStatsDashboard";
 import ManagerTransactionsTableDashboard from "../components/DashbordComponents/ManagerTransactionsTableDashboard";
 import OrderCalendarDashboard from "../components/DashbordComponents/OrderCalendarDashboard";
 import TimelineOrders from "../components/DashbordComponents/TimelineOrders";
+import ManagerLastOrdersTableDashboard from "../components/DashbordComponents/ManagerLastOrdersTableDashboard";
 
 export default function ManagerDashboard() {
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
@@ -37,7 +37,7 @@ export default function ManagerDashboard() {
         <div className="col-lg-3  col-md-6 width-fif"><RepairKitchenTableDashboard /></div>
       </div>
       <div className="row">
-        <div className="col-lg-3  col-md-6 width-hun"><LastOrdersTableDashboard /></div>
+        <div className="col-lg-3  col-md-6 width-hun"><ManagerLastOrdersTableDashboard /></div>
         <div className="col-lg-3  col-md-6 width-hun"><ManagerTransactionsTableDashboard /></div>
       </div>
       <div className="row">

@@ -5007,18 +5007,18 @@ export async function getAllOrders1() {
 }
 
 export async function getUser() {
-  // const str = `${backendUrl}get_current_user`;
-  // const res = await fetch(str, {});
-  // if (!res.ok) {
-  //   throw new Error("Something went wrong. Sorry");
-  // }
-  // console.log(res);
-  // return res.json();
-  return {
-    role: "ROLE_MANAGER",
-    id: 1,
-    name: "Франчайзи 001",
-  };
+  const str = `${backendUrl}get_current_user`;
+  const res = await fetch(str, {});
+  if (!res.ok) {
+    throw new Error("Something went wrong. Sorry");
+  }
+  console.log(res);
+  return res.json();
+  // return {
+  //   role: "ROLE_MANAGER",
+  //   id: 1,
+  //   name: "Франчайзи 001",
+  // };
 
   // return {
   //   role: "ROLE_COMPANY",
@@ -5028,18 +5028,18 @@ export async function getUser() {
 }
 
 export async function getCompanies() {
-  // const str = `${backendUrl}get_lessee_companies/`;
-  // const res = await fetch(str, {});
-  // if (!res.ok) {
-  //   throw new Error("Something went wrong. Sorry");
-  // }
-  // console.log(res);
-  // return res.json();
+  const str = `${backendUrl}get_lessee_companies/`;
+  const res = await fetch(str, {});
+  if (!res.ok) {
+    throw new Error("Something went wrong. Sorry");
+  }
+  console.log(res);
+  return res.json();
 
-  return [
-    { id: 1, name: "Суши \"Минск-сити\"" },
-    { id: 16, name: "Тестовая Компания" },
-  ];
+  // return [
+  //   { id: 1, name: "Суши \"Минск-сити\"" },
+  //   { id: 16, name: "Тестовая Компания" },
+  // ];
 
   // return {
   //   role: "ROLE_COMPANY",

@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
-import { getUserInfo } from "../../Api/DashboardApi";
+import { getLesseeInfo } from "../../Api/DashboardApi";
 import UserAccountDashBoard from "./UserAccountDashBoard";
 
-export default function LesseeInfoBox() {
+export default function LesseeInfoBox({ id }) {
   const [userInfo, setUserInfo] = useState({});
   const today = moment().format("DD MMM YYYY");
   useEffect(() => {
-    getUserInfo().then((response) => {
+    getLesseeInfo(id).then((response) => {
       console.log(response);
       setUserInfo(response);
     });
   }, []);
+
   return (
     <div className="containerUserBox">
       <div className="box box-widget widget-user">
@@ -33,7 +34,7 @@ export default function LesseeInfoBox() {
             <div className="col-xs-6 border-right">
               <div className="description-block">
                 <span className="description-text">Арендные зоны</span>
-                <h5 className="description-header">1</h5>
+                <h5 className="description-header">{userInfo.kitchens}</h5>
               </div>
             </div>
           </div>
@@ -41,7 +42,7 @@ export default function LesseeInfoBox() {
             <div className="col-xs-6 border-right">
               <div className="description-block">
                 <span className="description-text">Арендованое оборудование</span>
-                <h5 className="description-header">12</h5>
+                <h5 className="description-header">{userInfo.equipment}</h5>
               </div>
             </div>
 
@@ -49,7 +50,7 @@ export default function LesseeInfoBox() {
         </div>
       </div>
       <div className="col-lg-3 col-md-8 cont-check">
-        <UserAccountDashBoard />
+        <UserAccountDashBoard id={id} />
       </div>
     </div>
   );

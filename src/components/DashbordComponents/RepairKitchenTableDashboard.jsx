@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import moment from "moment";
 import { getRepairingEquipments } from "../../Api/DashboardApi";
 import "./style.css";
 import { getStatusComponent } from "../../common/GenerateElementsData";
@@ -23,7 +22,7 @@ export default function RepairKitchenTableDashboard() {
   ));
   return (
     <div className="containerChart">
-      <h4 className="title-table"> Обновление статса оборудования</h4>
+      <h4 className="title-table"> Обновление статуса оборудования</h4>
       <table className="table table-bordered">
         <thead className="thead-light">
           <tr>

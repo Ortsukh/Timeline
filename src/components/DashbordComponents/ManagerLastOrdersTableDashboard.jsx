@@ -4,11 +4,11 @@ import { getOrders } from "../../Api/DashboardApi";
 import "./style.css";
 import { getStatusComponent } from "../../common/GenerateElementsData";
 
-export default function LastOrdersTableDashboard() {
+export default function ManagerLastOrdersTableDashboard({ id }) {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    getOrders().then((response) => {
+    getOrders(id).then((response) => {
       setOrders(response);
     });
   }, []);
@@ -22,7 +22,6 @@ export default function LastOrdersTableDashboard() {
       <tr key={item.id}>
         <td>{item.id}</td>
         <td>{moment(item.date).format("D MMM")}</td>
-        <td>{item.company}</td>
         <td>{item.equipment}</td>
         {getStatusComponent(item.status)}
         <td className="moneyCell">{roundedPrice(item.price)}</td>
@@ -47,7 +46,6 @@ export default function LastOrdersTableDashboard() {
           <tr>
             <th>№</th>
             <th>Дата</th>
-            <th>Компания</th>
             <th>Оборудование</th>
             <th>Статус</th>
             <th>Сумма</th>

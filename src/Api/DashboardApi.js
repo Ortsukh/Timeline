@@ -1,8 +1,8 @@
 /* eslint-disable */
 import moment from "moment";
 
-const backendUrl = "http://freekitchen.loc/test/";
-// const backendUrl = "/admin/manager/";
+// const backendUrl = "http://freekitchen.loc/test/";
+const backendUrl = "/admin/manager/";
 export const getProfitData = (start, end) => {
   const generateTimeRangeData = () => {
     let day = moment(start);
@@ -42,9 +42,20 @@ export async function getUserInfo() {
   // return res.json();
   return testUser;
 }
-export async function getOrders() {
-  // const str = "/admin/api/get_orders";
+
+export async function getLesseeInfo(id) {
+  // const str = `/admin/api/get_lessee_info/${id}`;
   // const res = await fetch(str, {});
+  // if (!res.ok) {
+  //   throw new Error("Something went wrong. Sorry");
+  // }
+  // console.log(res);
+  // return res.json();
+  return testUser;
+}
+export async function getOrders(id) {
+  // const str = `/admin/api/get_orders${id ? `/${id}` : ''}`;
+  // const res = await fetch(str, {}) ;
   // if (!res.ok) {
   //   throw new Error("Something went wrong. Sorry");
   // }
@@ -76,7 +87,9 @@ export async function getTransactions() {
   return testTransactions;
 }
 export async function getRepairingEquipments() {
-//   const str = "http://freekitchen.loc/admin/api/get_kitchen_equipment";?
+//   const str = "/admin/api/get_kitchen_equipment"
+//   const res = await fetch(str, {});
+//
 // if (!res.ok) {
 //     throw new Error("Something went wrong. Sorry");
 //   }
