@@ -2,34 +2,35 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { getRepairingEquipments } from "../../Api/DashboardApi";
 import "./style.css";
+import { getStatusComponent } from "../../common/GenerateElementsData";
 
 export default function RepairKitchenTableDashboard() {
   const [rentCompanies, setRentCompanies] = useState([]);
   useEffect(() => {
     getRepairingEquipments().then((response) => {
       console.log(response);
-      setRentCompanies(response);
+      setRentCompanies(response.data);
     });
   }, []);
 
-  const generateRentCompaniesItem = () => rentCompanies.slice(0, 3).map((item) => (
+  const generateRentCompaniesItem = () => rentCompanies.slice(0, 5).map((item) => (
     <tr key={item.name}>
       <td>{item.name}</td>
-      <td>{item.kitchenEquipment[0].name}</td>
-      <td className="badge badge-danger">В ремонте</td>
-      <td>{moment().add(-(Math.floor(Math.random() * 300)), "day").format("DD-MM-YYYY")}</td>
+      <td>{item.name}</td>
+      {getStatusComponent(item.status)}
+      <td>{item.updatedAt.date.split(" ")[0]}</td>
     </tr>
   ));
   return (
     <div className="containerChart">
-      <h4 className="title-table"> Оборудование в ремонте</h4>
+      <h4 className="title-table"> Обновление статса оборудования</h4>
       <table className="table table-bordered">
         <thead className="thead-light">
           <tr>
             <th>Категория</th>
             <th>Оборудование</th>
-            <th>Статус</th>
-            <th>Дата ремонта</th>
+            <th>Обновление по статусу</th>
+            <th>Дата</th>
           </tr>
         </thead>
         <tbody>
