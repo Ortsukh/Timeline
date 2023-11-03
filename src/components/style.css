@@ -803,3 +803,7 @@ a.fc-col-header-cell-cushion.red-color:hover {
 .container.sort-box::before{
     display: none !important;
 }
+
+.back-dash-timelinetut{
+    margin-bottom: 5px;
+}
