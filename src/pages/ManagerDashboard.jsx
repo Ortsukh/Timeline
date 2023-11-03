@@ -32,7 +32,7 @@ export default function ManagerDashboard() {
         </div>
 
       </div>
-      <div className="row">
+      <div className="row" style={{ margin: "10px 0 20px" }}>
         <div className="col-lg-3 col-md-6 width-hun">
           <OrderCalendarDashboard setOrderCalendarSelectDay={setOrderCalendarSelectDay} />
         </div>

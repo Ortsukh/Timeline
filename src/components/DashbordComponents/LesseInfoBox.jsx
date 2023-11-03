@@ -27,22 +27,22 @@ export default function LesseeInfoBox({ id }) {
           <div className="row">
             <div className="col-xs-6 border-right">
               <div className="description-block">
-                <span className="description-text">Пространство:</span>
                 <h5 className="description-header">Минск</h5>
+                <span className="description-text">Пространство</span>
               </div>
             </div>
             <div className="col-xs-6 border-right">
               <div className="description-block">
-                <span className="description-text">Арендные зоны</span>
                 <h5 className="description-header">{userInfo.kitchens}</h5>
+                <span className="description-text">Арендные зоны</span>
               </div>
             </div>
           </div>
           <div className="row">
             <div className="col-xs-6 border-right">
               <div className="description-block">
-                <span className="description-text">Арендованое оборудование</span>
                 <h5 className="description-header">{userInfo.equipment}</h5>
+                <span className="description-text">Арендованое оборудование</span>
               </div>
             </div>
 

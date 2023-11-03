@@ -144,7 +144,7 @@ export default function TimelineOrders({ orderCalendarSelectDay }) {
       }}
       >
         <p style={{
-          fontSize: "24px", fontWeight: "400", color: "black", textAlign: "center",
+          fontSize: "18px", fontWeight: "400", color: "black", textAlign: "center",
         }}
         >
           {"У вас нет заказов "}

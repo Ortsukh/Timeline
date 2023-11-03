@@ -3,9 +3,9 @@
     width: 800px;
 } */
 
-.containerChart {
+/* .containerChart {
     height: 345px;
-}
+} */
 .containerUserBox{
     width: auto;
     position: relative;
@@ -56,8 +56,8 @@
     margin-bottom: 0 !important;
     box-shadow: none !important;
     border: 2px solid #d0d0d0;
-    width: 100px !important;
-    height: 100px;
+    width: 95px !important;
+    height: 95px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -124,7 +124,7 @@
 .col-lg-3.col-md-8.cont-check{
     position: absolute;
     top: 20%;
-    left: 37%;
+    left: 33%;
     padding: 0 !important;
 }
 
