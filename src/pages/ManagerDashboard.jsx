@@ -8,6 +8,7 @@ import LastOrdersTableDashboard from "../components/DashbordComponents/LastOrder
 import ManagerStatsDashboard from "../components/DashbordComponents/ManagerStatsDashboard";
 import ManagerTransactionsTableDashboard from "../components/DashbordComponents/ManagerTransactionsTableDashboard";
 import OrderCalendarDashboard from "../components/DashbordComponents/OrderCalendarDashboard";
+import TimelineOrders from "../components/DashbordComponents/TimelineOrders";
 
 export default function ManagerDashboard() {
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
@@ -21,7 +22,12 @@ export default function ManagerDashboard() {
           <ManagerInfoBox />
         </div>
         <div className="col-lg-6 col-md-8 dash-chart-first">
-          <ProfitByTimeChart selectedTime={selectedTime} setSelectedTime={setSelectedTime} profitItems={profitItems} setProfitItems={setProfitItems} />
+          <ProfitByTimeChart
+            selectedTime={selectedTime}
+            setSelectedTime={setSelectedTime}
+            profitItems={profitItems}
+            setProfitItems={setProfitItems}
+          />
           <ManagerStatsDashboard selectedTime={selectedTime} profitItems={profitItems} />
         </div>
 
@@ -37,6 +43,12 @@ export default function ManagerDashboard() {
       <div className="row">
         <div className="col-lg-3 col-md-6 width-hun">
           <OrderCalendarDashboard setOrderCalendarSelectDay={setOrderCalendarSelectDay} />
+        </div>
+        <div className="col-lg-3 col-md-6 width-hun">
+          <TimelineOrders
+            orderCalendarSelectDay={orderCalendarSelectDay}
+            key={orderCalendarSelectDay}
+          />
         </div>
       </div>
     </div>

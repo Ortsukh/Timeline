@@ -146,6 +146,7 @@ const createOrderObject = (order, el, shiftLength, interval, user) => {
     orderId: order.id,
     rentOrderId: order.rentOrder.id,
     group: order.equipment.id,
+    groupName: order.equipment.name,
     intervalId: interval.id,
     start_time: el.start_time,
     end_time: el.end_time,
