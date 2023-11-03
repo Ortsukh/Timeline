@@ -69,7 +69,7 @@ export default function ManagerInfoBox() {
         </div>
       </div>
       <div className="col-lg-3 col-md-8 cont-check">
-        <UserAccountDashBoard />
+        <UserAccountDashBoard userInfo={userInfo} />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
+import { getUserInfo } from "../../Api/DashboardApi";
 
 export default function ManagerStatsDashboard({ profitItems }) {
   const calcAllProfit = () => {
@@ -7,7 +8,12 @@ export default function ManagerStatsDashboard({ profitItems }) {
     result = profitItems.reduce((acc, cur) => cur.y + acc, 0);
     return result;
   };
-
+  const [userInfo, setUserInfo] = useState({});
+  useEffect(() => {
+    getUserInfo().then((response) => {
+      setUserInfo(response);
+    });
+  }, []);
   return (
     !profitItems.length ? <>Загрузка</>
       : (
@@ -26,7 +32,7 @@ export default function ManagerStatsDashboard({ profitItems }) {
           </div>
           <div className="statsItem item-green-bg">
             <span>Забронировано</span>
-            <span className="positive-values values">224.00</span>
+            <span className="positive-values values">{userInfo.reservedBalance}</span>
           </div>
           <div className="statsItem item-red-bg">
             <span>Просроченные платежи</span>
