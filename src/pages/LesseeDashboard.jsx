@@ -10,7 +10,8 @@ import BackButton from "../components/Button/BackButton";
 
 export default function LesseeDashboard(id) {
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
-
+  const [orderCalendarSelectDay, setOrderCalendarSelectDay] = useState(moment().format("YYYY-MM-DD"));
+  const [profitItems, setProfitItems] = useState([]);
   return (
     <div>
       <BackButton classButton="tut" />
@@ -23,8 +24,10 @@ export default function LesseeDashboard(id) {
             selectedTime={selectedTime}
             setSelectedTime={setSelectedTime}
             id={id}
+            profitItems={profitItems}
+            setProfitItems={setProfitItems}
           />
-          <LesseeStatsDashboard selectedTime={selectedTime} />
+          <LesseeStatsDashboard selectedTime={selectedTime} profitItems={profitItems} />
         </div>
 
       </div>

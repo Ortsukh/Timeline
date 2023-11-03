@@ -14,13 +14,19 @@ export default function ManagerStatsDashboard({ profitItems }) {
         <div className="statsDashboardContainer">
           <div className="statsItem item-green-bg">
             <span>Прибыль за день</span>
-            <span className="positive-values values">{profitItems[profitItems.length - 1].y}</span>
+            <span className="positive-values values">
+              {profitItems[profitItems.length - 1].y.toFixed(2)}
+            </span>
           </div>
           <div className="statsItem item-green-bg">
             <span>Прибыль за период</span>
             <span className="positive-values values">
-              {calcAllProfit()}
+              {calcAllProfit().toFixed(2)}
             </span>
+          </div>
+          <div className="statsItem item-green-bg">
+            <span>Забронировано</span>
+            <span className="positive-values values">224.00</span>
           </div>
           <div className="statsItem item-red-bg">
             <span>Просроченные платежи</span>

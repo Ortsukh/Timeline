@@ -22,7 +22,6 @@ export default function ManagerDashboard() {
         </div>
         <div className="col-lg-6 col-md-8 dash-chart-first">
           <ProfitByTimeChart selectedTime={selectedTime} setSelectedTime={setSelectedTime} profitItems={profitItems} setProfitItems={setProfitItems} />
-          {" "}
           <ManagerStatsDashboard selectedTime={selectedTime} profitItems={profitItems} />
         </div>
 

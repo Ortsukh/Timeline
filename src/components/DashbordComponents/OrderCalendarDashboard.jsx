@@ -63,9 +63,9 @@ export default function OrderCalendarDashboard({ setOrderCalendarSelectDay }) {
     if (calendarRef.current) {
       const calendar = calendarRef.current.elRef.current;
       calendar.addEventListener("mousedown", onClickCell);
-      // return function cleanup() {
-      //   calendar.removeEventListener("mousedown", onClickCell);
-      // };
+      return function cleanup() {
+        calendar.removeEventListener("mousedown", onClickCell);
+      };
     }
     return false;
   }, []);
