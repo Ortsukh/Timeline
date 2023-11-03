@@ -4,11 +4,11 @@ import { getOrders } from "../../Api/DashboardApi";
 import "./style.css";
 import { getStatusComponent } from "../../common/GenerateElementsData";
 
-export default function LesseeLastOrdersTableDashboard() {
+export default function LesseeLastOrdersTableDashboard({ id }) {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    getOrders().then((response) => {
+    getOrders(id).then((response) => {
       setOrders(response);
     });
   }, []);

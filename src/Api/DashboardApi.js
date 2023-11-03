@@ -51,7 +51,7 @@ export async function getLesseeInfo(id) {
   // }
   // console.log(res);
   // return res.json();
-  return testUser;
+  return lesseeInfo;
 }
 export async function getOrders(id) {
   // const str = `/admin/api/get_orders${id ? `/${id}` : ''}`;
@@ -75,8 +75,8 @@ export async function getAllOrdersDashboard() {
 
   return res.json();
 }
-export async function getTransactions() {
-  // const str = "/admin/api/get_transactions";
+export async function getTransactions(id) {
+  // const str = `/admin/api/get_transactions${id ? `/${id}` : ''}`;
   // const res = await fetch(str, {});
   // if (!res.ok) {
   //   throw new Error("Something went wrong. Sorry");
@@ -107,6 +107,12 @@ const testUser = {
   marketPlaces: 3,
   name: "Франчайзи 001",
 };
+
+const lesseeInfo = {
+  "equipment": 0,
+  "kitchens": 12,
+  "name": "КОМПАНИЯ"
+}
 
 const testCompany = {
   "success": true,

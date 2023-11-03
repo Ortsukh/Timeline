@@ -7,6 +7,7 @@ export default function UserAccountDashBoard({ id }) {
   useEffect(() => {
     getRentCompanies(id).then((response) => {
       console.log(response);
+
       const company = response.data.find((item) => item.company.id == id);
       setContract(company);
     });
@@ -15,7 +16,7 @@ export default function UserAccountDashBoard({ id }) {
     <div className="info-box bg-success">
       <div className="info-box-content">
         <span className="info-box-text">Счет</span>
-        <span className="info-box-number">{contract.balance}</span>
+        <span className="info-box-number">{contract ? contract.balance : 222}</span>
       </div>
     </div>
   );

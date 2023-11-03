@@ -36,7 +36,7 @@ export default function LesseeDashboard(id) {
         <div className="col-lg-3 col-md-6 width-fif"><LesseeRentalZoneTableDashboard /></div>
       </div>
       <div className="row">
-        <div className="col-lg-3 col-md-6 width-hun"><LesseeTransactionsTableDashboard /></div>
+        <div className="col-lg-3 col-md-6 width-hun"><LesseeTransactionsTableDashboard id={id} /></div>
       </div>
     </div>
   );

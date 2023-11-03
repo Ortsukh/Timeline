@@ -3,11 +3,11 @@ import "./style.css";
 import moment from "moment";
 import { getTransactions } from "../../Api/DashboardApi";
 
-export default function ManagerTransactionsTableDashboard() {
+export default function ManagerTransactionsTableDashboard({ id }) {
   const [transactions, setTransactions] = useState([]);
   console.log("transactions", transactions);
   useEffect(() => {
-    getTransactions().then((response) => {
+    getTransactions(id).then((response) => {
       setTransactions(response.data);
     });
   }, []);
