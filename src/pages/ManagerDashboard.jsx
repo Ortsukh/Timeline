@@ -12,6 +12,8 @@ import OrderCalendarDashboard from "../components/DashbordComponents/OrderCalend
 export default function ManagerDashboard() {
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
   const [orderCalendarSelectDay, setOrderCalendarSelectDay] = useState(moment().format("YYYY-MM-DD"));
+  const [profitItems, setProfitItems] = useState([]);
+
   return (
     <div>
       <div className="row">
@@ -19,9 +21,9 @@ export default function ManagerDashboard() {
           <ManagerInfoBox />
         </div>
         <div className="col-lg-6 col-md-8 dash-chart-first">
-          <ProfitByTimeChart selectedTime={selectedTime} setSelectedTime={setSelectedTime} />
+          <ProfitByTimeChart selectedTime={selectedTime} setSelectedTime={setSelectedTime} profitItems={profitItems} setProfitItems={setProfitItems} />
           {" "}
-          <ManagerStatsDashboard selectedTime={selectedTime} />
+          <ManagerStatsDashboard selectedTime={selectedTime} profitItems={profitItems} />
         </div>
 
       </div>

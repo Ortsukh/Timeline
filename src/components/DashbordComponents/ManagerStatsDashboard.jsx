@@ -1,27 +1,36 @@
 import React from "react";
 import "./style.css";
 
-export default function ManagerStatsDashboard() {
+export default function ManagerStatsDashboard({ profitItems }) {
+  const calcAllProfit = () => {
+    let result = 0;
+    result = profitItems.reduce((acc, cur) => cur.y + acc, 0);
+    return result;
+  };
+
   return (
-    <div className="statsDashboardContainer">
-      <div className="statsItem item-green-bg">
-        <span>Прибыль за день</span>
-        <span className="positive-values values">2600</span>
-      </div>
-      <div className="statsItem item-green-bg">
-        <span>Прибыль за период</span>
-        <span className="positive-values values">
-          {Math.floor(Math.random() * 30000 + 15000)}
-        </span>
-      </div>
-      <div className="statsItem item-red-bg">
-        <span>Просроченные платежи</span>
-        <span className="negative-values values">0</span>
-      </div>
-      <div className="statsItem item-green-bg">
-        <span>Количество транзакций</span>
-        <span className="positive-values values">200</span>
-      </div>
-    </div>
+    !profitItems.length ? <>Загрузка</>
+      : (
+        <div className="statsDashboardContainer">
+          <div className="statsItem item-green-bg">
+            <span>Прибыль за день</span>
+            <span className="positive-values values">{profitItems[profitItems.length - 1].y}</span>
+          </div>
+          <div className="statsItem item-green-bg">
+            <span>Прибыль за период</span>
+            <span className="positive-values values">
+              {calcAllProfit()}
+            </span>
+          </div>
+          <div className="statsItem item-red-bg">
+            <span>Просроченные платежи</span>
+            <span className="negative-values values">0</span>
+          </div>
+          <div className="statsItem item-green-bg">
+            <span>Количество транзакций</span>
+            <span className="positive-values values">200</span>
+          </div>
+        </div>
+      )
   );
 }

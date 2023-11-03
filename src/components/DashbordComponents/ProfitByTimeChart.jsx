@@ -15,6 +15,7 @@ import {
   Filler,
 
 } from "chart.js";
+import moment from "moment";
 import { getProfitData } from "../../Api/DashboardApi";
 import CalendarDashboard from "./CalendarDashboard";
 
@@ -30,8 +31,9 @@ ChartJS.register(
 
 );
 
-export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
-  const [profitItems, setProfitItems] = useState([]);
+export default function ProfitByTimeChart({
+  selectedTime, setSelectedTime, setProfitItems, profitItems,
+}) {
   const [timeStep, setTimeStep] = useState(1);
   const chart = useRef(null);
 
@@ -129,8 +131,8 @@ export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
           },
         },
 
-        min: selectedTime.startDate,
-        max: selectedTime.endDate,
+        min: moment(selectedTime.startDate).add(-12, "hour"),
+        max: moment(selectedTime.endDate).add(12, "hour"),
         ticks: {
           font: {
             size: 20,
