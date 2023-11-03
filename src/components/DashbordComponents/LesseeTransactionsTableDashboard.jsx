@@ -21,8 +21,9 @@ export default function ManagerTransactionsTableDashboard() {
       <tr key={item.name + index.toString()}>
         <td>{item.id}</td>
         <td>{moment(item.updatedAt.date).format("D MMM")}</td>
-        <td>{roundedPrice(item.amount)}</td>
-        <td className="badge badge-success">{item.status}</td>
+        <td className="moneyCell">
+          {roundedPrice(item.amount)}
+        </td>
       </tr>
     ));
     return arrayTransaction.filter((_, ind) => ind < 5);

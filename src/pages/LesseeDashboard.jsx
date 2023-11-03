@@ -13,7 +13,7 @@ export default function LesseeDashboard(id) {
 
   return (
     <div>
-      <BackButton />
+      <BackButton classButton="tut" />
       <div className="row">
         <div className="col-lg-3 col-md-4">
           <LesseeInfoBox />

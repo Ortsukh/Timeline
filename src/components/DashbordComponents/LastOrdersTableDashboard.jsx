@@ -8,7 +8,7 @@ export default function LastOrdersTableDashboard() {
 
   useEffect(() => {
     getOrders().then((response) => {
-      setOrders(response.data);
+      setOrders(response);
     });
   }, []);
 
@@ -24,15 +24,16 @@ export default function LastOrdersTableDashboard() {
         <td>{item.company}</td>
         <td>{item.equipment}</td>
         <td className="badge badge-success">{item.status}</td>
-        <td>{roundedPrice(item.price)}</td>
-        <td>{roundedPrice(item.price)}</td>
+        <td className="moneyCell">{roundedPrice(item.price)}</td>
+        <td className="moneyCell">{roundedPrice(item.price)}</td>
       </tr>
     ));
     return arrayOrders.filter((_, ind) => ind < 5);
   };
   const handleLinkToTimeLine = () => {
     const { origin } = window.location;
-    window.location.replace(`${origin}?page=timeline`);
+    const { pathname } = window.location;
+    window.location.replace(`${origin}${pathname}?page=timeline`);
   };
   return (
     <div className="containerChart last-orders">

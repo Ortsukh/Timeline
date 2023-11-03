@@ -2,7 +2,7 @@
 import moment from "moment";
 
 const backendUrl = "http://freekitchen.loc/test/";
-
+// const backendUrl = "/admin/manager/";
 export const getProfitData = (start, end) => {
   const generateTimeRangeData = () => {
     let day = moment(start);
@@ -76,13 +76,13 @@ export async function getTransactions() {
   return testTransactions;
 }
 export async function getRepairingEquipments() {
-  // const str = "http://freekitchen.loc/admin/api/get_manager_info";?
+//   const str = "http://freekitchen.loc/admin/api/get_manager_info";?
 // if (!res.ok) {
-  //   throw new Error("Something went wrong. Sorry");
-  // }
-
-  // // console.log("getOrders:", res);
-  // return res.json();
+//     throw new Error("Something went wrong. Sorry");
+//   }
+//
+//   // console.log("getOrders:", res);
+//   return res.json();
   return testRepairingEquip.data;
 }
 const testUser = {
@@ -677,9 +677,7 @@ const testRepairingEquip = {
   ],
 };
 
-const testOrders = {
-  success: true,
-  data: [
+const testOrders =  [
     {
       id: 272,
       category: "Кухни",
@@ -780,7 +778,7 @@ const testOrders = {
       equipment: "Кухня 1",
     },
   ]
-}
+
 
 
 const testTransactions = {

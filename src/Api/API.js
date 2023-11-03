@@ -2,9 +2,9 @@ import { formatOrder } from "../common/DataConvertHelper";
 // dev
 // const backendUrl = "http://freekitchen.loc/admin/manager/";
 // local
-// const backendUrl = "http://freekitchen.loc/test/";
+const backendUrl = "http://freekitchen.loc/test/";
 // prod
-const backendUrl = "/admin/manager/";
+// const backendUrl = "/admin/manager/";
 const test = {
   success: true,
   data: [
@@ -5007,18 +5007,18 @@ export async function getAllOrders1() {
 }
 
 export async function getUser() {
-  const str = `${backendUrl}get_current_user`;
-  const res = await fetch(str, {});
-  if (!res.ok) {
-    throw new Error("Something went wrong. Sorry");
-  }
-  console.log(res);
-  return res.json();
-  // return {
-  //   role: "ROLE_MANAGER",
-  //   id: 1,
-  //   name: "Франчайзи 001",
-  // };
+  // const str = `${backendUrl}get_current_user`;
+  // const res = await fetch(str, {});
+  // if (!res.ok) {
+  //   throw new Error("Something went wrong. Sorry");
+  // }
+  // console.log(res);
+  // return res.json();
+  return {
+    role: "ROLE_MANAGER",
+    id: 1,
+    name: "Франчайзи 001",
+  };
 
   // return {
   //   role: "ROLE_COMPANY",
@@ -5028,18 +5028,18 @@ export async function getUser() {
 }
 
 export async function getCompanies() {
-  const str = `${backendUrl}get_lessee_companies/`;
-  const res = await fetch(str, {});
-  if (!res.ok) {
-    throw new Error("Something went wrong. Sorry");
-  }
-  console.log(res);
-  return res.json();
+  // const str = `${backendUrl}get_lessee_companies/`;
+  // const res = await fetch(str, {});
+  // if (!res.ok) {
+  //   throw new Error("Something went wrong. Sorry");
+  // }
+  // console.log(res);
+  // return res.json();
 
-  // return [
-  //   { id: 1, name: "Суши \"Минск-сити\"" },
-  //   { id: 16, name: "Тестовая Компания" },
-  // ];
+  return [
+    { id: 1, name: "Суши \"Минск-сити\"" },
+    { id: 16, name: "Тестовая Компания" },
+  ];
 
   // return {
   //   role: "ROLE_COMPANY",

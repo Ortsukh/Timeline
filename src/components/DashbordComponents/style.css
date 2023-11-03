@@ -195,3 +195,6 @@
     justify-content: space-around;
 }
 
+.moneyCell {
+    text-align: right;
+}

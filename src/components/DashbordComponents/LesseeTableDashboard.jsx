@@ -12,9 +12,10 @@ export default function LesseeTableDashboard() {
 
   const handleLinkToLessee = (id) => {
     const { origin } = window.location;
-    window.location.replace(`${origin}?page=lessee_dashboard&id=${id}`);
+    const { pathname } = window.location;
+    window.location.replace(`${origin}${pathname}?page=lessee_dashboard&id=${id}`);
   };
-
+  const reserved = 222;
   const generateRentCompaniesItem = () => rentCompanies.slice(0, 5).map((item, index) => (
     <tr key={item.name + index.toString()}>
       <td className="lesseeCell" onClick={() => handleLinkToLessee(item.company.id)}>
@@ -22,8 +23,10 @@ export default function LesseeTableDashboard() {
         || "Компания"}
       </td>
       <td>{item.company.contactPerson || "Олег"}</td>
-      <td>{item.balance}</td>
-      <td>123</td>
+      <td className="moneyCell">
+        {item.balance}
+      </td>
+      <td className="moneyCell">{reserved.toFixed(2)}</td>
     </tr>
   ));
   return (
@@ -35,7 +38,7 @@ export default function LesseeTableDashboard() {
             <th>Название</th>
             <th>Контактное лицо</th>
             <th>Баланс</th>
-            <th>Забронировано средств</th>
+            <th>Забронировано</th>
           </tr>
         </thead>
         <tbody>
