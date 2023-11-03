@@ -190,7 +190,7 @@
 .lesseeCell.btn.btn-info{
     padding: 3px 10px;
 }
-.fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
+.dashboardCalendarContainer .fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
     display: flex;
     justify-content: space-around;
 }

@@ -5,7 +5,6 @@ import { getTransactions } from "../../Api/DashboardApi";
 
 export default function ManagerTransactionsTableDashboard() {
   const [transactions, setTransactions] = useState([]);
-  console.log("transactions", transactions);
   useEffect(() => {
     getTransactions().then((response) => {
       setTransactions(response.data);

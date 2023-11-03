@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { getOrders } from "../../Api/DashboardApi";
 import "./style.css";
+import { getStatusComponent } from "../../common/GenerateElementsData";
 
 export default function LastOrdersTableDashboard() {
   const [orders, setOrders] = useState([]);
@@ -23,7 +24,7 @@ export default function LastOrdersTableDashboard() {
         <td>{moment(item.date).format("D MMM")}</td>
         <td>{item.company}</td>
         <td>{item.equipment}</td>
-        <td className="badge badge-success">{item.status}</td>
+        {getStatusComponent(item.status)}
         <td className="moneyCell">{roundedPrice(item.price)}</td>
         <td className="moneyCell">{roundedPrice(item.price)}</td>
       </tr>

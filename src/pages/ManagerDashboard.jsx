@@ -11,7 +11,7 @@ import OrderCalendarDashboard from "../components/DashbordComponents/OrderCalend
 
 export default function ManagerDashboard() {
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
-
+  const [orderCalendarSelectDay, setOrderCalendarSelectDay] = useState(moment().format("YYYY-MM-DD"));
   return (
     <div>
       <div className="row">
@@ -35,7 +35,7 @@ export default function ManagerDashboard() {
       </div>
       <div className="row">
         <div className="col-lg-3 col-md-6 width-hun">
-          <OrderCalendarDashboard />
+          <OrderCalendarDashboard setOrderCalendarSelectDay={setOrderCalendarSelectDay} />
         </div>
       </div>
     </div>

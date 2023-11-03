@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getRentCompanies } from "../../Api/DashboardApi";
 import "./style.css";
+import { getStatusComponent } from "../../common/GenerateElementsData";
 
 export default function LesseeRentalZoneTableDashboard() {
   const [rentCompanies, setRentCompanies] = useState([]);
@@ -18,7 +19,7 @@ export default function LesseeRentalZoneTableDashboard() {
       <td>кухня1</td>
       <td>11.12</td>
       <td>200</td>
-      <td className="badge badge-success">Принято</td>
+      { getStatusComponent("Принято")}
     </tr>
   ));
   return (

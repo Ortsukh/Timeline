@@ -117,3 +117,29 @@ export default function generateCheckBox(
   });
   return result;
 }
+
+export const getStatusComponent = (status) => {
+  let result = "";
+  console.log(status);
+  switch (status) {
+    case "Принято":
+      result = <td className="badge badge-success">{status}</td>;
+      break;
+
+    case "Новый":
+      result = <td className="badge badge-info">{status}</td>;
+      break;
+
+    case "В работе":
+      result = <td className="badge badge-warning">{status}</td>;
+      break;
+
+    case "Отменен":
+      result = <td className="badge badge-danger">{status}</td>;
+      break;
+
+    default:
+      result = <td> </td>;
+  }
+  return result;
+};
