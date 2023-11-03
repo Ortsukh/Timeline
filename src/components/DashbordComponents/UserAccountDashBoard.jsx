@@ -6,6 +6,7 @@ export default function UserAccountDashBoard({ id, userInfo }) {
 
   useEffect(() => {
     getRentCompanies(id).then((response) => {
+      // eslint-disable-next-line
       const company = response.data.find((item) => item.company.id == id);
       setContract(company);
     });
@@ -15,6 +16,7 @@ export default function UserAccountDashBoard({ id, userInfo }) {
     <div className="info-box bg-success">
       <div className="info-box-content">
         <span className="info-box-text">Счет</span>
+        {/* eslint-disable-next-line */}
         <span className="info-box-number">{id ? contract ? contract.balance : " " : userInfo.balance}</span>
       </div>
     </div>

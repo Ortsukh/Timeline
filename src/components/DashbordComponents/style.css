@@ -205,3 +205,7 @@
     margin-left: 0 !important;
     margin-right: 0 !important;
 }
+
+.fc .fc-view-harness-active > .fc-view {
+    background-color: white;
+}

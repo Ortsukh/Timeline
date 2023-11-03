@@ -72,31 +72,9 @@ export default function TimelineOrders({ orderCalendarSelectDay }) {
   }));
   const eqGroups = generateGroup();
 
-  return !orderItems.length
+  return orderItems.length
     ? (
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-        height: "20vh",
-        // backgroundColor: "gray",
-        border: "1px solid gray",
-        borderRadius: "20px",
-      }}
-      >
-        <p style={{
-          fontSize: "24px", fontWeight: "400", color: "black", textAlign: "center",
-        }}
-        >
-          {"У вас нет заказов "}
-          <br />
-          {selectedDay.format("D MMMM YYYY")}
-        </p>
-      </div>
-    )
-    : (
-      <div className={style.containerTimeline}>
+      <div className={style.containerTimeline} style={{ border: "1px solid gray" }}>
         <div className="style">
           <Timeline
             className={style.tableTimeline}
@@ -131,7 +109,8 @@ export default function TimelineOrders({ orderCalendarSelectDay }) {
                     style={{
                       width: "150px",
                       backgroundColor: "white",
-                      border: "1px solid rgb(39, 128, 252)",
+                      border: "1px solid gray",
+                      fontWeight: 500,
                       cursor: "pointer",
                       display: "flex",
                       justifyContent: "center",
@@ -150,6 +129,28 @@ export default function TimelineOrders({ orderCalendarSelectDay }) {
           </Timeline>
         </div>
       </div>
-
+    )
+    : (
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        height: "20vh",
+        backgroundColor: "white",
+        border: "1px solid gray",
+        borderRadius: "5px",
+        marginTop: "20px",
+      }}
+      >
+        <p style={{
+          fontSize: "24px", fontWeight: "400", color: "black", textAlign: "center",
+        }}
+        >
+          {"У вас нет заказов "}
+          <br />
+          {selectedDay.format("D MMMM YYYY")}
+        </p>
+      </div>
     );
 }
