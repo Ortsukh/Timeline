@@ -5,31 +5,52 @@ import ManagerDashboard from "./pages/ManagerDashboard";
 import LesseeDashboard from "./pages/LesseeDashboard";
 
 function App() {
-  console.log(12312);
-  console.log(window.location.search);
+  // console.log(12312);
+  // console.log("window.location.search", window.location.search);
   const [route, setRoute] = useState("");
   const [lesseeId, setLesseeId] = useState("");
+  const [companyType, setCompanyType] = useState("");
+  // eslint-disable-next-line
+  const [companyId, setCompanyId] = useState("");
+  const [dashboardPage, setDashboardPage] = useState(null);
   useEffect(() => {
     const rout = window.location.search.substring(1).split("&").find((query) => query.startsWith("page"))?.split("=")[1];
     const lessee = window.location.search.substring(1).split("&").find((query) => query.startsWith("id"))?.split("=")[1];
-    console.log(rout);
+    const userType = window.FR?.currentCompanyType;
+    const userID = window.FR?.currentCompanyId;
+    const arrName = window.FR?.currentRouteName.split("_");
+    setCompanyType(userType);
+    setCompanyId(userID);
+    setDashboardPage(arrName.includes("dashboard"));
+    // console.log("rout", rout);
+    // console.log("lessee", lessee);
     setLesseeId(lessee);
     setRoute(rout);
-  }, [window.location.search]);
-
+  }, [window.location.search, window.FR]);
+  // console.log("companyType:", companyType);
+  // console.log("companyId:", companyId);
+  // console.log("window.FR:", window.FR);
   const getPage = () => {
-    let result = "";
-    switch (route) {
-      case "main_dashboard": result = <ManagerDashboard />;
-        break;
-      case "timeline": result = <TimelinePage />;
-        break;
-      case "lessee_dashboard": result = <LesseeDashboard lesseeId={lesseeId} />;
-        break;
-      default:
-        result = <ManagerDashboard />;
-    }
-    return result;
+    // let result = "";
+    console.log("companyType", companyType);
+    console.log("route", route);
+    console.log("dashboardPage", dashboardPage);
+    console.log("lesseeId", lesseeId);
+    if (route === "timeline") return <TimelinePage />;
+    if (companyType === "manager" && route !== "lessee_dashboard" && dashboardPage) return <ManagerDashboard />;
+    if (route === "lessee_dashboard" || companyType === "lessee") return <LesseeDashboard lesseeId={lesseeId || companyId} />;
+    return <ManagerDashboard />;
+    // switch (route) {
+    //   case "main_dashboard": result = <ManagerDashboard />;
+    //     break;
+    //   case "timeline": result = <TimelinePage />;
+    //     break;
+    //   case "lessee_dashboard": result = <LesseeDashboard lesseeId={lesseeId} />;
+    //     break;
+    //   default:
+    //     result = <ManagerDashboard />;
+    // }
+    // return result;
   };
 
   return (
