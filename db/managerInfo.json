@@ -1,0 +1,12 @@
+{
+  "success": true,
+  "data": {
+    "lesseeCompanies": 3,
+    "kitchens": 2,
+    "kitchensFree": 1,
+    "equipment": 6,
+    "equipmentFree": 5,
+    "marketPlaces": 3,
+    "name": "Франчайзи 001"
+  }
+}

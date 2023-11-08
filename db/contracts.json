@@ -1,0 +1,119 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": 2,
+      "balance": "50.00",
+      "reservedBalance": "1320.00",
+      "isCurrent": null,
+      "company": {
+        "id": 23,
+        "name": "компания",
+        "sysName": "some",
+        "type": "lessee",
+        "email": null,
+        "createdAt": {
+          "date": "2022-08-03 11:28:20.000000",
+          "timezone_type": 3,
+          "timezone": "Europe/Moscow"
+        },
+        "site": null,
+        "updatedAt": null,
+        "shortComment": null,
+        "contactFullName": null,
+        "contactPosition": null,
+        "contactPositionReason": null,
+        "contactPhones": null,
+        "contactEmail": null,
+        "lawName": null,
+        "lawAddress": null,
+        "address": null,
+        "unp": null,
+        "okpo": null,
+        "igrn": null,
+        "bankAccount": null,
+        "bankName": null,
+        "bankAddress": null,
+        "bankBik": null,
+        "bankKpp": null,
+        "bankKorAccount": null
+      }
+    },
+    {
+      "id": 3,
+      "balance": "50.00",
+      "reservedBalance": "0.00",
+      "isCurrent": null,
+      "company": {
+        "id": 25,
+        "name": "компания2",
+        "sysName": "33",
+        "type": "lessee",
+        "email": null,
+        "createdAt": {
+          "date": "2022-08-03 11:28:20.000000",
+          "timezone_type": 3,
+          "timezone": "Europe/Moscow"
+        },
+        "site": null,
+        "updatedAt": null,
+        "shortComment": null,
+        "contactFullName": null,
+        "contactPosition": null,
+        "contactPositionReason": null,
+        "contactPhones": null,
+        "contactEmail": null,
+        "lawName": null,
+        "lawAddress": null,
+        "address": null,
+        "unp": null,
+        "okpo": null,
+        "igrn": null,
+        "bankAccount": null,
+        "bankName": null,
+        "bankAddress": null,
+        "bankBik": null,
+        "bankKpp": null,
+        "bankKorAccount": null
+      }
+    },
+    {
+      "id": 5,
+      "balance": "50.00",
+      "reservedBalance": "0.00",
+      "isCurrent": false,
+      "company": {
+        "id": 3,
+        "name": "компания1",
+        "sysName": "",
+        "type": "lessee",
+        "email": null,
+        "createdAt": {
+          "date": "2022-08-03 11:28:20.000000",
+          "timezone_type": 3,
+          "timezone": "Europe/Moscow"
+        },
+        "site": null,
+        "updatedAt": null,
+        "shortComment": null,
+        "contactFullName": null,
+        "contactPosition": null,
+        "contactPositionReason": null,
+        "contactPhones": null,
+        "contactEmail": null,
+        "lawName": null,
+        "lawAddress": null,
+        "address": null,
+        "unp": null,
+        "okpo": null,
+        "igrn": null,
+        "bankAccount": null,
+        "bankName": null,
+        "bankAddress": null,
+        "bankBik": null,
+        "bankKpp": null,
+        "bankKorAccount": null
+      }
+    }
+  ]
+}
