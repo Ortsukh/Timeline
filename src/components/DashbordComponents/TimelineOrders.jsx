@@ -6,12 +6,11 @@ import Timeline, {
 } from "react-calendar-timeline";
 import moment from "moment";
 import "moment/locale/ru";
-import { getAllOrders } from "../../Api/API";
 import { createOrderGroup } from "../../common/DataConvertHelper";
 import "../style.css";
 import style from "../BookingMenuComponents/BookingDateColumn/BookingTimeline.module.css";
 
-export default function TimelineOrders({ orderCalendarSelectDay }) {
+export default function TimelineOrders({ orderCalendarSelectDay, allOrderData }) {
   const selectedDay = moment(orderCalendarSelectDay);
 
   const [visibleTimeStart, setVisibleTimeStart] = useState(selectedDay.startOf("day").valueOf());
@@ -22,11 +21,9 @@ export default function TimelineOrders({ orderCalendarSelectDay }) {
   const [groupsList, setGroupsList] = useState([]);
 
   useEffect(() => {
-    getAllOrders().then((response) => {
-      setOrderItems(createOrderGroup(response.data).filter((order) => (
-        order.date === moment(selectedDay).format("YYYY-MM-DD")
-      )));
-    });
+    setOrderItems(createOrderGroup(allOrderData).filter((order) => (
+      order.date === moment(selectedDay).format("YYYY-MM-DD")
+    )));
   }, [orderCalendarSelectDay]);
 
   const handleBoundsChange = (timeStart, timeEnd) => {

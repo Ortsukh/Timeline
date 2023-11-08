@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
-import { getUserInfo } from "../../Api/DashboardApi";
+import { getManagerInfo } from "../../Api/DashboardApi";
 import UserAccountDashBoard from "./UserAccountDashBoard";
 
 export default function ManagerInfoBox() {
   const [userInfo, setUserInfo] = useState({});
   const today = moment().format("DD MMM YYYY");
   useEffect(() => {
-    getUserInfo().then((response) => {
+    getManagerInfo().then((response) => {
       console.log(response);
       setUserInfo(response);
     });

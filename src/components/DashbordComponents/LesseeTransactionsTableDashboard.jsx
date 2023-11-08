@@ -1,17 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./style.css";
 import moment from "moment";
-import { getTransactions } from "../../Api/DashboardApi";
 
-export default function ManagerTransactionsTableDashboard({ id }) {
-  const [transactions, setTransactions] = useState([]);
-  console.log("transactions", transactions);
-  useEffect(() => {
-    getTransactions(id).then((response) => {
-      setTransactions(response.data);
-    });
-  }, []);
-
+export default function ManagerTransactionsTableDashboard({ transactions }) {
   const generateRentCompaniesItem = () => {
     const roundedPrice = (price) => {
       const numPrice = +price;

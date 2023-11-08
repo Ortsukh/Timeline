@@ -1,17 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { getRentZone } from "../../Api/DashboardApi";
+import React from "react";
 import "./style.css";
 import { getStatusComponent } from "../../common/GenerateElementsData";
 
-export default function LesseeRentalZoneTableDashboard() {
-  const [rentCompanies, setRentCompanies] = useState([]);
-  useEffect(() => {
-    getRentZone().then((response) => {
-      setRentCompanies(response.data);
-    });
-  }, []);
-
-  const generateRentCompaniesItem = () => rentCompanies.slice(0, 5).map((item, index) => (
+export default function LesseeRentalZoneTableDashboard({ rentZone }) {
+  const generateRentCompaniesItem = () => rentZone.slice(0, 5).map((item, index) => (
     <tr key={item.name + index.toString()}>
       <td>
         {item.id}

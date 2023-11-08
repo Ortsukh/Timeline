@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
-import { getUserInfo } from "../../Api/DashboardApi";
+import { getManagerInfo } from "../../Api/DashboardApi";
 
 export default function ManagerStatsDashboard({ profitItems }) {
   const calcAllProfit = () => {
@@ -10,7 +10,7 @@ export default function ManagerStatsDashboard({ profitItems }) {
   };
   const [userInfo, setUserInfo] = useState({});
   useEffect(() => {
-    getUserInfo().then((response) => {
+    getManagerInfo().then((response) => {
       setUserInfo(response);
     });
   }, []);

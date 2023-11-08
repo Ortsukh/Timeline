@@ -23,7 +23,7 @@ export const getProfitData = (start, end) => {
   });
 };
 
-export async function getRentCompanies() {
+export async function getLesseeCompanies() {
   // const str = "/admin/api/get_contracts";
   // const res = await fetch(str, {});
   // if (!res.ok) {
@@ -32,7 +32,7 @@ export async function getRentCompanies() {
   // return res.json();
   return testCompany;
 }
-export async function getUserInfo() {
+export async function getManagerInfo() {
   // const str = "/admin/api/get_manager_info";
   // const res = await fetch(str, {});
   // if (!res.ok) {

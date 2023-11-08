@@ -1,24 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import moment from "moment";
-import { getOrders } from "../../Api/DashboardApi";
 import "./style.css";
 import { getStatusComponent } from "../../common/GenerateElementsData";
 
-export default function LesseeLastOrdersTableDashboard({ id }) {
-  const [orders, setOrders] = useState([]);
-
-  useEffect(() => {
-    getOrders(id).then((response) => {
-      setOrders(response);
-    });
-  }, []);
-
+export default function LesseeLastOrdersTableDashboard({ ordersData }) {
   const generateRentCompaniesItem = () => {
     const roundedPrice = (price) => {
       const numPrice = +price;
       return numPrice.toFixed(2);
     };
-    const arrayOrders = orders.map((item) => (
+    const arrayOrders = ordersData.map((item) => (
       <tr key={item.id}>
         <td>{item.id}</td>
         <td>{moment(item.date).format("D MMM")}</td>

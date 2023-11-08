@@ -6,14 +6,14 @@ import timeGrid from "@fullcalendar/timegrid";
 import calenderList from "@fullcalendar/list";
 import multiMonthPlugin from "@fullcalendar/multimonth";
 import interaction from "@fullcalendar/interaction";
-import { getAllOrdersDashboard } from "../../Api/DashboardApi";
 import { createOrderGroup } from "../../common/DataConvertHelper";
 
-export default function OrderCalendarDashboard({ setOrderCalendarSelectDay }) {
+export default function OrderCalendarDashboard({ setOrderCalendarSelectDay, allOrderData }) {
   const [orders, setOrders] = useState([]);
   const [randomCategoryColors, setRandomCategoryColors] = useState({});
   const categoryColors = {};
   const calendarRef = useRef();
+
   const groupByDay = (data) => {
     const groupingByDay = {};
     data.forEach((item) => {
@@ -34,8 +34,6 @@ export default function OrderCalendarDashboard({ setOrderCalendarSelectDay }) {
         }
         if (!gropingByCategory[date][item.categoryId]) {
           gropingByCategory[date][item.categoryId] = [item];
-        } else {
-          gropingByCategory[date][item.categoryId].push(item);
         }
       });
     });
@@ -43,11 +41,9 @@ export default function OrderCalendarDashboard({ setOrderCalendarSelectDay }) {
   };
 
   useEffect(() => {
-    getAllOrdersDashboard().then((response) => {
-      const formattedOrders = groupByCategory(groupByDay(createOrderGroup(response.data)));
-      setRandomCategoryColors(categoryColors);
-      setOrders(formattedOrders);
-    });
+    const formattedOrders = groupByCategory(groupByDay(createOrderGroup(allOrderData)));
+    setRandomCategoryColors(categoryColors);
+    setOrders(formattedOrders);
   }, []);
 
   const onClickCell = (e) => {
@@ -87,22 +83,20 @@ export default function OrderCalendarDashboard({ setOrderCalendarSelectDay }) {
     );
   };
   const generateEvents = (data) => {
-    const event = [];
+    const events = [];
     Object.keys(data).forEach((date) => {
       Object.keys(data[date]).forEach((items) => {
         data[date][items].forEach((item) => {
-          event.push(
-            {
-              start: `${date}T${`${item.grid.indexOf("1")}:00`}`,
-              end: `${date}T${`${item.grid.lastIndexOf("1")}:00`}`,
-              data: item,
-              backgroundColor: item.categoryId,
-            },
-          );
+          const { categoryId } = item;
+          events.push({
+            start: `${date}`,
+            end: `${date}`,
+            backgroundColor: categoryId,
+          });
         });
       });
     });
-    return event;
+    return events;
   };
 
   return (
@@ -112,11 +106,9 @@ export default function OrderCalendarDashboard({ setOrderCalendarSelectDay }) {
         dayMaxEventColumn
         dayClick={(date, jsEvent, view) => console.log(date, jsEvent, view)}
         unselectAuto={false}
-      // datesSet={(e) => handleChangeMonth(e)}
         height={550}
         contentHeight={400}
         fixedWeekCount={false}
-      // ref={calendarRef}
         eventOverlap={false}
         plugins={[dayGridPlugin, interaction, timeGrid, calenderList, multiMonthPlugin]}
         initialView="dayGridMonth"

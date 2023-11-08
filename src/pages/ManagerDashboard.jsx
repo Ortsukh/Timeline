@@ -9,17 +9,31 @@ import ManagerTransactionsTableDashboard from "../components/DashbordComponents/
 import OrderCalendarDashboard from "../components/DashbordComponents/OrderCalendarDashboard";
 import TimelineOrders from "../components/DashbordComponents/TimelineOrders";
 import ManagerLastOrdersTableDashboard from "../components/DashbordComponents/ManagerLastOrdersTableDashboard";
+import useBuildManagerData from "../hooks/useBuildManagerData";
+import Spinner from "../components/Spinner/Spinner";
 
 export default function ManagerDashboard() {
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
   const [orderCalendarSelectDay, setOrderCalendarSelectDay] = useState(moment().format("YYYY-MM-DD"));
   const [profitItems, setProfitItems] = useState([]);
+  const {
+    orderData,
+    managerInfoData,
+    allOrderData,
+    lesseeCompanies,
+    transactions,
+    updatedEquipment,
+    loading,
+  } = useBuildManagerData();
+  console.log(loading);
 
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <div>
       <div className="row">
         <div className="col-lg-3 col-md-4">
-          <ManagerInfoBox />
+          <ManagerInfoBox managerInfoData={managerInfoData} />
         </div>
         <div className="col-lg-6 col-md-8 dash-chart-first">
           <ProfitByTimeChart
@@ -30,26 +44,29 @@ export default function ManagerDashboard() {
           />
           <ManagerStatsDashboard selectedTime={selectedTime} profitItems={profitItems} />
         </div>
-
       </div>
       <div className="row" style={{ margin: "10px 0 20px" }}>
         <div className="col-lg-3 col-md-6 width-hun">
-          <OrderCalendarDashboard setOrderCalendarSelectDay={setOrderCalendarSelectDay} />
+          <OrderCalendarDashboard
+            setOrderCalendarSelectDay={setOrderCalendarSelectDay}
+            allOrderData={allOrderData}
+          />
         </div>
         <div className="col-lg-3 col-md-6 width-hun">
           <TimelineOrders
+            allOrderData={allOrderData}
             orderCalendarSelectDay={orderCalendarSelectDay}
             key={orderCalendarSelectDay}
           />
         </div>
       </div>
       <div className="row">
-        <div className="col-lg-3  col-md-6 width-hun"><ManagerLastOrdersTableDashboard /></div>
-        <div className="col-lg-3  col-md-6 width-fif"><RepairKitchenTableDashboard /></div>
+        <div className="col-lg-3  col-md-6 width-hun"><ManagerLastOrdersTableDashboard orderData={orderData} /></div>
+        <div className="col-lg-3  col-md-6 width-fif"><RepairKitchenTableDashboard updatedEquipment={updatedEquipment} /></div>
       </div>
       <div className="row">
-        <div className="col-lg-3  col-md-6 width-fif"><LesseeTableDashboard /></div>
-        <div className="col-lg-3  col-md-6 width-hun"><ManagerTransactionsTableDashboard /></div>
+        <div className="col-lg-3  col-md-6 width-fif"><LesseeTableDashboard lesseeCompanies={lesseeCompanies} /></div>
+        <div className="col-lg-3  col-md-6 width-hun"><ManagerTransactionsTableDashboard transactions={transactions} /></div>
       </div>
 
     </div>

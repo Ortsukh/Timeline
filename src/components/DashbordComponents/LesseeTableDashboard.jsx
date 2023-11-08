@@ -1,21 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { getRentCompanies } from "../../Api/DashboardApi";
+import React from "react";
 import "./style.css";
 
-export default function LesseeTableDashboard() {
-  const [rentCompanies, setRentCompanies] = useState([]);
-  useEffect(() => {
-    getRentCompanies().then((response) => {
-      setRentCompanies(response.data);
-    });
-  }, []);
-
+export default function LesseeTableDashboard({ lesseeCompanies }) {
   const handleLinkToLessee = (id) => {
     const { origin } = window.location;
     const { pathname } = window.location;
     window.location.replace(`${origin}${pathname}?page=lessee_dashboard&id=${id}`);
   };
-  const generateRentCompaniesItem = () => rentCompanies.slice(0, 5).map((item, index) => (
+  const generateRentCompaniesItem = () => lesseeCompanies.slice(0, 5).map((item, index) => (
     <tr key={item.name + index.toString()}>
       <td className="lesseeCell" onClick={() => handleLinkToLessee(item.company.id)}>
         {item.company.name

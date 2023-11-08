@@ -1,18 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { getRepairingEquipments } from "../../Api/DashboardApi";
+import React from "react";
 import "./style.css";
 import { getStatusComponent } from "../../common/GenerateElementsData";
 
-export default function RepairKitchenTableDashboard() {
-  const [rentCompanies, setRentCompanies] = useState([]);
-  useEffect(() => {
-    getRepairingEquipments().then((response) => {
-      console.log(response);
-      setRentCompanies(response.data);
-    });
-  }, []);
-
-  const generateRentCompaniesItem = () => rentCompanies.slice(0, 5).map((item) => (
+export default function RepairKitchenTableDashboard({ updatedEquipment }) {
+  const generateRentCompaniesItem = () => updatedEquipment.slice(0, 5).map((item) => (
     <tr key={item.name}>
       <td>{item.name}</td>
       <td>{item.name}</td>

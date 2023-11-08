@@ -1,6 +1,6 @@
 import useFetch from "./useFetch";
 
-export default function useBuildManagerLesseeData(id) {
+export default function useBuildLesseeData(id) {
   let loading = false;
   const backendUrl = "/admin/manager/";
 
@@ -19,11 +19,15 @@ export default function useBuildManagerLesseeData(id) {
   const { data: rentZone, loading: rentZoneLoading } = useFetch(
     `${backendUrl}get_current_kitchens/${id}`,
   );
+  const { data: allOrderData, loading: allOrderDataLoading } = useFetch(
+    `${backendUrl}get_equipment_items/${id}`,
+  );
 
   if (orderLoading
       || lesseeInfoDataLoading
       || rentZoneLoading
       || transactionsLoading
+      || allOrderDataLoading
   ) {
     loading = true;
   }
@@ -32,6 +36,7 @@ export default function useBuildManagerLesseeData(id) {
     rentZone,
     lesseeInfoData,
     transactions,
+    allOrderData,
     loading,
   };
 }

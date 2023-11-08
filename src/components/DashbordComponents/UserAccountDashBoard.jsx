@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { getRentCompanies } from "../../Api/DashboardApi";
 
-export default function UserAccountDashBoard({ id, userInfo }) {
+export default function UserAccountDashBoard({ id, userInfo, lesseeCompanies }) {
   const [contract, setContract] = useState({});
 
   useEffect(() => {
-    getRentCompanies(id).then((response) => {
-      // eslint-disable-next-line
-      const company = response.data.find((item) => item.company.id == id);
-      setContract(company);
-    });
+    // eslint-disable-next-line
+    if(!lesseeCompanies) return
+    const company = lesseeCompanies.find((item) => item.company.id.toString() === id);
+    setContract(company);
   }, []);
-  console.log(contract);
   return (
     <div className="info-box bg-success">
       <div className="info-box-content">
         <span className="info-box-text">Счет</span>
-        {/* eslint-disable-next-line */}
+        {/* eslint-disable-next-line no-nested-ternary */}
         <span className="info-box-number">{id ? contract ? contract.balance : " " : userInfo.balance}</span>
       </div>
     </div>
