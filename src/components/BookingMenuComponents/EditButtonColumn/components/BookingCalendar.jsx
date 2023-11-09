@@ -477,7 +477,7 @@ export default function BookingCalendar({
             eventBackgroundColor="transparent"
           />
         </RectangleSelection>
-        <Tooltip anchorSelect=".fc-clue-button" openOnClick place="right">
+        <Tooltip anchorSelect=".fc-tooltip-button" openOnClick place="right">
           {generateClue("BOOKING_CALENDAR")}
         </Tooltip>
       </div>

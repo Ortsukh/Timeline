@@ -7,10 +7,12 @@ import LesseeTransactionsTableDashboard from "../components/DashbordComponents/L
 import LesseeLastOrdersTableDashboard from "../components/DashbordComponents/LesseeLastOrdersTableDashboard";
 import LesseeStatsDashboard from "../components/DashbordComponents/LesseeStatsDashboard";
 import BackButton from "../components/Button/BackButton";
-import useBuildManagerLesseeData from "../hooks/useBuildManagerLesseeData";
+import useBuildLesseeData from "../hooks/useBuildLesseeData";
 import Spinner from "../components/Spinner/Spinner";
+import OrderCalendarDashboard from "../components/DashbordComponents/OrderCalendarDashboard";
+import TimelineOrders from "../components/DashbordComponents/TimelineOrders";
 
-export default function LesseeDashboard({ lesseeId }) {
+export default function LesseeDashboard({ lesseeId, isMainLessee }) {
   if (!lesseeId) return;
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
   // eslint-disable-next-line
@@ -22,8 +24,9 @@ export default function LesseeDashboard({ lesseeId }) {
     lesseeInfoData,
     transactions,
     lesseeCompanies,
+    allOrderData,
     loading,
-  } = useBuildManagerLesseeData(lesseeId);
+  } = useBuildLesseeData(lesseeId, isMainLessee);
 
   // eslint-disable-next-line consistent-return
   return loading ? (
@@ -49,7 +52,23 @@ export default function LesseeDashboard({ lesseeId }) {
           />
           <LesseeStatsDashboard selectedTime={selectedTime} profitItems={profitItems} />
         </div>
-
+        { isMainLessee || (
+        <div className="row" style={{ margin: "10px 0 20px" }}>
+          <div className="col-lg-3 col-md-6 width-hun">
+            <OrderCalendarDashboard
+              setOrderCalendarSelectDay={setOrderCalendarSelectDay}
+              allOrderData={allOrderData}
+            />
+          </div>
+          <div className="col-lg-3 col-md-6 width-hun">
+            <TimelineOrders
+              allOrderData={allOrderData}
+              orderCalendarSelectDay={orderCalendarSelectDay}
+              key={orderCalendarSelectDay}
+            />
+          </div>
+        </div>
+        )}
       </div>
       <div className="row">
         <div className="col-lg-3 col-md-6 width-fif"><LesseeLastOrdersTableDashboard id={lesseeId} ordersData={ordersData} /></div>

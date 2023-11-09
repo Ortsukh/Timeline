@@ -4,6 +4,9 @@ import FiltersForOrder from "./components/FiltersForOrder";
 import style from "./EditButtonColumn.module.css";
 import BookingCalendar from "./components/BookingCalendar";
 import buttonTitleConstants from "../../../constants/buttonTitleConstants";
+import ToolsFilter from "../../FilterComponents/ToolsFilter";
+import CompaniesSelect from "../../FilterComponents/CompaniesSelect";
+import BackButton from "../../Button/BackButton";
 
 export default function EditButtonColumn({
   setIsBookingMenu,
@@ -34,7 +37,8 @@ export default function EditButtonColumn({
   user,
   deactivatedCell,
   addAnotherDay,
-  selectedConflictDate,
+  selectedConflictDate, isFromDashboard,
+  filterProps,
 }) {
   const [isShowConflictNotification, setIsShowConflictNotification] = useState("");
   const back = `< ${buttonTitleConstants.BACK}`;
@@ -91,51 +95,88 @@ export default function EditButtonColumn({
   return (
     <div>
       <div className={style.backButtonBlock}>
-        <button type="button" className={style.backButton} onClick={createBook}>
-          {back}
-        </button>
+        {isFromDashboard ? <BackButton /> : (
+          <button type="button" className={style.backButton} onClick={createBook}>
+            {back}
+          </button>
+        )}
         <div className="category-count-box">
-          <div className="choose-category">
-            <span>
-              {" "}
-              Выбранная категория:
-              {" "}
-              <span className="choose-category_item">
-                {selectedGroups}
-              </span>
-              {" "}
-            </span>
-          </div>
-          <div className="choose-category">
-            <span>
-              {" "}
-              Компания:
-              {" "}
-              <span className="choose-category_item">
-                {selectedCompany.name}
-              </span>
-              {" "}
-            </span>
-          </div>
+          { isFromDashboard
+            ? (
+              <div className="sort-box_item">
+                <ToolsFilter
+                  toolNames={filterProps.mapToolsNames()}
+                  onInputChange={filterProps.handleInputChange}
+                  clearFilter={() => {}}
+                  isClickingOnEmptyFilter={filterProps.isClickingOnEmptyFilter}
+                  setIsClickingOnEmptyFilter={filterProps.setIsClickingOnEmptyFilter}
+                  showButtonClear={filterProps.showButtonClear}
+                  isFromDashboard={isFromDashboard}
+                />
+              </div>
+            )
+            : (
+              <div className="choose-category">
+                <span>
+                  {" "}
+                  Выбранная категория:
+                  {" "}
+                  <span className="choose-category_item">
+                    {selectedGroups}
+                  </span>
+                  {" "}
+                </span>
+              </div>
+            )}
+          {isFromDashboard && user.role === "ROLE_MANAGER" ? (
+            <div className="sort-box_item">
+              <CompaniesSelect
+                selectedCompany={selectedCompany}
+                companies={filterProps.companies}
+                setSelectedCompany={filterProps.setSelectedCompany}
+                isClickedOnNew={filterProps.isClickedOnNew}
+                isFromDashboard={isFromDashboard}
+              />
+            </div>
+
+          )
+            : (
+              <div className="choose-category">
+
+                <span>
+                  {" "}
+                  Компания:
+                  {" "}
+                  <span className="choose-category_item">
+                    {selectedCompany ? selectedCompany.name : "name"}
+                  </span>
+                  {" "}
+                </span>
+
+              </div>
+            )}
         </div>
       </div>
       <div className={style.filterContainer}>
         <div className="selects-block" style={{ maxWidth: 510 }}>
-          <FiltersForOrder
-            baseOrder={baseOrder}
-            setBaseOrder={setBaseOrder}
-            isActiveCalendar={isActiveCalendar}
-            currentDevice={currentDevice}
-          />
+          {currentDevice
+            ? (
+              <FiltersForOrder
+                baseOrder={baseOrder}
+                setBaseOrder={setBaseOrder}
+                isActiveCalendar={isActiveCalendar}
+                currentDevice={currentDevice}
+              />
+            ) : null}
         </div>
         <div className="select-count-box price-count">
           <span className="price-item">
-            {`Цена за смену: ${+currentDevice.price}р`}
+            {`Цена за смену: ${currentDevice ? +currentDevice.price : 0}р`}
           </span>
           <span className={style.fullPrice}>
             {"Общая стоимость: "}
             <b>
-              {(baseOrder.preOrders.length) * currentDevice.price}
+              {(baseOrder.preOrders.length) * (currentDevice ? +currentDevice.price : 0)}
             </b>
             р
           </span>
@@ -164,19 +205,21 @@ export default function EditButtonColumn({
         </div>
       </div>
       )}
-
-      <BookingCalendar
-        items={items}
-        selectedDates={selectedDates}
-        currentDevice={currentDevice}
-        handleSetSelectedConflictDate={handleSetSelectedConflictDate}
-        setSelectedDates={setSelectedDates}
-        calendarEvent={calendarEvent}
-        isActiveCalendar={isActiveCalendar}
-        deactivatedCell={deactivatedCell}
-        addAnotherDay={addAnotherDay}
-        selectedConflictDate={selectedConflictDate}
-      />
+      {currentDevice
+        ? (
+          <BookingCalendar
+            items={items}
+            selectedDates={selectedDates}
+            currentDevice={currentDevice}
+            handleSetSelectedConflictDate={handleSetSelectedConflictDate}
+            setSelectedDates={setSelectedDates}
+            calendarEvent={calendarEvent}
+            isActiveCalendar={isActiveCalendar}
+            deactivatedCell={deactivatedCell}
+            addAnotherDay={addAnotherDay}
+            selectedConflictDate={selectedConflictDate}
+          />
+        ) : null}
       <div>
         {isShowConflictNotification && notification()}
         <div className={style.btnCont}>
@@ -185,6 +228,10 @@ export default function EditButtonColumn({
               type="button"
               className={style.reserveBtn}
               onClick={() => {
+                if (!selectedCompany) {
+                  showNotification("company");
+                  return;
+                }
                 if (selectedDates.length < 1) {
                   return;
                 }
@@ -192,6 +239,7 @@ export default function EditButtonColumn({
                   showNotification("shift");
                   return;
                 }
+
                 generateCalendarEvents();
                 setShowStartDisplayConflict(false);
               }}
@@ -252,6 +300,7 @@ export default function EditButtonColumn({
                           showNotification("conflicts");
                           return;
                         }
+
                         setIsConfirmWindowOpen("accepted");
                       }}
                     >
@@ -271,6 +320,7 @@ export default function EditButtonColumn({
                           showNotification("conflicts");
                           return;
                         }
+
                         // sendNewOrder();
                         setIsConfirmWindowOpen("pending");
                       }}

@@ -1,15 +1,21 @@
 import useFetch from "./useFetch";
 
-export default function useBuildLesseeData(id) {
+export default function useBuildLesseeData(id, isMainLessee) {
   let loading = false;
-  const backendUrl = "/admin/manager/";
+  const backendUrl = " http://localhost:3001/admin/manager/";
 
-  const { data: orderData, loading: orderLoading } = useFetch(
+  // const backendUrl = "/admin/manager/";
+
+  const { data: ordersData, loading: orderLoading } = useFetch(
     `${backendUrl}get_orders/${id}`,
   );
 
   const { data: lesseeInfoData, loading: lesseeInfoDataLoading } = useFetch(
     `${backendUrl}get_lessee_info/${id}`,
+  );
+
+  const { data: lesseeCompanies, loading: lesseeCompaniesLoading } = useFetch(
+    `${backendUrl}get_contracts`,
   );
 
   const { data: transactions, loading: transactionsLoading } = useFetch(
@@ -19,24 +25,26 @@ export default function useBuildLesseeData(id) {
   const { data: rentZone, loading: rentZoneLoading } = useFetch(
     `${backendUrl}get_current_kitchens/${id}`,
   );
-  const { data: allOrderData, loading: allOrderDataLoading } = useFetch(
+  const { data: allOrderData, loading: allOrderDataLoading } = isMainLessee ? useFetch(
     `${backendUrl}get_equipment_items/${id}`,
-  );
+  ) : { data: null, loading: null };
 
   if (orderLoading
       || lesseeInfoDataLoading
       || rentZoneLoading
       || transactionsLoading
+      || lesseeCompaniesLoading
       || allOrderDataLoading
   ) {
     loading = true;
   }
   return {
-    orderData,
+    lesseeCompanies,
+    ordersData,
     rentZone,
     lesseeInfoData,
     transactions,
-    allOrderData,
     loading,
+    allOrderData,
   };
 }

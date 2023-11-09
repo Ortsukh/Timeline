@@ -10,7 +10,8 @@ export default function ToolsFilter({
   isClickingOnEmptyFilter,
   setIsClickingOnEmptyFilter,
   showButtonClear,
-  setCurrentDeviceIndex,
+  isFromDashboard,
+
   isActiveCalendar = true,
 }) {
   const [selectValue, setSelectValue] = useState(null);
@@ -26,7 +27,6 @@ export default function ToolsFilter({
   const changeSearch = (e) => {
     setSelectValue(e);
     onInputChange(e.value);
-    setCurrentDeviceIndex(0);
   };
 
   const formatOptionLabel = ({ label }) => {
@@ -64,7 +64,7 @@ export default function ToolsFilter({
       {!selectValue && isClickingOnEmptyFilter && (
         <div className="tooltip">Пожалуйста, выберите группу</div>
       )}
-      {showButtonClear && (
+      {showButtonClear && !isFromDashboard && (
         <button type="button" className="clear-button" onClick={handleReset}>
           Очистить
         </button>

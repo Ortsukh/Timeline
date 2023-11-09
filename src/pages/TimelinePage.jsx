@@ -301,7 +301,6 @@ export default function TimelinePage() {
                   isClickingOnEmptyFilter={isClickingOnEmptyFilter}
                   setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
                   showButtonClear={showButtonClear}
-                  setCurrentDeviceIndex={() => {}}
                 />
               </div>
               <div className="sort-box_item">

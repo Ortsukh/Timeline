@@ -7,20 +7,34 @@ export default function TimeShift({
   currentDevice, setBaseOrder, isActiveCalendar, baseOrder,
 }) {
   // console.log(currentDevice.workTime.shiftTimes);
-  const startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
-  const endWorkDay = Number(currentDevice.workTime.shiftTimes.end.split(":")[0]);
-  // console.log(startWorkDay, endWorkDay);
+  let startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
+  let endWorkDay = Number(currentDevice.workTime.shiftTimes.end.split(":")[0]);
+
   const [value, setValue] = useState([
     {
       value: startWorkDay,
-      label: `${startWorkDay} - ${+currentDevice.shiftLength}`,
+      label: `${startWorkDay} - ${startWorkDay + currentDevice.shiftLength}`,
     }]);
+
+  useEffect(() => {
+    startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
+    endWorkDay = Number(currentDevice.workTime.shiftTimes.end.split(":")[0]);
+    setValue([
+      {
+        value: startWorkDay,
+        label: `${startWorkDay} - ${startWorkDay + currentDevice.shiftLength}`,
+      }]);
+  }, [currentDevice]);
+
+  // console.log(startWorkDay, endWorkDay);
 
   const generateShiftTime = (shift) => {
     const options = [];
     for (let i = startWorkDay; i < endWorkDay; i += shift) {
-      options.push({ value: i, label: `${i} - ${i + shift}` });
+      console.log(`${i} - ${i + shift}`);
+      options.push({ value: i, label: `${i} - ${i + shift > 24 ? 24 : i + shift}` });
     }
+    console.log(options);
     return options;
   };
 

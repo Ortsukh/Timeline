@@ -35,9 +35,19 @@ export default function BookingMenu({
   setIsEquipmentInfoWindowOpen,
   isOpenOverlay,
   setIsOpenOverlay,
+  isFromDashboard,
+  filterProps,
 }) {
-  const startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
-  const [baseOrder, setBaseOrder] = useState({ shiftTime: [{ value: startWorkDay, label: `${startWorkDay} - ${startWorkDay + currentDevice.shiftLength}` }], preOrders: [], equipment: {} });
+  console.log(currentDevice);
+  const startWorkDay = currentDevice?.workTime ? Number(currentDevice.workTime.shiftTimes.start.split(":")[0]) : 0;
+  const [baseOrder, setBaseOrder] = useState(
+    {
+      shiftTime:
+            [{ value: startWorkDay, label: `${startWorkDay} - ${currentDevice ? startWorkDay + currentDevice.shiftLength : 24}` }],
+      preOrders: [],
+      equipment: {},
+    },
+  );
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
   const [selectedConflictDate, setSelectedConflictDate] = useState(null);
   const [keyRerenderConflictResolutionWindow, setKeyRerenderConflictResolutionWindow] = useState(0);
@@ -251,7 +261,6 @@ export default function BookingMenu({
       const dayGrids = groupByDateItems(
         filteredItemsByDate.filter((item) => item.group === group.id),
       );
-      console.log(dayGrids);
       Object.keys(dayGrids).forEach((day) => {
         if (!commonMap[day]) {
           commonMap[day] = dayGrids[day];
@@ -456,6 +465,7 @@ export default function BookingMenu({
       <div className={style.container}>
         <div className={style.editButtonColumn}>
           <EditButtonColumn
+            isFromDashboard={isFromDashboard}
             setIsBookingMenu={setIsBookingMenu}
             isEditMode={isEditMode}
             setIsEditMode={setIsEditMode}
@@ -485,6 +495,7 @@ export default function BookingMenu({
             deactivatedCell={deactivatedCell}
             addAnotherDay={addAnotherDay}
             selectedConflictDate={selectedConflictDate}
+            filterProps={filterProps}
           />
         </div>
 

@@ -7,6 +7,7 @@ export default function CompaniesSelect({
   companies,
   setSelectedCompany,
   isClickedOnNew,
+  isFromDashboard,
 }) {
   const [selectValue, setSelectValue] = useState(null);
   const handleChange = (e) => {
@@ -48,9 +49,12 @@ export default function CompaniesSelect({
       {!selectedCompany && isClickedOnNew && (
         <div className="tooltip">Пожалуйста, выберите компанию</div>
       )}
+      {!isFromDashboard && (
       <button type="button" className="clear-button" onClick={handleReset}>
         Отчистить
       </button>
+      ) }
+
     </div>
   );
 }

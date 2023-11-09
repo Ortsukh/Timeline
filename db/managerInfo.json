@@ -1,11 +1,13 @@
 {
   "success": true,
   "data": {
-    "lesseeCompanies": 3,
+    "balance": "2450.00",
+    "reservedBalance": "440.00",
+    "lesseeCompanies": 4,
     "kitchens": 2,
-    "kitchensFree": 1,
-    "equipment": 6,
-    "equipmentFree": 5,
+    "kitchensFree": 0,
+    "equipment": 12,
+    "equipmentFree": 0,
     "marketPlaces": 3,
     "name": "Франчайзи 001"
   }

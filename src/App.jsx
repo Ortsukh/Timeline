@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import TimelinePage from "./pages/TimelinePage";
 import ManagerDashboard from "./pages/ManagerDashboard";
 import LesseeDashboard from "./pages/LesseeDashboard";
+import BookingPage from "./pages/BookingPage";
 
 function App() {
   // console.log(12312);
@@ -37,8 +38,16 @@ function App() {
     console.log("dashboardPage", dashboardPage);
     console.log("lesseeId", lesseeId);
     if (route === "timeline") return <TimelinePage />;
+    if (route === "booking_menu") return <BookingPage />;
     if (companyType === "manager" && route !== "lessee_dashboard" && dashboardPage) return <ManagerDashboard />;
-    if (route === "lessee_dashboard" || companyType === "lessee") return <LesseeDashboard lesseeId={lesseeId || companyId} />;
+    if (route === "lessee_dashboard" || companyType === "lessee") {
+      return (
+        <LesseeDashboard
+          lesseeId={lesseeId || companyId}
+          isMainUser={companyType === "lessee"}
+        />
+      );
+    }
     return <ManagerDashboard />;
     // switch (route) {
     //   case "main_dashboard": result = <ManagerDashboard />;
