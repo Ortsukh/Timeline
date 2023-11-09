@@ -1,44 +1,30 @@
 import React from "react";
-import "./style.css";
+import TableComponent from "./Table/TableComponent";
 
 export default function LesseeTableDashboard({ lesseeCompanies }) {
-  const handleLinkToLessee = (id) => {
-    const { origin } = window.location;
-    const { pathname } = window.location;
-    window.location.replace(`${origin}${pathname}?page=lessee_dashboard&id=${id}`);
-  };
-  const generateRentCompaniesItem = () => lesseeCompanies.slice(0, 5).map((item, index) => (
-    <tr key={item.name + index.toString()}>
-      <td className="lesseeCell" onClick={() => handleLinkToLessee(item.company.id)}>
-        {item.company.name
-        || "Компания"}
-      </td>
-      <td>{item.company.contactPerson || "Олег"}</td>
-      <td className="moneyCell" style={{ color: item.balance <= 0 ? "red" : "black" }}>
-        {item.balance}
-      </td>
-      <td className="moneyCell">{item.reservedBalance}</td>
-    </tr>
-  ));
+  const headerRentCompanies = [
+    { value: "Название", style: {} },
+    { value: "Контактное лицо", style: {} },
+    { value: "Баланс", style: {} },
+    { value: "Забронировано", style: {} },
+  ];
+
+  const rowsRentCompanies = lesseeCompanies.map((el) => {
+    const cells = [
+      { value: el.company.name || "Компания", class: "lesseeCell", idCompany: el.company.id },
+      { value: el.company.contactPerson || "Неизвестно", class: "" },
+      { value: el.balance > 0 ? el.balance : "0.00", class: "moneyCell", style: { color: el.balance <= 0 ? "red" : "black" } },
+      { value: el.reservedBalance > 0 ? el.reservedBalance : "0.00", class: "moneyCell" },
+    ];
+    return { key: el.company.id, date: cells };
+  });
+
   return (
-    <div className="containerChart">
-      <h4 className="title-table">Арендаторы</h4>
-      <table className="table table-bordered">
-        <thead className="thead-light">
-          <tr>
-            <th>Название</th>
-            <th>Контактное лицо</th>
-            <th>Баланс</th>
-            <th>Забронировано</th>
-          </tr>
-        </thead>
-        <tbody>
-          {generateRentCompaniesItem()}
-        </tbody>
-      </table>
-      {/* <a rel="stylesheet" href="#s"> */}
-      {/*  Посмотеть всех арендаторов */}
-      {/* </a> */}
-    </div>
+    <TableComponent
+      title="Обновление статуса оборудования"
+      headers={headerRentCompanies}
+      rows={rowsRentCompanies}
+      isBtnTimeline={false}
+    />
   );
 }

@@ -201,6 +201,10 @@
     text-align: right;
 }
 
+.centerCell {
+    text-align: center;
+}
+
 .fc-direction-ltr .fc-daygrid-event.fc-event-end, .fc-direction-rtl .fc-daygrid-event.fc-event-start{
     margin-left: 0 !important;
     margin-right: 0 !important;

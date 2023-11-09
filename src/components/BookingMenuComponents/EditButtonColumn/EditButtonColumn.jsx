@@ -37,7 +37,7 @@ export default function EditButtonColumn({
   selectedConflictDate,
 }) {
   const [isShowConflictNotification, setIsShowConflictNotification] = useState("");
-  const back = `< ${buttonTitleConstants.BACK}`;
+  const back = buttonTitleConstants.BACK;
 
   const showNotification = (type) => {
     setIsShowConflictNotification(type);

@@ -1,41 +1,38 @@
 import React from "react";
-import "./style.css";
-import { getStatusComponent } from "../../common/GenerateElementsData";
+import moment from "moment";
+import { getClassStatus } from "../../common/GenerateElementsData";
+import TableComponent from "./Table/TableComponent";
 
 export default function LesseeRentalZoneTableDashboard({ rentZone }) {
-  const generateRentCompaniesItem = () => rentZone.slice(0, 5).map((item, index) => (
-    <tr key={item.name + index.toString()}>
-      <td>
-        {item.id}
-      </td>
-      <td>{item.contract.marketPlace.kitchensEquipment.name}</td>
-      <td>{item.createdAt.date.split(" ")[0]}</td>
-      <td>
-        {item.totalSum}
-      </td>
-      { getStatusComponent(item.status)}
-    </tr>
-  ));
+  const headerRentZone = [
+    { value: "№", style: {} },
+    { value: "Название", style: {} },
+    { value: "Дата", style: {} },
+    { value: "Стоимость", style: {} },
+    { value: "Статус", style: {} },
+  ];
+
+  const rowsRentZone = rentZone.map((zone) => {
+    const roundedPrice = (price) => {
+      const numPrice = +price;
+      return numPrice.toFixed(2);
+    };
+    const cells = [
+      { value: zone.id, class: "centerCell" },
+      { value: zone.contract.marketPlace.kitchensEquipment[0].name, class: "" }, // TODO посмотреть почему kitchensEquipment - массив
+      { value: moment(zone.createdAt.date).format("D MMM"), class: "centerCell" },
+      { value: roundedPrice(zone.totalSum), class: "moneyCell" },
+      { value: zone.status, class: getClassStatus(zone.status) },
+    ];
+    return { key: zone.id, date: cells };
+  });
+
   return (
-    <div className="containerChart">
-      <h4 className="title-table">Арендованные зоны</h4>
-      <table className="table table-bordered">
-        <thead className="thead-light">
-          <tr>
-            <th>№</th>
-            <th>Название</th>
-            <th>Дата</th>
-            <th>Стоимость</th>
-            <th>Статус</th>
-          </tr>
-        </thead>
-        <tbody>
-          {generateRentCompaniesItem()}
-        </tbody>
-      </table>
-      {/* <a rel="stylesheet" href="#s"> */}
-      {/*  Посмотеть всех арендаторов */}
-      {/* </a> */}
-    </div>
+    <TableComponent
+      title="Арендованные зоны"
+      headers={headerRentZone}
+      rows={rowsRentZone}
+      isBtnTimeline={false}
+    />
   );
 }
