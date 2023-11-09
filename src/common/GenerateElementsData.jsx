@@ -118,7 +118,7 @@ export default function generateCheckBox(
   return result;
 }
 
-export const getStatusComponent = (status) => {
+export const getStatusComponent = (status) => { // TODO не используется
   let result = "";
   switch (status) {
     case "Принято":
@@ -147,6 +147,39 @@ export const getStatusComponent = (status) => {
       break;
     default:
       result = <td className="badge badge-success">Принято</td>;
+  }
+  return result;
+};
+
+export const getClassStatus = (status) => {
+  let result = "";
+  switch (status) {
+    case "Принято":
+      result = "badge badge-success";
+      break;
+
+    case "Новый":
+      result = "badge badge-info";
+      break;
+
+    case "В работе":
+      result = "badge badge-warning";
+      break;
+
+    case "Отменен":
+      result = "badge badge-danger";
+      break;
+    case "В ремонте":
+      result = "badge badge-danger";
+      break;
+    case "Активен":
+      result = "badge badge-success";
+      break;
+    case "Неактивен":
+      result = "badge badge-warning";
+      break;
+    default:
+      result = "badge badge-success";
   }
   return result;
 };

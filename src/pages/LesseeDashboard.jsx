@@ -28,6 +28,8 @@ export default function LesseeDashboard({ lesseeId, isMainLessee }) {
     loading,
   } = useBuildLesseeData(lesseeId, isMainLessee);
 
+  const listLenght = 5;
+
   // eslint-disable-next-line consistent-return
   return loading ? (
     <Spinner />
@@ -71,11 +73,11 @@ export default function LesseeDashboard({ lesseeId, isMainLessee }) {
         )}
       </div>
       <div className="row">
-        <div className="col-lg-3 col-md-6 width-fif"><LesseeLastOrdersTableDashboard id={lesseeId} ordersData={ordersData} /></div>
-        <div className="col-lg-3 col-md-6 width-fif"><LesseeRentalZoneTableDashboard rentZone={rentZone} /></div>
+        <div className="col-lg-3 col-md-6 width-fif"><LesseeLastOrdersTableDashboard id={lesseeId} ordersData={ordersData.slice(0, listLenght)} /></div>
+        <div className="col-lg-3 col-md-6 width-fif"><LesseeRentalZoneTableDashboard rentZone={rentZone.slice(0, listLenght)} /></div>
       </div>
       <div className="row">
-        <div className="col-lg-3 col-md-6 width-hun"><LesseeTransactionsTableDashboard id={lesseeId} transactions={transactions} /></div>
+        <div className="col-lg-3 col-md-6 width-hun"><LesseeTransactionsTableDashboard id={lesseeId} transactions={transactions.slice(0, listLenght)} /></div>
       </div>
     </div>
   );

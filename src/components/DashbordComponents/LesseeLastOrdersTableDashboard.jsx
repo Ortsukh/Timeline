@@ -1,55 +1,40 @@
 import React from "react";
 import moment from "moment";
-import "./style.css";
-import { getStatusComponent } from "../../common/GenerateElementsData";
+import { getClassStatus } from "../../common/GenerateElementsData";
+import TableComponent from "./Table/TableComponent";
 
 export default function LesseeLastOrdersTableDashboard({ ordersData }) {
-  const generateRentCompaniesItem = () => {
+  const headerLastOrders = [
+    { value: "№", style: {} },
+    { value: "Дата", style: {} },
+    { value: "Оборудование", style: {} },
+    { value: "Статус", style: { minWidth: "70px" } },
+    { value: "Сумма", style: {} },
+    { value: "Остаточная стоимость", style: {} },
+  ];
+
+  const rowsLastOrders = ordersData.map((order) => {
     const roundedPrice = (price) => {
       const numPrice = +price;
       return numPrice.toFixed(2);
     };
-    const arrayOrders = ordersData.map((item) => (
-      <tr key={item.id}>
-        <td>{item.id}</td>
-        <td>{moment(item.date).format("D MMM")}</td>
-        <td>{item.equipment}</td>
-        {getStatusComponent(item.status)}
-        <td className="moneyCell">{roundedPrice(item.price)}</td>
-        <td className="moneyCell">{roundedPrice(item.price)}</td>
-      </tr>
-    ));
-    return arrayOrders.filter((_, ind) => ind < 5);
-  };
-  const handleLinkToTimeLine = () => {
-    const { origin } = window.location;
-    const { pathname } = window.location;
-    window.location.replace(`${origin}${pathname}?page=timeline`);
-  };
+    const cells = [
+      { value: order.id, class: "centerCell" },
+      { value: moment(order.date).format("D MMM"), class: "centerCell", style: { padding: "8px 2px" } },
+      { value: order.equipment, class: "" },
+      { value: order.status, class: getClassStatus(order.status) },
+      { value: roundedPrice(order.price), class: "moneyCell" },
+      { value: roundedPrice(order.price), class: "moneyCell" },
+    ];
+    return { key: order.id, date: cells };
+  });
+
   return (
-    <div className="containerChart last-orders">
-      <div className="orderTableHeader">
-        <h4 className="title-table"> Последние заказы</h4>
-        <button type="button" className="lesseeCell btn btn-info" onClick={handleLinkToTimeLine}>{"Timeline->"}</button>
-      </div>
-      <table className="table table-bordered">
-        <thead className="thead-light">
-          <tr>
-            <th>№</th>
-            <th>Дата</th>
-            <th>Оборудование</th>
-            <th>Статус</th>
-            <th>Сумма</th>
-            <th>Остаточная стоимость</th>
-          </tr>
-        </thead>
-        <tbody>
-          {generateRentCompaniesItem()}
-        </tbody>
-      </table>
-      {/* <Link rel="stylesheet" href="#s"> */}
-      {/*  Посмотеть все заказы */}
-      {/* </Link> */}
-    </div>
+    <TableComponent
+      title="Последние заказы"
+      headers={headerLastOrders}
+      rows={rowsLastOrders}
+      isBtnTimeline
+    />
   );
 }

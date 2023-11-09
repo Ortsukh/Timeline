@@ -1,32 +1,32 @@
 import React from "react";
-import "./style.css";
-import { getStatusComponent } from "../../common/GenerateElementsData";
+import moment from "moment";
+import { getClassStatus } from "../../common/GenerateElementsData";
+import TableComponent from "./Table/TableComponent";
 
 export default function RepairKitchenTableDashboard({ updatedEquipment }) {
-  const generateRentCompaniesItem = () => updatedEquipment.slice(0, 5).map((item) => (
-    <tr key={item.name}>
-      <td>{item.name}</td>
-      <td>{item.name}</td>
-      {getStatusComponent(item.status)}
-      <td>{item.updatedAt.date.split(" ")[0]}</td>
-    </tr>
-  ));
+  const headerRepairEquip = [
+    { value: "Категория", style: {} },
+    { value: "Оборудование", style: {} },
+    { value: "Обновление по статусу", style: {} },
+    { value: "Дата", style: { minWidth: "70px" } },
+  ];
+
+  const rowsRepairEquip = updatedEquipment.map((equipment) => {
+    const cells = [
+      { value: equipment.name, class: "" },
+      { value: equipment.name, class: "" },
+      { value: equipment.status, class: getClassStatus(equipment.status) },
+      { value: moment(equipment.updatedAt.date).format("D MMM"), class: "centerCell", style: { padding: "8px 2px" } },
+    ];
+    return { key: equipment.id, date: cells };
+  });
+
   return (
-    <div className="containerChart">
-      <h4 className="title-table"> Обновление статуса оборудования</h4>
-      <table className="table table-bordered">
-        <thead className="thead-light">
-          <tr>
-            <th>Категория</th>
-            <th>Оборудование</th>
-            <th>Обновление по статусу</th>
-            <th>Дата</th>
-          </tr>
-        </thead>
-        <tbody>
-          {generateRentCompaniesItem()}
-        </tbody>
-      </table>
-    </div>
+    <TableComponent
+      title="Обновление статуса оборудования"
+      headers={headerRepairEquip}
+      rows={rowsRepairEquip}
+      isBtnTimeline={false}
+    />
   );
 }
