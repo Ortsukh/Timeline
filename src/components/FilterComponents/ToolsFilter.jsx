@@ -16,7 +16,7 @@ export default function ToolsFilter({
 }) {
   const [selectValue, setSelectValue] = useState(null);
   useEffect(() => {
-    const value = localStorage.getItem("toolsFilter") || currentDevice.category;
+    const value = localStorage.getItem("toolsFilter") || currentDevice?.category || null;
     if (value) {
       setSelectValue({ value, label: value });
       onInputChange(value);

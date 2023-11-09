@@ -10,7 +10,6 @@ import { createOrderGroup } from "../../common/DataConvertHelper";
 
 export default function OrderCalendarDashboard({ setOrderCalendarSelectDay, allOrderData }) {
   const [orders, setOrders] = useState([]);
-  const [randomCategoryColors, setRandomCategoryColors] = useState({});
   const categoryColors = {};
   const calendarRef = useRef();
 
@@ -42,7 +41,6 @@ export default function OrderCalendarDashboard({ setOrderCalendarSelectDay, allO
 
   useEffect(() => {
     const formattedOrders = groupByCategory(groupByDay(createOrderGroup(allOrderData)));
-    setRandomCategoryColors(categoryColors);
     setOrders(formattedOrders);
   }, []);
 

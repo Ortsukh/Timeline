@@ -19,7 +19,7 @@ import BookingMenu from "../components/BookingMenuComponents/BookingMenu";
 import Overlay from "../components/BookingMenuComponents/BookingDateColumn/components/Overlay";
 import sortingArrayGroups from "../constants/priorityGroups";
 
-export default function BookingPage() {
+export default function BookingPage({orderId}) {
   const [groups, setGroups] = useState([]);
   const [update, setUpdate] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -76,6 +76,18 @@ export default function BookingPage() {
 
       .catch((error) => console.log(error));
   }, [update, user]);
+
+  useEffect(() => {
+    console.log(orderId)
+    console.log(items)
+    if(orderId && items.length){
+      const editItem = items.find(item => item.rentOrderId.toString() === orderId)
+      setEditOrderData(items.find(item => item.rentOrderId.toString() === orderId))
+      setIsEditMode(true)
+      setCurrentDevice(groups.find((group) => editItem.group === group.id));
+
+    }
+  }, [orderId, items]);
 
   const openAlertWindow = (message) => {
     setIsOpenAlertWindow({

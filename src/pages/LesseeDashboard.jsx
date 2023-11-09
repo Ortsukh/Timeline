@@ -13,6 +13,7 @@ import OrderCalendarDashboard from "../components/DashbordComponents/OrderCalend
 import TimelineOrders from "../components/DashbordComponents/TimelineOrders";
 
 export default function LesseeDashboard({ lesseeId, isMainLessee }) {
+  console.log(lesseeId, isMainLessee);
   if (!lesseeId) return;
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
   // eslint-disable-next-line
@@ -27,7 +28,7 @@ export default function LesseeDashboard({ lesseeId, isMainLessee }) {
     allOrderData,
     loading,
   } = useBuildLesseeData(lesseeId, isMainLessee);
-
+  console.log(allOrderData);
   const listLenght = 5;
 
   // eslint-disable-next-line consistent-return

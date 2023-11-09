@@ -18,7 +18,7 @@ import "../components/style.css";
 import {
   getAllEquipments,
   getAllOrders,
-  getCompanies, getManagerEquipments,
+  getCompanies,
   getUser, sendEditOrder,
 } from "../Api/API";
 import AlertWindow from "../components/Popup/AlertWindow";
@@ -87,18 +87,11 @@ export default function TimelinePage() {
     // console.log(user);
     setIsLoadingEquipment(true);
     if (!user) return;
-    if (user && user.role === "ROLE_MANAGER" && false) { //! для дева!
-    // if (user && user.role === "ROLE_MANAGER") {
-      getManagerEquipments().then((response) => {
-        setGroups(sortingArrayGroups(createEquipmentGroup(response.data)));
-        setIsLoadingEquipment(false);
-      });
-    } else {
-      getAllEquipments().then((response) => {
-        setGroups(sortingArrayGroups(createEquipmentGroup(response.data)));
-        setIsLoadingEquipment(false);
-      });
-    }
+
+    getAllEquipments().then((response) => {
+      setGroups(sortingArrayGroups(createEquipmentGroup(response.data)));
+      setIsLoadingEquipment(false);
+    });
   }, [update, user]);
 
   useEffect(() => {

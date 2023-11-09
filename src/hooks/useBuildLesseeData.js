@@ -22,12 +22,13 @@ export default function useBuildLesseeData(id, isMainLessee) {
     `${backendUrl}get_transactions/${id}`,
   );
 
-  const { data: rentZone, loading: rentZoneLoading } = useFetch(
-    `${backendUrl}get_current_kitchens/${id}`,
-  );
   const { data: allOrderData, loading: allOrderDataLoading } = isMainLessee ? useFetch(
     `${backendUrl}get_equipment_items/${id}`,
   ) : { data: null, loading: null };
+
+  const { data: rentZone, loading: rentZoneLoading } = useFetch(
+    `${backendUrl}get_current_kitchens/${id}`,
+  );
 
   if (orderLoading
       || lesseeInfoDataLoading

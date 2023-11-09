@@ -135,6 +135,7 @@ app.get(`${backendUrl}get_current_kitchens*`, (req, res, next) => {
       "x-sent": true,
     },
   };
+
   res.sendFile("currentKitchens.json", options, (err) => {
     if (err) {
       next(err);

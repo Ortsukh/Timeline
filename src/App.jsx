@@ -10,6 +10,7 @@ function App() {
   // console.log("window.location.search", window.location.search);
   const [route, setRoute] = useState("");
   const [lesseeId, setLesseeId] = useState("");
+  const [orderId, setOrderId] = useState("");
   const [companyType, setCompanyType] = useState("");
   // eslint-disable-next-line
   const [companyId, setCompanyId] = useState("");
@@ -17,14 +18,17 @@ function App() {
   useEffect(() => {
     const rout = window.location.search.substring(1).split("&").find((query) => query.startsWith("page"))?.split("=")[1];
     const lessee = window.location.search.substring(1).split("&").find((query) => query.startsWith("id"))?.split("=")[1];
+    const order = window.location.search.substring(1).split("&").find((query) => query.startsWith("order_id"))?.split("=")[1];
     const userType = window.FR?.currentCompanyType;
     const userID = window.FR?.currentCompanyId;
     const arrName = window.FR?.currentRouteName.split("_");
+    console.log(window.FR);
     setCompanyType(userType);
     setCompanyId(userID);
     setDashboardPage(arrName.includes("dashboard"));
     // console.log("rout", rout);
     // console.log("lessee", lessee);
+    setOrderId(order);
     setLesseeId(lessee);
     setRoute(rout);
   }, [window.location.search, window.FR]);
@@ -38,17 +42,17 @@ function App() {
     console.log("dashboardPage", dashboardPage);
     console.log("lesseeId", lesseeId);
     if (route === "timeline") return <TimelinePage />;
-    if (route === "booking_menu") return <BookingPage />;
+    if (route === "booking_menu") return <BookingPage orderId={orderId} />;
     if (companyType === "manager" && route !== "lessee_dashboard" && dashboardPage) return <ManagerDashboard />;
     if (route === "lessee_dashboard" || companyType === "lessee") {
       return (
         <LesseeDashboard
           lesseeId={lesseeId || companyId}
-          isMainUser={companyType === "lessee"}
+          isMainLessee={companyType === "lessee"}
         />
       );
     }
-    return <ManagerDashboard />;
+    return < ></>;
     // switch (route) {
     //   case "main_dashboard": result = <ManagerDashboard />;
     //     break;

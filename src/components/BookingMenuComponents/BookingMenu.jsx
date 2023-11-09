@@ -38,6 +38,7 @@ export default function BookingMenu({
   isFromDashboard,
   filterProps,
 }) {
+  console.log(editOrderData);
   const startWorkDay = currentDevice?.workTime ? Number(currentDevice.workTime.shiftTimes.start.split(":")[0]) : 0;
   const [baseOrder, setBaseOrder] = useState(
     {
@@ -256,6 +257,7 @@ export default function BookingMenu({
   const createEquipmentsMap = () => {
     const map = {};
     const commonMap = {};
+    console.log(currentDevice, groups);
     const filteredGroups = groups.filter((group) => group.category === currentDevice.category);
     let filteredItemsByDate = items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day")));
 
@@ -264,12 +266,13 @@ export default function BookingMenu({
         (item) => item.rentOrderId !== editOrderData.rentOrderId,
       );
     }
-    console.log(filteredGroups);
+    console.log(filteredGroups, filteredItemsByDate);
     filteredGroups.forEach((group) => {
       map[group.id] = {};
       const dayGrids = groupByDateItems(
         filteredItemsByDate.filter((item) => item.group === group.id),
       );
+      console.log(dayGrids);
       Object.keys(dayGrids).forEach((day) => {
         if (!commonMap[day]) {
           commonMap[day] = dayGrids[day];
@@ -281,12 +284,12 @@ export default function BookingMenu({
           commonMap[day] = String(partA).slice(1, 13) + String(partB).slice(1, 13);
         }
       });
-
       map[group.id] = {
         ...group,
         dates: dayGrids,
       };
     });
+    console.log(map);
     setCommonMapsEquipment(commonMap);
     setMapsEquipment(map);
   };
@@ -304,7 +307,7 @@ export default function BookingMenu({
       const editItems = items.filter(
         (item) => item.rentOrderId === editOrderData.rentOrderId,
       );
-
+      console.log(editItems, mapsEquipment);
       const editDates = {};
       const events = [];
       const successEvent = {};
@@ -319,7 +322,6 @@ export default function BookingMenu({
           conflictEvent[item.date] = [];
         }
         const itemStartIndex = item.grid.indexOf("1");
-
         if (mapsEquipment[item.group].dates[item.date] && mapsEquipment[item.group].dates[item.date][itemStartIndex] === "1") {
           conflictEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
         } else {
@@ -357,7 +359,7 @@ export default function BookingMenu({
       setCalendarEvent(events);
       setShowStartDisplayConflict(false);
     }
-  }, [editOrderData, isEditMode, mapsEquipment, currentDevice]);
+  }, [editOrderData, isEditMode, mapsEquipment]);
 
   const editOrder = (status) => {
     const orderItemsGrid = createOrderGrid(baseOrder.preOrders);
