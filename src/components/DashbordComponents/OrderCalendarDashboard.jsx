@@ -10,6 +10,7 @@ import { createOrderGroup } from "../../common/DataConvertHelper";
 
 export default function OrderCalendarDashboard({ setOrderCalendarSelectDay, allOrderData }) {
   const [orders, setOrders] = useState([]);
+  // eslint-disable-next-line
   const [randomCategoryColors, setRandomCategoryColors] = useState({});
   const categoryColors = {};
   const calendarRef = useRef();

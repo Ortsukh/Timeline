@@ -120,7 +120,7 @@ export default function TimelineOrders({ orderCalendarSelectDay, allOrderData })
     const { origin } = window.location;
     const { pathname } = window.location;
     handleDeselectItem(elementForEdit.itemId);
-    window.location.replace(`${origin}${pathname}?page=booking_menu&id=${elementForEdit.orederId}`);
+    window.location.replace(`${origin}${pathname}?page=booking_menu&order_id=${elementForEdit.orederId}`);
   };
 
   return orderItems.length
