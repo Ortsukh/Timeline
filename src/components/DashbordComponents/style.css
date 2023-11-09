@@ -213,3 +213,7 @@
 .fc .fc-view-harness-active > .fc-view {
     background-color: white;
 }
+
+.tableRow:hover {
+    background-color: rgb(254, 255, 176);
+}

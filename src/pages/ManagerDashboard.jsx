@@ -8,7 +8,7 @@ import ManagerStatsDashboard from "../components/DashbordComponents/ManagerStats
 import ManagerTransactionsTableDashboard from "../components/DashbordComponents/ManagerTransactionsTableDashboard";
 import OrderCalendarDashboard from "../components/DashbordComponents/OrderCalendarDashboard";
 import TimelineOrders from "../components/DashbordComponents/TimelineOrders";
-import ManagerLastOrdersTableDashboard from "../components/DashbordComponents/ManagerLastOrdersTableDashboard";
+import ManagerLastPendingOrdersTableDashboard from "../components/DashbordComponents/ManagerLastPendingOrdersTableDashboard";
 import useBuildManagerData from "../hooks/useBuildManagerData";
 import Spinner from "../components/Spinner/Spinner";
 
@@ -62,7 +62,11 @@ export default function ManagerDashboard() {
         </div>
       </div>
       <div className="row">
-        <div className="col-lg-3  col-md-6 width-hun"><ManagerLastOrdersTableDashboard orderData={orderData.slice(0, listLength)} /></div>
+        <div className="col-lg-3  col-md-6 width-hun">
+          <ManagerLastPendingOrdersTableDashboard
+            orderData={orderData.filter((order) => order.status === "pending").slice(0, listLength)}
+          />
+        </div>
         <div className="col-lg-3  col-md-6 width-fif"><RepairKitchenTableDashboard updatedEquipment={updatedEquipment.slice(0, listLength)} /></div>
       </div>
       <div className="row">

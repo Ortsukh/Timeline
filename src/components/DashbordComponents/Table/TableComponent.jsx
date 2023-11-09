@@ -16,6 +16,12 @@ export default function TableComponent({
     window.location.replace(`${origin}${pathname}?page=lessee_dashboard&id=${id}`);
   };
 
+  const handleEditOrder = (id) => {
+    const { origin } = window.location;
+    const { pathname } = window.location;
+    window.location.replace(`${origin}${pathname}?page=booking_menu&order_id=${id}`);
+  };
+
   return (
     <div className="containerChart last-orders">
       {isBtnTimeline
@@ -37,24 +43,27 @@ export default function TableComponent({
         <thead className="thead-light">
           <tr>
             {headers.map((header) => (
-              <th className={`centerCell ${header?.class}`} style={header?.style}>{header.value}</th>
+              <th key={header.value} className={`centerCell ${header?.class}`} style={header?.style}>{header.value}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {rows.map((row) => {
-            const result = row.date.map((cell) => (
+            const result = row.date.map((cell, index) => (
               <td
+                // eslint-disable-next-line
+                key={row.key + index}
                 className={cell?.class}
                 style={cell?.style}
                 onClick={() => {
                   if (cell?.idCompany) handleLinkToLessee(cell.idCompany);
+                  if (cell?.idOrder) handleEditOrder(cell.idOrder);
                 }}
               >
                 {cell.value}
               </td>
             ));
-            return <tr key={row.key}>{result}</tr>;
+            return <tr key={row.key} className="tableRow">{result}</tr>;
           })}
         </tbody>
       </table>

@@ -9,7 +9,7 @@
     "total": 400,
     "date": "2023-11-01",
     "shift": 8,
-    "status": "Принято",
+    "status": "pending",
     "equipment": "Кухня 1"
   },
   {
@@ -20,7 +20,7 @@
     "total": 100,
     "date": "2023-11-01",
     "shift": 1,
-    "status": "Принято",
+    "status": "pending",
     "equipment": "Альпака"
   },
   {
@@ -31,7 +31,7 @@
     "total": 400,
     "date": "2023-11-01",
     "shift": 8,
-    "status": "Принято",
+    "status": "pending",
     "equipment": "Кухня 1"
   },
   {
@@ -42,7 +42,7 @@
     "total": 112,
     "date": "2023-11-01",
     "shift": 4,
-    "status": "Принято",
+    "status": "accepted",
     "equipment": "Морозидка"
   },
   {
@@ -53,7 +53,7 @@
     "total": 352,
     "date": "2023-11-01",
     "shift": 4,
-    "status": "Принято",
+    "status": "accepted",
     "equipment": "Плавильная печь"
   },
   {
@@ -64,7 +64,7 @@
     "total": 40,
     "date": "2023-11-01",
     "shift": 4,
-    "status": "Принято",
+    "status": "pending",
     "equipment": "Холодильник Samsung"
   },
   {
@@ -75,7 +75,7 @@
     "total": 400,
     "date": "2023-11-01",
     "shift": 8,
-    "status": "Принято",
+    "status": "accepted",
     "equipment": "Кухня 1"
   },
   {
@@ -86,7 +86,7 @@
     "total": 5,
     "date": "2023-10-31",
     "shift": 1,
-    "status": "Принято",
+    "status": "accepted",
     "equipment": "Чайник"
   },
   {
@@ -97,7 +97,7 @@
     "total": 200,
     "date": "2023-10-27",
     "shift": 4,
-    "status": "Принято",
+    "status": "pending",
     "equipment": "Кухня 1"
   }
 ]
