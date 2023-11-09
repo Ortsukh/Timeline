@@ -38,7 +38,6 @@ export default function BookingMenu({
   isFromDashboard,
   filterProps,
 }) {
-  console.log(currentDevice);
   const startWorkDay = currentDevice?.workTime ? Number(currentDevice.workTime.shiftTimes.start.split(":")[0]) : 0;
   const [baseOrder, setBaseOrder] = useState(
     {
@@ -84,6 +83,16 @@ export default function BookingMenu({
       shiftTime,
     };
   };
+  useEffect(() => {
+    setBaseOrder(
+      {
+        shiftTime:
+              [{ value: startWorkDay, label: `${startWorkDay} - ${currentDevice ? startWorkDay + currentDevice.shiftLength : 24}` }],
+        preOrders: [],
+        equipment: {},
+      },
+    );
+  }, [currentDevice]);
   const generateEvents = (equipmentId, selectedDatesArr = selectedDates, isNew = false) => {
     const events = [];
 
@@ -247,7 +256,7 @@ export default function BookingMenu({
   const createEquipmentsMap = () => {
     const map = {};
     const commonMap = {};
-
+    const filteredGroups = groups.filter((group) => group.category === currentDevice.category);
     let filteredItemsByDate = items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day")));
 
     if (isEditMode) {
@@ -255,8 +264,8 @@ export default function BookingMenu({
         (item) => item.rentOrderId !== editOrderData.rentOrderId,
       );
     }
-
-    groups.forEach((group) => {
+    console.log(filteredGroups);
+    filteredGroups.forEach((group) => {
       map[group.id] = {};
       const dayGrids = groupByDateItems(
         filteredItemsByDate.filter((item) => item.group === group.id),
@@ -284,9 +293,10 @@ export default function BookingMenu({
 
   useEffect(() => {
     createEquipmentsMap();
-  }, [groups]);
+  }, [groups, currentDevice]);
 
   useEffect(() => {
+    console.log(currentDevice);
     if (!Object.keys(mapsEquipment).length) {
       return;
     }
@@ -347,7 +357,7 @@ export default function BookingMenu({
       setCalendarEvent(events);
       setShowStartDisplayConflict(false);
     }
-  }, [editOrderData, isEditMode, mapsEquipment]);
+  }, [editOrderData, isEditMode, mapsEquipment, currentDevice]);
 
   const editOrder = (status) => {
     const orderItemsGrid = createOrderGrid(baseOrder.preOrders);

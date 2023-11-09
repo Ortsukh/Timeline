@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from "react";
 import {
   createEquipmentGroup,
@@ -10,14 +11,13 @@ import "../components/style.css";
 import {
   getAllEquipments,
   getAllOrders,
-  getCompanies, getManagerEquipments,
+  getCompanies,
   getUser,
 } from "../Api/API";
 import AlertWindow from "../components/Popup/AlertWindow";
 import BookingMenu from "../components/BookingMenuComponents/BookingMenu";
 import Overlay from "../components/BookingMenuComponents/BookingDateColumn/components/Overlay";
 import sortingArrayGroups from "../constants/priorityGroups";
-import BackButton from "../components/Button/BackButton";
 
 export default function BookingPage() {
   const [groups, setGroups] = useState([]);

@@ -3,7 +3,6 @@ import moment from "moment";
 import Timeline from "react-calendar-timeline";
 import "./style.css";
 import "react-calendar-timeline/lib/Timeline.css";
-import EQUIPMENT_COLOR from "../constants/equipmentColor";
 
 export default function TimeLineRenderer({
   groups,
@@ -44,12 +43,12 @@ export default function TimeLineRenderer({
   // };
 
   const newGroups = groups.map((group) => {
-    const color = EQUIPMENT_COLOR[group.category] || "#622525";
+    console.log(group);
     return ({
       ...group,
       title: (
         <div style={{ display: "flex", alignItems: "center" }}>
-          <div style={{ backgroundColor: color }} className="equipment_color_block" />
+          <div style={{ backgroundColor: group.color || "#622525" }} className="equipment_color_block" />
           <div
             // onClick={() => handleToSelectedGroup(group, group.category)}
             // onKeyDown={() => handleToSelectedGroup(group, group.category)}

@@ -12,6 +12,7 @@ export default function fetchJSON(url) {
     },
   })
     .then((result) => {
+      console.log(result);
       const statusCode = result.status;
       if (statusCode >= 400) {
         showNetworkError(url, statusCode);
@@ -20,6 +21,7 @@ export default function fetchJSON(url) {
     })
     .then((result) => result.json())
     .catch((reason) => {
+      showNetworkError("Ошибка сети");
       console.log("catch", reason.response);
     });
 }

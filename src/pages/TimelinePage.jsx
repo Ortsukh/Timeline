@@ -301,6 +301,7 @@ export default function TimelinePage() {
                   isClickingOnEmptyFilter={isClickingOnEmptyFilter}
                   setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
                   showButtonClear={showButtonClear}
+                  isActiveCalendar
                 />
               </div>
               <div className="sort-box_item">
@@ -318,6 +319,8 @@ export default function TimelinePage() {
                   companies={companies}
                   setSelectedCompany={setSelectedCompany}
                   isClickedOnNew={isClickedOnNew}
+                  isActiveCalendar
+
                 />
               </div>
 

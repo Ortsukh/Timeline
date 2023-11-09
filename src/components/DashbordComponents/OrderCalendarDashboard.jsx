@@ -70,7 +70,7 @@ export default function OrderCalendarDashboard({ setOrderCalendarSelectDay, allO
     const obj = {
       height: 15,
       width: 15,
-      backgroundColor: randomCategoryColors[eventInfo.backgroundColor],
+      backgroundColor: eventInfo.backgroundColor,
       color: (color === "#100e0e" ? "#ffffff" : "#000000"),
       display: "flex",
       wrap: "wrap",
@@ -82,16 +82,22 @@ export default function OrderCalendarDashboard({ setOrderCalendarSelectDay, allO
       <div style={obj} />
     );
   };
+
+  const handleLinkToBookingMenu = () => {
+    const { origin } = window.location;
+    const { pathname } = window.location;
+    window.location.replace(`${origin}${pathname}?page=booking_menu`);
+  };
   const generateEvents = (data) => {
     const events = [];
     Object.keys(data).forEach((date) => {
       Object.keys(data[date]).forEach((items) => {
         data[date][items].forEach((item) => {
-          const { categoryId } = item;
+          const { categoryColor } = item;
           events.push({
             start: `${date}`,
             end: `${date}`,
-            backgroundColor: categoryId,
+            backgroundColor: categoryColor,
           });
         });
       });
@@ -125,12 +131,18 @@ export default function OrderCalendarDashboard({ setOrderCalendarSelectDay, allO
         headerToolbar={{
           left: "",
           center: "title",
-          right: "dayGridMonth prev,next tooltip",
+          right: "linkToBookingMenu prev,next",
         }}
         customButtons={{
           tooltip: {
             text: "?",
 
+          },
+          linkToBookingMenu: {
+            text: "Добавить новый",
+            click: () => {
+              handleLinkToBookingMenu();
+            },
           },
         }}
         eventBackgroundColor="transparent"

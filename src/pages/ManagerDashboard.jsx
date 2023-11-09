@@ -25,8 +25,8 @@ export default function ManagerDashboard() {
     updatedEquipment,
     loading,
   } = useBuildManagerData();
-  const listLenght = 5;
-  // console.log(loading);
+  const listLength = 5;
+  console.log(loading);
 
   return loading ? (
     <Spinner />
@@ -62,12 +62,12 @@ export default function ManagerDashboard() {
         </div>
       </div>
       <div className="row">
-        <div className="col-lg-3  col-md-6 width-hun"><ManagerLastOrdersTableDashboard orderData={orderData.slice(0, listLenght)} /></div>
-        <div className="col-lg-3  col-md-6 width-fif"><RepairKitchenTableDashboard updatedEquipment={updatedEquipment.slice(0, listLenght)} /></div>
+        <div className="col-lg-3  col-md-6 width-hun"><ManagerLastOrdersTableDashboard orderData={orderData.slice(0, listLength)} /></div>
+        <div className="col-lg-3  col-md-6 width-fif"><RepairKitchenTableDashboard updatedEquipment={updatedEquipment.slice(0, listLength)} /></div>
       </div>
       <div className="row">
-        <div className="col-lg-3  col-md-6 width-fif"><LesseeTableDashboard lesseeCompanies={lesseeCompanies.slice(0, listLenght)} /></div>
-        <div className="col-lg-3  col-md-6 width-hun"><ManagerTransactionsTableDashboard transactions={transactions.slice(0, listLenght)} /></div>
+        <div className="col-lg-3  col-md-6 width-fif"><LesseeTableDashboard lesseeCompanies={lesseeCompanies.slice(0, listLength)} /></div>
+        <div className="col-lg-3  col-md-6 width-hun"><ManagerTransactionsTableDashboard transactions={transactions.slice(0, listLength)} /></div>
       </div>
 
     </div>

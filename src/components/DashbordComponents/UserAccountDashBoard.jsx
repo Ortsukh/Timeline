@@ -9,6 +9,7 @@ export default function UserAccountDashBoard({ id, userInfo, lesseeCompanies }) 
     const company = lesseeCompanies.find((item) => item.company.id.toString() === id);
     setContract(company);
   }, []);
+  console.log(userInfo);
   return (
     <div className="info-box bg-success">
       <div className="info-box-content">
