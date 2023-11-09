@@ -33,7 +33,7 @@ export default function ManagerLastOrdersTableDashboard({ orderData }) {
 
   return (
     <TableComponent
-      title="Последние заказы"
+      title="Список ожидающих заказов"
       headers={headerLastOrders}
       rows={rowsLastOrders}
       isBtnTimeline

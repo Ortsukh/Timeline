@@ -21,7 +21,7 @@ export default function LesseeTableDashboard({ lesseeCompanies }) {
 
   return (
     <TableComponent
-      title="Обновление статуса оборудования"
+      title="Арендаторы"
       headers={headerRentCompanies}
       rows={rowsRentCompanies}
       isBtnTimeline={false}
