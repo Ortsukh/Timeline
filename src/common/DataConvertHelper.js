@@ -60,6 +60,7 @@ const createWorkTimeMap = (workTimesArr) => {
 const createEquipmentObject = (item, elem) => ({
   id: item.id,
   title: item.name,
+  color: elem.color,
   type: item.type,
   category: elem.name,
   shiftLength: elem.shiftLength,
@@ -152,6 +153,7 @@ const createOrderObject = (order, el, shiftLength, interval, user) => {
     end_time: el.end_time,
     categoryId: order.equipment.category.id || null,
     categoryName: order.equipment.category.name || null,
+    categoryColor: order.equipment.category.color || "#622525",
     company: order.rentOrder.company || null,
     status: order.rentOrder.status || "pending",
     itemProps,

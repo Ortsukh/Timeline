@@ -38,6 +38,7 @@ export default function WindowTimeline({
   calculatedOrSelectedDevice,
   setIsEquipmentInfoWindowOpen,
 }) {
+  console.log(selectedConflictDate);
   const PR_COM = {
     category: baseOrder.equipment.category,
     idCategArr: groups.map((el) => el.id),
@@ -499,11 +500,11 @@ export default function WindowTimeline({
               const endWorkDay = Number(PR_COM.workTime.shiftTimes.end.split(":")[0]);
               const formattedTime = Math.floor((currentTimeEnd - startWorkDay) / PR_COM.shiftCateg)
                   * PR_COM.shiftCateg + startWorkDay;
-              console.log(setEndTimeSelectedItem(formattedTime).format("HH"), currentTimeEnd, endWorkDay);
+              console.log(setEndTimeSelectedItem(formattedTime).format("HH:mm"), currentTimeEnd, endWorkDay);
               const day = moment(selectedConflictDate.start).locale("en").format("dddd").toLowerCase();
-
+              console.log();
               if (moment(currentTimeStart, "HH").isBefore(moment(PR_COM.workTime.dayMap[day].start, "HH"), "hours")
-                || moment(currentTimeEnd, "HH").isSameOrAfter(moment(PR_COM.workTime.dayMap[day].end, "HH"), "hours")
+                || moment(currentTimeEnd, "HH:mm").isSameOrAfter(moment(PR_COM.workTime.dayMap[day].end, "HH:mm"), "hours")
               ) {
                 return [styleConflict.highlightColumn];
               }

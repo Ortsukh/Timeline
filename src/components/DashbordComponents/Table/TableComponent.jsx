@@ -24,10 +24,10 @@ export default function TableComponent({
             <h4 className="title-table">{title}</h4>
             <button
               type="button"
-              className="lesseeCell btn btn-info"
+              className="lesseeCell btn btn-info "
               onClick={handleLinkToTimeLine}
             >
-              {"Timeline->"}
+              Timeline 🡆
             </button>
           </div>
         )

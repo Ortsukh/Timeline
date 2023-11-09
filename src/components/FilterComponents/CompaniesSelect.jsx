@@ -8,6 +8,7 @@ export default function CompaniesSelect({
   setSelectedCompany,
   isClickedOnNew,
   isFromDashboard,
+  isActiveCalendar,
 }) {
   const [selectValue, setSelectValue] = useState(null);
   const handleChange = (e) => {
@@ -41,6 +42,7 @@ export default function CompaniesSelect({
       <span> Выбрать компанию</span>
 
       <Select
+        isDisabled={!isActiveCalendar}
         className="select-filter"
         options={getOptionsForSearch(companies)}
         onChange={handleChange}

@@ -13,10 +13,10 @@ const useFetch = (url) => {
         console.log("fetch");
         const { data } = await fetchJSON(url);
         setFetchData(data);
-      } catch (error) {
-        setFetchError(error);
-      } finally {
         setLoading(false);
+      } catch (error) {
+        console.log("error");
+        setFetchError(error);
       }
     })();
   }, []);

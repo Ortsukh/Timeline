@@ -7,7 +7,7 @@ export default function BackButton({ classButton }) {
     const { pathname } = window.location;
     window.location.replace(`${origin}${pathname}?page=main_dashboard`);
   };
-  const className = `backButton back-dash-timeline${classButton || ""}`;
+  const className = `backButton back-dash-timeline ${classButton || ""}`;
   return (
     <button type="button" className={className} onClick={backToDashboard}>
       {buttonTitleConstants.BACK}

@@ -11,19 +11,17 @@ export default function ToolsFilter({
   setIsClickingOnEmptyFilter,
   showButtonClear,
   isFromDashboard,
-
-  isActiveCalendar = true,
+  isActiveCalendar,
+  currentDevice,
 }) {
   const [selectValue, setSelectValue] = useState(null);
-  // console.log(toolNames);
   useEffect(() => {
-    const value = localStorage.getItem("toolsFilter") || null;
+    const value = localStorage.getItem("toolsFilter") || currentDevice.category;
     if (value) {
       setSelectValue({ value, label: value });
       onInputChange(value);
     }
   }, []);
-
   const changeSearch = (e) => {
     setSelectValue(e);
     onInputChange(e.value);

@@ -112,6 +112,8 @@ export default function EditButtonColumn({
                   setIsClickingOnEmptyFilter={filterProps.setIsClickingOnEmptyFilter}
                   showButtonClear={filterProps.showButtonClear}
                   isFromDashboard={isFromDashboard}
+                  isActiveCalendar={isActiveCalendar}
+                  currentDevice={currentDevice}
                 />
               </div>
             )
@@ -136,6 +138,7 @@ export default function EditButtonColumn({
                 setSelectedCompany={filterProps.setSelectedCompany}
                 isClickedOnNew={filterProps.isClickedOnNew}
                 isFromDashboard={isFromDashboard}
+                isActiveCalendar={isActiveCalendar}
               />
             </div>
 
