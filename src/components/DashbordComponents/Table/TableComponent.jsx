@@ -2,14 +2,8 @@ import React from "react";
 import "../style.css";
 
 export default function TableComponent({
-  title, headers, rows, isBtnTimeline,
+  title, headers, rows,
 }) {
-  const handleLinkToTimeLine = () => {
-    const { origin } = window.location;
-    const { pathname } = window.location;
-    window.location.replace(`${origin}${pathname}?page=timeline`);
-  };
-
   const handleLinkToLessee = (id) => {
     const { origin } = window.location;
     const { pathname } = window.location;
@@ -24,7 +18,7 @@ export default function TableComponent({
 
   return (
     <div className="containerChart last-orders">
-      {isBtnTimeline
+      {/* {isBtnTimeline
         ? (
           <div className="orderTableHeader">
             <h4 className="title-table">{title}</h4>
@@ -36,9 +30,8 @@ export default function TableComponent({
               Timeline 🡆
             </button>
           </div>
-        )
-        : <h4 className="title-table">{title}</h4>}
-
+        ) */}
+      <h4 className="title-table">{title}</h4>
       <table className="table table-bordered">
         <thead className="thead-light">
           <tr>

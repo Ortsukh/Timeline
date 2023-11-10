@@ -156,10 +156,9 @@ export default function BookingPage({orderId}) {
           isFromDashboard
           filterProps={filterProps}
         />
-
-        {isOpenAlertWindow.status ? (
+        {/* {isOpenAlertWindow.status ? (
           <AlertWindow message={isOpenAlertWindow.message} />
-        ) : null}
+        ) : null} */}
       </div>
     </>
   ) : (
