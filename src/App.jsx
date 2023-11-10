@@ -52,18 +52,10 @@ function App() {
         />
       );
     }
-    return < ></>;
-    // switch (route) {
-    //   case "main_dashboard": result = <ManagerDashboard />;
-    //     break;
-    //   case "timeline": result = <TimelinePage />;
-    //     break;
-    //   case "lessee_dashboard": result = <LesseeDashboard lesseeId={lesseeId} />;
-    //     break;
-    //   default:
-    //     result = <ManagerDashboard />;
-    // }
-    // return result;
+    return (
+      <>
+      </>
+    );
   };
 
   return (

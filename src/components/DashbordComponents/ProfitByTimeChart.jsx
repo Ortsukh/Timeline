@@ -34,6 +34,7 @@ ChartJS.register(
 export default function ProfitByTimeChart({
   selectedTime, setSelectedTime, setProfitItems, profitItems,
 }) {
+  console.log("update");
   const [timeStep, setTimeStep] = useState(1);
   const chart = useRef(null);
 
@@ -169,7 +170,6 @@ export default function ProfitByTimeChart({
   };
 
   useEffect(() => {
-    console.log(chart);
     getProfitData(selectedTime.startDate, selectedTime.endDate).then((response) => {
       setProfitItems(response);
     });

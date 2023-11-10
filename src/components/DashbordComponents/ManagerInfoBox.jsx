@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import moment from "moment";
-import { getManagerInfo } from "../../Api/DashboardApi";
 import UserAccountDashBoard from "./UserAccountDashBoard";
 
-export default function ManagerInfoBox() {
-  const [userInfo, setUserInfo] = useState({});
+export default function ManagerInfoBox({ userInfo }) {
   const today = moment().format("DD MMM YYYY");
-  useEffect(() => {
-    getManagerInfo().then((response) => {
-      console.log(response);
-      setUserInfo(response);
-    });
-  }, []);
+
   return (
     <div className="containerUserBox">
       <div className="box box-widget widget-user">

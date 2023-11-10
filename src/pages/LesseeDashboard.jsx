@@ -11,9 +11,9 @@ import useBuildLesseeData from "../hooks/useBuildLesseeData";
 import Spinner from "../components/Spinner/Spinner";
 import OrderCalendarDashboard from "../components/DashbordComponents/OrderCalendarDashboard";
 import TimelineOrders from "../components/DashbordComponents/TimelineOrders";
+import CalendarWithTimelineComponent from "../components/DashbordComponents/CalendarWithTimelineComponent";
 
 export default function LesseeDashboard({ lesseeId, isMainLessee }) {
-  console.log(lesseeId, isMainLessee);
   if (!lesseeId) return;
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
   // eslint-disable-next-line
@@ -28,8 +28,7 @@ export default function LesseeDashboard({ lesseeId, isMainLessee }) {
     allOrderData,
     loading,
   } = useBuildLesseeData(lesseeId, isMainLessee);
-  console.log(allOrderData);
-  const listLenght = 5;
+  const listLength = 5;
 
   // eslint-disable-next-line consistent-return
   return loading ? (
@@ -55,30 +54,17 @@ export default function LesseeDashboard({ lesseeId, isMainLessee }) {
           />
           <LesseeStatsDashboard selectedTime={selectedTime} profitItems={profitItems} />
         </div>
-        { isMainLessee && (
-        <div className="row" style={{ margin: "10px 0 20px" }}>
-          <div className="col-lg-3 col-md-6 width-hun">
-            <OrderCalendarDashboard
-              setOrderCalendarSelectDay={setOrderCalendarSelectDay}
-              allOrderData={allOrderData}
-            />
-          </div>
-          <div className="col-lg-3 col-md-6 width-hun">
-            <TimelineOrders
-              allOrderData={allOrderData}
-              orderCalendarSelectDay={orderCalendarSelectDay}
-              key={orderCalendarSelectDay}
-            />
-          </div>
-        </div>
-        )}
+
+      </div>
+      { isMainLessee && (
+      <CalendarWithTimelineComponent allOrderData={allOrderData} />
+      )}
+      <div className="row">
+        <div className="col-lg-3 col-md-6 width-fif"><LesseeLastOrdersTableDashboard id={lesseeId} ordersData={ordersData.slice(0, listLength)} /></div>
+        <div className="col-lg-3 col-md-6 width-fif"><LesseeRentalZoneTableDashboard rentZone={rentZone.slice(0, listLength)} /></div>
       </div>
       <div className="row">
-        <div className="col-lg-3 col-md-6 width-fif"><LesseeLastOrdersTableDashboard id={lesseeId} ordersData={ordersData.slice(0, listLenght)} /></div>
-        <div className="col-lg-3 col-md-6 width-fif"><LesseeRentalZoneTableDashboard rentZone={rentZone.slice(0, listLenght)} /></div>
-      </div>
-      <div className="row">
-        <div className="col-lg-3 col-md-6 width-hun"><LesseeTransactionsTableDashboard id={lesseeId} transactions={transactions.slice(0, listLenght)} /></div>
+        <div className="col-lg-3 col-md-6 width-hun"><LesseeTransactionsTableDashboard id={lesseeId} transactions={transactions.slice(0, listLength)} /></div>
       </div>
     </div>
   );

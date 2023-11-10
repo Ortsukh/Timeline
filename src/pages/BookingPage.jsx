@@ -84,8 +84,8 @@ export default function BookingPage({orderId}) {
     if(orderId){
       setIsEditMode(true)
       const editItem = items.find(item => item.rentOrderId.toString() === orderId)
-      console.log(editItem)
-      setEditOrderData(editItem)
+        setSelectedCompany(editItem.company)
+        setEditOrderData(editItem)
       setCurrentDevice(groups.find((group) => editItem.group === group.id));
     }else {
       console.log('else')

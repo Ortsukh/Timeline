@@ -6,15 +6,13 @@ import LesseeTableDashboard from "../components/DashbordComponents/LesseeTableDa
 import RepairKitchenTableDashboard from "../components/DashbordComponents/RepairKitchenTableDashboard";
 import ManagerStatsDashboard from "../components/DashbordComponents/ManagerStatsDashboard";
 import ManagerTransactionsTableDashboard from "../components/DashbordComponents/ManagerTransactionsTableDashboard";
-import OrderCalendarDashboard from "../components/DashbordComponents/OrderCalendarDashboard";
-import TimelineOrders from "../components/DashbordComponents/TimelineOrders";
 import ManagerLastPendingOrdersTableDashboard from "../components/DashbordComponents/ManagerLastPendingOrdersTableDashboard";
 import useBuildManagerData from "../hooks/useBuildManagerData";
 import Spinner from "../components/Spinner/Spinner";
+import CalendarWithTimelineComponent from "../components/DashbordComponents/CalendarWithTimelineComponent";
 
 export default function ManagerDashboard() {
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
-  const [orderCalendarSelectDay, setOrderCalendarSelectDay] = useState(moment().format("YYYY-MM-DD"));
   const [profitItems, setProfitItems] = useState([]);
   const {
     orderData,
@@ -27,14 +25,14 @@ export default function ManagerDashboard() {
   } = useBuildManagerData();
   const listLength = 5;
   console.log(loading);
-
+  console.log("asdasdasda");
   return loading ? (
     <Spinner />
   ) : (
     <div>
       <div className="row">
         <div className="col-lg-3 col-md-4">
-          <ManagerInfoBox managerInfoData={managerInfoData} />
+          <ManagerInfoBox userInfo={managerInfoData} />
         </div>
         <div className="col-lg-6 col-md-8 dash-chart-first">
           <ProfitByTimeChart
@@ -43,23 +41,11 @@ export default function ManagerDashboard() {
             profitItems={profitItems}
             setProfitItems={setProfitItems}
           />
-          <ManagerStatsDashboard selectedTime={selectedTime} profitItems={profitItems} />
+          <ManagerStatsDashboard profitItems={profitItems} userInfo={managerInfoData} />
         </div>
       </div>
       <div className="row" style={{ margin: "10px 0 20px" }}>
-        <div className="col-lg-3 col-md-6 width-hun">
-          <OrderCalendarDashboard
-            setOrderCalendarSelectDay={setOrderCalendarSelectDay}
-            allOrderData={allOrderData}
-          />
-        </div>
-        <div className="col-lg-3 col-md-6 width-hun">
-          <TimelineOrders
-            allOrderData={allOrderData}
-            orderCalendarSelectDay={orderCalendarSelectDay}
-            key={orderCalendarSelectDay}
-          />
-        </div>
+        <CalendarWithTimelineComponent allOrderData={allOrderData} />
       </div>
       <div className="row">
         <div className="col-lg-3  col-md-6 width-hun">

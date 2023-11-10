@@ -91,8 +91,6 @@ export default function EditButtonColumn({
       </div>
     );
   };
-  console.log(currentDevice);
-  console.log(selectedGroups);
   return (
     <div>
       <div className={style.backButtonBlock}>
@@ -131,7 +129,7 @@ export default function EditButtonColumn({
                 </span>
               </div>
             )}
-          {isFromDashboard && user.role === "ROLE_MANAGER" ? (
+          {isFromDashboard && user.role === "ROLE_MANAGER" && !isEditMode ? (
             <div className="sort-box_item">
               <CompaniesSelect
                 selectedCompany={selectedCompany}

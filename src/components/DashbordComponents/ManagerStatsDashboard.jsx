@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./style.css";
-import { getManagerInfo } from "../../Api/DashboardApi";
 
-export default function ManagerStatsDashboard({ profitItems }) {
+export default function ManagerStatsDashboard({ profitItems, userInfo }) {
   const calcAllProfit = () => {
     let result = 0;
     result = profitItems.reduce((acc, cur) => cur.y + acc, 0);
     return result;
   };
-  const [userInfo, setUserInfo] = useState({});
-  useEffect(() => {
-    getManagerInfo().then((response) => {
-      setUserInfo(response);
-    });
-  }, []);
+
   return (
     !profitItems.length ? <>Загрузка</>
       : (

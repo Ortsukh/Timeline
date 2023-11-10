@@ -10,12 +10,10 @@ const useFetch = (url) => {
     // eslint-disable-next-line no-extra-semi
     ;(async () => {
       try {
-        console.log("fetch");
         const { data } = await fetchJSON(url);
         setFetchData(data);
         setLoading(false);
       } catch (error) {
-        console.log("error");
         setFetchError(error);
       }
     })();

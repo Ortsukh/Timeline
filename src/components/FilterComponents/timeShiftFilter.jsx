@@ -31,10 +31,8 @@ export default function TimeShift({
   const generateShiftTime = (shift) => {
     const options = [];
     for (let i = startWorkDay; i < endWorkDay; i += shift) {
-      console.log(`${i} - ${i + shift}`);
       options.push({ value: i, label: `${i} - ${i + shift > 24 ? 24 : i + shift}` });
     }
-    console.log(options);
     return options;
   };
 

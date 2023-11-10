@@ -10,46 +10,76 @@ import { createOrderGroup } from "../../common/DataConvertHelper";
 
 export default function OrderCalendarDashboard({ setOrderCalendarSelectDay, allOrderData }) {
   const [orders, setOrders] = useState([]);
-  const categoryColors = {};
   const calendarRef = useRef();
 
   const groupByDay = (data) => {
     const groupingByDay = {};
     data.forEach((item) => {
+      let isPending = "0";
+      if (item.status === "pending") {
+        isPending = "1";
+      }
       if (!groupingByDay[item.date]) {
-        groupingByDay[item.date] = [item];
-      } else groupingByDay[item.date].push(item);
+        groupingByDay[item.date] = isPending;
+      } else if (groupingByDay[item.date] === "0") {
+        groupingByDay[item.date] = isPending;
+      }
     });
     return groupingByDay;
   };
 
-  const groupByCategory = (data) => {
-    const gropingByCategory = {};
-    Object.keys(data).forEach((date) => {
-      gropingByCategory[date] = {};
-      data[date].forEach((item) => {
-        if (!categoryColors[item.categoryId]) {
-          categoryColors[item.categoryId] = `#${Math.floor(Math.random() * 999999)}`;
-        }
-        if (!gropingByCategory[date][item.categoryId]) {
-          gropingByCategory[date][item.categoryId] = [item];
-        }
-      });
-    });
-    return gropingByCategory;
+  // const groupByCategory = (data) => {
+  //   const gropingByCategory = {};
+  //   Object.keys(data).forEach((date) => {
+  //     gropingByCategory[date] = {};
+  //     data[date].forEach((item) => {
+  //       if (!gropingByCategory[date][item.categoryId]) {
+  //         gropingByCategory[date][item.categoryId] = [item];
+  //       }
+  //     });
+  //   });
+  //   return gropingByCategory;
+  // };
+  const getCalendarCellsByClassNames = (classNames) => {
+    const calendar = calendarRef.current.elRef.current;
+    return calendar.querySelectorAll(
+      classNames,
+    );
   };
 
   useEffect(() => {
-    const formattedOrders = groupByCategory(groupByDay(createOrderGroup(allOrderData)));
+    const formattedOrders = groupByDay(createOrderGroup(allOrderData));
     setOrders(formattedOrders);
   }, []);
 
+  useEffect(() => {
+    getCalendarCellsByClassNames(".fc-day-past").forEach((cell) => {
+      cell.firstChild.classList.add("gridDisabledBG");
+    });
+    getCalendarCellsByClassNames(".fc-day.fc-daygrid-day:not(.fc-day-other)").forEach((cell) => {
+      if (orders[cell.dataset.date]) {
+        if (orders[cell.dataset.date] === "0") {
+          cell.firstChild.classList.add("gridWithoutPendingBG");
+        } else {
+          cell.firstChild.classList.add("gridWithPendingBG");
+        }
+      }
+    });
+  }, [orders]);
+  const unselectDefaultCalendar = () => {
+    const calendarDayCell = getCalendarCellsByClassNames(".selectedCell");
+    if (calendarDayCell[0]) {
+      calendarDayCell[0].classList.remove("selectedCell");
+    }
+  };
   const onClickCell = (e) => {
     const startSelect = e.target.closest(".fc-day.fc-daygrid-day");
     if (!startSelect || !startSelect.dataset.date) return;
     const cell = e.target.closest(".fc-day.fc-daygrid-day");
     if (!cell) return;
+    unselectDefaultCalendar();
     const cellDate = cell.dataset.date;
+    cell.firstChild.classList.add("selectedCell");
     setOrderCalendarSelectDay(cellDate);
   };
 
@@ -124,8 +154,8 @@ export default function OrderCalendarDashboard({ setOrderCalendarSelectDay, allO
         multiMonthMaxColumns={2}
         weekends
         eventClick={() => {}}
-        events={generateEvents(orders)}
-        eventContent={renderEventContent}
+        // events={generateEvents(orders)}
+        // eventContent={renderEventContent}
         headerToolbar={{
           left: "",
           center: "title",

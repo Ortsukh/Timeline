@@ -111,7 +111,6 @@ export default function BookingCalendar({
       setEvent(calendarEvent);
       return;
     }
-    console.log(calendarEvent);
     setEvent(calendarEvent);
   }, [calendarEvent]);
 
