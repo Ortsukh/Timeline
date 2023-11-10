@@ -3,8 +3,9 @@ import useFetch from "./useFetch";
 export default function useBuildLesseeData(id, isMainLessee) {
   let loading = false;
   const backendUrl = " http://localhost:3001/admin/manager/";
-
-  // const backendUrl = "/admin/manager/";
+  const backendManagerUrl = " http://localhost:3001/admin/manager/";
+  // const backendManagerUrl = "/admin/manager/";
+  // const backendUrl = "/admin/api/";
 
   const { data: ordersData, loading: orderLoading } = useFetch(
     `${backendUrl}get_orders/${id}`,
@@ -23,7 +24,7 @@ export default function useBuildLesseeData(id, isMainLessee) {
   );
 
   const { data: allOrderData, loading: allOrderDataLoading } = isMainLessee ? useFetch(
-    `${backendUrl}get_equipment_items/${id}`,
+    `${backendManagerUrl}get_equipment_items/${id}`,
   ) : { data: null, loading: null };
 
   const { data: rentZone, loading: rentZoneLoading } = useFetch(

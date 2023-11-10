@@ -91,7 +91,8 @@ export default function EditButtonColumn({
       </div>
     );
   };
-  // console.log(currentDevice);
+  console.log(currentDevice);
+  console.log(selectedGroups);
   return (
     <div>
       <div className={style.backButtonBlock}>
@@ -101,7 +102,7 @@ export default function EditButtonColumn({
           </button>
         )}
         <div className="category-count-box">
-          { isFromDashboard
+          { isFromDashboard && !isEditMode
             ? (
               <div className="sort-box_item">
                 <ToolsFilter
@@ -124,7 +125,7 @@ export default function EditButtonColumn({
                   Выбранная категория:
                   {" "}
                   <span className="choose-category_item">
-                    {selectedGroups}
+                    { currentDevice.category}
                   </span>
                   {" "}
                 </span>

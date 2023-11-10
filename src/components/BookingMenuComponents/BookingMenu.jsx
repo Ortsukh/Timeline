@@ -39,6 +39,7 @@ export default function BookingMenu({
   filterProps,
 }) {
   console.log(editOrderData);
+  console.log(selectedCompany);
   const startWorkDay = currentDevice?.workTime ? Number(currentDevice.workTime.shiftTimes.start.split(":")[0]) : 0;
   const [baseOrder, setBaseOrder] = useState(
     {
@@ -93,6 +94,7 @@ export default function BookingMenu({
         equipment: {},
       },
     );
+    setMapsEquipment({});
   }, [currentDevice]);
   const generateEvents = (equipmentId, selectedDatesArr = selectedDates, isNew = false) => {
     const events = [];

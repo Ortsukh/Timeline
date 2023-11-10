@@ -55,7 +55,7 @@ export default function LesseeDashboard({ lesseeId, isMainLessee }) {
           />
           <LesseeStatsDashboard selectedTime={selectedTime} profitItems={profitItems} />
         </div>
-        { isMainLessee || (
+        { isMainLessee && (
         <div className="row" style={{ margin: "10px 0 20px" }}>
           <div className="col-lg-3 col-md-6 width-hun">
             <OrderCalendarDashboard

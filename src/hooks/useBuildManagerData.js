@@ -2,8 +2,11 @@ import useFetch from "./useFetch";
 
 export default function useBuildManagerData() {
   let loading = false;
-  // const backendUrl = "/admin/manager/";
+  // const backendManagerUrl = "/admin/manager/";
+  // const backendUrl = "/admin/api/";
   const backendUrl = " http://localhost:3001/admin/manager/";
+  const backendManagerUrl = " http://localhost:3001/admin/manager/";
+
   const { data: orderData, loading: orderLoading } = useFetch(
     `${backendUrl}get_orders`,
   );
@@ -13,7 +16,7 @@ export default function useBuildManagerData() {
   );
 
   const { data: allOrderData, loading: allOrderDataLoading } = useFetch(
-    `${backendUrl}get_equipment_items`,
+    `${backendManagerUrl}get_equipment_items`,
   );
 
   const { data: lesseeCompanies, loading: lesseeCompaniesLoading } = useFetch(

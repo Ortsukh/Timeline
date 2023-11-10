@@ -5014,17 +5014,17 @@ export async function getUser() {
   // }
   // console.log(res);
   // return res.json();
-  return {
-    role: "ROLE_MANAGER",
-    id: 1,
-    name: "Франчайзи 001",
-  };
-
   // return {
-  //   role: "ROLE_COMPANY",
+  //   role: "ROLE_MANAGER",
   //   id: 1,
-  //   name: "Суши \"Минск-сити\"",
+  //   name: "Франчайзи 001",
   // };
+
+  return {
+    role: "ROLE_COMPANY",
+    id: 1,
+    name: "Суши \"Минск-сити\"",
+  };
 }
 
 export async function getCompanies() {

@@ -64,7 +64,7 @@ export default function ManagerDashboard() {
       <div className="row">
         <div className="col-lg-3  col-md-6 width-hun">
           <ManagerLastPendingOrdersTableDashboard
-            orderData={orderData.filter((order) => order.status === "pending").slice(0, listLength)}
+            orderData={orderData.slice(0, listLength)}
           />
         </div>
         <div className="col-lg-3  col-md-6 width-fif"><RepairKitchenTableDashboard updatedEquipment={updatedEquipment.slice(0, listLength)} /></div>

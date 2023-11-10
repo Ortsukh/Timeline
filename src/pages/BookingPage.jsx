@@ -30,7 +30,7 @@ export default function BookingPage({orderId}) {
   const [editOrderData, setEditOrderData] = useState(null);
   const [isOpenAlertWindow, setIsOpenAlertWindow] = useState({ status: false, message: "" });
   const [selectedGroups, setSelectedGroups] = useState([]);
-  const [currentDevice, setCurrentDevice] = useState(groups[0]);
+  const [currentDevice, setCurrentDevice] = useState(null);
   const [user, setUser] = useState(null);
   const [isClickingOnEmptyFilter, setIsClickingOnEmptyFilter] = useState(false);
   const [showButtonClear, setShowButtonClear] = useState(true);
@@ -78,16 +78,21 @@ export default function BookingPage({orderId}) {
   }, [update, user]);
 
   useEffect(() => {
+    if(!items.length) return
+    console.log('up')
     console.log(orderId)
-    console.log(items)
-    if(orderId && items.length){
-      const editItem = items.find(item => item.rentOrderId.toString() === orderId)
-      setEditOrderData(items.find(item => item.rentOrderId.toString() === orderId))
+    if(orderId){
       setIsEditMode(true)
+      const editItem = items.find(item => item.rentOrderId.toString() === orderId)
+      console.log(editItem)
+      setEditOrderData(editItem)
       setCurrentDevice(groups.find((group) => editItem.group === group.id));
+    }else {
+      console.log('else')
+      setCurrentDevice(groups[0]);
 
     }
-  }, [orderId, items]);
+  }, [orderId, items, selectedCompany ]);
 
   const openAlertWindow = (message) => {
     setIsOpenAlertWindow({
@@ -123,7 +128,7 @@ export default function BookingPage({orderId}) {
     isClickedOnNew,
   };
 
-  return !isLoading && !isLoadingEquipment ? (
+  return !isLoading && !isLoadingEquipment && currentDevice  ? (
     <>
       {isOpenOverlay && (
         <Overlay openOverLay={setIsOpenOverlay} isAddNewItem={false} />
