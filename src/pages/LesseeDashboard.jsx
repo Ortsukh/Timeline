@@ -55,7 +55,8 @@ export default function LesseeDashboard({ lesseeId, isMainLessee }) {
           />
           <LesseeStatsDashboard selectedTime={selectedTime} profitItems={profitItems} />
         </div>
-        { isMainLessee && (
+      </div>
+      { isMainLessee && (
         <div className="row" style={{ margin: "10px 0 20px" }}>
           <div className="col-lg-3 col-md-6 width-hun">
             <OrderCalendarDashboard
@@ -71,8 +72,8 @@ export default function LesseeDashboard({ lesseeId, isMainLessee }) {
             />
           </div>
         </div>
-        )}
-      </div>
+      )}
+
       <div className="row">
         <div className="col-lg-3 col-md-6 width-fif"><LesseeLastOrdersTableDashboard id={lesseeId} ordersData={ordersData.slice(0, listLenght)} /></div>
         <div className="col-lg-3 col-md-6 width-fif"><LesseeRentalZoneTableDashboard rentZone={rentZone.slice(0, listLenght)} /></div>

@@ -6,6 +6,7 @@ import Timeline, {
 } from "react-calendar-timeline";
 import moment from "moment";
 import "moment/locale/ru";
+// import { v4 as uuidv4 } from "uuid";
 import { createOrderGroup } from "../../common/DataConvertHelper";
 import "../style.css";
 import style from "../BookingMenuComponents/BookingDateColumn/BookingTimeline.module.css";
@@ -72,6 +73,7 @@ export default function TimelineOrders({ orderCalendarSelectDay, allOrderData })
     height: 36,
   }));
   const eqGroups = generateGroup();
+  // console.log(eqGroups);
 
   const handleDeselectItem = (id) => {
     setOrderItems((prev) => prev.map((item) => {
@@ -116,6 +118,12 @@ export default function TimelineOrders({ orderCalendarSelectDay, allOrderData })
     }));
   };
 
+  const handleLinkToTimeLine = () => {
+    const { origin } = window.location;
+    const { pathname } = window.location;
+    window.location.replace(`${origin}${pathname}?page=timeline`);
+  };
+
   const handleEditOrder = () => {
     const { origin } = window.location;
     const { pathname } = window.location;
@@ -123,14 +131,34 @@ export default function TimelineOrders({ orderCalendarSelectDay, allOrderData })
     window.location.replace(`${origin}${pathname}?page=booking_menu&order_id=${elementForEdit.orederId}`);
   };
 
+  // const testGroups = Array(12).fill({ height: 36 });
+
   return orderItems.length
     ? (
       <>
-        <div className={style.containerTimeline} style={{ margin: "10px auto", border: "1px solid gray" }}>
-          <div className="style" style={{ maxHeight: "63vh" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "end",
+            width: "100%",
+            marginBottom: "1.5rem",
+            padding: "10px",
+          }}
+        >
+          <button
+            type="button"
+            className="reserved-btn reserve-timeline"
+            onClick={handleLinkToTimeLine}
+          >
+            Timeline 🡆
+          </button>
+        </div>
+        <div className={style.containerTimeline} style={{ border: "1px solid gray" }}>
+          <div className="style" style={{ maxHeight: "54vh" }}>
             <Timeline
               className={style.tableTimeline}
               groups={eqGroups}
+              // groups={testGroups.map((elem) => ({ ...elem, id: uuidv4(), title: uuidv4() }))}
               items={orderItems}
               lineHeight={36}
               itemHeightRatio={1}

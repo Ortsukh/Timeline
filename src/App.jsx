@@ -12,7 +12,6 @@ function App() {
   const [lesseeId, setLesseeId] = useState("");
   const [orderId, setOrderId] = useState("");
   const [companyType, setCompanyType] = useState("");
-  // eslint-disable-next-line
   const [companyId, setCompanyId] = useState("");
   const [dashboardPage, setDashboardPage] = useState(null);
   useEffect(() => {
@@ -52,7 +51,10 @@ function App() {
         />
       );
     }
-    return < ></>;
+    return (
+      <>
+      </>
+    );
     // switch (route) {
     //   case "main_dashboard": result = <ManagerDashboard />;
     //     break;
@@ -70,7 +72,6 @@ function App() {
     <>
       {getPage()}
     </>
-
   );
 }
 

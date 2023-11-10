@@ -21,7 +21,7 @@ import {
   getCompanies,
   getUser, sendEditOrder,
 } from "../Api/API";
-import AlertWindow from "../components/Popup/AlertWindow";
+import showNetwork from "../components/Alert/showNetwork";
 import BookingMenu from "../components/BookingMenuComponents/BookingMenu";
 import styleConflict
   from "../components/BookingMenuComponents/BookingDateColumn/ConflictResolutionWindow/Conflict.module.css";
@@ -382,9 +382,7 @@ export default function TimelinePage() {
           setIsOpenOverlay={setIsOpenOverlay}
         />
         )}
-        {isOpenAlertWindow.status ? (
-          <AlertWindow message={isOpenAlertWindow.message} />
-        ) : null}
+        {isOpenAlertWindow.status ? showNetwork(isOpenAlertWindow.message) : null}
       </div>
     </>
   ) : (

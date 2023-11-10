@@ -1,6 +1,6 @@
 import React from "react";
 import "../style.css";
-
+//! Не используется
 export default function AlertWindow({ message }) {
   // console.log(message);
   return (

@@ -1,4 +1,4 @@
-import showNetworkError from "../components/Errors/showNetworkError";
+import showNetwork from "../components/Alert/showNetwork";
 
 export default function fetchJSON(url) {
   console.log(url);
@@ -15,13 +15,13 @@ export default function fetchJSON(url) {
       console.log(result);
       const statusCode = result.status;
       if (statusCode >= 400) {
-        showNetworkError(url, statusCode);
+        showNetwork(url, statusCode);
       }
       return result;
     })
     .then((result) => result.json())
     .catch((reason) => {
-      showNetworkError("Ошибка сети");
+      showNetwork("error");
       console.log("catch", reason.response);
     });
 }
