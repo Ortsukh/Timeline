@@ -31,7 +31,6 @@ export default function EditButtonColumn({
   handleChangeEquipmentBeforeCalculation,
   statusCheckboxSelected,
   setStatusCheckboxSelected,
-  selectedGroups,
   setSelectedPreferredDevice,
   selectedCompany,
   user,

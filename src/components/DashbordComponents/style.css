@@ -190,12 +190,32 @@
 .lesseeCell.btn.btn-info{
     padding: 3px 10px;
 }
-/*.dashboardCalendarContainer .fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {*/
-/*    display: flex;*/
-/*    gap: 5px;*/
-/*    padding: 0 5px;*/
-/*    flex-wrap: wrap;*/
-/*}*/
+.dashboardCalendarContainer .fc .fc-daygrid-day.fc-day-today {
+    background-color: transparent
+
+}
+.dashboardCalendarContainer .fc .fc-daygrid-day.fc-day-today a{
+    background-color: rgba(23, 162, 184, 0.5);
+    padding-left: 3px;
+    color: white !important
+
+}
+
+.gridPastDays a {
+    color: rgba(51, 51, 51, 0.25) !important;
+}
+
+.gridFeatureDays {
+    font-weight: bold;
+}
+
+.mr-5 {
+    margin-right: 5px;
+}
+
+.fc .fc-daygrid-day-top {
+    align-items: center;
+}
 
 .moneyCell {
     text-align: right;
@@ -222,9 +242,8 @@
     background: linear-gradient(0deg, rgba(0, 255, 43, 0.20) 0%, rgba(0, 255, 43, 0.27) 1%, rgba(0, 255, 43, 0.00) 76%);
     backdrop-filter: blur();
 }
-.gridWithPendingBG {
-    background: linear-gradient(0deg, rgba(238, 55, 45, 0.20) 0%, rgba(238, 55, 45, 0.27) 1%, rgba(238, 55, 45, 0.00) 76%);
-    backdrop-filter: blur(5px);
+.gridWithOrderBG {
+    background: rgba(255,220,40,.15);
 }
 .selectedCell {
     border: 2px #5bbbe0 solid;

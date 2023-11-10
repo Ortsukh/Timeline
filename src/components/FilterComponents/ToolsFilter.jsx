@@ -27,17 +27,17 @@ export default function ToolsFilter({
     onInputChange(e.value);
   };
 
-  const formatOptionLabel = ({ label }) => {
-    const color = EQUIPMENT_COLOR[label] || "#622525";
+  const formatOptionLabel = ({ label }) =>
+  // const color = EQUIPMENT_COLOR[label] || "#622525";
 
-    return (
+    (
       <div style={{ display: "flex" }}>
-        <div style={{ backgroundColor: color }} className="equipment_color_block" />
+        <div className="equipment_color_block" />
         <div>{label }</div>
 
       </div>
-    );
-  };
+    )
+  ;
 
   // eslint-disable-next-line max-len
   const getOptionsForSearch = (tools) => tools.map((tool) => ({ value: tool, label: tool }));

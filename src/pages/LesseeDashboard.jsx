@@ -9,8 +9,6 @@ import LesseeStatsDashboard from "../components/DashbordComponents/LesseeStatsDa
 import BackButton from "../components/Button/BackButton";
 import useBuildLesseeData from "../hooks/useBuildLesseeData";
 import Spinner from "../components/Spinner/Spinner";
-import OrderCalendarDashboard from "../components/DashbordComponents/OrderCalendarDashboard";
-import TimelineOrders from "../components/DashbordComponents/TimelineOrders";
 import CalendarWithTimelineComponent from "../components/DashbordComponents/CalendarWithTimelineComponent";
 
 export default function LesseeDashboard({ lesseeId, isMainLessee }) {

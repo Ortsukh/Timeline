@@ -40,7 +40,7 @@ export default function BookingPage({orderId}) {
   const [, setIsBookingMenu] = useState(false);
   const [, setIsEquipmentInfoWindowOpen] = useState(null);
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
-
+  console.log("orderId",orderId)
   useEffect(() => {
     getUser().then((res) => {
       setUser(res);
@@ -78,12 +78,15 @@ export default function BookingPage({orderId}) {
   }, [update, user]);
 
   useEffect(() => {
-    if(!items.length) return
+
+    console.log(items)
     console.log('up')
+    if(!items.length) return
     console.log(orderId)
     if(orderId){
       setIsEditMode(true)
       const editItem = items.find(item => item.rentOrderId.toString() === orderId)
+      console.log(editItem)
         setSelectedCompany(editItem.company)
         setEditOrderData(editItem)
       setCurrentDevice(groups.find((group) => editItem.group === group.id));
@@ -127,7 +130,7 @@ export default function BookingPage({orderId}) {
     setSelectedCompany,
     isClickedOnNew,
   };
-
+  console.log(currentDevice)
   return !isLoading && !isLoadingEquipment && currentDevice  ? (
     <>
       {isOpenOverlay && (
