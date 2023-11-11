@@ -55,7 +55,9 @@ export default function LesseeDashboard({ lesseeId, isMainLessee }) {
 
       </div>
       { isMainLessee && (
-      <CalendarWithTimelineComponent allOrderData={allOrderData} />
+      <div className="row" style={{ margin: "10px 0 20px" }}>
+        <CalendarWithTimelineComponent allOrderData={allOrderData} />
+      </div>
       )}
       <div className="row">
         <div className="col-lg-3 col-md-6 width-fif"><LesseeLastOrdersTableDashboard id={lesseeId} ordersData={ordersData.slice(0, listLength)} /></div>

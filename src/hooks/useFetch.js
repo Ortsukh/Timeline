@@ -1,7 +1,7 @@
 import React from "react";
 import fetchJSON from "../common/helper";
 
-const useFetch = (url) => {
+const useFetch = (url, update) => {
   const [fetchData, setFetchData] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [fetchError, setFetchError] = React.useState(null);
@@ -17,7 +17,7 @@ const useFetch = (url) => {
         setFetchError(error);
       }
     })();
-  }, []);
+  }, [update]);
 
   return { data: fetchData, loading, error: fetchError };
 };

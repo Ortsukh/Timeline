@@ -13,7 +13,7 @@
       },
       "contract": {
         "id": 22,
-        "company": {
+        "lesseeCompany": {
           "id": 3,
           "name": "компания1"
         }
@@ -31,7 +31,7 @@
       },
       "contract": {
         "id": 22,
-        "company": {
+        "lesseeCompany": {
           "id": 3,
           "name": "компания1"
         }
@@ -49,7 +49,7 @@
       },
       "contract": {
         "id": 22,
-        "company": {
+        "lesseeCompany": {
           "id": 3,
           "name": "компания1"
         }
@@ -67,7 +67,7 @@
       },
       "contract": {
         "id": 22,
-        "company": {
+        "lesseeCompany": {
           "id": 3,
           "name": "компания1"
         }
@@ -85,7 +85,7 @@
       },
       "contract": {
         "id": 22,
-        "company": {
+        "lesseeCompany": {
           "id": 3,
           "name": "компания1"
         }
@@ -103,7 +103,7 @@
       },
       "contract": {
         "id": 22,
-        "company": {
+        "lesseeCompany": {
           "id": 3,
           "name": "компания1"
         }
@@ -121,7 +121,7 @@
       },
       "contract": {
         "id": 22,
-        "company": {
+        "lesseeCompany": {
           "id": 3,
           "name": "компания1"
         }
@@ -139,7 +139,7 @@
       },
       "contract": {
         "id": 22,
-        "company": {
+        "lesseeCompany": {
           "id": 3,
           "name": "компания1"
         }
@@ -157,7 +157,7 @@
       },
       "contract": {
         "id": 22,
-        "company": {
+        "lesseeCompany": {
           "id": 3,
           "name": "компания1"
         }
@@ -175,7 +175,7 @@
       },
       "contract": {
         "id": 22,
-        "company": {
+        "lesseeCompany": {
           "id": 3,
           "name": "компания1"
         }

@@ -6,8 +6,6 @@ import timeGrid from "@fullcalendar/timegrid";
 import calenderList from "@fullcalendar/list";
 import multiMonthPlugin from "@fullcalendar/multimonth";
 import interaction from "@fullcalendar/interaction";
-import moment from "moment/moment";
-import month from "react-date-range/dist/components/Month";
 import { createOrderGroup } from "../../common/DataConvertHelper";
 
 export default function OrderCalendarDashboard({ setOrderCalendarSelectDay, allOrderData }) {

@@ -25,7 +25,7 @@ export default function ManagerDashboard() {
   } = useBuildManagerData();
   const listLength = 5;
   console.log(loading);
-  console.log("asdasdasda");
+  console.log(allOrderData);
   return loading ? (
     <Spinner />
   ) : (

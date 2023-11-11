@@ -63,9 +63,71 @@ app.get(`${backendUrl}get_manager_info*`, (req, res, next) => {
   });
 });
 
+app.get(`${backendUrl}get_current_user`, (req, res, next) => {
+  const options = {
+    root: path.join(__dirname, "db"),
+    dotfiles: "deny",
+    headers: {
+      "x-timestamp": Date.now(),
+      "x-sent": true,
+    },
+  };
+
+  res.sendFile("userManagerInfo.json", options, (err) => {
+    if (err) {
+      next(err);
+    } else {
+      console.log("Sent: export_sales.json");
+    }
+  });
+});
+
+app.get(`${backendUrl}get_current_user/:id`, (req, res, next) => {
+  const options = {
+    root: path.join(__dirname, "db"),
+    dotfiles: "deny",
+    headers: {
+      "x-timestamp": Date.now(),
+      "x-sent": true,
+    },
+  };
+
+  res.sendFile("userLesseeInfo.json", options, (err) => {
+    if (err) {
+      next(err);
+    } else {
+      console.log("Sent: export_sales.json");
+    }
+  });
+});
+
+app.get(`${backendUrl}get_lessee_companies*`, (req, res, next) => {
+  const options = {
+    root: path.join(__dirname, "db"),
+    dotfiles: "deny",
+    headers: {
+      "x-timestamp": Date.now(),
+      "x-sent": true,
+    },
+  };
+
+  res.sendFile("companies.json", options, (err) => {
+    if (err) {
+      next(err);
+    } else {
+      console.log("Sent: export_sales.json");
+    }
+  });
+});
+
 app.get(`${backendUrl}get_equipment_items*`, (req, res, next) => {
-  console.log("getItems");
   fetch("http://freekitchen.loc/test/get_equipment_items").then((res1) => res1.json().then((data) => {
+    res.json(data);
+  }));
+});
+
+app.get(`${backendUrl}get_equipment*`, (req, res, next) => {
+  fetch("http://freekitchen.loc/test/get_equipment").then((res1) => res1.json().then((data) => {
     res.json(data);
   }));
 });

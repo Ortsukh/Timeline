@@ -17,8 +17,8 @@ export default function ManagerTransactionsTableDashboard({ transactions }) {
     };
     const cells = [
       { value: transaction.id, class: "centerCell" },
-      { value: transaction.contract.company.name, class: "lesseeCell", idCompany: transaction.contract.company.id },
-      { value: moment(transaction.updatedAt.date).format("D MMM"), class: "centerCell" },
+      { value: transaction.contract?.lesseeCompany?.name, class: "lesseeCell", idCompany: transaction?.contract?.lesseeCompany?.id },
+      { value: moment(transaction.updatedAt?.date).format("D MMM"), class: "centerCell" },
       { value: roundedPrice(transaction.amount), class: "moneyCell" },
     ];
     return { key: transaction.id, date: cells };

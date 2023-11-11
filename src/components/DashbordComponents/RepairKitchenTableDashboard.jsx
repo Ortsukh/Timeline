@@ -16,7 +16,7 @@ export default function RepairKitchenTableDashboard({ updatedEquipment }) {
       { value: equipment.name, class: "" },
       { value: equipment.name, class: "" },
       { value: equipment.status, class: getClassStatus(equipment.status) },
-      { value: moment(equipment.updatedAt.date).format("D MMM"), class: "centerCell", style: { padding: "8px 2px" } },
+      { value: moment(equipment.updatedAt?.date).format("D MMM"), class: "centerCell", style: { padding: "8px 2px" } },
     ];
     return { key: equipment.id, date: cells };
   });

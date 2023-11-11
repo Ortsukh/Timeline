@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import "../style.css";
-import EQUIPMENT_COLOR from "../../constants/equipmentColor";
 
 export default function ToolsFilter({
   toolNames,
@@ -27,17 +26,13 @@ export default function ToolsFilter({
     onInputChange(e.value);
   };
 
-  const formatOptionLabel = ({ label }) =>
-  // const color = EQUIPMENT_COLOR[label] || "#622525";
+  const formatOptionLabel = ({ label }) => (
+    <div style={{ display: "flex" }}>
+      <div className="equipment_color_block" />
+      <div>{label }</div>
 
-    (
-      <div style={{ display: "flex" }}>
-        <div className="equipment_color_block" />
-        <div>{label }</div>
-
-      </div>
-    )
-  ;
+    </div>
+  );
 
   // eslint-disable-next-line max-len
   const getOptionsForSearch = (tools) => tools.map((tool) => ({ value: tool, label: tool }));

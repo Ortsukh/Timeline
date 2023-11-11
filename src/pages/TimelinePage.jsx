@@ -16,10 +16,7 @@ import TimeLineRenderer from "../components/TimeLineRenderer";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
 import {
-  getAllEquipments,
-  getAllOrders,
-  getCompanies,
-  getUser, sendEditOrder,
+  sendEditOrder,
 } from "../Api/API";
 import showNetwork from "../components/Alert/showNetwork";
 import BookingMenu from "../components/BookingMenuComponents/BookingMenu";
@@ -33,16 +30,15 @@ import EquipmentInfoWindow from "../components/Popup/EquipmentInfoWindow";
 import Overlay from "../components/BookingMenuComponents/BookingDateColumn/components/Overlay";
 import sortingArrayGroups from "../constants/priorityGroups";
 import BackButton from "../components/Button/BackButton";
+import useTimelineData from "../hooks/useTimelineData";
 
-export default function TimelinePage() {
+export default function TimelinePage(id) {
   const [groups, setGroups] = useState([]);
   const [update, setUpdate] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [items, setItems] = useState([]);
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
   const [companies, setCompanies] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingEquipment, setIsLoadingEquipment] = useState(true);
   const [isActiveDate, setIsActiveDate] = useState(false);
   const [editOrderData, setEditOrderData] = useState(null);
   const [editOrderItems, setEditOrderItems] = useState(null);
@@ -69,43 +65,21 @@ export default function TimelinePage() {
   const [isEquipmentInfoWindowOpen, setIsEquipmentInfoWindowOpen] = useState(null);
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
 
-  useEffect(() => {
-    getUser().then((res) => {
-      setUser(res);
-      if (res.role === "ROLE_MANAGER") {
-        getCompanies().then((response) => {
-          setCompanies(response);
-        });
-      }
-      if (res.role === "ROLE_COMPANY") {
-        setSelectedCompany(res);
-      }
-    });
-  }, []);
+  const {
+    userData,
+    companiesData,
+    allEquipmentData,
+    loading,
+    allOrderData,
+  } = useTimelineData(id, update);
 
   useEffect(() => {
-    // console.log(user);
-    setIsLoadingEquipment(true);
-    if (!user) return;
-
-    getAllEquipments().then((response) => {
-      setGroups(sortingArrayGroups(createEquipmentGroup(response.data)));
-      setIsLoadingEquipment(false);
-    });
-  }, [update, user]);
-
-  useEffect(() => {
-    setIsLoading(true);
-    if (!user) return;
-
-    getAllOrders()
-      .then((response) => {
-        setItems(createOrderGroup(response.data, user));
-        if (user) setIsLoading(false);
-      })
-
-      .catch((error) => console.log(error));
-  }, [update, user]);
+    if (loading) return;
+    setUser(userData);
+    setCompanies(companiesData);
+    setGroups(sortingArrayGroups(createEquipmentGroup(allEquipmentData)));
+    setItems(createOrderGroup(allOrderData), userData);
+  }, [loading]);
 
   const handleInputChange = (newInput) => {
     localStorage.setItem("toolsFilter", newInput);
@@ -251,7 +225,7 @@ export default function TimelinePage() {
     setIsActiveMessage((current) => !current);
   };
 
-  return !isLoading && !isLoadingEquipment ? (
+  return !loading && user ? (
     <>
       {isOpenOverlay && (
       <Overlay openOverLay={setIsOpenOverlay} isAddNewItem={false} />

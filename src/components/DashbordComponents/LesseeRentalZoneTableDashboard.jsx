@@ -19,8 +19,8 @@ export default function LesseeRentalZoneTableDashboard({ rentZone }) {
     };
     const cells = [
       { value: zone.id, class: "centerCell" },
-      { value: zone.contract.marketPlace.kitchensEquipment[0].name, class: "" }, // TODO посмотреть почему kitchensEquipment - массив
-      { value: moment(zone.createdAt.date).format("D MMM"), class: "centerCell" },
+      { value: zone.contract?.marketPlace?.kitchensEquipment[0]?.name, class: "" }, // TODO посмотреть почему kitchensEquipment - массив
+      { value: moment(zone.createdAt?.date).format("D MMM"), class: "centerCell" },
       { value: roundedPrice(zone.totalSum), class: "moneyCell" },
       { value: zone.status, class: getClassStatus(zone.status) },
     ];
