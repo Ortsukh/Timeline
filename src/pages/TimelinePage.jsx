@@ -83,7 +83,7 @@ export default function TimelinePage({ isMainLessee }) {
     if (userData.role === "ROLE_COMPANY") {
       setSelectedCompany(userData);
     }
-  }, [loading]);
+  }, [loading, update]);
 
   const handleInputChange = (newInput) => {
     localStorage.setItem("toolsFilter", newInput);

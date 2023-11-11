@@ -2,6 +2,7 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import Swal from "sweetalert2";
 import { createOrder, sendEditOrder } from "../../Api/API";
 import {
   addGrid,
@@ -38,6 +39,7 @@ export default function BookingMenu({
   isFromDashboard,
   filterProps,
 }) {
+  console.log(currentDevice);
   console.log(editOrderData);
   console.log(selectedCompany);
   const startWorkDay = currentDevice?.workTime ? Number(currentDevice.workTime.shiftTimes.start.split(":")[0]) : 0;
@@ -272,7 +274,6 @@ export default function BookingMenu({
       const dayGrids = groupByDateItems(
         filteredItemsByDate.filter((item) => item.group === group.id),
       );
-      console.log(dayGrids);
       Object.keys(dayGrids).forEach((day) => {
         if (!commonMap[day]) {
           commonMap[day] = dayGrids[day];
@@ -376,13 +377,28 @@ export default function BookingMenu({
 
     sendEditOrder(editedOrder)
       .then(() => {
+        if (isFromDashboard) {
+          Swal.fire({
+            icon: "success",
+            timer: 2000,
+            didClose: () => {
+              const { origin } = window.location;
+              const { pathname } = window.location;
+              window.location.replace(`${origin}${pathname}?page=main_dashboard`);
+            },
+          });
+        }
         openAlertWindow("success");
         setUpdate((previousUpdate) => !previousUpdate);
         setIsBookingMenu(false);
         setCurrentDevice([]);
         setIsEditMode(false);
       })
-      .catch(() => openAlertWindow("error"));
+      .catch(() => Swal.fire({
+        icon: "error",
+        text: "ошибка сети",
+
+      }));
   };
 
   const sendNewOrder = (commentToOrder, status = "pending") => {
@@ -390,13 +406,27 @@ export default function BookingMenu({
     const orderItems = createOrderGrid(baseOrder.preOrders);
     createOrder(orderItems, selectedCompany, commentToOrder, status)
       .then(() => {
+        if (isFromDashboard) {
+          Swal.fire({
+            icon: "success",
+            timer: 2000,
+            didClose: () => {
+              const { origin } = window.location;
+              const { pathname } = window.location;
+              window.location.replace(`${origin}${pathname}?page=main_dashboard`);
+            },
+          });
+        }
         openAlertWindow("success");
         setIsBookingMenu(false);
         setCurrentDevice([]);
         setShowButtonClear(true);
         setUpdate((previousUpdate) => !previousUpdate);
       })
-      .catch(() => openAlertWindow("error"));
+      .catch(() => Swal.fire({
+        icon: "error",
+        text: "ошибка сети",
+      }));
   };
 
   const handleChangeEquipmentBeforeCalculation = (selectValueBeforeCalculation) => {

@@ -2,10 +2,10 @@ import useFetch from "./useFetch";
 
 export default function useBuildManagerData() {
   let loading = false;
-  // const backendManagerUrl = "/admin/manager/";
-  // const backendUrl = "/admin/api/";
-  const backendUrl = " http://localhost:3001/admin/manager/";
-  const backendManagerUrl = " http://localhost:3001/admin/manager/";
+  const backendManagerUrl = "/admin/manager/";
+  const backendUrl = "/admin/api/";
+  // const backendUrl = " http://localhost:3001/admin/manager/";
+  // const backendManagerUrl = " http://localhost:3001/admin/manager/";
 
   const { data: orderData, loading: orderLoading } = useFetch(
     `${backendUrl}get_orders`,

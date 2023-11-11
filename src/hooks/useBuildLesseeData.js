@@ -2,10 +2,10 @@ import useFetch from "./useFetch";
 
 export default function useBuildLesseeData(id, isMainLessee) {
   let loading = false;
-  const backendUrl = " http://localhost:3001/admin/manager/";
-  const backendManagerUrl = " http://localhost:3001/admin/manager/";
-  // const backendManagerUrl = "/admin/manager/";
-  // const backendUrl = "/admin/api/";
+  // const backendUrl = " http://localhost:3001/admin/manager/";
+  // const backendManagerUrl = " http://localhost:3001/admin/manager/";
+  const backendManagerUrl = "/admin/manager/";
+  const backendUrl = "/admin/api/";
 
   const { data: ordersData, loading: orderLoading } = useFetch(
     `${backendUrl}get_orders/${id}`,
