@@ -259,16 +259,14 @@ export default function BookingMenu({
   const createEquipmentsMap = () => {
     const map = {};
     const commonMap = {};
-    console.log(currentDevice, groups);
     const filteredGroups = groups.filter((group) => group.category === currentDevice.category);
     let filteredItemsByDate = items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day")));
-
+    console.log(isEditMode);
     if (isEditMode) {
       filteredItemsByDate = filteredItemsByDate.filter(
         (item) => item.rentOrderId !== editOrderData.rentOrderId,
       );
     }
-    console.log(filteredGroups, filteredItemsByDate);
     filteredGroups.forEach((group) => {
       map[group.id] = {};
       const dayGrids = groupByDateItems(
@@ -314,6 +312,7 @@ export default function BookingMenu({
       const events = [];
       const successEvent = {};
       const conflictEvent = {};
+      let countConflict = 0;
       editItems.forEach((item) => {
         editDates[item.date] = [];
         if (!successEvent[item.date]) {
@@ -326,6 +325,7 @@ export default function BookingMenu({
         const itemStartIndex = item.grid.indexOf("1");
         if (mapsEquipment[item.group].dates[item.date] && mapsEquipment[item.group].dates[item.date][itemStartIndex] === "1") {
           conflictEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
+          countConflict++;
         } else {
           successEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
         }
@@ -343,7 +343,6 @@ export default function BookingMenu({
           backgroundColor: conflictEvent[date].length ? ITEMS_PREORDER_COLOR.orderedInAllEquipment : ITEMS_PREORDER_COLOR.empty.backgroundColor,
         });
       });
-
       setBaseOrder((prev) => ({
         ...prev,
         preOrders: editItems,
@@ -351,7 +350,7 @@ export default function BookingMenu({
           ...currentDevice,
           conflicts: conflictEvent,
           success: successEvent,
-          countConflicts: Object.keys(conflictEvent).length,
+          countConflicts: countConflict,
           dates: mapsEquipment[currentDevice.id],
         },
       }));
