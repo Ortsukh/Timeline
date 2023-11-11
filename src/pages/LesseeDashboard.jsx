@@ -10,13 +10,13 @@ import BackButton from "../components/Button/BackButton";
 import useBuildLesseeData from "../hooks/useBuildLesseeData";
 import Spinner from "../components/Spinner/Spinner";
 import CalendarWithTimelineComponent from "../components/DashbordComponents/CalendarWithTimelineComponent";
+import TimelineDashboardWindow from "../components/Popup/TimelineDashboardWindow";
 
-export default function LesseeDashboard({ lesseeId, isMainLessee }) {
+export default function LesseeDashboard({ lesseeId, isMainLessee, user }) {
   if (!lesseeId) return;
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
-  // eslint-disable-next-line
-  const [orderCalendarSelectDay, setOrderCalendarSelectDay] = useState(moment().format("YYYY-MM-DD"));
   const [profitItems, setProfitItems] = useState([]);
+  const [activeItem, setActiveItem] = useState(null);
   const {
     ordersData,
     rentZone,
@@ -33,7 +33,7 @@ export default function LesseeDashboard({ lesseeId, isMainLessee }) {
     <Spinner />
   ) : (
     <div>
-      <BackButton classButton="tut" />
+      <BackButton />
       <div className="row">
         <div className="col-lg-3 col-md-4">
           <LesseeInfoBox
@@ -55,9 +55,12 @@ export default function LesseeDashboard({ lesseeId, isMainLessee }) {
 
       </div>
       { isMainLessee && (
-      <div className="row" style={{ margin: "10px 0 20px" }}>
-        <CalendarWithTimelineComponent allOrderData={allOrderData} />
-      </div>
+        <div className="row" style={{ margin: "10px 0 20px" }}>
+          <CalendarWithTimelineComponent
+            allOrderData={allOrderData}
+            setActiveItem={setActiveItem}
+          />
+        </div>
       )}
       <div className="row">
         <div className="col-lg-3 col-md-6 width-fif"><LesseeLastOrdersTableDashboard id={lesseeId} ordersData={ordersData.slice(0, listLength)} /></div>
@@ -66,6 +69,13 @@ export default function LesseeDashboard({ lesseeId, isMainLessee }) {
       <div className="row">
         <div className="col-lg-3 col-md-6 width-hun"><LesseeTransactionsTableDashboard id={lesseeId} transactions={transactions.slice(0, listLength)} /></div>
       </div>
+      {activeItem && (
+        <TimelineDashboardWindow
+          item={activeItem}
+          close={activeItem.close}
+          user={user}
+        />
+      )}
     </div>
   );
 }

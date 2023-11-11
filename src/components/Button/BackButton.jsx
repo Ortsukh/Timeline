@@ -1,15 +1,20 @@
 import React from "react";
 import buttonTitleConstants from "../../constants/buttonTitleConstants";
 
-export default function BackButton({ classButton }) {
+export default function BackButton() {
   const backToDashboard = () => {
     const { origin } = window.location;
     const { pathname } = window.location;
     window.location.replace(`${origin}${pathname}?page=main_dashboard`);
   };
-  const className = `backButton back-dash-timeline ${classButton || ""}`;
+
   return (
-    <button type="button" className={className} onClick={backToDashboard}>
+    <button
+      type="button"
+      className="backButton back-dash-timeline"
+      style={{ marginBottom: "10px" }}
+      onClick={backToDashboard}
+    >
       {buttonTitleConstants.BACK}
     </button>
   );

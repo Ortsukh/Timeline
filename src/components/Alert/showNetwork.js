@@ -15,10 +15,8 @@ const showNetwork = (failedReq, statusCode = 404) => {
       icon: "success",
       text: "Запрос прошел успешно.",
       showConfirmButton: false,
+      timer: 1500,
     });
-    setTimeout(() => {
-      Swal.close();
-    }, 1500);
     return;
   }
 
