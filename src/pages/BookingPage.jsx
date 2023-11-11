@@ -126,7 +126,7 @@ export default function BookingPage({orderId}) {
     isClickedOnNew,
   };
   console.log(currentDevice)
-  return !isLoading && !isLoadingEquipment && currentDevice  ? (
+  return !loading && currentDevice  ? (
     <>
       {isOpenOverlay && (
         <Overlay openOverLay={setIsOpenOverlay} isAddNewItem={false} />
