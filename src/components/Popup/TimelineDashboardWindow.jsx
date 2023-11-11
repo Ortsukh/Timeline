@@ -34,7 +34,7 @@ export default function TimelineDashboardWindow({
     const { origin } = window.location;
     const { pathname } = window.location;
     close(item.id);
-    window.location.replace(`${origin}${pathname}?page=booking_menu&order_id=${item.orderId}`);
+    window.location.replace(`${origin}${pathname}?page=booking_menu&order_id=${item.rentOrderId}`);
   };
 
   return (

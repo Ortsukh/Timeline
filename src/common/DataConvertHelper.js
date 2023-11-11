@@ -140,6 +140,7 @@ const getOrderColor = (order, user) => {
 
 const createOrderObject = (order, el, shiftLength, interval, user) => {
   const statusColor = getOrderColor(order, user);
+  console.log(user, statusColor);
   const itemProps = { style: { background: statusColor } };
   const hour = moment(el.start_time).hours();
   return {

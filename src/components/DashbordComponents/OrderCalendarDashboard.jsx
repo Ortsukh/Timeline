@@ -60,7 +60,6 @@ export default function OrderCalendarDashboard({
   useEffect(() => {
     const infoElementNode = getCalendarCellsByClassNames("small");
     infoElementNode.forEach((node) => node.remove());
-    console.log(infoElementNode);
     getCalendarCellsByClassNames(".fc-day-past:not(.fc-day-other)").forEach((cell) => {
       cell.firstChild.classList.add("gridPastDays");
     });
@@ -155,9 +154,7 @@ export default function OrderCalendarDashboard({
     <div className="dashboardCalendarContainer">
       <FullCalendar
         ref={calendarRef}
-        dayMaxEventColumn
         datesSet={handleChangeMonth}
-        // dayClick={(date, jsEvent, view) => console.log(date, jsEvent, view)}
         unselectAuto={false}
         height={550}
         contentHeight={400}

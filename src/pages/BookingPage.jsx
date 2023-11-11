@@ -18,6 +18,8 @@ import AlertWindow from "../components/Popup/AlertWindow";
 import BookingMenu from "../components/BookingMenuComponents/BookingMenu";
 import Overlay from "../components/BookingMenuComponents/BookingDateColumn/components/Overlay";
 import sortingArrayGroups from "../constants/priorityGroups";
+import useTimelineData from "../hooks/useTimelineData";
+import Swal from "sweetalert2";
 
 export default function BookingPage({orderId}) {
   const [groups, setGroups] = useState([]);
@@ -40,43 +42,22 @@ export default function BookingPage({orderId}) {
   const [, setIsBookingMenu] = useState(false);
   const [, setIsEquipmentInfoWindowOpen] = useState(null);
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
-  console.log("orderId",orderId)
-  useEffect(() => {
-    getUser().then((res) => {
-      setUser(res);
-      if (res.role === "ROLE_MANAGER") {
-        getCompanies().then((response) => {
-          setCompanies(response);
-        });
-      }
-      if (res.role === "ROLE_COMPANY") {
-        setSelectedCompany(res);
-      }
-    });
-  }, []);
+  const {
+    userData,
+    companiesData,
+    allEquipmentData,
+    loading,
+    allOrderData,
+  } = useTimelineData(orderId, update);
 
   useEffect(() => {
-    setIsLoadingEquipment(true);
-    if (!user) return;
-    getAllEquipments().then((response) => {
-      setGroups(sortingArrayGroups(createEquipmentGroup(response.data)));
-      setIsLoadingEquipment(false);
-    });
-  }, [update, user]);
-
-  useEffect(() => {
-    setIsLoading(true);
-    if (!user) return;
-
-    getAllOrders()
-      .then((response) => {
-        setItems(createOrderGroup(response.data, user));
-        if (user) setIsLoading(false);
-      })
-
-      .catch((error) => console.log(error));
-  }, [update, user]);
-
+    if (loading) return;
+    console.log(userData);
+    setUser(userData);
+    setCompanies(companiesData);
+    setGroups(sortingArrayGroups(createEquipmentGroup(allEquipmentData)));
+    setItems(createOrderGroup(allOrderData, userData));
+  }, [loading]);
   useEffect(() => {
 
     console.log(items)
@@ -85,7 +66,21 @@ export default function BookingPage({orderId}) {
     console.log(orderId)
     if(orderId){
       setIsEditMode(true)
+      console.log(items, orderId)
       const editItem = items.find(item => item.rentOrderId.toString() === orderId)
+      if(!editItem) {
+        Swal.fire({
+          icon: "error",
+          text: `Не найдет заказ с таким номером`,
+          timer: 2000,
+          didClose: ()=> {
+            const { origin } = window.location;
+            const { pathname } = window.location;
+            window.location.replace(`${origin}${pathname}?page=main_dashboard`);
+          }
+        });
+        return
+      }
       console.log(editItem)
         setSelectedCompany(editItem.company)
         setEditOrderData(editItem)

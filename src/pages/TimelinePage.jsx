@@ -75,10 +75,11 @@ export default function TimelinePage(id) {
 
   useEffect(() => {
     if (loading) return;
+    console.log(userData);
     setUser(userData);
     setCompanies(companiesData);
     setGroups(sortingArrayGroups(createEquipmentGroup(allEquipmentData)));
-    setItems(createOrderGroup(allOrderData), userData);
+    setItems(createOrderGroup(allOrderData, userData));
   }, [loading]);
 
   const handleInputChange = (newInput) => {
