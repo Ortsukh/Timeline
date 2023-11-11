@@ -30,11 +30,16 @@ export default function TimelineDashboardWindow({
     return "Отклонён";
   };
 
-  const handleEditOrder = () => {
+  const handleEditOrder = (value) => {
     const { origin } = window.location;
     const { pathname } = window.location;
     close(item.id);
-    window.location.replace(`${origin}${pathname}?page=booking_menu&order_id=${item.rentOrderId}`);
+    if (value === "edit") {
+      window.location.replace(`${origin}${pathname}?page=booking_menu&order_id=${item.rentOrderId}&view=false`);
+    }
+    if (value === "view") {
+      window.location.replace(`${origin}${pathname}?page=booking_menu&order_id=${item.rentOrderId}&view=true`);
+    }
   };
 
   return (
@@ -83,14 +88,24 @@ export default function TimelineDashboardWindow({
         </div>
         )}
       {user === "manager" && item.status === "pending"
-        && (
+        ? (
           <button
             type="button"
             className="reserved-btn reserve-timeline"
             style={{ width: "100%" }}
-            onClick={handleEditOrder}
+            onClick={() => handleEditOrder("edit")}
           >
-              {buttonTitleConstants.EDIT}
+            {buttonTitleConstants.EDIT}
+          </button>
+        )
+        : (
+          <button
+            type="button"
+            className="reserved-btn reserve-timeline"
+            style={{ width: "100%" }}
+            onClick={() => handleEditOrder("view")}
+          >
+            {buttonTitleConstants.VIEW}
           </button>
         )}
     </div>
