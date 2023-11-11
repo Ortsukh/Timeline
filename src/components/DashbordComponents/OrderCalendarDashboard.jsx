@@ -6,11 +6,13 @@ import timeGrid from "@fullcalendar/timegrid";
 import calenderList from "@fullcalendar/list";
 import multiMonthPlugin from "@fullcalendar/multimonth";
 import interaction from "@fullcalendar/interaction";
-import moment from "moment/moment";
-import month from "react-date-range/dist/components/Month";
+// import moment from "moment/moment";
+// import month from "react-date-range/dist/components/Month";
 import { createOrderGroup } from "../../common/DataConvertHelper";
 
-export default function OrderCalendarDashboard({ setOrderCalendarSelectDay, allOrderData }) {
+export default function OrderCalendarDashboard({
+  setOrderCalendarSelectDay, allOrderData, setActiveItem,
+}) {
   const [orders, setOrders] = useState([]);
   const calendarRef = useRef();
   const [month, setMonth] = useState("");
@@ -93,6 +95,7 @@ export default function OrderCalendarDashboard({ setOrderCalendarSelectDay, allO
     unselectDefaultCalendar();
     const cellDate = cell.dataset.date;
     cell.firstChild.classList.add("selectedCell");
+    setActiveItem(null);
     setOrderCalendarSelectDay(cellDate);
   };
 

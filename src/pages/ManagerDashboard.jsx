@@ -10,10 +10,12 @@ import ManagerLastPendingOrdersTableDashboard from "../components/DashbordCompon
 import useBuildManagerData from "../hooks/useBuildManagerData";
 import Spinner from "../components/Spinner/Spinner";
 import CalendarWithTimelineComponent from "../components/DashbordComponents/CalendarWithTimelineComponent";
+import TimelineDashboardWindow from "../components/Popup/TimelineDashboardWindow";
 
-export default function ManagerDashboard() {
+export default function ManagerDashboard({ user }) {
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
   const [profitItems, setProfitItems] = useState([]);
+  const [activeItem, setActiveItem] = useState(null);
   const {
     orderData,
     managerInfoData,
@@ -24,8 +26,8 @@ export default function ManagerDashboard() {
     loading,
   } = useBuildManagerData();
   const listLength = 5;
-  console.log(loading);
-  console.log("asdasdasda");
+  // console.log(loading);
+  // console.log("asdasdasda");
   return loading ? (
     <Spinner />
   ) : (
@@ -45,7 +47,10 @@ export default function ManagerDashboard() {
         </div>
       </div>
       <div className="row" style={{ margin: "10px 0 20px" }}>
-        <CalendarWithTimelineComponent allOrderData={allOrderData} />
+        <CalendarWithTimelineComponent
+          allOrderData={allOrderData}
+          setActiveItem={setActiveItem}
+        />
       </div>
       <div className="row">
         <div className="col-lg-3  col-md-6 width-hun">
@@ -59,7 +64,13 @@ export default function ManagerDashboard() {
         <div className="col-lg-3  col-md-6 width-fif"><LesseeTableDashboard lesseeCompanies={lesseeCompanies.slice(0, listLength)} /></div>
         <div className="col-lg-3  col-md-6 width-hun"><ManagerTransactionsTableDashboard transactions={transactions.slice(0, listLength)} /></div>
       </div>
-
+      {activeItem && (
+        <TimelineDashboardWindow
+          item={activeItem}
+          close={activeItem.close}
+          user={user}
+        />
+      )}
     </div>
   );
 }

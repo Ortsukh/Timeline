@@ -34,7 +34,7 @@ ChartJS.register(
 export default function ProfitByTimeChart({
   selectedTime, setSelectedTime, setProfitItems, profitItems,
 }) {
-  console.log("update");
+  // console.log("update");
   const [timeStep, setTimeStep] = useState(1);
   const chart = useRef(null);
 
@@ -204,7 +204,7 @@ export default function ProfitByTimeChart({
       },
     }],
   };
-  console.log(data);
+  // console.log(data);
   return (
     <div className="profitChartContainer">
       <div className="cont-btn-dash">
