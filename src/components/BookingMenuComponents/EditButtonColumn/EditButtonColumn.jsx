@@ -91,11 +91,6 @@ export default function EditButtonColumn({
       </div>
     );
   };
-<<<<<<< HEAD
-  console.log(user);
-=======
-
->>>>>>> 5695ef817893bf07b1bc45954eb01a9ec75f7a89
   return (
     <div>
       <div className={style.backButtonBlock}>
