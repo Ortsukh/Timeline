@@ -1,5 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  memo, useEffect, useRef, useState,
+} from "react";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-moment";
 import "./style.css";
@@ -31,9 +33,9 @@ ChartJS.register(
 
 );
 
-export default function ProfitByTimeChart({
+const ProfitByTimeChart = memo(({
   selectedTime, setSelectedTime, setProfitItems, profitItems,
-}) {
+}) => {
   // console.log("update");
   const [timeStep, setTimeStep] = useState(1);
   const chart = useRef(null);
@@ -227,4 +229,6 @@ export default function ProfitByTimeChart({
 
     </div>
   );
-}
+});
+
+export default ProfitByTimeChart;
