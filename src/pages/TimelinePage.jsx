@@ -32,7 +32,7 @@ import sortingArrayGroups from "../constants/priorityGroups";
 import BackButton from "../components/Button/BackButton";
 import useTimelineData from "../hooks/useTimelineData";
 
-export default function TimelinePage(id) {
+export default function TimelinePage({ isMainLessee }) {
   const [groups, setGroups] = useState([]);
   const [update, setUpdate] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -71,7 +71,7 @@ export default function TimelinePage(id) {
     allEquipmentData,
     loading,
     allOrderData,
-  } = useTimelineData(id, update);
+  } = useTimelineData(isMainLessee, update);
 
   useEffect(() => {
     if (loading) return;

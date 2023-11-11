@@ -40,7 +40,7 @@ function App() {
     console.log("route", route);
     console.log("dashboardPage", dashboardPage);
     console.log("lesseeId", lesseeId);
-    if (route === "timeline") return <TimelinePage />;
+    if (route === "timeline") return <TimelinePage isMainLessee={companyType === "lessee"} />;
     if (route === "booking_menu") return <BookingPage orderId={orderId} />;
     if (companyType === "manager" && route !== "lessee_dashboard" && dashboardPage) return <ManagerDashboard user="manager" />;
     if (route === "lessee_dashboard" || companyType === "lessee") {

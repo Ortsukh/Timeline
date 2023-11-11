@@ -5,7 +5,7 @@ export default function UserAccountDashBoard({ id, userInfo, lesseeCompanies }) 
   useEffect(() => {
     // eslint-disable-next-line
     if(!lesseeCompanies) return
-    const company = lesseeCompanies.find((item) => item?.company?.id.toString() === id);
+    const company = lesseeCompanies.find((item) => item.company?.id.toString() === id.toString());
     setContract(company);
   }, []);
   return (

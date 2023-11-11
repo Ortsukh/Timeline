@@ -42,28 +42,25 @@ export default function TimeLineRenderer({
   //   setCurrentDevice(group);
   // };
 
-  const newGroups = groups.map((group) => {
-    console.log(group);
-    return ({
-      ...group,
-      title: (
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <div style={{ backgroundColor: group.color || "#622525" }} className="equipment_color_block" />
-          <div
+  const newGroups = groups.map((group) => ({
+    ...group,
+    title: (
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={{ backgroundColor: group.color || "#622525" }} className="equipment_color_block" />
+        <div
             // onClick={() => handleToSelectedGroup(group, group.category)}
             // onKeyDown={() => handleToSelectedGroup(group, group.category)}
-            onClick={() => setIsEquipmentInfoWindowOpen(group)}
-            aria-hidden="true"
-            style={{
-              cursor: "pointer", whiteSpace: "break-spaces", overflow: "hidden", height: "40px", maxWidth: "155px", lineHeight: "20px", display: "flex", alignItems: "center",
-            }}
-          >
-            {group.title}
-          </div>
+          onClick={() => setIsEquipmentInfoWindowOpen(group)}
+          aria-hidden="true"
+          style={{
+            cursor: "pointer", whiteSpace: "break-spaces", overflow: "hidden", height: "40px", maxWidth: "155px", lineHeight: "20px", display: "flex", alignItems: "center",
+          }}
+        >
+          {group.title}
         </div>
-      ),
-    });
-  });
+      </div>
+    ),
+  }));
 
   return (
     <Timeline
