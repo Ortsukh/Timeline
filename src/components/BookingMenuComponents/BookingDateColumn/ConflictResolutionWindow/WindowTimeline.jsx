@@ -62,6 +62,7 @@ export default function WindowTimeline({
   const setStartTimeSelectedItem = (time) => PR_SEL.today.clone().set("hour", time).startOf("hour");
   const setEndTimeSelectedItem = (time) => PR_SEL.today.clone().set("hour", time).startOf("hour").add(PR_COM.shiftCateg, "hour");
   // .subtract(1, "seconds");
+  const isViewMode = window.location.search.substring(1).split("&").find((query) => query.startsWith("view"))?.split("=")[1];
 
   const [initSuccessArr, setInitSuccessArr] = useState(
     selectedConflictDate.extendedProps.success.map((reserv) => ({
@@ -345,6 +346,8 @@ export default function WindowTimeline({
 
   const handleItemSelect = (itemId) => {
     // console.log("itemId", itemId);
+    if (isViewMode) return;
+
     if (elementForChange && itemId === elementForChange.id) {
       handleDeselectItem();
     }
@@ -621,97 +624,101 @@ export default function WindowTimeline({
           </Timeline>
         </div>
       </div>
-      <div style={{
-        // display: "flex", justifyContent: "space-between",
-        width: "auto", margin: "0 auto",
-      }}
-      >
-        <div>
-          {modifConflictArr.length > 0
-            ? (
-              <p style={{ fontSize: "14px" }}>
-                {"У вас "}
-                <span style={{ fontWeight: "bold", color: "#f03333" }}>{modifConflictArr.length}</span>
-                {` ${PluralizeWordConflict(modifConflictArr.length, "конфликт")}.`}
-              </p>
-            )
-            : (
-              <p style={{ fontSize: "14px" }}>Подсчет смен прошел успешно.</p>
-            )}
-        </div>
-        <div className={styleConflict.displayActionBtns}>
-          <div className={styleConflict.actionBtns}>
-            <button
-              type="button"
-              className={elementForChange ? styleConflict.disableBtn : "reserved-btn reserve-timeline"}
-              disabled={elementForChange}
-              onClick={() => {
-                setIsAddNewItem(true);
-                openOverLay(true);
-              }}
-            >
-              {buttonTitleConstants.ADD_NEW}
-            </button>
-            <button
-              type="button"
-              className={!elementForChange ? styleConflict.disableBtn : styleConflict.rejectBtn}
-              disabled={!elementForChange}
-              onClick={handleDeleteItem}
-            >
-              {buttonTitleConstants.DELETE}
-            </button>
+      {!isViewMode && (
+      <>
+        <div style={{
+          // display: "flex", justifyContent: "space-between",
+          width: "auto", margin: "0 auto",
+        }}
+        >
+          <div>
+            {modifConflictArr.length > 0
+              ? (
+                <p style={{ fontSize: "14px" }}>
+                  {"У вас "}
+                  <span style={{ fontWeight: "bold", color: "#f03333" }}>{modifConflictArr.length}</span>
+                  {` ${PluralizeWordConflict(modifConflictArr.length, "конфликт")}.`}
+                </p>
+              )
+              : (
+                <p style={{ fontSize: "14px" }}>Подсчет смен прошел успешно.</p>
+              )}
           </div>
-          <div className={styleConflict.actionBtns}>
-            <button
-              type="button"
-              className={elementForChange || !isOrderChanged
-                ? styleConflict.disableBtn
-                : styleConflict.resolveBtn}
-              disabled={elementForChange || !isOrderChanged}
-              onClick={handleResolveConflict}
-            >
-              {buttonTitleConstants.CONFIRM}
-            </button>
-            <button
-              type="button"
-              className={elementForChange ? styleConflict.disableBtn : styleConflict.rejectBtn}
-              disabled={elementForChange}
-              onClick={handleCancelWindow}
-            >
-              {buttonTitleConstants.CANCEL}
-            </button>
+          <div className={styleConflict.displayActionBtns}>
+            <div className={styleConflict.actionBtns}>
+              <button
+                type="button"
+                className={elementForChange ? styleConflict.disableBtn : "reserved-btn reserve-timeline"}
+                disabled={elementForChange}
+                onClick={() => {
+                  setIsAddNewItem(true);
+                  openOverLay(true);
+                }}
+              >
+                {buttonTitleConstants.ADD_NEW}
+              </button>
+              <button
+                type="button"
+                className={!elementForChange ? styleConflict.disableBtn : styleConflict.rejectBtn}
+                disabled={!elementForChange}
+                onClick={handleDeleteItem}
+              >
+                {buttonTitleConstants.DELETE}
+              </button>
+            </div>
+            <div className={styleConflict.actionBtns}>
+              <button
+                type="button"
+                className={elementForChange || !isOrderChanged
+                  ? styleConflict.disableBtn
+                  : styleConflict.resolveBtn}
+                disabled={elementForChange || !isOrderChanged}
+                onClick={handleResolveConflict}
+              >
+                {buttonTitleConstants.CONFIRM}
+              </button>
+              <button
+                type="button"
+                className={elementForChange ? styleConflict.disableBtn : styleConflict.rejectBtn}
+                disabled={elementForChange}
+                onClick={handleCancelWindow}
+              >
+                {buttonTitleConstants.CANCEL}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-        <div style={{ width: "49%" }}>
-          <ViewChanges
-            prevItems={sortingArrayViewChanges(initConflictArr)
-              .concat(sortingArrayViewChanges(initSuccessArr))}
-            newItems={modifConflictArr.concat(modifSuccessArr)}
-            groups={groups}
-            elementForChange={elementForChange}
-            openOverLay={openOverLay}
-            setIsAddNewItem={setIsAddNewItem}
-            handleDeleteItem={handleDeleteItem}
-            handleItemSelect={handleItemSelect}
-          />
+        <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+          <div style={{ width: "49%" }}>
+            <ViewChanges
+              prevItems={sortingArrayViewChanges(initConflictArr)
+                .concat(sortingArrayViewChanges(initSuccessArr))}
+              newItems={modifConflictArr.concat(modifSuccessArr)}
+              groups={groups}
+              elementForChange={elementForChange}
+              openOverLay={openOverLay}
+              setIsAddNewItem={setIsAddNewItem}
+              handleDeleteItem={handleDeleteItem}
+              handleItemSelect={handleItemSelect}
+            />
+          </div>
+          <div style={{ width: "49%" }}>
+            <EquipmentDescription
+              equipment={elementForChange === null
+                ? {
+                  ...PR_COM.calcGroup,
+                  supportText: "Рассчёт дня производился по оборудованию: ",
+                }
+                : {
+                  ...groups.find((group) => group.id === elementForChange.group),
+                  supportText: "Выбранная ячейка соответствует оборудованию: ",
+                }}
+              setIsEquipmentInfoWindowOpen={setIsEquipmentInfoWindowOpen}
+            />
+          </div>
         </div>
-        <div style={{ width: "49%" }}>
-          <EquipmentDescription
-            equipment={elementForChange === null
-              ? {
-                ...PR_COM.calcGroup,
-                supportText: "Рассчёт дня производился по оборудованию: ",
-              }
-              : {
-                ...groups.find((group) => group.id === elementForChange.group),
-                supportText: "Выбранная ячейка соответствует оборудованию: ",
-              }}
-            setIsEquipmentInfoWindowOpen={setIsEquipmentInfoWindowOpen}
-          />
-        </div>
-      </div>
+      </>
+      )}
     </>
   );
 }

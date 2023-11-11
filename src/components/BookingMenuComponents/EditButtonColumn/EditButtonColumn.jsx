@@ -41,6 +41,7 @@ export default function EditButtonColumn({
 }) {
   const [isShowConflictNotification, setIsShowConflictNotification] = useState("");
   const back = buttonTitleConstants.BACK;
+  const isViewMode = window.location.search.substring(1).split("&").find((query) => query.startsWith("view"))?.split("=")[1];
 
   const showNotification = (type) => {
     setIsShowConflictNotification(type);
@@ -90,6 +91,7 @@ export default function EditButtonColumn({
       </div>
     );
   };
+
   return (
     <div>
       <div className={style.backButtonBlock}>
@@ -223,6 +225,7 @@ export default function EditButtonColumn({
         ) : null}
       <div>
         {isShowConflictNotification && notification()}
+        {!isViewMode && (
         <div className={style.btnCont}>
           {isActiveCalendar ? (
             <button
@@ -345,6 +348,7 @@ export default function EditButtonColumn({
             {buttonTitleConstants.CLEAN}
           </button>
         </div>
+        )}
       </div>
     </div>
   );

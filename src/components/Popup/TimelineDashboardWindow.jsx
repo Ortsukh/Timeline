@@ -16,7 +16,8 @@ export default function TimelineDashboardWindow({
       height: refWindow.current.clientHeight || 250,
     });
   }, []);
-  const comment = "dbij n ieu hh9 b;k njekm fih in  ie jje m";
+  // const comment = "dbij n ieu hh9 b;k njekm fih in  ie jje m";
+  const comment = "";
   const isRightSpace = window.innerWidth - item.posX > sizeWindow.width + 20;
   const isTopSpace = item.posY > sizeWindow.height + 20;
   const isBottomSpace = window.innerHeight - item.posY + window.scrollY > sizeWindow.height + 20;
@@ -35,7 +36,7 @@ export default function TimelineDashboardWindow({
     const { pathname } = window.location;
     close(item.id);
     if (value === "edit") {
-      window.location.replace(`${origin}${pathname}?page=booking_menu&order_id=${item.rentOrderId}&view=false`);
+      window.location.replace(`${origin}${pathname}?page=booking_menu&order_id=${item.rentOrderId}`);
     }
     if (value === "view") {
       window.location.replace(`${origin}${pathname}?page=booking_menu&order_id=${item.rentOrderId}&view=true`);
