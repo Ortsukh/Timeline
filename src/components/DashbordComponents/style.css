@@ -123,8 +123,9 @@
 
 .col-lg-3.col-md-8.cont-check{
     position: absolute;
+    width: 100%;
     top: 25%;
-    left: 33%;
+    /* left: 33%; */
     padding: 0 !important;
 }
 
