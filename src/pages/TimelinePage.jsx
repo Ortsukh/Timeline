@@ -80,6 +80,9 @@ export default function TimelinePage({ isMainLessee }) {
     setCompanies(companiesData);
     setGroups(sortingArrayGroups(createEquipmentGroup(allEquipmentData)));
     setItems(createOrderGroup(allOrderData, userData));
+    if (userData.role === "ROLE_COMPANY") {
+      setSelectedCompany(userData);
+    }
   }, [loading]);
 
   const handleInputChange = (newInput) => {
@@ -208,6 +211,7 @@ export default function TimelinePage({ isMainLessee }) {
   };
   const createBook = () => {
     if (selectedGroups.length === 0 || !selectedCompany) {
+      console.log(selectedCompany, selectedGroups.length === 0);
       setIsClickingOnEmptyFilter(true);
       setIsClickedOnNew(true);
     } else {

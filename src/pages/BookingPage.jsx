@@ -21,7 +21,7 @@ import sortingArrayGroups from "../constants/priorityGroups";
 import useTimelineData from "../hooks/useTimelineData";
 import Swal from "sweetalert2";
 
-export default function BookingPage({orderId}) {
+export default function BookingPage({orderId, isMainLessee}) {
   const [groups, setGroups] = useState([]);
   const [update, setUpdate] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -48,8 +48,7 @@ export default function BookingPage({orderId}) {
     allEquipmentData,
     loading,
     allOrderData,
-  } = useTimelineData(orderId, update);
-
+  } = useTimelineData(isMainLessee, update);
   useEffect(() => {
     if (loading) return;
     console.log(userData);
@@ -57,6 +56,9 @@ export default function BookingPage({orderId}) {
     setCompanies(companiesData);
     setGroups(sortingArrayGroups(createEquipmentGroup(allEquipmentData)));
     setItems(createOrderGroup(allOrderData, userData));
+    if (userData.role === "ROLE_COMPANY") {
+      setSelectedCompany(userData);
+    }
   }, [loading]);
   useEffect(() => {
 

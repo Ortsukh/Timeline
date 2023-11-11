@@ -90,6 +90,7 @@ export default function EditButtonColumn({
       </div>
     );
   };
+  console.log(user);
   return (
     <div>
       <div className={style.backButtonBlock}>
