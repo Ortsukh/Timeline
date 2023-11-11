@@ -9,7 +9,7 @@ export default function UserAccountDashBoard({ id, userInfo, lesseeCompanies }) 
     setContract(company);
   }, []);
   return (
-    <div className="info-box bg-success">
+    <div className="info-box bg-success" style={{ margin: "0 auto" }}>
       <div className="info-box-content">
         <span className="info-box-text">Счет</span>
         {/* eslint-disable-next-line no-nested-ternary */}

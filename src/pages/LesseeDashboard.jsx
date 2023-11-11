@@ -33,7 +33,9 @@ export default function LesseeDashboard({ lesseeId, isMainLessee, user }) {
     <Spinner />
   ) : (
     <div>
-      <BackButton />
+      <div style={{ marginBottom: "10px" }}>
+        <BackButton />
+      </div>
       <div className="row">
         <div className="col-lg-3 col-md-4">
           <LesseeInfoBox

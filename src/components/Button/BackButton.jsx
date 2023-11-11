@@ -12,7 +12,6 @@ export default function BackButton() {
     <button
       type="button"
       className="backButton back-dash-timeline"
-      style={{ marginBottom: "10px" }}
       onClick={backToDashboard}
     >
       {buttonTitleConstants.BACK}
