@@ -17,6 +17,7 @@ import {
 import AlertWindow from "../components/Popup/AlertWindow";
 import BookingMenu from "../components/BookingMenuComponents/BookingMenu";
 import Overlay from "../components/BookingMenuComponents/BookingDateColumn/components/Overlay";
+import EquipmentInfoWindow from "../components/Popup/EquipmentInfoWindow";
 import sortingArrayGroups from "../constants/priorityGroups";
 import useTimelineData from "../hooks/useTimelineData";
 import Swal from "sweetalert2";
@@ -40,7 +41,7 @@ export default function BookingPage({orderId, isMainLessee}) {
   const [isClickedOnNew, setIsClickedOnNew] = useState(false);
 
   const [, setIsBookingMenu] = useState(false);
-  const [, setIsEquipmentInfoWindowOpen] = useState(null);
+  const [isEquipmentInfoWindowOpen, setIsEquipmentInfoWindowOpen] = useState(null);
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
   const {
     userData,
@@ -156,6 +157,14 @@ export default function BookingPage({orderId, isMainLessee}) {
           isFromDashboard
           filterProps={filterProps}
         />
+        {isEquipmentInfoWindowOpen && (
+          <EquipmentInfoWindow
+            isEquipmentInfoWindowOpen={isEquipmentInfoWindowOpen}
+            setIsEquipmentInfoWindowOpen={setIsEquipmentInfoWindowOpen}
+            isOpenOverlay={isOpenOverlay}
+            setIsOpenOverlay={setIsOpenOverlay}
+          />
+        )}
         {/* {isOpenAlertWindow.status ? (
           <AlertWindow message={isOpenAlertWindow.message} />
         ) : null} */}

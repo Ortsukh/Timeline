@@ -13,6 +13,7 @@ const buttonTitleConstants = {
   REJECT: "Отклонить",
   SAVE: "Сохранить",
   SAVE_ORDER: "Сохранить и отправить заявку",
+  VIEW: "Смотреть",
 };
 
 export default buttonTitleConstants;

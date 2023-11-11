@@ -16,7 +16,8 @@ export default function TimelineDashboardWindow({
       height: refWindow.current.clientHeight || 250,
     });
   }, []);
-  const comment = "dbij n ieu hh9 b;k njekm fih in  ie jje m";
+  // const comment = "dbij n ieu hh9 b;k njekm fih in  ie jje m";
+  const comment = "";
   const isRightSpace = window.innerWidth - item.posX > sizeWindow.width + 20;
   const isTopSpace = item.posY > sizeWindow.height + 20;
   const isBottomSpace = window.innerHeight - item.posY + window.scrollY > sizeWindow.height + 20;
@@ -30,11 +31,16 @@ export default function TimelineDashboardWindow({
     return "Отклонён";
   };
 
-  const handleEditOrder = () => {
+  const handleEditOrder = (value) => {
     const { origin } = window.location;
     const { pathname } = window.location;
     close(item.id);
-    window.location.replace(`${origin}${pathname}?page=booking_menu&order_id=${item.rentOrderId}`);
+    if (value === "edit") {
+      window.location.replace(`${origin}${pathname}?page=booking_menu&order_id=${item.rentOrderId}`);
+    }
+    if (value === "view") {
+      window.location.replace(`${origin}${pathname}?page=booking_menu&order_id=${item.rentOrderId}&view=true`);
+    }
   };
 
   return (
@@ -83,14 +89,24 @@ export default function TimelineDashboardWindow({
         </div>
         )}
       {user === "manager" && item.status === "pending"
-        && (
+        ? (
           <button
             type="button"
             className="reserved-btn reserve-timeline"
             style={{ width: "100%" }}
-            onClick={handleEditOrder}
+            onClick={() => handleEditOrder("edit")}
           >
-              {buttonTitleConstants.EDIT}
+            {buttonTitleConstants.EDIT}
+          </button>
+        )
+        : (
+          <button
+            type="button"
+            className="reserved-btn reserve-timeline"
+            style={{ width: "100%" }}
+            onClick={() => handleEditOrder("view")}
+          >
+            {buttonTitleConstants.VIEW}
           </button>
         )}
     </div>
