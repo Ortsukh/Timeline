@@ -387,6 +387,7 @@ export default function BookingMenu({
               window.location.replace(`${origin}${pathname}?page=main_dashboard`);
             },
           });
+          return;
         }
         openAlertWindow("success");
         setUpdate((previousUpdate) => !previousUpdate);
@@ -416,6 +417,7 @@ export default function BookingMenu({
               window.location.replace(`${origin}${pathname}?page=main_dashboard`);
             },
           });
+          return;
         }
         openAlertWindow("success");
         setIsBookingMenu(false);

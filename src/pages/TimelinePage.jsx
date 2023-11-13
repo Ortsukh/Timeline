@@ -100,16 +100,7 @@ export default function TimelinePage({ isMainLessee }) {
   };
 
   const openAlertWindow = (message) => {
-    setIsOpenAlertWindow({
-      status: true,
-      message,
-    });
-    setTimeout(() => {
-      setIsOpenAlertWindow({
-        status: false,
-        message,
-      });
-    }, 2000);
+    showNetwork(message);
   };
 
   const getFormattedDate = (groupId, time) => {
@@ -361,7 +352,6 @@ export default function TimelinePage({ isMainLessee }) {
           setIsOpenOverlay={setIsOpenOverlay}
         />
         )}
-        {isOpenAlertWindow.status ? showNetwork(isOpenAlertWindow.message) : null}
       </div>
     </>
   ) : (
