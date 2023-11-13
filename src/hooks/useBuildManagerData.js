@@ -2,10 +2,11 @@ import useFetch from "./useFetch";
 
 export default function useBuildManagerData() {
   let loading = false;
-  const backendManagerUrl = "/admin/manager/";
-  const backendUrl = "/admin/api/";
-  // const backendUrl = " http://localhost:3001/admin/manager/";
-  // const backendManagerUrl = " http://localhost:3001/admin/manager/";
+  const isLocal = true;
+  // const backendManagerUrl = "/admin/manager/";
+  // const backendUrl = "/admin/api/";
+  const backendUrl = " http://localhost:3001/admin/manager/";
+  const backendManagerUrl = " http://localhost:3001/admin/manager/";
 
   const { data: orderData, loading: orderLoading } = useFetch(
     `${backendUrl}get_orders`,
@@ -15,7 +16,7 @@ export default function useBuildManagerData() {
     `${backendUrl}get_manager_info`,
   );
 
-  const { data: allOrderData, loading: allOrderDataLoading } = useFetch(
+  const { data: allOrderData, loading: allOrderDataLoading } = isLocal ? useFetch(`${backendUrl}get_local_orders`) : useFetch(
     `${backendManagerUrl}get_equipment_items`,
   );
 

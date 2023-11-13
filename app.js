@@ -119,6 +119,42 @@ app.get(`${backendUrl}get_lessee_companies*`, (req, res, next) => {
     }
   });
 });
+app.get(`${backendUrl}get_local_orders`, (req, res, next) => {
+  const options = {
+    root: path.join(__dirname, "db"),
+    dotfiles: "deny",
+    headers: {
+      "x-timestamp": Date.now(),
+      "x-sent": true,
+    },
+  };
+
+  res.sendFile("equipmentItems.json", options, (err) => {
+    if (err) {
+      next(err);
+    } else {
+      console.log("Sent: export_sales.json");
+    }
+  });
+});
+app.get(`${backendUrl}get_local_equipment`, (req, res, next) => {
+  const options = {
+    root: path.join(__dirname, "db"),
+    dotfiles: "deny",
+    headers: {
+      "x-timestamp": Date.now(),
+      "x-sent": true,
+    },
+  };
+
+  res.sendFile("equipment.json", options, (err) => {
+    if (err) {
+      next(err);
+    } else {
+      console.log("Sent: export_sales.json");
+    }
+  });
+});
 
 app.get(`${backendUrl}get_equipment_items*`, (req, res, next) => {
   fetch("http://freekitchen.loc/test/get_equipment_items").then((res1) => res1.json().then((data) => {

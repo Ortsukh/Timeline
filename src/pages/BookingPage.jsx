@@ -8,13 +8,7 @@ import Spinner from "../components/Spinner/Spinner";
 
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
-import {
-  getAllEquipments,
-  getAllOrders,
-  getCompanies,
-  getUser,
-} from "../Api/API";
-import AlertWindow from "../components/Popup/AlertWindow";
+
 import BookingMenu from "../components/BookingMenuComponents/BookingMenu";
 import Overlay from "../components/BookingMenuComponents/BookingDateColumn/components/Overlay";
 import EquipmentInfoWindow from "../components/Popup/EquipmentInfoWindow";
@@ -50,6 +44,7 @@ export default function BookingPage({orderId, isMainLessee}) {
     loading,
     allOrderData,
   } = useTimelineData(isMainLessee, update);
+
   useEffect(() => {
     if (loading) return;
     console.log(userData);
@@ -60,7 +55,7 @@ export default function BookingPage({orderId, isMainLessee}) {
     if (userData.role === "ROLE_COMPANY") {
       setSelectedCompany(userData);
     }
-  }, [loading]);
+  }, [loading,update]);
   useEffect(() => {
 
     console.log(items)

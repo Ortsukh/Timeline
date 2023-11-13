@@ -1,0 +1,261 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": 23,
+      "name": "Цеха",
+      "color": "#ff0000",
+      "shiftLength": 8,
+      "kitchenEquipment": [
+        {
+          "id": 22,
+          "type": "kitchen",
+          "name": "Цех 2",
+          "shortName": "Ц2",
+          "description": "Длинна: 98м. Широта:  96м. Градус: 38.",
+          "price": "55.00",
+          "image": null,
+          "marketPlace": {
+            "id": 1,
+            "conditionTimes": [
+              {
+                "id": 2,
+                "timeFrom": "07:00",
+                "timeTo": "22:00",
+                "monday": true,
+                "tuesday": true,
+                "wednesday": true,
+                "thursday": true,
+                "friday": true,
+                "saturday": false,
+                "sunday": false
+              }
+            ]
+          },
+          "managerId": 1
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Холодильники",
+      "color": "#000000",
+      "shiftLength": 4,
+      "kitchenEquipment": [
+        {
+          "id": 23,
+          "type": "equipment",
+          "name": "Холодильник Sumsung",
+          "shortName": "Х1",
+          "description": "Рост: 150см. Ширина: 60см. Вес: 20кг.",
+          "price": "10.00",
+          "image": null,
+          "marketPlace": {
+            "id": 1,
+            "conditionTimes": [
+              {
+                "id": 2,
+                "timeFrom": "07:00",
+                "timeTo": "22:00",
+                "monday": true,
+                "tuesday": true,
+                "wednesday": true,
+                "thursday": true,
+                "friday": true,
+                "saturday": false,
+                "sunday": false
+              }
+            ]
+          },
+          "managerId": 1
+        },
+        {
+          "id": 31,
+          "type": "equipment",
+          "name": "312",
+          "shortName": "312",
+          "description": null,
+          "price": "0.00",
+          "image": null,
+          "marketPlace": {
+            "id": 1,
+            "conditionTimes": [
+              {
+                "id": 2,
+                "timeFrom": "07:00",
+                "timeTo": "22:00",
+                "monday": true,
+                "tuesday": true,
+                "wednesday": true,
+                "thursday": true,
+                "friday": true,
+                "saturday": false,
+                "sunday": false
+              }
+            ]
+          },
+          "managerId": 1
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "name": "Категория12",
+      "color": "#000000",
+      "shiftLength": 12,
+      "kitchenEquipment": [
+        {
+          "id": 24,
+          "type": "equipment",
+          "name": "Морозидка",
+          "shortName": "МЗ1",
+          "description": "Рост: 150см. Ширина: 60см. Вес: 50кг.",
+          "price": "12.00",
+          "image": null,
+          "marketPlace": {
+            "id": 1,
+            "conditionTimes": [
+              {
+                "id": 2,
+                "timeFrom": "07:00",
+                "timeTo": "22:00",
+                "monday": true,
+                "tuesday": true,
+                "wednesday": true,
+                "thursday": true,
+                "friday": true,
+                "saturday": false,
+                "sunday": false
+              }
+            ]
+          },
+          "managerId": 1
+        },
+        {
+          "id": 38,
+          "type": "equipment",
+          "name": "1",
+          "shortName": "1",
+          "description": null,
+          "price": "0.00",
+          "image": null,
+          "marketPlace": {
+            "id": 1,
+            "conditionTimes": [
+              {
+                "id": 2,
+                "timeFrom": "07:00",
+                "timeTo": "22:00",
+                "monday": true,
+                "tuesday": true,
+                "wednesday": true,
+                "thursday": true,
+                "friday": true,
+                "saturday": false,
+                "sunday": false
+              }
+            ]
+          },
+          "managerId": 1
+        },
+        {
+          "id": 40,
+          "type": "equipment",
+          "name": "2",
+          "shortName": "2",
+          "description": null,
+          "price": "0.00",
+          "image": null,
+          "marketPlace": {
+            "id": 1,
+            "conditionTimes": [
+              {
+                "id": 2,
+                "timeFrom": "07:00",
+                "timeTo": "22:00",
+                "monday": true,
+                "tuesday": true,
+                "wednesday": true,
+                "thursday": true,
+                "friday": true,
+                "saturday": false,
+                "sunday": false
+              }
+            ]
+          },
+          "managerId": 1
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Фритюр",
+      "color": "#000000",
+      "shiftLength": 4,
+      "kitchenEquipment": [
+        {
+          "id": 25,
+          "type": "equipment",
+          "name": "Фритюр",
+          "shortName": "ФР1",
+          "description": "Хороший",
+          "price": "15.00",
+          "image": null,
+          "marketPlace": {
+            "id": 1,
+            "conditionTimes": [
+              {
+                "id": 2,
+                "timeFrom": "07:00",
+                "timeTo": "22:00",
+                "monday": true,
+                "tuesday": true,
+                "wednesday": true,
+                "thursday": true,
+                "friday": true,
+                "saturday": false,
+                "sunday": false
+              }
+            ]
+          },
+          "managerId": 1
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Печи",
+      "color": "#000000",
+      "shiftLength": 4,
+      "kitchenEquipment": [
+        {
+          "id": 26,
+          "type": "equipment",
+          "name": "Плавильная печь",
+          "shortName": "ПП1",
+          "description": "Очень горячё!",
+          "price": "88.00",
+          "image": null,
+          "marketPlace": {
+            "id": 1,
+            "conditionTimes": [
+              {
+                "id": 2,
+                "timeFrom": "07:00",
+                "timeTo": "22:00",
+                "monday": true,
+                "tuesday": true,
+                "wednesday": true,
+                "thursday": true,
+                "friday": true,
+                "saturday": false,
+                "sunday": false
+              }
+            ]
+          },
+          "managerId": 1
+        }
+      ]
+    }
+  ]
+}

@@ -41,7 +41,6 @@ export default function TimeLineRenderer({
   //   setSelectedGroups(() => [category]);
   //   setCurrentDevice(group);
   // };
-
   const newGroups = groups.map((group) => ({
     ...group,
     title: (

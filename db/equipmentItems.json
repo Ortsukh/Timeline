@@ -1,0 +1,705 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": 397,
+      "rentOrder": {
+        "id": 274,
+        "status": "pending",
+        "comment": "",
+        "company": {
+          "id": 23,
+          "name": "компания"
+        }
+      },
+      "equipment": {
+        "id": 22,
+        "type": "kitchen",
+        "name": "Цех 2",
+        "price": "55.00",
+        "category": {
+          "id": 23,
+          "name": "Цеха",
+          "color": "#ff0000",
+          "shiftLength": 8
+        }
+      },
+      "intervals": [
+        {
+          "id": 17,
+          "date": "2023-11-03",
+          "grid": "000000000001111111100000"
+        }
+      ]
+    },
+    {
+      "id": 399,
+      "rentOrder": {
+        "id": 276,
+        "status": "pending",
+        "comment": "",
+        "company": {
+          "id": 23,
+          "name": "компания"
+        }
+      },
+      "equipment": {
+        "id": 22,
+        "type": "kitchen",
+        "name": "Цех 2",
+        "price": "55.00",
+        "category": {
+          "id": 23,
+          "name": "Цеха",
+          "color": "#ff0000",
+          "shiftLength": 8
+        }
+      },
+      "intervals": [
+        {
+          "id": 19,
+          "date": "2023-11-02",
+          "grid": "000000000001111111100000"
+        }
+      ]
+    },
+    {
+      "id": 400,
+      "rentOrder": {
+        "id": 277,
+        "status": "accepted",
+        "comment": "",
+        "company": {
+          "id": 23,
+          "name": "компания"
+        }
+      },
+      "equipment": {
+        "id": 22,
+        "type": "kitchen",
+        "name": "Цех 2",
+        "price": "55.00",
+        "category": {
+          "id": 23,
+          "name": "Цеха",
+          "color": "#ff0000",
+          "shiftLength": 8
+        }
+      },
+      "intervals": [
+        {
+          "id": 20,
+          "date": "2023-11-09",
+          "grid": "000000000001111111100000"
+        }
+      ]
+    },
+    {
+      "id": 401,
+      "rentOrder": {
+        "id": 278,
+        "status": "accepted",
+        "comment": "",
+        "company": {
+          "id": 23,
+          "name": "компания"
+        }
+      },
+      "equipment": {
+        "id": 22,
+        "type": "kitchen",
+        "name": "Цех 2",
+        "price": "55.00",
+        "category": {
+          "id": 23,
+          "name": "Цеха",
+          "color": "#ff0000",
+          "shiftLength": 8
+        }
+      },
+      "intervals": [
+        {
+          "id": 21,
+          "date": "2023-11-10",
+          "grid": "000000000001111111100000"
+        }
+      ]
+    },
+    {
+      "id": 402,
+      "rentOrder": {
+        "id": 279,
+        "status": "accepted",
+        "comment": "",
+        "company": {
+          "id": 23,
+          "name": "компания"
+        }
+      },
+      "equipment": {
+        "id": 22,
+        "type": "kitchen",
+        "name": "Цех 2",
+        "price": "55.00",
+        "category": {
+          "id": 23,
+          "name": "Цеха",
+          "color": "#ff0000",
+          "shiftLength": 8
+        }
+      },
+      "intervals": [
+        {
+          "id": 22,
+          "date": "2023-11-17",
+          "grid": "000000000001111111100000"
+        }
+      ]
+    },
+    {
+      "id": 404,
+      "rentOrder": {
+        "id": 281,
+        "status": "pending",
+        "comment": "",
+        "company": {
+          "id": 25,
+          "name": "компания2"
+        }
+      },
+      "equipment": {
+        "id": 22,
+        "type": "kitchen",
+        "name": "Цех 2",
+        "price": "55.00",
+        "category": {
+          "id": 23,
+          "name": "Цеха",
+          "color": "#ff0000",
+          "shiftLength": 8
+        }
+      },
+      "intervals": [
+        {
+          "id": 24,
+          "date": "2023-12-14",
+          "grid": "000000000001111111100000"
+        }
+      ]
+    },
+    {
+      "id": 414,
+      "rentOrder": {
+        "id": 290,
+        "status": "accepted",
+        "comment": "",
+        "company": {
+          "id": 3,
+          "name": "компания1"
+        }
+      },
+      "equipment": {
+        "id": 22,
+        "type": "kitchen",
+        "name": "Цех 2",
+        "price": "55.00",
+        "category": {
+          "id": 23,
+          "name": "Цеха",
+          "color": "#ff0000",
+          "shiftLength": 8
+        }
+      },
+      "intervals": [
+        {
+          "id": 40,
+          "date": "2023-11-14",
+          "grid": "000000011111111000000000"
+        }
+      ]
+    },
+    {
+      "id": 390,
+      "rentOrder": {
+        "id": 267,
+        "status": "accepted",
+        "comment": "",
+        "company": {
+          "id": 1,
+          "name": "Франчайзи 001"
+        }
+      },
+      "equipment": {
+        "id": 23,
+        "type": "equipment",
+        "name": "Холодильник Sumsung",
+        "price": "10.00",
+        "category": {
+          "id": 8,
+          "name": "Холодильники",
+          "color": "#000000",
+          "shiftLength": 4
+        }
+      },
+      "intervals": [
+        {
+          "id": 8,
+          "date": "2023-12-02",
+          "grid": "000000000001111000000000"
+        }
+      ]
+    },
+    {
+      "id": 406,
+      "rentOrder": {
+        "id": 283,
+        "status": "pending",
+        "comment": "",
+        "company": {
+          "id": 25,
+          "name": "компания2"
+        }
+      },
+      "equipment": {
+        "id": 23,
+        "type": "equipment",
+        "name": "Холодильник Sumsung",
+        "price": "10.00",
+        "category": {
+          "id": 8,
+          "name": "Холодильники",
+          "color": "#000000",
+          "shiftLength": 4
+        }
+      },
+      "intervals": [
+        {
+          "id": 28,
+          "date": "2023-11-07",
+          "grid": "000000000000000111100000"
+        },
+        {
+          "id": 29,
+          "date": "2023-12-10",
+          "grid": "000000000000000111100000"
+        }
+      ]
+    },
+    {
+      "id": 417,
+      "rentOrder": {
+        "id": 293,
+        "status": "pending",
+        "comment": "",
+        "company": {
+          "id": 3,
+          "name": "компания1"
+        }
+      },
+      "equipment": {
+        "id": 23,
+        "type": "equipment",
+        "name": "Холодильник Sumsung",
+        "price": "10.00",
+        "category": {
+          "id": 8,
+          "name": "Холодильники",
+          "color": "#000000",
+          "shiftLength": 4
+        }
+      },
+      "intervals": [
+        {
+          "id": 50,
+          "date": "2023-11-15",
+          "grid": "000000011110000000000000"
+        }
+      ]
+    },
+    {
+      "id": 392,
+      "rentOrder": {
+        "id": 269,
+        "status": "pending",
+        "comment": "",
+        "company": {
+          "id": 1,
+          "name": "Франчайзи 001"
+        }
+      },
+      "equipment": {
+        "id": 24,
+        "type": "equipment",
+        "name": "Морозидка",
+        "price": "12.00",
+        "category": {
+          "id": 21,
+          "name": "Категория12",
+          "color": "#000000",
+          "shiftLength": 12
+        }
+      },
+      "intervals": [
+        {
+          "id": 12,
+          "date": "2023-11-01",
+          "grid": "000000000001111000000000"
+        }
+      ]
+    },
+    {
+      "id": 396,
+      "rentOrder": {
+        "id": 273,
+        "status": "pending",
+        "comment": "",
+        "company": {
+          "id": 25,
+          "name": "компания2"
+        }
+      },
+      "equipment": {
+        "id": 24,
+        "type": "equipment",
+        "name": "Морозидка",
+        "price": "12.00",
+        "category": {
+          "id": 21,
+          "name": "Категория12",
+          "color": "#000000",
+          "shiftLength": 12
+        }
+      },
+      "intervals": [
+        {
+          "id": 16,
+          "date": "2023-11-03",
+          "grid": "000000000001111000000000"
+        }
+      ]
+    },
+    {
+      "id": 405,
+      "rentOrder": {
+        "id": 282,
+        "status": "accepted",
+        "comment": "",
+        "company": {
+          "id": 25,
+          "name": "компания2"
+        }
+      },
+      "equipment": {
+        "id": 25,
+        "type": "equipment",
+        "name": "Фритюр",
+        "price": "15.00",
+        "category": {
+          "id": 14,
+          "name": "Фритюр",
+          "color": "#000000",
+          "shiftLength": 4
+        }
+      },
+      "intervals": [
+        {
+          "id": 25,
+          "date": "2023-11-15",
+          "grid": "000000000001111000000000"
+        },
+        {
+          "id": 27,
+          "date": "2023-11-23",
+          "grid": "000000000000000111100000"
+        }
+      ]
+    },
+    {
+      "id": 419,
+      "rentOrder": {
+        "id": 295,
+        "status": "pending",
+        "comment": "",
+        "company": {
+          "id": 3,
+          "name": "компания1"
+        }
+      },
+      "equipment": {
+        "id": 25,
+        "type": "equipment",
+        "name": "Фритюр",
+        "price": "15.00",
+        "category": {
+          "id": 14,
+          "name": "Фритюр",
+          "color": "#000000",
+          "shiftLength": 4
+        }
+      },
+      "intervals": [
+        {
+          "id": 52,
+          "date": "2023-11-20",
+          "grid": "000000011110000000000000"
+        }
+      ]
+    },
+    {
+      "id": 391,
+      "rentOrder": {
+        "id": 268,
+        "status": "accepted",
+        "comment": "",
+        "company": {
+          "id": 3,
+          "name": "компания1"
+        }
+      },
+      "equipment": {
+        "id": 26,
+        "type": "equipment",
+        "name": "Плавильная печь",
+        "price": "88.00",
+        "category": {
+          "id": 10,
+          "name": "Печи",
+          "color": "#000000",
+          "shiftLength": 4
+        }
+      },
+      "intervals": [
+        {
+          "id": 9,
+          "date": "2023-11-01",
+          "grid": "000000000001111000000000"
+        },
+        {
+          "id": 10,
+          "date": "2023-11-02",
+          "grid": "000000000001111000011110"
+        },
+        {
+          "id": 11,
+          "date": "2023-11-03",
+          "grid": "000000000001111000000000"
+        }
+      ]
+    },
+    {
+      "id": 418,
+      "rentOrder": {
+        "id": 294,
+        "status": "accepted",
+        "comment": "",
+        "company": {
+          "id": 3,
+          "name": "компания1"
+        }
+      },
+      "equipment": {
+        "id": 26,
+        "type": "equipment",
+        "name": "Плавильная печь",
+        "price": "88.00",
+        "category": {
+          "id": 10,
+          "name": "Печи",
+          "color": "#000000",
+          "shiftLength": 4
+        }
+      },
+      "intervals": [
+        {
+          "id": 51,
+          "date": "2023-11-13",
+          "grid": "000000000001111000000000"
+        }
+      ]
+    },
+    {
+      "id": 407,
+      "rentOrder": {
+        "id": 283,
+        "status": "pending",
+        "comment": "",
+        "company": {
+          "id": 25,
+          "name": "компания2"
+        }
+      },
+      "equipment": {
+        "id": 31,
+        "type": "equipment",
+        "name": "312",
+        "price": "0.00",
+        "category": {
+          "id": 8,
+          "name": "Холодильники",
+          "color": "#000000",
+          "shiftLength": 4
+        }
+      },
+      "intervals": [
+        {
+          "id": 30,
+          "date": "2023-11-06",
+          "grid": "000000000001111000000000"
+        },
+        {
+          "id": 31,
+          "date": "2023-11-07",
+          "grid": "000000000000000111100000"
+        },
+        {
+          "id": 32,
+          "date": "2023-11-08",
+          "grid": "000000000001111111100000"
+        },
+        {
+          "id": 33,
+          "date": "2023-12-10",
+          "grid": "000000000001111000000000"
+        }
+      ]
+    },
+    {
+      "id": 413,
+      "rentOrder": {
+        "id": 289,
+        "status": "pending",
+        "comment": "",
+        "company": {
+          "id": 3,
+          "name": "компания1"
+        }
+      },
+      "equipment": {
+        "id": 31,
+        "type": "equipment",
+        "name": "312",
+        "price": "0.00",
+        "category": {
+          "id": 8,
+          "name": "Холодильники",
+          "color": "#000000",
+          "shiftLength": 4
+        }
+      },
+      "intervals": [
+        {
+          "id": 39,
+          "date": "2023-11-21",
+          "grid": "000000011110000000000000"
+        }
+      ]
+    },
+    {
+      "id": 415,
+      "rentOrder": {
+        "id": 291,
+        "status": "pending",
+        "comment": "",
+        "company": {
+          "id": 3,
+          "name": "компания1"
+        }
+      },
+      "equipment": {
+        "id": 31,
+        "type": "equipment",
+        "name": "312",
+        "price": "0.00",
+        "category": {
+          "id": 8,
+          "name": "Холодильники",
+          "color": "#000000",
+          "shiftLength": 4
+        }
+      },
+      "intervals": [
+        {
+          "id": 41,
+          "date": "2023-11-13",
+          "grid": "000000011110000000000000"
+        },
+        {
+          "id": 42,
+          "date": "2023-11-14",
+          "grid": "000000011110000000000000"
+        },
+        {
+          "id": 43,
+          "date": "2023-11-15",
+          "grid": "000000011110000000000000"
+        },
+        {
+          "id": 44,
+          "date": "2023-11-16",
+          "grid": "000000011110000000000000"
+        }
+      ]
+    },
+    {
+      "id": 398,
+      "rentOrder": {
+        "id": 275,
+        "status": "pending",
+        "comment": "",
+        "company": {
+          "id": 23,
+          "name": "компания"
+        }
+      },
+      "equipment": {
+        "id": 38,
+        "type": "equipment",
+        "name": "1",
+        "price": "0.00",
+        "category": {
+          "id": 21,
+          "name": "Категория12",
+          "color": "#000000",
+          "shiftLength": 12
+        }
+      },
+      "intervals": [
+        {
+          "id": 18,
+          "date": "2023-11-02",
+          "grid": "000000000001111111111110"
+        }
+      ]
+    },
+    {
+      "id": 403,
+      "rentOrder": {
+        "id": 280,
+        "comment": "",
+        "company": {
+          "id": 25,
+          "name": "компания2"
+        }
+      },
+      "equipment": {
+        "id": 38,
+        "type": "equipment",
+        "name": "1",
+        "price": "0.00",
+        "category": {
+          "id": 21,
+          "name": "Категория12",
+          "color": "#000000",
+          "shiftLength": 12
+        }
+      },
+      "intervals": [
+        {
+          "id": 23,
+          "date": "2023-11-06",
+          "grid": "000000000001111111111110"
+        }
+      ]
+    }
+  ]
+}

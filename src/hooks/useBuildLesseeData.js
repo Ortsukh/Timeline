@@ -2,10 +2,11 @@ import useFetch from "./useFetch";
 
 export default function useBuildLesseeData(id, isMainLessee) {
   let loading = false;
-  // const backendUrl = " http://localhost:3001/admin/manager/";
-  // const backendManagerUrl = " http://localhost:3001/admin/manager/";
-  const backendManagerUrl = "/admin/manager/";
-  const backendUrl = "/admin/api/";
+  const isLocal = true;
+  const backendUrl = " http://localhost:3001/admin/manager/";
+  const backendManagerUrl = " http://localhost:3001/admin/manager/";
+  // const backendManagerUrl = "/admin/manager/";
+  // const backendUrl = "/admin/api/";
 
   const { data: ordersData, loading: orderLoading } = useFetch(
     `${backendUrl}get_orders/${id}`,
@@ -23,7 +24,8 @@ export default function useBuildLesseeData(id, isMainLessee) {
     `${backendUrl}get_transactions/${id}`,
   );
 
-  const { data: allOrderData, loading: allOrderDataLoading } = isMainLessee ? useFetch(
+  // eslint-disable-next-line no-nested-ternary
+  const { data: allOrderData, loading: allOrderDataLoading } = isLocal ? useFetch(`${backendUrl}get_local_orders`) : isMainLessee ? useFetch(
     `${backendManagerUrl}get_equipment_items/${id}`,
   ) : { data: null, loading: null };
 

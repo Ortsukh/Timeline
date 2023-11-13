@@ -75,11 +75,11 @@ export default function TimelinePage({ isMainLessee }) {
 
   useEffect(() => {
     if (loading) return;
-    console.log(userData);
+    console.log(allOrderData);
     setUser(userData);
     setCompanies(companiesData);
-    setGroups(sortingArrayGroups(createEquipmentGroup(allEquipmentData)));
     setItems(createOrderGroup(allOrderData, userData));
+    setGroups(sortingArrayGroups(createEquipmentGroup(allEquipmentData)));
     if (userData.role === "ROLE_COMPANY") {
       setSelectedCompany(userData);
     }

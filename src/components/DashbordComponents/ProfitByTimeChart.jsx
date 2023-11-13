@@ -212,10 +212,10 @@ export default function ProfitByTimeChart({
           <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(1)}>
             день
           </button>
-          <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(7)}>
+          <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(6)}>
             неделя
           </button>
-          <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(30)}>
+          <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(29)}>
             месяц
           </button>
           <div>
