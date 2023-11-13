@@ -16,8 +16,7 @@ export default function TimelineDashboardWindow({
       height: refWindow.current.clientHeight || 250,
     });
   }, []);
-  // const comment = "dbij n ieu hh9 b;k njekm fih in  ie jje m";
-  const comment = "";
+
   const isRightSpace = window.innerWidth - item.posX > sizeWindow.width + 20;
   const isTopSpace = item.posY > sizeWindow.height + 20;
   const isBottomSpace = window.innerHeight - item.posY + window.scrollY > sizeWindow.height + 20;
@@ -74,7 +73,7 @@ export default function TimelineDashboardWindow({
           <span>{item.company?.name}</span>
         </div>
         )}
-      {comment
+      {item.comment
         && (
         <div className="messageWindow-item">
           <span>Комментарий к заказу:</span>
@@ -83,7 +82,7 @@ export default function TimelineDashboardWindow({
           }}
           >
             `
-            {comment}
+            {item.comment}
             `
           </span>
         </div>
