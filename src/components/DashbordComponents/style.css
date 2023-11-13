@@ -244,7 +244,7 @@
     backdrop-filter: blur();
 }
 .gridWithOrderBG {
-    background: rgba(255,220,40,.15);
+    background: rgba(255,220,40,.35);
 }
 .selectedCell {
     border: 2px #5bbbe0 solid;
