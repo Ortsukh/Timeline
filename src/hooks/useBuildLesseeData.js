@@ -2,10 +2,7 @@ import useFetch from "./useFetch";
 
 export default function useBuildLesseeData(id, isMainLessee) {
   let loading = false;
-<<<<<<< HEAD
   const isLocal = true;
-=======
->>>>>>> 11c4493a9a26a3a687b193e49e75767013abfbae
   const backendUrl = " http://localhost:3001/admin/manager/";
   const backendManagerUrl = " http://localhost:3001/admin/manager/";
   // const backendManagerUrl = "/admin/manager/";
