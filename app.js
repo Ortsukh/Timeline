@@ -120,6 +120,7 @@ app.get(`${backendUrl}get_lessee_companies*`, (req, res, next) => {
   });
 });
 app.get(`${backendUrl}get_local_orders`, (req, res, next) => {
+  console.log(req.query);
   const options = {
     root: path.join(__dirname, "db"),
     dotfiles: "deny",
@@ -148,6 +149,25 @@ app.get(`${backendUrl}get_local_equipment`, (req, res, next) => {
   };
 
   res.sendFile("equipment.json", options, (err) => {
+    if (err) {
+      next(err);
+    } else {
+      console.log("Sent: export_sales.json");
+    }
+  });
+});
+
+app.get(`${backendUrl}get_local_orders*`, (req, res, next) => {
+  const options = {
+    root: path.join(__dirname, "db"),
+    dotfiles: "deny",
+    headers: {
+      "x-timestamp": Date.now(),
+      "x-sent": true,
+    },
+  };
+
+  res.sendFile("order.json", options, (err) => {
     if (err) {
       next(err);
     } else {

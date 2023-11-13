@@ -43,7 +43,6 @@ export default function TimelinePage({ isMainLessee }) {
   const [editOrderData, setEditOrderData] = useState(null);
   const [editOrderItems, setEditOrderItems] = useState(null);
   const [isActiveMessage, setIsActiveMessage] = useState(false);
-  const [isOpenAlertWindow, setIsOpenAlertWindow] = useState({ status: false, message: "" });
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [currentDevice, setCurrentDevice] = useState(groups[0]);
   const [toolsCount, setToolsCount] = useState(0);
@@ -75,7 +74,7 @@ export default function TimelinePage({ isMainLessee }) {
 
   useEffect(() => {
     if (loading) return;
-    console.log(allOrderData);
+    console.log(userData);
     setUser(userData);
     setCompanies(companiesData);
     setItems(createOrderGroup(allOrderData, userData));

@@ -4,8 +4,9 @@ export default function useTimelineData(isMainLessee, update) {
   const isLocal = true;
   let backendUrl = "/admin/manager/";
   if (isLocal) {
-    isMainLessee = false;
     backendUrl = " http://localhost:3001/admin/manager/";
+  } else {
+    isMainLessee = false;
   }
   let loading = false;
   const { data: userData, loading: userDataLoading } = isMainLessee ? useFetch(`${backendUrl}get_current_user/2`, update) : useFetch(`${backendUrl}get_current_user`, update);
