@@ -14,7 +14,6 @@ export default function MessageWindow({
   openConfirmWindow,
   user,
 }) {
-  const comment = "";
   const heightModal = 250;
   const weightModal = 225;
   const isLeftPart = window.innerWidth / 2 - data.posX > 0;
@@ -53,13 +52,13 @@ export default function MessageWindow({
         {/* <span>{orderStatus[data.item.status]?.translatRU}</span> */}
         <span>{statusDisplay(data.date, data.item.status)}</span>
       </div>
-      {comment
+      {data.item.comment
         && (
         <div className="messageWindow-item">
           <span>Комментарий к заказу:</span>
           <span style={{ wordWrap: "break-word", hyphens: "auto", fontStyle: "italic" }}>
             `
-            {comment}
+            {data.item.comment}
             `
           </span>
         </div>

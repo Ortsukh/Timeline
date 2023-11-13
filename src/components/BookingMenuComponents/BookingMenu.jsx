@@ -363,13 +363,14 @@ export default function BookingMenu({
     }
   }, [editOrderData, isEditMode, mapsEquipment]);
 
-  const editOrder = (status) => {
+  const editOrder = (commentToOrder, status) => {
     const orderItemsGrid = createOrderGrid(baseOrder.preOrders);
     const dateIntervals = formatOrder(orderItemsGrid);
     const editedOrder = {
       rentOrder: {
         id: editOrderData.rentOrderId,
         company: editOrderData.company,
+        comment: commentToOrder,
       },
       status,
       equipmentItems: dateIntervals,
@@ -573,7 +574,7 @@ export default function BookingMenu({
           data={baseOrder.preOrders}
           groups={groups}
           closeBookingWindow={setIsConfirmWindowOpen}
-          confirmFunc={(commentToOrder) => (isEditMode ? editOrder(isConfirmWindowOpen) : sendNewOrder(commentToOrder, isConfirmWindowOpen))}
+          confirmFunc={(commentToOrder) => (isEditMode ? editOrder(commentToOrder, isConfirmWindowOpen) : sendNewOrder(commentToOrder, isConfirmWindowOpen))}
         />
       )}
     </>
