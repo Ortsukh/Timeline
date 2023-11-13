@@ -40,18 +40,28 @@ export default function MessageWindow({
       <button type="button" className="button-close" onClick={closeBookingWindow}>
         x
       </button>
-      <div className="messageWindow-item">
-        <span>
-          Смена
-          :
-        </span>
-        <span>{data.date}</span>
+      <div className="messageWindow-item status-messageWindow">
+        <span>Заказ:</span>
+        <span>{`№ ${data.item.rentOrderId}`}</span>
+      </div>
+      <div className="" style={{ fontWeight: "600" }}>
+        <span />
+        {data.item.duration.isMoreDay
+          ? <span>{`с ${moment(data.item.duration.start_order).format("D.MM.YYYY")} по ${moment(data.item.duration.end_order).format("D.MM.YYYY")}`}</span>
+          : <span>{moment(data.item.duration.start_order).format("D.MM.YYYY")}</span>}
       </div>
       <div className="messageWindow-item status-messageWindow">
         <span>Статус:</span>
         {/* <span>{orderStatus[data.item.status]?.translatRU}</span> */}
         <span>{statusDisplay(data.date, data.item.status)}</span>
       </div>
+      {user.role === "ROLE_MANAGER"
+        && (
+        <div className="messageWindow-item">
+          <span>Арендатор:</span>
+          <span>{data.item.company?.name}</span>
+        </div>
+        )}
       {data.item.comment
         && (
         <div className="messageWindow-item">
@@ -61,14 +71,6 @@ export default function MessageWindow({
             {data.item.comment}
             `
           </span>
-        </div>
-        )}
-
-      {data.item.status === "accepted"
-        && (
-        <div className="messageWindow-item">
-          <span>Компания:</span>
-          <span>{data.item.company?.name}</span>
         </div>
         )}
       {data.item.status === "pending"

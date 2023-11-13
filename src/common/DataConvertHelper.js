@@ -142,6 +142,17 @@ const createOrderObject = (order, el, shiftLength, interval, user) => {
   const statusColor = getOrderColor(order, user);
   const itemProps = { style: { background: statusColor } };
   const hour = moment(el.start_time).hours();
+  let startOrder = interval.date;
+  let endOrder = interval.date;
+  for (let i = 0; i < order.intervals.length; i++) {
+    if (moment(order.intervals[i].date).isBefore(startOrder)) {
+      startOrder = order.intervals[i].date;
+    }
+    if (moment(order.intervals[i].date).isAfter(endOrder)) {
+      endOrder = order.intervals[i].date;
+    }
+  }
+
   return {
     id: uuidv4(),
     orderId: order.id,
@@ -149,6 +160,12 @@ const createOrderObject = (order, el, shiftLength, interval, user) => {
     group: order.equipment.id,
     groupName: order.equipment.name,
     intervalId: interval.id,
+    duration: {
+      isMoreDay: startOrder !== endOrder,
+      start_order: startOrder,
+      end_order: endOrder,
+      // intervals: order.intervals,
+    },
     start_time: el.start_time,
     end_time: el.end_time,
     categoryId: order.equipment.category.id || null,
