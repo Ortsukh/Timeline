@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
@@ -21,7 +21,7 @@ export default function TimelineOrders({
   const [orderItems, setOrderItems] = useState([]);
   const [groupsList, setGroupsList] = useState([]);
   const [elementForEdit, setElementForEdit] = useState(null);
-  // console.log("orderItems", orderItems);
+  // console.log("orderItems***************", orderItems);
   useEffect(() => {
     const filteredOrders = createOrderGroup(allOrderData).filter((order) => (
       order.date === moment(selectedDay).format("YYYY-MM-DD")
@@ -93,6 +93,19 @@ export default function TimelineOrders({
     setElementForEdit(null);
     setActiveItem(null);
   };
+
+  const escFunction = useCallback((event) => {
+    if (event.key === "Escape") {
+      handleDeselectItem(elementForEdit.itemId);
+    }
+  }, [elementForEdit]);
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false);
+    return function cleanup() {
+      document.removeEventListener("keydown", escFunction, false);
+    };
+  }, [escFunction]);
 
   const handleItemSelect = (itemId, e) => {
     if (elementForEdit && itemId === elementForEdit.itemId) {
