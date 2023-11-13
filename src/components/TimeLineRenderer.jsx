@@ -73,7 +73,7 @@ export default function TimeLineRenderer({
       visibleTimeEnd={isActiveDate ? visibleTimeRange.end.valueOf() : null}
       itemTouchSendsClick
       minZoom={60 * 60 * 1000 * 24 * 2} //! Минимальное зумирование {2} дня
-      maxZoom={60 * 60 * 1000 * 24 * 31} // TODO в !проде пропадают последние дни и часы
+      maxZoom={60 * 60 * 1000 * 24 * 61} // TODO в !проде пропадают последние дни и часы
       lineHeight={45}
       onItemSelect={handleItemSelect}
       onItemClick={handleItemSelect}

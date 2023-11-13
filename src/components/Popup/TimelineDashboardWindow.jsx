@@ -58,8 +58,14 @@ export default function TimelineDashboardWindow({
         x
       </button>
       <div className="messageWindow-item status-messageWindow">
-        <span>Смена:</span>
-        <span>{`${moment(item.start_time).format("HH:mm")}-${moment(item.end_time).format("HH:mm")}`}</span>
+        <span>Заказ:</span>
+        <span>{`№ ${item.rentOrderId}`}</span>
+      </div>
+      <div className="" style={{ fontWeight: "600" }}>
+        <span />
+        {item.duration.isMoreDay
+          ? <span>{`с ${moment(item.duration.start_order).format("D.MM.YYYY")} по ${moment(item.duration.end_order).format("D.MM.YYYY")}`}</span>
+          : <span>{moment(item.duration.start_order).format("D.MM.YYYY")}</span>}
       </div>
       <div className="messageWindow-item status-messageWindow">
         <span>Статус:</span>
@@ -69,7 +75,7 @@ export default function TimelineDashboardWindow({
       {user === "manager"
         && (
         <div className="messageWindow-item">
-          <span>Компания:</span>
+          <span>Арендатор:</span>
           <span>{item.company?.name}</span>
         </div>
         )}

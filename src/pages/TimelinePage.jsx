@@ -43,6 +43,11 @@ export default function TimelinePage({ isMainLessee }) {
   const [editOrderData, setEditOrderData] = useState(null);
   const [editOrderItems, setEditOrderItems] = useState(null);
   const [isActiveMessage, setIsActiveMessage] = useState(false);
+<<<<<<< HEAD
+=======
+  // eslint-disable-next-line
+  const [isOpenAlertWindow, setIsOpenAlertWindow] = useState({ status: false, message: "" });
+>>>>>>> dad3f89c78aef03be7fc57c957ed371ec6da1511
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [currentDevice, setCurrentDevice] = useState(groups[0]);
   const [toolsCount, setToolsCount] = useState(0);
