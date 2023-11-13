@@ -382,6 +382,7 @@ export default function BookingMenu({
           Swal.fire({
             icon: "success",
             timer: 2000,
+            showConfirmButton: false,
             didClose: () => {
               const { origin } = window.location;
               const { pathname } = window.location;
@@ -412,6 +413,7 @@ export default function BookingMenu({
           Swal.fire({
             icon: "success",
             timer: 2000,
+            showConfirmButton: false,
             didClose: () => {
               const { origin } = window.location;
               const { pathname } = window.location;
@@ -420,11 +422,11 @@ export default function BookingMenu({
           });
           return;
         }
+        setUpdate((previousUpdate) => !previousUpdate);
         openAlertWindow("success");
         setIsBookingMenu(false);
         setCurrentDevice([]);
         setShowButtonClear(true);
-        setUpdate((previousUpdate) => !previousUpdate);
       })
       .catch(() => Swal.fire({
         icon: "error",
