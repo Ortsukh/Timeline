@@ -233,7 +233,7 @@ export default function TimelinePage({ isMainLessee }) {
             toolsCount
               ? getGroupsToShow().slice(0, toolsCount)
               : getGroupsToShow()
-          }
+            }
             editOrderData={editOrderData}
             isEditMode={isEditMode}
             items={items}
@@ -307,7 +307,7 @@ export default function TimelinePage({ isMainLessee }) {
               toolsCount
                 ? getGroupsToShow().slice(0, toolsCount)
                 : getGroupsToShow()
-            }
+              }
               toolsCount={toolsCount}
               isActiveDate={isActiveDate}
               orderDate={orderDate}

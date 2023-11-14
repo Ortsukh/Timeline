@@ -11,7 +11,7 @@ export default function ConfirmWindow({
   selectedCompany,
   isConfirmWindowOpen,
 }) {
-  const [comment, setComment] = useState(data[0].comment);
+  const [comment, setComment] = useState(data[0].comment || "");
   let fullPrice = 0;
   const sortingByDate = (array) => {
     array.sort((a, b) => {
