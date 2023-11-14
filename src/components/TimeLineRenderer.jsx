@@ -21,7 +21,6 @@ export default function TimeLineRenderer({
     start: moment(),
     end: moment().add(2, "days"),
   });
-
   useEffect(() => {
     setVisibleTimeRange({
       start: moment(orderDate.selection1.startDate),

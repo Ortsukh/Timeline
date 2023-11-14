@@ -13,26 +13,28 @@ export default function LesseeStatsDashboard({ profitItems }) {
         <div className="statsItem item-green-bg">
           <span>Затраты за день</span>
           <span className="positive-values values">
-            {profitItems[profitItems.length - 1].y.toFixed(2)}
+            {/* {profitItems[profitItems.length - 1].y.toFixed(2)} */}
+            -999
           </span>
         </div>
         <div className="statsItem item-green-bg">
           <span>Затраты за период</span>
           <span className="positive-values values">
-            {calcAllProfit().toFixed(2)}
+            {/* {calcAllProfit().toFixed(2)} */}
+            -999
           </span>
         </div>
         <div className="statsItem item-red-bg">
           <span>Забронировано</span>
-          <span className="negative-values values">124.00</span>
+          <span className="negative-values values">-999</span>
         </div>
         <div className="statsItem item-red-bg">
           <span>Просроченные платежи</span>
-          <span className="negative-values values">0</span>
+          <span className="negative-values values">-999</span>
         </div>
         <div className="statsItem item-green-bg">
           <span>Количество транзакций</span>
-          <span className="positive-values values">200</span>
+          <span className="positive-values values">-999</span>
         </div>
       </div>
     );

@@ -13,7 +13,7 @@ import CalendarWithTimelineComponent from "../components/DashbordComponents/Cale
 import TimelineDashboardWindow from "../components/Popup/TimelineDashboardWindow";
 
 export default function ManagerDashboard({ user }) {
-  const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
+  const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-30, "day"), endDate: moment() });
   const [profitItems, setProfitItems] = useState([]);
   const [activeItem, setActiveItem] = useState(null);
   const {

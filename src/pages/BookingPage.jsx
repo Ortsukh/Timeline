@@ -15,6 +15,7 @@ import EquipmentInfoWindow from "../components/Popup/EquipmentInfoWindow";
 import sortingArrayGroups from "../constants/priorityGroups";
 import useTimelineData from "../hooks/useTimelineData";
 import Swal from "sweetalert2";
+import showNetwork from "../components/Alert/showNetwork";
 
 export default function BookingPage({orderId, isMainLessee}) {
   const [groups, setGroups] = useState([]);
@@ -47,7 +48,6 @@ export default function BookingPage({orderId, isMainLessee}) {
 
   useEffect(() => {
     if (loading) return;
-    console.log(userData);
     setUser(userData);
     setCompanies(companiesData);
     setGroups(sortingArrayGroups(createEquipmentGroup(allEquipmentData)));
@@ -58,13 +58,9 @@ export default function BookingPage({orderId, isMainLessee}) {
   }, [loading,update]);
   useEffect(() => {
 
-    console.log(items)
-    console.log('up')
     if(!items.length) return
-    console.log(orderId)
     if(orderId){
       setIsEditMode(true)
-      console.log(items, orderId)
       const editItem = items.find(item => item.rentOrderId.toString() === orderId)
       if(!editItem) {
         Swal.fire({
@@ -79,28 +75,17 @@ export default function BookingPage({orderId, isMainLessee}) {
         });
         return
       }
-      console.log(editItem)
         setSelectedCompany(editItem.company)
         setEditOrderData(editItem)
       setCurrentDevice(groups.find((group) => editItem.group === group.id));
     }else {
-      console.log('else')
       setCurrentDevice(groups[0]);
 
     }
   }, [orderId, items, selectedCompany ]);
 
   const openAlertWindow = (message) => {
-    setIsOpenAlertWindow({
-      status: true,
-      message,
-    });
-    setTimeout(() => {
-      setIsOpenAlertWindow({
-        status: false,
-        message,
-      });
-    }, 2000);
+    showNetwork(message);
   };
   const mapToolsNames = () => [
     ...new Set(groups.map((group) => group.category)),
@@ -123,7 +108,6 @@ export default function BookingPage({orderId, isMainLessee}) {
     setSelectedCompany,
     isClickedOnNew,
   };
-  console.log(currentDevice)
   return !loading && currentDevice  ? (
     <>
       {isOpenOverlay && (

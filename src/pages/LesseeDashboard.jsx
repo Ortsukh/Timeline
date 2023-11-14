@@ -14,7 +14,7 @@ import TimelineDashboardWindow from "../components/Popup/TimelineDashboardWindow
 
 export default function LesseeDashboard({ lesseeId, isMainLessee, user }) {
   if (!lesseeId) return;
-  const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-7, "day"), endDate: moment() });
+  const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-30, "day"), endDate: moment() });
   const [profitItems, setProfitItems] = useState([]);
   const [activeItem, setActiveItem] = useState(null);
   const {

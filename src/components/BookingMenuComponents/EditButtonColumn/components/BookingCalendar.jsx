@@ -27,6 +27,7 @@ export default function BookingCalendar({
   addAnotherDay,
   currentDevice,
   selectedConflictDate,
+  isEditMode,
 }) {
   const [isDefaultSelect] = useState(true);
   const calendarRef = useRef();
@@ -400,6 +401,8 @@ export default function BookingCalendar({
       setSelectedDates((prev) => prev.filter((date) => (getDayName(date) !== e.target.value)));
       return;
     }
+    setSelectedWeekdays((prev) => prev.concat(...prev, e.target.value));
+
     if (selectedDates.length < 2) { return; }
     const sortedDates = selectedDates.sort((a, b) => (moment(b).isBefore(moment(a)) ? 1 : -1));
     let iterateDay = sortedDates[0];
@@ -417,7 +420,6 @@ export default function BookingCalendar({
       iterateDay = moment(iterateDay).add(1, "d");
     }
     setSelectedDates((prev) => prev.concat(newSelectedDates));
-    setSelectedWeekdays((prev) => prev.concat(...prev, e.target.value));
   };
 
   return (
@@ -450,7 +452,7 @@ export default function BookingCalendar({
             ref={calendarRef}
             eventOverlap={false}
             plugins={[dayGridPlugin, interaction, timeGrid, calenderList, multiMonthPlugin]}
-            initialView="dayGridMonth"
+            initialView={isEditMode ? "multiMonthYear" : "dayGridMonth"}
                 // selectable={isDefaultSelect && isActiveCalendar}
                 // select={(data) => handleSelect(data)}
             showNonCurrentDates={false}

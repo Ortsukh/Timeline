@@ -8,7 +8,7 @@ import ru from "date-fns/locale/ru";
 export default function CalendarDashboard({ setSelectedTime }) {
   const [orderDate, setOrderDate] = useState({
     selection1: {
-      startDate: new Date(moment().add(-7, "days").valueOf()),
+      startDate: new Date(moment().add(-30, "days").valueOf()),
       endDate: new Date(),
       key: "selection1",
     },

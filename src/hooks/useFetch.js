@@ -7,6 +7,8 @@ const useFetch = (url, update) => {
   const [fetchError, setFetchError] = React.useState(null);
 
   React.useEffect(() => {
+    setLoading(true);
+
     // eslint-disable-next-line no-extra-semi
     ;(async () => {
       try {

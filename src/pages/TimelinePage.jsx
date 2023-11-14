@@ -43,11 +43,6 @@ export default function TimelinePage({ isMainLessee }) {
   const [editOrderData, setEditOrderData] = useState(null);
   const [editOrderItems, setEditOrderItems] = useState(null);
   const [isActiveMessage, setIsActiveMessage] = useState(false);
-<<<<<<< HEAD
-=======
-  // eslint-disable-next-line
-  const [isOpenAlertWindow, setIsOpenAlertWindow] = useState({ status: false, message: "" });
->>>>>>> dad3f89c78aef03be7fc57c957ed371ec6da1511
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [currentDevice, setCurrentDevice] = useState(groups[0]);
   const [toolsCount, setToolsCount] = useState(0);
@@ -68,7 +63,6 @@ export default function TimelinePage({ isMainLessee }) {
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [isEquipmentInfoWindowOpen, setIsEquipmentInfoWindowOpen] = useState(null);
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
-
   const {
     userData,
     companiesData,
@@ -79,7 +73,6 @@ export default function TimelinePage({ isMainLessee }) {
 
   useEffect(() => {
     if (loading) return;
-    console.log(userData);
     setUser(userData);
     setCompanies(companiesData);
     setItems(createOrderGroup(allOrderData, userData));
@@ -206,7 +199,6 @@ export default function TimelinePage({ isMainLessee }) {
   };
   const createBook = () => {
     if (selectedGroups.length === 0 || !selectedCompany) {
-      console.log(selectedCompany, selectedGroups.length === 0);
       setIsClickingOnEmptyFilter(true);
       setIsClickedOnNew(true);
     } else {
@@ -221,6 +213,7 @@ export default function TimelinePage({ isMainLessee }) {
   const getFilteredItemsByCompany = (companyId) => (
     items.filter((item) => item.company?.id === companyId)
   );
+
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };

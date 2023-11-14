@@ -36,10 +36,8 @@ ChartJS.register(
 const ProfitByTimeChart = memo(({
   selectedTime, setSelectedTime, setProfitItems, profitItems,
 }) => {
-  // console.log("update");
   const [timeStep, setTimeStep] = useState(1);
   const chart = useRef(null);
-
   const options = {
     devicePixelRatio: 2,
     maintainAspectRatio: false,
@@ -178,7 +176,6 @@ const ProfitByTimeChart = memo(({
   }, []);
 
   const handleChangeTimeStep = (step) => {
-    console.log(chart.current.update);
     setTimeStep(step);
   };
 
@@ -206,20 +203,21 @@ const ProfitByTimeChart = memo(({
       },
     }],
   };
-  // console.log(data);
   return (
     <div className="profitChartContainer">
       <div className="cont-btn-dash">
         <div className="btn-cont-dash">
-          <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(1)}>
-            день
-          </button>
-          <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(6)}>
-            неделя
-          </button>
-          <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(29)}>
-            месяц
-          </button>
+          <div className="chart-step-buttons">
+            <button className={`btn btn-info ${timeStep === 1 ? "disabled" : ""}`} type="button" onClick={() => handleChangeTimeStep(1)}>
+              день
+            </button>
+            <button className={`btn btn-info ${timeStep === 7 ? "disabled" : ""}`} type="button" onClick={() => handleChangeTimeStep(7)}>
+              неделя
+            </button>
+            <button className={`btn btn-info ${timeStep === 29 ? "disabled" : ""}`} type="button" onClick={() => handleChangeTimeStep(29)}>
+              месяц
+            </button>
+          </div>
           <div>
             <CalendarDashboard setSelectedTime={handleSelectTime} />
           </div>

@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { createOrder, sendEditOrder } from "../../Api/API";
 import {
   addGrid,
-  createOrderGrid,
+  createOrderGrid, createOrderGroup,
   formatOrder,
   groupByDateItems,
 } from "../../common/DataConvertHelper";
@@ -16,6 +16,7 @@ import style from "./BookingMenu.module.css";
 import ITEMS_PREORDER_COLOR from "../../constants/itemsPreOrderColor";
 import EditButtonColumn from "./EditButtonColumn/EditButtonColumn";
 import Overlay from "./BookingDateColumn/components/Overlay";
+import useGetOrdersByFilters from "../../hooks/useGetOrdersByFilters";
 // import EquipmentInfoWindow from "../Popup/EquipmentInfoWindow";
 
 export default function BookingMenu({
@@ -39,9 +40,6 @@ export default function BookingMenu({
   isFromDashboard,
   filterProps,
 }) {
-  console.log(currentDevice);
-  console.log(editOrderData);
-  console.log(selectedCompany);
   const startWorkDay = currentDevice?.workTime ? Number(currentDevice.workTime.shiftTimes.start.split(":")[0]) : 0;
   const [baseOrder, setBaseOrder] = useState(
     {
@@ -54,7 +52,7 @@ export default function BookingMenu({
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
   const [selectedConflictDate, setSelectedConflictDate] = useState(null);
   const [keyRerenderConflictResolutionWindow, setKeyRerenderConflictResolutionWindow] = useState(0);
-  const [mapsEquipment, setMapsEquipment] = useState({});
+  const [, setMapsEquipment] = useState({});
   const [commonMapsEquipment, setCommonMapsEquipment] = useState([]);
   const [selectedDates, setSelectedDates] = useState([]);
   const [calendarEvent, setCalendarEvent] = useState([]);
@@ -98,13 +96,13 @@ export default function BookingMenu({
     );
     setMapsEquipment({});
   }, [currentDevice]);
-  const generateEvents = (equipmentId, selectedDatesArr = selectedDates, isNew = false) => {
+  const generateEvents = (equipmentId, mapsEquipment1, selectedDatesArr = selectedDates, isNew = false) => {
     const events = [];
 
     selectedDatesArr.forEach((selectedDate) => {
       const currentDate = moment(selectedDate);
       const baseOrderShiftTimes = baseOrder.shiftTime;
-      const currentEquipment = isNew ? baseOrder.equipment : mapsEquipment[equipmentId];
+      const currentEquipment = mapsEquipment1[equipmentId];
       let resultColor = 0;
       baseOrderShiftTimes.forEach(({ value: baseOrderShiftTime }) => {
         if (currentDate.isBefore(moment().startOf("day"))) {
@@ -124,11 +122,11 @@ export default function BookingMenu({
 
           if (
             commonMapsEquipmentSelectedDate[shiftTime] === groupsLength.toString()
-          && (
-            (shiftTime === 0 && commonMapsEquipmentSelectedDate[shiftTime + shiftLength] === groupsLength.toString())
-            || (commonMapsEquipmentSelectedDate[shiftTime - shiftLength] === groupsLength.toString() && shiftTime === (24 - shiftLength))
-            || (commonMapsEquipmentSelectedDate[shiftTime - shiftLength] === groupsLength.toString() && commonMapsEquipmentSelectedDate[shiftTime + shiftLength] === groupsLength.toString())
-          )
+              && (
+                (shiftTime === 0 && commonMapsEquipmentSelectedDate[shiftTime + shiftLength] === groupsLength.toString())
+                  || (commonMapsEquipmentSelectedDate[shiftTime - shiftLength] === groupsLength.toString() && shiftTime === (24 - shiftLength))
+                  || (commonMapsEquipmentSelectedDate[shiftTime - shiftLength] === groupsLength.toString() && commonMapsEquipmentSelectedDate[shiftTime + shiftLength] === groupsLength.toString())
+              )
           ) {
             resultColor += 3;
           } else if (commonMapsEquipmentSelectedDate[shiftTime] < groupsLength) {
@@ -177,15 +175,14 @@ export default function BookingMenu({
           });
       }
     });
-    console.log(events);
     setCalendarEvent((prev) => prev.concat(events));
     if (isNew) {
       handleSetSelectedConflictDate(events[0]);
     }
   };
-  const addConflictsAndSuccessInMap = (groupId, selectedDate) => {
+  const addConflictsAndSuccessInMap = (groupId, selectedDate, equip) => {
     baseOrder.shiftTime.forEach(({ value: shiftTime }) => {
-      const { equipment } = baseOrder;
+      const equipment = equip;
 
       if (!equipment.conflicts[selectedDate]) {
         equipment.conflicts[selectedDate] = [];
@@ -206,64 +203,11 @@ export default function BookingMenu({
       setBaseOrder((prev) => ({ ...prev, equipment }));
     });
   };
-  const addAnotherDay = (date) => {
-    setSelectedDates((prev) => [...prev, date]);
-    addConflictsAndSuccessInMap(baseOrder.equipment.id, date);
-    generateEvents(baseOrder.equipment.id, [date], true);
-  };
-
-  const calcBestMap = () => {
-    setIsActiveCalendar(false);
-    Object.keys(mapsEquipment).forEach((group) => {
-      mapsEquipment[group].countConflicts = 0;
-      mapsEquipment[group].conflicts = { };
-      mapsEquipment[group].success = { };
-      selectedDates.forEach((selectedDate) => {
-        if (!mapsEquipment[group].conflicts[selectedDate]) {
-          mapsEquipment[group].conflicts[selectedDate] = [];
-        }
-        if (!mapsEquipment[group].success[selectedDate]) {
-          mapsEquipment[group].success[selectedDate] = [];
-        }
-        baseOrder.shiftTime.forEach(({ value: shiftTime }) => {
-          const equipment = mapsEquipment[group];
-          console.log(equipment.dates[selectedDate]);
-          if (
-            equipment.dates[selectedDate]
-              && equipment.dates[selectedDate][shiftTime] === "1"
-          ) {
-            console.log(123);
-            mapsEquipment[group].countConflicts++;
-            mapsEquipment[group].conflicts[selectedDate].push({ shiftTime, groupId: group });
-          } else {
-            mapsEquipment[group].success[selectedDate].push({ shiftTime, groupId: group });
-          }
-        });
-      });
-    });
-    const min = Object.keys(mapsEquipment).reduce((acc, curr) => {
-      const accConflictsLength = mapsEquipment[acc].countConflicts;
-      const currConflictsLength = mapsEquipment[curr].countConflicts;
-      return accConflictsLength < currConflictsLength ? acc : curr;
-    });
-
-    const selectedOrMinDevice = selectedPreferredDevice ? selectedPreferredDevice.value : min;
-    setBaseOrder((prev) => ({
-      ...prev,
-      equipment: { ...mapsEquipment[selectedOrMinDevice] },
-    }));
-
-    generateEvents(selectedOrMinDevice);
-    setSelectedPreferredDevice(null);
-  };
-
-  // console.log(mapsEquipment, commonMapsEquipment);
-  const createEquipmentsMap = () => {
+  const createEquipmentsMap = (items2 = items) => {
     const map = {};
     const commonMap = {};
     const filteredGroups = groups.filter((group) => group.category === currentDevice.category);
-    let filteredItemsByDate = items.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day")));
-    console.log(isEditMode);
+    let filteredItemsByDate = items2.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day")));
     if (isEditMode) {
       filteredItemsByDate = filteredItemsByDate.filter(
         (item) => item.rentOrderId !== editOrderData.rentOrderId,
@@ -288,27 +232,84 @@ export default function BookingMenu({
       map[group.id] = {
         ...group,
         dates: dayGrids,
+        conflicts: {},
+        success: {},
       };
     });
-    console.log(map);
     setCommonMapsEquipment(commonMap);
     setMapsEquipment(map);
+    return map;
   };
 
-  useEffect(() => {
-    createEquipmentsMap();
-  }, [groups, currentDevice]);
+  const { execute } = useGetOrdersByFilters(undefined, true);
+  const addAnotherDay = async (date) => {
+    const ordersByDate = await execute({ category: "hook" });
+    const items1 = createOrderGroup(ordersByDate);
+    const map = createEquipmentsMap(items1);
+    setSelectedDates((prev) => [...prev, date]);
+    addConflictsAndSuccessInMap(baseOrder.equipment.id, date, map[baseOrder.equipment.id]);
+    generateEvents(baseOrder.equipment.id, map, [date], true);
+  };
+
+  const calcBestMap = () => {
+    setIsActiveCalendar(false);
+    const mapsEquipment1 = createEquipmentsMap();
+    Object.keys(mapsEquipment1).forEach((group) => {
+      mapsEquipment1[group].countConflicts = 0;
+      mapsEquipment1[group].conflicts = { };
+      mapsEquipment1[group].success = { };
+      selectedDates.forEach((selectedDate) => {
+        if (!mapsEquipment1[group].conflicts[selectedDate]) {
+          mapsEquipment1[group].conflicts[selectedDate] = [];
+        }
+        if (!mapsEquipment1[group].success[selectedDate]) {
+          mapsEquipment1[group].success[selectedDate] = [];
+        }
+        baseOrder.shiftTime.forEach(({ value: shiftTime }) => {
+          const equipment = mapsEquipment1[group];
+          if (
+            equipment.dates[selectedDate]
+              && equipment.dates[selectedDate][shiftTime] === "1"
+          ) {
+            mapsEquipment1[group].countConflicts++;
+            mapsEquipment1[group].conflicts[selectedDate].push({ shiftTime, groupId: group });
+          } else {
+            mapsEquipment1[group].success[selectedDate].push({ shiftTime, groupId: group });
+          }
+        });
+      });
+    });
+    const min = Object.keys(mapsEquipment1).reduce((acc, curr) => {
+      const accConflictsLength = mapsEquipment1[acc].countConflicts;
+      const currConflictsLength = mapsEquipment1[curr].countConflicts;
+      return accConflictsLength < currConflictsLength ? acc : curr;
+    });
+
+    const selectedOrMinDevice = selectedPreferredDevice ? selectedPreferredDevice.value : min;
+    setBaseOrder((prev) => ({
+      ...prev,
+      equipment: { ...mapsEquipment1[selectedOrMinDevice] },
+    }));
+
+    generateEvents(selectedOrMinDevice, mapsEquipment1);
+    setSelectedPreferredDevice(null);
+  };
+
+  // console.log(mapsEquipment, commonMapsEquipment);
+
+  // useEffect(() => {
+  //   createEquipmentsMap();
+  // }, [groups, currentDevice]);
 
   useEffect(() => {
-    console.log(currentDevice);
-    if (!Object.keys(mapsEquipment).length) {
-      return;
-    }
+    // if (!Object.keys(mapsEquipment).length) {
+    //     //   return;
+    //     // }
+    const mapsEquipment1 = createEquipmentsMap();
     if (isEditMode) {
       const editItems = items.filter(
         (item) => item.rentOrderId === editOrderData.rentOrderId,
       );
-      console.log(editItems, mapsEquipment);
       const editDates = {};
       const events = [];
       const successEvent = {};
@@ -324,7 +325,7 @@ export default function BookingMenu({
           conflictEvent[item.date] = [];
         }
         const itemStartIndex = item.grid.indexOf("1");
-        if (mapsEquipment[item.group].dates[item.date] && mapsEquipment[item.group].dates[item.date][itemStartIndex] === "1") {
+        if (mapsEquipment1[item.group].dates[item.date] && mapsEquipment1[item.group].dates[item.date][itemStartIndex] === "1") {
           conflictEvent[item.date].push({ shiftTime: item.grid.indexOf("1"), groupId: item.group });
           countConflict++;
         } else {
@@ -352,16 +353,15 @@ export default function BookingMenu({
           conflicts: conflictEvent,
           success: successEvent,
           countConflicts: countConflict,
-          dates: mapsEquipment[currentDevice.id],
+          dates: mapsEquipment1[currentDevice.id],
         },
       }));
-      console.log(events);
       setSelectedDates(Object.keys(editDates));
       setIsActiveCalendar(false);
       setCalendarEvent(events);
       setShowStartDisplayConflict(false);
     }
-  }, [editOrderData, isEditMode, mapsEquipment]);
+  }, [editOrderData, isEditMode]);
 
   const editOrder = (commentToOrder, status) => {
     const orderItemsGrid = createOrderGrid(baseOrder.preOrders);
@@ -420,11 +420,11 @@ export default function BookingMenu({
           });
           return;
         }
+        setUpdate((previousUpdate) => !previousUpdate);
         openAlertWindow("success");
         setIsBookingMenu(false);
         setCurrentDevice([]);
         setShowButtonClear(true);
-        setUpdate((previousUpdate) => !previousUpdate);
       })
       .catch(() => Swal.fire({
         icon: "error",
@@ -506,7 +506,7 @@ export default function BookingMenu({
   return (
     <>
       {isOpenOverlay && (
-      <Overlay openOverLay={openOverLay} isAddNewItem={isAddNewItem} />
+        <Overlay openOverLay={openOverLay} isAddNewItem={isAddNewItem} />
       )}
       <div className={style.container}>
         <div className={style.editButtonColumn}>

@@ -220,6 +220,7 @@ export default function EditButtonColumn({
             deactivatedCell={deactivatedCell}
             addAnotherDay={addAnotherDay}
             selectedConflictDate={selectedConflictDate}
+            isEditMode={isEditMode}
           />
         ) : null}
       <div>

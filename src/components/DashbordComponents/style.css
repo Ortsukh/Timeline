@@ -13,7 +13,15 @@
 
 .btn-cont-dash{
     display: flex;
+    justify-content: space-between;
+    width: 100%;
     gap: 5px;
+}
+
+.chart-step-buttons{
+    display: flex;
+    gap: 5px;
+
 }
 
 .title-table{
@@ -48,7 +56,6 @@
     display: flex;
     margin-left: auto;
     margin-bottom: 10px;
-    width: fit-content;
 }
 
 .info-box{
