@@ -80,7 +80,7 @@ export default function EditButtonColumn({
   };
   const notification = () => {
     if (isShowConflictNotification === "company") {
-      return <div style={{ color: "red" }}>Выберите компанию</div>;
+      return <div style={{ color: "red" }}>Выберите арендатора</div>;
     }
     if (isShowConflictNotification === "shift") {
       return <div style={{ color: "red" }}>Выберите смену</div>;
@@ -147,7 +147,7 @@ export default function EditButtonColumn({
 
                 <span>
                   {" "}
-                  Компания:
+                  Арендатор:
                   {" "}
                   <span className="choose-category_item">
                     {selectedCompany ? selectedCompany.name : "name"}
