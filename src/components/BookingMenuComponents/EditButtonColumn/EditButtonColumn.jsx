@@ -194,12 +194,19 @@ export default function EditButtonColumn({
             checked={statusCheckboxSelected === "AUTO"}
             onChange={() => handleChangeSelectedStatus("AUTO")}
           />
-          Автоматический выбор
+          Автоматический подбор свободного оборудования
         </label>
+        {/* <span>или</span> */}
         <div className="select-count-box">
           <Select
             isDisabled={statusCheckboxSelected !== "MYSELF"}
             className="select-filter"
+            styles={{
+              control: (baseStyles) => ({
+                ...baseStyles,
+                minWidth: "300px",
+              }),
+            }}
             options={getOptionsForSearch(groups)}
             onChange={handleChangeEquipmentBeforeCalculation}
             defaultValue={getOptionsForSearch(groups)[groups.length - 1]}
