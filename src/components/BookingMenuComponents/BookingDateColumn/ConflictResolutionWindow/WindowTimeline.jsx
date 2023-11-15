@@ -645,17 +645,18 @@ export default function WindowTimeline({
               )}
           </div>
           <div className={styleConflict.displayActionBtns}>
-            <div className={styleConflict.actionBtns}>
+            <div className={styleConflict.actionBtns} style={{ justifyContent: "flex-start" }}>
               <button
                 type="button"
                 className={elementForChange ? styleConflict.disableBtn : "reserved-btn reserve-timeline"}
+                style={{ minWidth: "170px", marginRight: "5%" }}
                 disabled={elementForChange}
                 onClick={() => {
                   setIsAddNewItem(true);
                   openOverLay(true);
                 }}
               >
-                {buttonTitleConstants.ADD_NEW}
+                {buttonTitleConstants.ADD_NEW_SHIFT}
               </button>
               <button
                 type="button"
@@ -666,12 +667,13 @@ export default function WindowTimeline({
                 {buttonTitleConstants.DELETE}
               </button>
             </div>
-            <div className={styleConflict.actionBtns}>
+            <div className={styleConflict.actionBtns} style={{ justifyContent: "flex-end" }}>
               <button
                 type="button"
                 className={elementForChange || !isOrderChanged
                   ? styleConflict.disableBtn
                   : styleConflict.resolveBtn}
+                style={{ marginRight: "5%" }}
                 disabled={elementForChange || !isOrderChanged}
                 onClick={handleResolveConflict}
               >
