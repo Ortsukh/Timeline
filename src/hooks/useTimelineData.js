@@ -1,10 +1,11 @@
 import useFetch from "./useFetch";
 
 export default function useTimelineData(isMainLessee, update) {
-  const isLocal = true;
+  let isLocal = true;
   let backendUrl = "/admin/manager/";
   if (isLocal) {
     backendUrl = " http://localhost:3001/admin/manager/";
+    isLocal = false;
   } else {
     isMainLessee = false;
   }
