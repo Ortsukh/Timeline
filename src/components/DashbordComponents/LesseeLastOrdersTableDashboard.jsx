@@ -23,8 +23,8 @@ export default function LesseeLastOrdersTableDashboard({ ordersData }) {
       { value: moment(order.date).format("D MMM"), class: "centerCell", style: { padding: "8px 2px" } },
       { value: order.category, class: "" },
       { value: order.status, class: getClassStatus(order.status) },
-      { value: roundedPrice(order.price), class: "moneyCell" },
-      { value: roundedPrice(order.price), class: "moneyCell" },
+      { value: roundedPrice(order.total), class: "moneyCell" },
+      { value: "-666", class: "moneyCell" },
     ];
     return { key: order.id, date: cells };
   });

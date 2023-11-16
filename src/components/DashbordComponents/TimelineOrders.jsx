@@ -11,7 +11,7 @@ import "../style.css";
 import style from "../BookingMenuComponents/BookingDateColumn/BookingTimeline.module.css";
 
 export default function TimelineOrders({
-  orderCalendarSelectDay, allOrderData, setActiveItem,
+  orderCalendarSelectDay, allOrderData, setActiveItem, setIsActiveItem,
 }) {
   const selectedDay = moment(orderCalendarSelectDay);
 
@@ -92,6 +92,7 @@ export default function TimelineOrders({
     }));
     setElementForEdit(null);
     setActiveItem(null);
+    setIsActiveItem(false);
   };
 
   const escFunction = useCallback((event) => {
@@ -110,6 +111,7 @@ export default function TimelineOrders({
   const handleItemSelect = (itemId, e) => {
     if (elementForEdit && itemId === elementForEdit.itemId) {
       setActiveItem(null);
+      setIsActiveItem(false);
       handleDeselectItem(itemId);
       return;
     }
@@ -120,6 +122,7 @@ export default function TimelineOrders({
         setActiveItem({
           ...item, posX: e.clientX, posY: e.clientY, close: handleDeselectItem,
         });
+        setIsActiveItem(true);
         setElementForEdit({ itemId, orderId: item.rentOrderId, status: item.status });
       }
       const updatedItemPropsStyle = { ...item.itemProps.style };

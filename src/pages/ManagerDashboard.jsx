@@ -16,6 +16,7 @@ export default function ManagerDashboard({ user }) {
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-30, "day"), endDate: moment() });
   const [profitItems, setProfitItems] = useState([]);
   const [activeItem, setActiveItem] = useState(null);
+  const [isActiveItem, setIsActiveItem] = useState(false);
   const {
     orderData,
     managerInfoData,
@@ -26,6 +27,7 @@ export default function ManagerDashboard({ user }) {
     loading,
   } = useBuildManagerData();
   const listLength = 5;
+
   return loading ? (
     <Spinner />
   ) : (
@@ -48,6 +50,7 @@ export default function ManagerDashboard({ user }) {
         <CalendarWithTimelineComponent
           allOrderData={allOrderData}
           setActiveItem={setActiveItem}
+          setIsActiveItem={setIsActiveItem}
         />
       </div>
       <div className="row">
@@ -62,7 +65,7 @@ export default function ManagerDashboard({ user }) {
         <div className="col-lg-3  col-md-6 width-fif"><LesseeTableDashboard lesseeCompanies={lesseeCompanies.slice(0, listLength)} /></div>
         <div className="col-lg-3  col-md-6 width-hun"><ManagerTransactionsTableDashboard transactions={transactions.slice(0, listLength)} /></div>
       </div>
-      {activeItem && (
+      {isActiveItem && (
         <TimelineDashboardWindow
           item={activeItem}
           close={activeItem.close}

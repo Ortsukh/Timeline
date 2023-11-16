@@ -3,7 +3,9 @@ import moment from "moment/moment";
 import OrderCalendarDashboard from "./OrderCalendarDashboard";
 import TimelineOrders from "./TimelineOrders";
 
-export default function CalendarWithTimelineComponent({ allOrderData, setActiveItem }) {
+export default function CalendarWithTimelineComponent(
+  { allOrderData, setActiveItem, setIsActiveItem },
+) {
   const [orderCalendarSelectDay, setOrderCalendarSelectDay] = useState(moment().format("YYYY-MM-DD"));
 
   return (
@@ -21,6 +23,7 @@ export default function CalendarWithTimelineComponent({ allOrderData, setActiveI
           orderCalendarSelectDay={orderCalendarSelectDay}
           key={orderCalendarSelectDay}
           setActiveItem={setActiveItem}
+          setIsActiveItem={setIsActiveItem}
         />
       </div>
     </>

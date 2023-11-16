@@ -186,31 +186,32 @@ export default function EditButtonColumn({
       </div>
       {!baseOrder.equipment.id && (
       <div className="input-count-box">
-        <label htmlFor="auto" className="input-checkbox">
-          <input
-            type="checkbox"
-            id="auto"
-            name="auto"
-            checked={statusCheckboxSelected === "AUTO"}
-            onChange={() => handleChangeSelectedStatus("AUTO")}
-          />
-          Автоматический подбор свободного оборудования
-        </label>
-        {/* <span>или</span> */}
-        <div className="select-count-box">
-          <Select
-            isDisabled={statusCheckboxSelected !== "MYSELF"}
-            className="select-filter"
-            styles={{
-              control: (baseStyles) => ({
-                ...baseStyles,
-                minWidth: "300px",
-              }),
-            }}
-            options={getOptionsForSearch(groups)}
-            onChange={handleChangeEquipmentBeforeCalculation}
-            defaultValue={getOptionsForSearch(groups)[groups.length - 1]}
-          />
+        <span style={{ marginTop: "15px" }}>Подбираемое оборудование:</span>
+        <div>
+          <div className="select-count-box">
+            <Select
+              isDisabled={statusCheckboxSelected !== "MYSELF"}
+              className="select-filter"
+              options={getOptionsForSearch(groups)}
+              onChange={handleChangeEquipmentBeforeCalculation}
+              defaultValue={getOptionsForSearch(groups)[groups.length - 1]}
+            />
+          </div>
+          <label
+            htmlFor="auto"
+            className="input-checkbox"
+            style={{ marginTop: "5px" }}
+            title="Автоматически подобрать свободное оборудование"
+          >
+            <input
+              type="checkbox"
+              id="auto"
+              name="auto"
+              checked={statusCheckboxSelected === "AUTO"}
+              onChange={() => handleChangeSelectedStatus("AUTO")}
+            />
+            Авто
+          </label>
         </div>
       </div>
       )}
