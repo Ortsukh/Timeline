@@ -1,4 +1,4 @@
-//! Когда появяться Разделы раскоментить
+//! Когда появяться Разделы раскомментить
 // const priority = [
 //   { chapter: "Кухни", category: ["Кухни", "Цеха"] },
 //   { chapter: "Холодильное оборудование", category: ["Холодильники", "Морозилки"] },
@@ -41,7 +41,7 @@ const categoryPriority = [
 // const chapterPriority = ["Кухни", "Холодильное оборудование", "Тепловое оборудование", "Другое"];
 
 const sortingArrayGroups = (array) => {
-  const sorted = array.toSorted((a, b) => {
+  const sorted = array.sort((a, b) => {
     // if (chapterPriority.indexOf(a.chapter) < chapterPriority.indexOf(b.chapter)) return -1;
     // if (chapterPriority.indexOf(a.chapter) > chapterPriority.indexOf(b.chapter)) return 1;
 

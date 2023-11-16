@@ -16,7 +16,7 @@ export default function TimelineDashboardWindow({
       height: refWindow.current.clientHeight || 250,
     });
   }, []);
-
+  // console.log("item", item);
   const isRightSpace = window.innerWidth - item.posX > sizeWindow.width + 20;
   const isTopSpace = item.posY > sizeWindow.height + 20;
   const isBottomSpace = window.innerHeight - item.posY + window.scrollY > sizeWindow.height + 20;
@@ -84,7 +84,7 @@ export default function TimelineDashboardWindow({
         <div className="messageWindow-item">
           <span>Комментарий к заказу:</span>
           <span style={{
-            wordWrap: "break-word", hyphens: "auto", fontStyle: "italic", backgroundColor: "#fffadf",
+            wordWrap: "break-word", hyphens: "auto", fontStyle: "italic", backgroundColor: "#c7c3a1", borderRadius: "5px",
           }}
           >
             `
