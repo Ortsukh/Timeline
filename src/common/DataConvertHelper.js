@@ -178,6 +178,7 @@ const createOrderObject = (order, el, shiftLength, interval, user) => {
     date: interval.date,
     grid: addStartGrid(hour, shiftLength),
     comment: order.rentOrder.comment,
+    totalOrder: order.rentOrder?.total,
   };
 };
 

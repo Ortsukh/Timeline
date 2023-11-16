@@ -7,11 +7,10 @@ export default function ManagerLastPendingOrdersTableDashboard({ orderData }) {
   const headerLastOrders = [
     { value: "№", style: {} },
     { value: "Дата", style: { minWidth: "70px" } },
-    { value: "Компания", style: {} },
+    { value: "Арендатор", style: {} },
     { value: "Категория", style: {} },
     // { value: "Статус", style: { minWidth: "70px" } },
     { value: "Сумма", style: {} },
-    // { value: "Остаточная стоимость", style: {} },
   ];
 
   const rowsLastOrders = orderData.map((order) => {
@@ -25,8 +24,7 @@ export default function ManagerLastPendingOrdersTableDashboard({ orderData }) {
       { value: order.company, class: "" },
       { value: order.category, class: "" },
       // { value: order.status, class: getClassStatus(order.status) },
-      { value: roundedPrice(order.price), class: "moneyCell" },
-      // { value: roundedPrice(order.price), class: "moneyCell" },
+      { value: roundedPrice(order.total), class: "moneyCell" },
     ];
     return { key: order.id, date: cells };
   });
