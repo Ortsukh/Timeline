@@ -38,7 +38,6 @@ export default function WindowTimeline({
   calculatedOrSelectedDevice,
   setIsEquipmentInfoWindowOpen,
 }) {
-  console.log(selectedConflictDate);
   const PR_COM = {
     category: baseOrder.equipment.category,
     idCategArr: groups.map((el) => el.id),
@@ -75,6 +74,7 @@ export default function WindowTimeline({
       end_time: setEndTimeSelectedItem(reserv.shiftTime),
       isDeleted: false,
       isChanged: false,
+      isAdded: false,
       itemStatus: "success",
       itemProps: {
         // onDoubleClick: () => { console.log("You clicked double!"); },
@@ -101,6 +101,7 @@ export default function WindowTimeline({
       end_time: setEndTimeSelectedItem(reserv.shiftTime),
       isDeleted: false,
       isChanged: false,
+      isAdded: false,
       itemStatus: "conflict",
       itemProps: {
         style: {
@@ -124,6 +125,15 @@ export default function WindowTimeline({
   const [isClickedItem, setIsClickedItem] = useState(false);
   const [isOrderChanged, setIsOrderChanged] = useState(false);
   const [elementForChange, setElementForChange] = useState(null);
+
+  useEffect(() => {
+    // Если добавить смену и удалить её, массив будет считаться изменённым.
+    // От того, что в {modifSuccessArr} будет лежать item со свойствами isAdded и isDeleted = true
+    const isChangedSuc = modifSuccessArr.some((el) => el.isAdded || el.isChanged || el.isDeleted);
+    const isChangedConflict = modifConflictArr.some((el) => el.isDeleted);
+    setIsOrderChanged(isChangedSuc || isChangedConflict);
+    // console.log("Ну что!!!", isChangedSuc || isChangedConflict, modifSuccessArr);
+  }, [initSuccessArr, modifSuccessArr, modifConflictArr]);
 
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
@@ -261,6 +271,7 @@ export default function WindowTimeline({
       const reselectedItem = {
         id: `success_${elementForChange.id.split("_")[1]}`,
         isChanged: isItemBack(),
+        isAdded: initSuccessArr[elementForChange.index]?.isAdded || false,
         ...newObjItem,
       };
       setModifSuccessArr((prev) => {
@@ -274,26 +285,25 @@ export default function WindowTimeline({
         return newSuccArr;
       });
       setIsClickedItem(false);
-      setIsOrderChanged(true);
       setElementForChange(null);
     }
     if (isAddNewItem) {
-      const reselectedItem = {
+      const addedItem = {
         id: `success_${uuidv4()}`,
         isChanged: false,
+        isAdded: true,
         ...newObjItem,
       };
       setInitSuccessArr((prev) => {
         const newSuccArr = [...prev];
-        newSuccArr.push(reselectedItem); // Добавляем
+        newSuccArr.push(addedItem); // Добавляем
         return newSuccArr;
       });
       setModifSuccessArr((prev) => {
-        prev.splice(initSuccessArr.length, 0, reselectedItem); // Заменяем на аналог-ю позицию
+        prev.splice(initSuccessArr.length, 0, addedItem); // Заменяем на аналог-ю позицию
         return prev;
       });
       setIsAddNewItem(false);
-      setIsOrderChanged(true);
       openOverLay(false);
     }
   };
@@ -427,7 +437,6 @@ export default function WindowTimeline({
         return item;
       }));
       setIsClickedItem(false);
-      setIsOrderChanged(true);
       setElementForChange(null);
     }
   };
@@ -647,17 +656,18 @@ export default function WindowTimeline({
               )}
           </div>
           <div className={styleConflict.displayActionBtns}>
-            <div className={styleConflict.actionBtns}>
+            <div className={styleConflict.actionBtns} style={{ justifyContent: "flex-start" }}>
               <button
                 type="button"
                 className={elementForChange ? styleConflict.disableBtn : "reserved-btn reserve-timeline"}
+                style={{ minWidth: "170px", marginRight: "5%" }}
                 disabled={elementForChange}
                 onClick={() => {
                   setIsAddNewItem(true);
                   openOverLay(true);
                 }}
               >
-                {buttonTitleConstants.ADD_NEW}
+                {buttonTitleConstants.ADD_NEW_SHIFT}
               </button>
               <button
                 type="button"
@@ -665,27 +675,29 @@ export default function WindowTimeline({
                 disabled={!elementForChange}
                 onClick={handleDeleteItem}
               >
-                {buttonTitleConstants.DELETE}
+                {buttonTitleConstants.DELETE_SHIFT}
               </button>
             </div>
-            <div className={styleConflict.actionBtns}>
+            <div className={styleConflict.actionBtns} style={{ justifyContent: "flex-end" }}>
               <button
                 type="button"
                 className={elementForChange || !isOrderChanged
                   ? styleConflict.disableBtn
                   : styleConflict.resolveBtn}
+                style={{ minWidth: "170px", marginRight: "5%" }}
                 disabled={elementForChange || !isOrderChanged}
                 onClick={handleResolveConflict}
               >
-                {buttonTitleConstants.CONFIRM}
+                {buttonTitleConstants.CONFIRM_CHANGES}
               </button>
               <button
                 type="button"
                 className={elementForChange ? styleConflict.disableBtn : styleConflict.rejectBtn}
+                style={{ minWidth: "170px" }}
                 disabled={elementForChange}
                 onClick={handleCancelWindow}
               >
-                {buttonTitleConstants.CANCEL}
+                {buttonTitleConstants.CANCEL_CHANGES}
               </button>
             </div>
           </div>

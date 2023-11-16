@@ -80,7 +80,7 @@ export default function EditButtonColumn({
   };
   const notification = () => {
     if (isShowConflictNotification === "company") {
-      return <div style={{ color: "red" }}>Выберите компанию</div>;
+      return <div style={{ color: "red" }}>Выберите арендатора</div>;
     }
     if (isShowConflictNotification === "shift") {
       return <div style={{ color: "red" }}>Выберите смену</div>;
@@ -147,7 +147,7 @@ export default function EditButtonColumn({
 
                 <span>
                   {" "}
-                  Компания:
+                  Арендатор:
                   {" "}
                   <span className="choose-category_item">
                     {selectedCompany ? selectedCompany.name : "name"}
@@ -194,12 +194,19 @@ export default function EditButtonColumn({
             checked={statusCheckboxSelected === "AUTO"}
             onChange={() => handleChangeSelectedStatus("AUTO")}
           />
-          Автоматический выбор
+          Автоматический подбор свободного оборудования
         </label>
+        {/* <span>или</span> */}
         <div className="select-count-box">
           <Select
             isDisabled={statusCheckboxSelected !== "MYSELF"}
             className="select-filter"
+            styles={{
+              control: (baseStyles) => ({
+                ...baseStyles,
+                minWidth: "300px",
+              }),
+            }}
             options={getOptionsForSearch(groups)}
             onChange={handleChangeEquipmentBeforeCalculation}
             defaultValue={getOptionsForSearch(groups)[groups.length - 1]}

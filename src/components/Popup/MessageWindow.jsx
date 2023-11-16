@@ -66,7 +66,10 @@ export default function MessageWindow({
         && (
         <div className="messageWindow-item">
           <span>Комментарий к заказу:</span>
-          <span style={{ wordWrap: "break-word", hyphens: "auto", fontStyle: "italic" }}>
+          <span style={{
+            wordWrap: "break-word", hyphens: "auto", fontStyle: "italic", backgroundColor: "#c7c3a1", borderRadius: "5px",
+          }}
+          >
             `
             {data.item.comment}
             `

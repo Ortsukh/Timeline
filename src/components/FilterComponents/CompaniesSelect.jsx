@@ -39,7 +39,7 @@ export default function CompaniesSelect({
 
   return (
     <div className="tools-filter company-filter">
-      <span> Выбрать компанию</span>
+      <span> Выбрать арендатора</span>
 
       <Select
         isDisabled={!isActiveCalendar}
@@ -47,9 +47,10 @@ export default function CompaniesSelect({
         options={getOptionsForSearch(companies)}
         onChange={handleChange}
         value={selectValue}
+        placeholder="Выбрать..."
       />
       {!selectedCompany && isClickedOnNew && (
-        <div className="tooltip">Пожалуйста, выберите компанию</div>
+        <div className="tooltip">Пожалуйста, выберите арендатора</div>
       )}
       {!isFromDashboard && (
       <button type="button" className="clear-button" onClick={handleReset}>

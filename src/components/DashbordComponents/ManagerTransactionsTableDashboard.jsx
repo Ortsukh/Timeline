@@ -5,7 +5,7 @@ import TableComponent from "./Table/TableComponent";
 export default function ManagerTransactionsTableDashboard({ transactions }) {
   const headerTransactions = [
     { value: "№", style: {} },
-    { value: "Компания", style: {} },
+    { value: "Арендатор", style: {} },
     { value: "Дата", style: {} },
     { value: "Стоимость", style: {} },
   ];

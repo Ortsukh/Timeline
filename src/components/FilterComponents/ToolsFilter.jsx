@@ -53,6 +53,7 @@ export default function ToolsFilter({
         options={getOptionsForSearch(toolNames)}
         onChange={changeSearch}
         value={selectValue}
+        placeholder="Выбрать..."
       />
       {!selectValue && isClickingOnEmptyFilter && (
         <div className="tooltip">Пожалуйста, выберите группу</div>

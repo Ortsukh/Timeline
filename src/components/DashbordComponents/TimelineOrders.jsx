@@ -158,7 +158,7 @@ export default function TimelineOrders({
           className="reserved-btn reserve-timeline"
           onClick={handleLinkToTimeLine}
         >
-          Timeline 🡆
+          Календарь аренды
         </button>
       </div>
       {orderItems.length
