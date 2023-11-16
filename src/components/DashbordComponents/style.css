@@ -198,11 +198,11 @@
 .lesseeCell.btn.btn-info{
     padding: 3px 10px;
 }
-.dashboardCalendarContainer .fc .fc-daygrid-day.fc-day-today {
+.fc .fc-daygrid-day.fc-day-today {
     background-color: transparent
 
 }
-.dashboardCalendarContainer .fc .fc-daygrid-day.fc-day-today a{
+ .fc .fc-daygrid-day.fc-day-today a{
     background-color: rgba(119, 0, 255, 0.5);
     padding-left: 3px;
     color: white !important
@@ -250,9 +250,22 @@
     background: linear-gradient(0deg, rgba(0, 255, 43, 0.20) 0%, rgba(0, 255, 43, 0.27) 1%, rgba(0, 255, 43, 0.00) 76%);
     backdrop-filter: blur();
 }
+
 .gridWithOrderBG {
     background: rgba(255,220,40,.35);
 }
+
+.gridWithConflictBG {
+    background: #ffa4a4;
+}
+
+.gridWithConflictInThisShiftBG {
+    background: #ffd884
+}
+.gridWithoutConflictBG {
+    background: #90ef90;
+}
 .selectedCell {
-    border: 2px #5bbbe0 solid;
+    outline: 2px #5bbbe0 solid;
+    outline-offset: -1px;
 }

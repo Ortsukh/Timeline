@@ -25,7 +25,7 @@ export async function sendEditOrder(order) {
   return true;
 }
 
-export async function createOrder(order, company, comment) {
+export async function createOrder(order, company, comment, status) {
   const str = `${backendUrl}save_order`;
   const dateIntervals = formatOrder(order);
   const body = {
@@ -33,7 +33,7 @@ export async function createOrder(order, company, comment) {
       id: company.id,
       name: company.name,
     },
-    status: "pending",
+    status,
     comment,
     equipmentItems: dateIntervals,
   };

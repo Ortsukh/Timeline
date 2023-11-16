@@ -132,8 +132,8 @@ const ProfitByTimeChart = memo(({
           },
         },
 
-        min: moment(selectedTime.startDate).add(-12, "hour"),
-        max: moment(selectedTime.endDate).add(12, "hour"),
+        min: moment(selectedTime.startDate).add(-18, "hour"),
+        max: moment(selectedTime.endDate).add(6, "hour"),
         ticks: {
           font: {
             size: 20,

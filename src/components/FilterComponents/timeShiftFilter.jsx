@@ -11,19 +11,12 @@ export default function TimeShift({
   let endWorkDay = Number(currentDevice.workTime.shiftTimes.end.split(":")[0]);
 
   const [value, setValue] = useState([
-    {
-      value: startWorkDay,
-      label: `${startWorkDay} - ${startWorkDay + currentDevice.shiftLength}`,
-    }]);
+  ]);
 
   useEffect(() => {
     startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
     endWorkDay = Number(currentDevice.workTime.shiftTimes.end.split(":")[0]);
-    setValue([
-      {
-        value: startWorkDay,
-        label: `${startWorkDay} - ${startWorkDay + currentDevice.shiftLength}`,
-      }]);
+    setValue([]);
   }, [currentDevice]);
 
   // console.log(startWorkDay, endWorkDay);
@@ -38,7 +31,7 @@ export default function TimeShift({
 
   const animatedComponents = makeAnimated();
   useEffect(() => {
-    setValue(baseOrder.shiftTime);
+    // setValue(baseOrder.shiftTime);
   }, [baseOrder.shiftTime]);
 
   const handleChangeTime = (e) => {
@@ -69,7 +62,7 @@ export default function TimeShift({
         onChange={handleChangeTime}
         value={value}
         isMulti
-        // defaultValue={[{ value: 0, label: `0 - ${+currentDevice.shiftLength}` }]}
+        defaultValue={[]}
       />
     </div>
   );

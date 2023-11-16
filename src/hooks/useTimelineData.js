@@ -10,13 +10,13 @@ export default function useTimelineData(isMainLessee, update) {
     isMainLessee = false;
   }
 
-  const backendManagerUrl = " http://localhost:3001/admin/manager/";
+  // const backendManagerUrl = " http://localhost:3001/admin/manager/";
 
   let loading = false;
-  const { data: allEquipmentData, loading: allEquipmentDataLoading } = isLocal ? useFetch(`${backendUrl}get_local_equipment`, update) : useFetch(`${backendManagerUrl}get_equipment`, update);
+  const { data: allEquipmentData, loading: allEquipmentDataLoading } = isLocal ? useFetch(`${backendUrl}get_local_equipment`, update) : useFetch(`${backendUrl}get_equipment`, update);
   const { data: userData, loading: userDataLoading } = isMainLessee ? useFetch(`${backendUrl}get_current_user/2`, update) : useFetch(`${backendUrl}get_current_user`, update);
   const { data: companiesData, loading: companiesDataLoading } = !isMainLessee ? useFetch(`${backendUrl}get_lessee_companies`, update) : { data: [], loading: false };
-  const { data: allOrderData, loading: allOrderDataLoading } = isLocal ? useFetch(`${backendUrl}get_local_orders`, update) : useFetch(`${backendManagerUrl}get_equipment_items`, update);
+  const { data: allOrderData, loading: allOrderDataLoading } = isLocal ? useFetch(`${backendUrl}get_local_orders`, update) : useFetch(`${backendUrl}get_equipment_items`, update);
   console.log(allOrderData);
   if (allEquipmentDataLoading
       || allOrderDataLoading

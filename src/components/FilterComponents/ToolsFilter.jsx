@@ -28,7 +28,7 @@ export default function ToolsFilter({
 
   const formatOptionLabel = ({ label }) => (
     <div style={{ display: "flex" }}>
-      <div className="equipment_color_block" />
+      {/* <div className="equipment_color_block" /> */}
       <div>{label }</div>
 
     </div>

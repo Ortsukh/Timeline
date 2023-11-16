@@ -57,6 +57,7 @@ export default function OrderCalendarDashboard({
   const infoElement = document.createElement("small");
   infoElement.className = "label pull-right bg-yellow mr-5 ";
   infoElement.innerText = "!";
+
   useEffect(() => {
     const infoElementNode = getCalendarCellsByClassNames("small");
     infoElementNode.forEach((node) => node.remove());

@@ -70,6 +70,7 @@ export default function WindowTimeline({
       id: `success_${uuidv4()}`,
       date: PR_SEL.todayFormated,
       group: +reserv.groupId,
+      shortTitle: reserv.shortTitle,
       start_time: setStartTimeSelectedItem(reserv.shiftTime),
       end_time: setEndTimeSelectedItem(reserv.shiftTime),
       isDeleted: false,
@@ -95,6 +96,7 @@ export default function WindowTimeline({
       id: `conflict_${uuidv4()}`,
       date: PR_SEL.todayFormated,
       group: +reserv.groupId,
+      shortTitle: reserv.shortTitle,
       start_time: setStartTimeSelectedItem(reserv.shiftTime),
       end_time: setEndTimeSelectedItem(reserv.shiftTime),
       isDeleted: false,
@@ -117,12 +119,8 @@ export default function WindowTimeline({
       },
     })),
   );
-  // console.log("initSuccessArr", initSuccessArr);
-  // console.log("initConflictArr", initConflictArr);
   const [modifSuccessArr, setModifSuccessArr] = useState(initSuccessArr);
   const [modifConflictArr, setModifConflictArr] = useState(initConflictArr);
-  // console.log("modifSuccessArr", modifSuccessArr);
-  // console.log("modifConflictArr", modifConflictArr);
   const [isClickedItem, setIsClickedItem] = useState(false);
   const [isOrderChanged, setIsOrderChanged] = useState(false);
   const [elementForChange, setElementForChange] = useState(null);
@@ -176,6 +174,7 @@ export default function WindowTimeline({
     ),
     height: 36,
   }));
+
   const elInGroup = generateGroup().filter((el) => el.category === PR_COM.category);
   const highlightElInGroup = elInGroup.map((el) => {
     const selectedElInGroup = el.id === PR_COM.preferredGroupId;
@@ -223,6 +222,7 @@ export default function WindowTimeline({
       shiftTime: formattedTime,
       date: PR_SEL.todayFormated,
       group: groupId,
+      shortTitle: groups.find((group) => group.id === groupId).shortTitle,
       start_time: setStartTimeSelectedItem(formattedTime),
       end_time: setEndTimeSelectedItem(formattedTime),
       isDeleted: false,
@@ -455,6 +455,7 @@ export default function WindowTimeline({
             date: order.date,
             group: order.group,
             shiftTime: order.shiftTime,
+            shortTitle: order.shortTitle,
             grid: addGrid(
               Math.floor((
                 order.shiftTime - PR_COM.startWorkDay) / PR_COM.shiftCateg),
@@ -469,6 +470,7 @@ export default function WindowTimeline({
           {
             groupId: order.group,
             shiftTime: order.shiftTime,
+            shortTitle: order.shortTitle,
           }
         )),
     });

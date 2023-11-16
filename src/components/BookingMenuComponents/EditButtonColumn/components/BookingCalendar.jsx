@@ -15,8 +15,6 @@ import { generateClue } from "../../../../common/GenerateElementsData";
 import DayCheckbox from "../../../Checkbox/DayCheckbox";
 import "../../../style.css";
 
-const events = [];
-
 export default function BookingCalendar({
   handleSetSelectedConflictDate,
   setSelectedDates,
@@ -31,8 +29,7 @@ export default function BookingCalendar({
 }) {
   const [isDefaultSelect] = useState(true);
   const calendarRef = useRef();
-  const [event, setEvent] = useState(events);
-  const [emptyCellsForMonth, setEmptyCellsForMonth] = useState([]);
+  const [event, setEvent] = useState([]);
   const [startSelectCell, setStartSelectCell] = useState(null);
   const [defaultSelect, setDefaultSelect] = useState(true);
   const [selectedWeekdays, setSelectedWeekdays] = useState(["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]);
@@ -71,11 +68,17 @@ export default function BookingCalendar({
     return <div style={obj}>  </div>;
   };
   const unselectDefaultCalendar = () => {
-    const calendarDayCell = getCalendarCellsByClassNames(".activeCell");
+    // const calendarDayCell = getCalendarCellsByClassNames(".activeCell");
+    // if (calendarDayCell[0]) {
+    //   calendarDayCell[0].classList.remove("activeCell");
+    // }
+    const calendarDayCell = getCalendarCellsByClassNames(".selectedCell");
+    console.log(calendarDayCell);
     if (calendarDayCell[0]) {
-      calendarDayCell[0].classList.remove("activeCell");
+      calendarDayCell[0].classList.remove("selectedCell");
     }
   };
+  const isViewMode = window.location.search.substring(1).split("&").find((query) => query.startsWith("view"))?.split("=")[1];
 
   const checkShiftPerDay = (cell) => {
     cell.firstChild.classList.add("gridActiveBG");
@@ -83,36 +86,91 @@ export default function BookingCalendar({
 
   const handleEventClick = (clickInfo) => {
     const data = {
-      start: clickInfo.event.start,
-      extendedProps: clickInfo.event.extendedProps,
+      start: clickInfo.start,
+      extendedProps: clickInfo.extendedProps,
     };
     handleSetSelectedConflictDate(data);
   };
 
   useEffect(() => {
+    console.log("delete");
     unselectDefaultCalendar();
   }, [deactivatedCell]);
 
   useEffect(() => {
+    unselectDefaultCalendar();
+
     if (!selectedConflictDate) {
       return;
     }
-    unselectDefaultCalendar();
     const el = calendarRef.current.elRef.current.querySelectorAll(
       `[data-date="${moment(selectedConflictDate.start).format("YYYY-MM-DD")}"] 
-            > div > .fc-daygrid-day-events`,
+            > div `,
     )[0];
-
-    el.classList.add("activeCell");
+    if (el) {
+      el.classList.add("selectedCell");
+    }
+    // el.classList.add("activeCell");
   }, [selectedConflictDate]);
 
+  const generateContent = (arr) => {
+    if (!arr.length) return "";
+    const groupedByGroupsId = {};
+    arr.forEach((eventItem) => {
+      if (!groupedByGroupsId[event.groupId]) {
+        groupedByGroupsId[event.groupId] = [eventItem];
+      } else {
+        groupedByGroupsId[event.groupId].push(eventItem);
+      }
+    });
+    const content = document.createElement("div");
+    content.className = "cellContentBlock";
+    Object.keys(groupedByGroupsId).forEach((id) => {
+      let elContent = `${groupedByGroupsId[id][0].shortTitle}:`;
+      groupedByGroupsId[id].forEach((item) => {
+        elContent += ` ${item.shiftTime},`;
+      });
+      const spanElement = document.createElement("span");
+      spanElement.innerText = elContent.slice(0, -1);
+      content.append(spanElement);
+    });
+    return content;
+  };
+  const addContentInCell = (data, cell) => {
+    const content = cell.querySelector(".cell-content");
+    content.append(generateContent(data.success));
+    content.append(generateContent(data.conflicts));
+  };
+  const paintingEvents = () => {
+    if (!calendarRef.current) return;
+    getCalendarCellsByClassNames(".fc-day.fc-daygrid-day").forEach((cell) => {
+      cell.firstChild.classList.remove("gridWithoutConflictBG");
+      cell.firstChild.classList.remove("gridWithConflictBG");
+      cell.firstChild.classList.remove("gridWithConflictInThisShiftBG");
+      const content = cell.querySelector(".cell-content");
+      const oldChild = content ? content.querySelector(".cellContentBlock") : null;
+      if (oldChild) {
+        content.removeChild(oldChild);
+      }
+      const dateEvent = calendarEvent.filter((dateItem) => dateItem.start === cell.dataset.date)[0];
+      if (dateEvent) {
+        addContentInCell(dateEvent.extendedProps, cell);
+        cell.firstChild.classList.add(dateEvent.backgroundType);
+        cell.firstChild.classList.remove("gridActiveBG");
+      }
+    });
+  };
+
   useEffect(() => {
-    const date = (moment(calendarRef.current.getApi().getDate()).endOf("month"));
-    if (moment(date).isBefore(moment())) {
-      setEvent(calendarEvent);
-      return;
-    }
+    // const date = (moment(calendarRef.current.getApi().getDate()).endOf("month"));
+    // if (moment(date).isBefore(moment())) {
+    //   setEvent(calendarEvent);
+    //   return;
+    // }
+
     setEvent(calendarEvent);
+
+    paintingEvents();
   }, [calendarEvent]);
 
   useEffect(() => {
@@ -123,7 +181,6 @@ export default function BookingCalendar({
       }
     });
     if (!selectedDates.length) {
-      setEmptyCellsForMonth([]);
       calendarRef.current.getApi().unselect();
       getCalendarCellsByClassNames(".fc-day.fc-daygrid-day").forEach(
         (cell) => {
@@ -138,7 +195,8 @@ export default function BookingCalendar({
       getCalendarCellsByClassNames(".fc-day.fc-daygrid-day:not(.fc-day-other)").forEach(
         (cell) => {
           if (selectedDates.find((date) => date === cell.dataset.date)) {
-            checkShiftPerDay(cell);
+            // checkShiftPerDay(cell);
+            // unselectDefaultCalendar();
           }
         },
       );
@@ -297,6 +355,7 @@ export default function BookingCalendar({
         }
       },
     );
+    paintingEvents();
   };
 
   const onClickCell = (e) => {
@@ -314,9 +373,14 @@ export default function BookingCalendar({
       if (selectedDates.indexOf(cellDate) === -1) {
         if (workingDayMap[getDayName(cellDate)]
             && selectedWeekdays.includes(getDayName(cellDate))) {
+          if (isViewMode) return;
+
           addAnotherDay(moment(cell.dataset.date).format("YYYY-MM-DD"));
-          checkShiftPerDay(cell);
         }
+      } else {
+        unselectDefaultCalendar();
+        cell.firstChild.classList.add("selectedCell");
+        handleEventClick(event.find((ev) => ev.start === cellDate));
       }
       return;
     }
@@ -378,7 +442,7 @@ export default function BookingCalendar({
       };
     }
     return false;
-  }, [isDefaultSelect, isActiveCalendar, selectedDates]);
+  }, [isDefaultSelect, isActiveCalendar, selectedDates, event]);
 
   useEffect(() => {
     const changeDef = (e) => {
@@ -443,15 +507,51 @@ export default function BookingCalendar({
           }}
         >
           <FullCalendar
+            dayCellDidMount={(cell) => {
+              if (!cell.isPast) {
+                const addContent = document.createElement("div");
+                addContent.className = ("cell-content");
+                cell.el.children[0].children[1].append(addContent);
+              }
+            }}
             unselectAuto={false}
             className="unselectable"
             datesSet={(e) => handleChangeMonth(e)}
-            height={550}
-            contentHeight={400}
+            height={isEditMode ? 600 : "auto"}
+            initialDate={isEditMode ? moment().add(-1, "month").format("YYYY-MM-DD") : moment().format("YYYY-MM-DD")}
+            contentHeight={200}
             fixedWeekCount={false}
             ref={calendarRef}
             eventOverlap={false}
             plugins={[dayGridPlugin, interaction, timeGrid, calenderList, multiMonthPlugin]}
+            viewDidMount={(view) => {
+              // const a = calendarRef?.current?.getApi().getOption("height");
+              if (view.view.type === "multiMonthYear") {
+                console.log("sdsfsdf");
+                calendarRef?.current?.getApi().setOption("height", 600);
+                calendarRef?.current?.getApi().gotoDate(moment().add(-1, "month").format("YYYY-MM-DD"));
+                paintingEvents();
+              } else {
+                calendarRef?.current?.getApi().setOption("height", "auto");
+                calendarRef?.current?.getApi().gotoDate(moment().format("YYYY-MM-DD"));
+                paintingEvents();
+              }
+            }}
+            views={{
+              multiMonthYear: {
+                type: "multiMonthYear",
+                height: "600px",
+                buttonText: "Год",
+                duration: {
+                  month: 12,
+                },
+              },
+              dayGridMonth: {
+                type: "dayGridMonth",
+                buttonText: "Месяц",
+
+              },
+            }}
             initialView={isEditMode ? "multiMonthYear" : "dayGridMonth"}
                 // selectable={isDefaultSelect && isActiveCalendar}
                 // select={(data) => handleSelect(data)}
@@ -462,7 +562,7 @@ export default function BookingCalendar({
             multiMonthMaxColumns={2}
             weekends
             eventClick={handleEventClick}
-            events={event.concat(emptyCellsForMonth)}
+            // events={event.concat(emptyCellsForMonth)}
             eventContent={renderEventContent}
             headerToolbar={{
               left: "",

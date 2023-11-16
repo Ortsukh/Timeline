@@ -2,11 +2,11 @@ import React from "react";
 import "./style.css";
 
 export default function LesseeStatsDashboard({ profitItems }) {
-  const calcAllProfit = () => {
-    let result = 0;
-    result = profitItems.reduce((acc, cur) => cur.y + acc, 0);
-    return result;
-  };
+  // const calcAllProfit = () => {
+  //   let result = 0;
+  //   result = profitItems.reduce((acc, cur) => cur.y + acc, 0);
+  //   return result;
+  // };
   return !profitItems.length ? <>Загрузка</>
     : (
       <div className="statsDashboardContainer">
