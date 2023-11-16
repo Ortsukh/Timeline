@@ -96,7 +96,9 @@
 .btn-cont-dash .containerCalendarDashboard .button-wrapper .btn-sm{
     font-size: 14px;
 }
-
+.containerCalendarDashboard {
+    border: 1px solid  #17a2b8;
+}
 .info-box-number, .positive-values{
     color: #1fcb22;
 }

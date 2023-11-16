@@ -138,6 +138,8 @@ export default function BookingCalendar({
   };
   const addContentInCell = (data, cell) => {
     const content = cell.querySelector(".cell-content");
+    console.log(content);
+    if (!content) return;
     content.append(generateContent(data.success));
     content.append(generateContent(data.conflicts));
   };
@@ -152,7 +154,7 @@ export default function BookingCalendar({
       if (oldChild) {
         content.removeChild(oldChild);
       }
-      const dateEvent = calendarEvent.filter((dateItem) => dateItem.start === cell.dataset.date)[0];
+      const dateEvent = calendarEvent.find((dateItem) => dateItem.start === cell.dataset.date);
       if (dateEvent) {
         addContentInCell(dateEvent.extendedProps, cell);
         cell.firstChild.classList.add(dateEvent.backgroundType);
@@ -367,10 +369,8 @@ export default function BookingCalendar({
       const cell = e.target.closest(".fc-day.fc-daygrid-day");
       if (!cell) return;
       const cellDate = cell.dataset.date;
-      if (moment(cellDate).isBefore(moment().startOf("day"))) {
-        return;
-      }
-      if (selectedDates.indexOf(cellDate) === -1) {
+      const eventByDate = event.find((ev) => ev.start === cellDate);
+      if (selectedDates.indexOf(cellDate) === -1 && moment(cellDate).isSameOrAfter(moment().startOf("day"))) {
         if (workingDayMap[getDayName(cellDate)]
             && selectedWeekdays.includes(getDayName(cellDate))) {
           if (isViewMode) return;
@@ -379,8 +379,9 @@ export default function BookingCalendar({
         }
       } else {
         unselectDefaultCalendar();
+        if (!eventByDate) return;
         cell.firstChild.classList.add("selectedCell");
-        handleEventClick(event.find((ev) => ev.start === cellDate));
+        handleEventClick(eventByDate);
       }
       return;
     }
@@ -508,11 +509,9 @@ export default function BookingCalendar({
         >
           <FullCalendar
             dayCellDidMount={(cell) => {
-              if (!cell.isPast) {
-                const addContent = document.createElement("div");
-                addContent.className = ("cell-content");
-                cell.el.children[0].children[1].append(addContent);
-              }
+              const addContent = document.createElement("div");
+              addContent.className = ("cell-content");
+              cell.el.children[0].children[1].append(addContent);
             }}
             unselectAuto={false}
             className="unselectable"
