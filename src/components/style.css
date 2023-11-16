@@ -566,8 +566,9 @@
 .input-count-box {
     display: flex;
     align-items: center;
-    gap: 30px;
-    justify-content: space-between;
+    gap: 10px;
+    justify-content: start;
+    align-items: flex-start
 }
 
 .input-count-box .select-count-box {

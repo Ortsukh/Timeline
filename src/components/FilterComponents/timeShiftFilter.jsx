@@ -52,7 +52,7 @@ export default function TimeShift({
 
   return (
     <div className="select-count-box select-choose-time">
-      <span>Время смены</span>
+      <span style={{ margin: "auto 0" }}>Время смены:</span>
       <Select
         allowSelectAll
         closeMenuOnSelect={false}
@@ -63,6 +63,7 @@ export default function TimeShift({
         value={value}
         isMulti
         defaultValue={[]}
+        placeholder="Выбрать..."
       />
     </div>
   );
