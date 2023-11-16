@@ -228,6 +228,7 @@ export default function EditButtonColumn({
             addAnotherDay={addAnotherDay}
             selectedConflictDate={selectedConflictDate}
             isEditMode={isEditMode}
+            groups={groups}
           />
         ) : null}
       <div>

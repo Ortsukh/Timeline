@@ -26,6 +26,7 @@ export default function BookingCalendar({
   currentDevice,
   selectedConflictDate,
   isEditMode,
+  groups,
 }) {
   const [isDefaultSelect] = useState(true);
   const calendarRef = useRef();
@@ -114,6 +115,8 @@ export default function BookingCalendar({
   }, [selectedConflictDate]);
 
   const generateContent = (arr) => {
+    const table = "";
+
     if (!arr.length) return "";
     const groupedByGroupsId = {};
     arr.forEach((eventItem) => {
@@ -123,6 +126,12 @@ export default function BookingCalendar({
         groupedByGroupsId[event.groupId].push(eventItem);
       }
     });
+    const generateCellTable = () => {
+      const table = document.createElement("table");
+      groups.forEach((group) => {
+
+      });
+    };
     const content = document.createElement("div");
     content.className = "cellContentBlock";
     Object.keys(groupedByGroupsId).forEach((id) => {
