@@ -31,7 +31,7 @@ export default function TimeShift({
 
   const animatedComponents = makeAnimated();
   useEffect(() => {
-    // setValue(baseOrder.shiftTime);
+    setValue(baseOrder.shiftTime);
   }, [baseOrder.shiftTime]);
 
   const handleChangeTime = (e) => {
@@ -49,7 +49,7 @@ export default function TimeShift({
   };
 
   const selectAllOption = { label: "Выбрать все", value: "*" };
-
+  console.log(value);
   return (
     <div className="select-count-box select-choose-time">
       <span style={{ margin: "auto 0" }}>Время смены:</span>

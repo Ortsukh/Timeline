@@ -115,42 +115,76 @@ export default function BookingCalendar({
   }, [selectedConflictDate]);
 
   const generateContent = (arr) => {
-    const table = "";
-
-    if (!arr.length) return "";
-    const groupedByGroupsId = {};
-    arr.forEach((eventItem) => {
-      if (!groupedByGroupsId[event.groupId]) {
-        groupedByGroupsId[event.groupId] = [eventItem];
+    const groupedByGroupsId = { success: {}, conflicts: {} };
+    arr.success.forEach((eventItem) => {
+      if (!eventItem) return;
+      if (!groupedByGroupsId.success[eventItem.groupId]) {
+        groupedByGroupsId.success[eventItem.groupId] = [eventItem];
       } else {
-        groupedByGroupsId[event.groupId].push(eventItem);
+        groupedByGroupsId.success[eventItem.groupId].push(eventItem);
+      }
+    });
+    arr.conflicts.forEach((eventItem) => {
+      if (!eventItem) return;
+
+      if (!groupedByGroupsId.conflicts[eventItem.groupId]) {
+        groupedByGroupsId.conflicts[eventItem.groupId] = [eventItem];
+      } else {
+        groupedByGroupsId.conflicts[eventItem.groupId].push(eventItem);
       }
     });
     const generateCellTable = () => {
       const table = document.createElement("table");
+      const workHours = groups[0].workTime.shiftTimes.end.split(":")[0] - groups[0].workTime.shiftTimes.start.split(":")[0];
+      const countColumn = workHours / groups[0].shiftLength;
       groups.forEach((group) => {
+        const tableRaw = document.createElement("tr");
+        tableRaw.className = "tableCellGroup";
 
+        tableRaw.id = group.id;
+        for (let i = 0; i < countColumn; i++) {
+          const tableCellGroup = document.createElement("td");
+          // tableCellGroup.className = "tableCellGroup";
+          tableRaw.append(tableCellGroup);
+        }
+        console.log(groupedByGroupsId);
+        console.log(group.id);
+        table.append(tableRaw);
+
+        if (groupedByGroupsId.success[group.id]) {
+          groupedByGroupsId.success[group.id].forEach((item) => {
+            const numberColumn = (item.shiftTime - group.workTime.shiftTimes.start.split(":")[0]) / group.shiftLength;
+            console.log(numberColumn);
+            const a = tableRaw.getElementsByTagName("td")[numberColumn];
+            a.className = "gridWithoutConflictBG";
+            console.log(a);
+          });
+        }
+        console.log(groupedByGroupsId);
+        if (groupedByGroupsId.conflicts[group.id]) {
+          groupedByGroupsId.conflicts[group.id].forEach((item) => {
+            const numberColumn = (item.shiftTime - group.workTime.shiftTimes.start.split(":")[0]) / group.shiftLength;
+            console.log(numberColumn);
+            const a = tableRaw.getElementsByTagName("td")[numberColumn];
+            a.className = "gridWithConflictBG";
+            console.log(a);
+          });
+        }
+        table.append(tableRaw);
+
+        console.log(tableRaw);
       });
+      console.log(table);
+      return table;
     };
-    const content = document.createElement("div");
-    content.className = "cellContentBlock";
-    Object.keys(groupedByGroupsId).forEach((id) => {
-      let elContent = `${groupedByGroupsId[id][0].shortTitle}:`;
-      groupedByGroupsId[id].forEach((item) => {
-        elContent += ` ${item.shiftTime},`;
-      });
-      const spanElement = document.createElement("span");
-      spanElement.innerText = elContent.slice(0, -1);
-      content.append(spanElement);
-    });
-    return content;
+    return generateCellTable();
   };
   const addContentInCell = (data, cell) => {
     const content = cell.querySelector(".cell-content");
     console.log(content);
     if (!content) return;
-    content.append(generateContent(data.success));
-    content.append(generateContent(data.conflicts));
+    content.append(generateContent(data));
+    // content.append(generateContent(data.conflicts));
   };
   const paintingEvents = () => {
     if (!calendarRef.current) return;
@@ -159,14 +193,14 @@ export default function BookingCalendar({
       cell.firstChild.classList.remove("gridWithConflictBG");
       cell.firstChild.classList.remove("gridWithConflictInThisShiftBG");
       const content = cell.querySelector(".cell-content");
-      const oldChild = content ? content.querySelector(".cellContentBlock") : null;
+      const oldChild = content ? content.querySelector("table") : null;
       if (oldChild) {
         content.removeChild(oldChild);
       }
       const dateEvent = calendarEvent.find((dateItem) => dateItem.start === cell.dataset.date);
       if (dateEvent) {
         addContentInCell(dateEvent.extendedProps, cell);
-        cell.firstChild.classList.add(dateEvent.backgroundType);
+        // cell.firstChild.classList.add(dateEvent.backgroundType);
         cell.firstChild.classList.remove("gridActiveBG");
       }
     });

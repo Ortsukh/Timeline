@@ -271,3 +271,7 @@
     outline: 2px #5bbbe0 solid;
     outline-offset: -1px;
 }
+
+.tableCellGroup {
+    height: 16px;
+}

@@ -229,7 +229,7 @@ export default function EditButtonColumn({
             addAnotherDay={addAnotherDay}
             selectedConflictDate={selectedConflictDate}
             isEditMode={isEditMode}
-            groups={groups}
+            groups={groups.filter((group) => currentDevice.category === group.category)}
           />
         ) : null}
       <div>

@@ -89,8 +89,7 @@ export default function BookingMenu({
   useEffect(() => {
     setBaseOrder(
       {
-        shiftTime:
-              [{ value: startWorkDay, label: `${startWorkDay} - ${currentDevice ? startWorkDay + currentDevice.shiftLength : 24}` }],
+        shiftTime: [],
         preOrders: [],
         equipment: {},
       },
