@@ -225,7 +225,7 @@ export default function WindowTimeline({
         </div>
       </div>
     ),
-    height: 36,
+    height: 50,
   }));
 
   const elInGroup = generateGroup().filter((el) => el.category === PR_COM.category);
@@ -532,7 +532,7 @@ export default function WindowTimeline({
           <Timeline
             className={style.tableTimeline}
             groups={statusCheckboxSelected === "AUTO" ? elInGroup : highlightElInGroup}
-            lineHeight={36}
+            lineHeight={50}
             itemHeightRatio={1}
             verticalLineClassNamesForTime={(timeStart, timeEnd) => {
               const currentTimeStart = moment(timeStart).format("HH");

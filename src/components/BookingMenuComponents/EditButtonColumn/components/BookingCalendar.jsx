@@ -9,11 +9,13 @@ import calenderList from "@fullcalendar/list";
 import multiMonthPlugin from "@fullcalendar/multimonth";
 import interaction from "@fullcalendar/interaction";
 import moment from "moment";
+import Swal from "sweetalert2";
 import RectangleSelection from "react-rectangle-selection";
 import { Tooltip } from "react-tooltip";
 import { generateClue } from "../../../../common/GenerateElementsData";
 import DayCheckbox from "../../../Checkbox/DayCheckbox";
 import "../../../style.css";
+import buttonTitleConstants from "../../../../constants/buttonTitleConstants";
 
 export default function BookingCalendar({
   handleSetSelectedConflictDate,
@@ -28,6 +30,8 @@ export default function BookingCalendar({
   isEditMode,
   groups,
   isDayEditing,
+  handleConfirmChangesBM,
+  handleCancelChangesBM,
 }) {
   const [isDefaultSelect] = useState(true);
   const calendarRef = useRef();
@@ -115,9 +119,9 @@ export default function BookingCalendar({
     // el.classList.add("activeCell");
   }, [selectedConflictDate]);
 
-  const generateContent = (arr) => {
+  const generateContent = (eventData, currentCellDate) => {
     const groupedByGroupsId = { success: {}, conflicts: {} };
-    arr.success.forEach((eventItem) => {
+    eventData.success.forEach((eventItem) => {
       if (!eventItem) return;
       if (!groupedByGroupsId.success[eventItem.groupId]) {
         groupedByGroupsId.success[eventItem.groupId] = [eventItem];
@@ -125,7 +129,7 @@ export default function BookingCalendar({
         groupedByGroupsId.success[eventItem.groupId].push(eventItem);
       }
     });
-    arr.conflicts.forEach((eventItem) => {
+    eventData.conflicts.forEach((eventItem) => {
       if (!eventItem) return;
 
       if (!groupedByGroupsId.conflicts[eventItem.groupId]) {
@@ -137,6 +141,8 @@ export default function BookingCalendar({
     const generateCellTable = () => {
       const table = document.createElement("table");
       table.className = "calendarCellTable";
+      const startWorkingDay = groups[0].workTime.shiftTimes.start.split(":")[0];
+      const endWorkingDay = groups[0].workTime.shiftTimes.end.split(":")[0];
       const workHours = groups[0].workTime.shiftTimes.end.split(":")[0] - groups[0].workTime.shiftTimes.start.split(":")[0];
       const countColumn = workHours / groups[0].shiftLength;
       groups.forEach((group) => {
@@ -152,10 +158,27 @@ export default function BookingCalendar({
         console.log(groupedByGroupsId);
         console.log(group.id);
         table.append(tableRaw);
-
+        console.log(eventData);
+        const otherOrders = eventData.itemMap[group.id]?.dates[currentCellDate];
+        console.log(otherOrders);
+        if (otherOrders) {
+          let itemIndex = otherOrders.indexOf("1");
+          while (itemIndex < endWorkingDay) {
+            console.log(itemIndex);
+            if (otherOrders[itemIndex] === "0") {
+              itemIndex += group.shiftLength;
+            } else {
+              const numberColumn = Math.floor((itemIndex - startWorkingDay) / group.shiftLength);
+              const a = tableRaw.getElementsByTagName("td")[numberColumn];
+              a.className = "gridWithOtherOrderBG";
+              console.log(a);
+              itemIndex += group.shiftLength;
+            }
+          }
+        }
         if (groupedByGroupsId.success[group.id]) {
           groupedByGroupsId.success[group.id].forEach((item) => {
-            const numberColumn = Math.floor((item.shiftTime - group.workTime.shiftTimes.start.split(":")[0]) / group.shiftLength);
+            const numberColumn = Math.floor((item.shiftTime - startWorkingDay) / group.shiftLength);
             console.log(numberColumn);
             const a = tableRaw.getElementsByTagName("td")[numberColumn];
             a.className = "gridWithoutConflictBG";
@@ -165,7 +188,7 @@ export default function BookingCalendar({
         console.log(groupedByGroupsId);
         if (groupedByGroupsId.conflicts[group.id]) {
           groupedByGroupsId.conflicts[group.id].forEach((item) => {
-            const numberColumn = (item.shiftTime - group.workTime.shiftTimes.start.split(":")[0]) / group.shiftLength;
+            const numberColumn = (item.shiftTime - startWorkingDay) / group.shiftLength;
             console.log(numberColumn);
             const a = tableRaw.getElementsByTagName("td")[numberColumn];
             a.className = "gridWithConflictBG";
@@ -181,11 +204,11 @@ export default function BookingCalendar({
     };
     return generateCellTable();
   };
-  const addContentInCell = (data, cell) => {
+  const addContentInCell = (data, cell, currentCellDate) => {
     const content = cell.querySelector(".cell-content");
     console.log(content);
     if (!content) return;
-    content.append(generateContent(data));
+    content.append(generateContent(data, currentCellDate));
     // content.append(generateContent(data.conflicts));
   };
   const paintingEvents = () => {
@@ -201,7 +224,8 @@ export default function BookingCalendar({
       }
       const dateEvent = calendarEvent.find((dateItem) => dateItem.start === cell.dataset.date);
       if (dateEvent) {
-        addContentInCell(dateEvent.extendedProps, cell);
+        console.log(dateEvent);
+        addContentInCell(dateEvent.extendedProps, cell, cell.dataset.date);
         // cell.firstChild.classList.add(dateEvent.backgroundType);
         cell.firstChild.classList.remove("gridActiveBG");
       }
@@ -407,6 +431,25 @@ export default function BookingCalendar({
 
   const onClickCell = (e) => {
     console.log("click-BookCal-1", isDayEditing);
+    if (isDayEditing) {
+      Swal.fire({
+        title: "У вас остались неподтверждённые изменения. Желаете их сохранить?",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: buttonTitleConstants.CONFIRM_CHANGES,
+        denyButtonText: buttonTitleConstants.CANCEL_CHANGES,
+        didClose: () => {
+          console.log(123);
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          handleConfirmChangesBM();
+        } else if (result.isDenied) {
+          handleCancelChangesBM();
+        }
+      });
+      // return;
+    }
     const startSelect = e.target.closest(".fc-day.fc-daygrid-day");
     if (!startSelect || !startSelect.dataset.date) return;
 
@@ -489,7 +532,7 @@ export default function BookingCalendar({
       };
     }
     return false;
-  }, [isDefaultSelect, isActiveCalendar, selectedDates, event]);
+  }, [isDefaultSelect, isActiveCalendar, selectedDates, event, isDayEditing]);
 
   useEffect(() => {
     const changeDef = (e) => {

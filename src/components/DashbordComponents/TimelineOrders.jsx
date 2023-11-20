@@ -69,7 +69,7 @@ export default function TimelineOrders({
         </div>
       </div>
     ),
-    height: 36,
+    height: 50,
   }));
   const eqGroups = generateGroup();
   // console.log(eqGroups);
@@ -173,7 +173,7 @@ export default function TimelineOrders({
                 groups={eqGroups}
                 // groups={testGroups.map((elem) => ({ ...elem, id: uuidv4(), title: uuidv4() }))}
                 items={orderItems}
-                lineHeight={36}
+                lineHeight={50}
                 itemHeightRatio={1}
                 canMove={false}
                 canResize={false}

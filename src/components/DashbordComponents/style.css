@@ -272,6 +272,9 @@
     outline-offset: -1px;
 }
 
+.gridWithOtherOrderBG {
+    background: #464040
+}
 .tableCellGroup {
     height: 16px;
 }

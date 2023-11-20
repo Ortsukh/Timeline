@@ -85,6 +85,7 @@ export default function OrderCalendarDashboard({
       calendarDayCell[0].classList.remove("selectedCell");
     }
   };
+
   const onClickCell = (e) => {
     setActiveItem(false);
     const startSelect = e.target.closest(".fc-day.fc-daygrid-day");

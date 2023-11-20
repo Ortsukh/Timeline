@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 import moment from "moment";
+import Swal from "sweetalert2";
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import Swal from "sweetalert2";
 import { createOrder, sendEditOrder } from "../../Api/API";
 import {
   addGrid,
@@ -120,6 +120,8 @@ export default function BookingMenu({
   }, [currentDevice]);
   const generateEvents = (equipmentId, mapsEquipment1, commonMap = commonMapsEquipment, selectedDatesArr = selectedDates, isNew = false) => {
     const events = [];
+    console.log(mapsEquipment1);
+    console.log(baseOrder.equipment);
     selectedDatesArr.forEach((selectedDate) => {
       const currentDate = moment(selectedDate);
       const baseOrderShiftTimes = baseOrder.shiftTime;
@@ -166,6 +168,7 @@ export default function BookingMenu({
           events.push({
             start: selectedDate,
             extendedProps: {
+              itemMap: mapsEquipment1,
               shortTitle: currentEquipment.shortTitle,
               shiftLength: currentDevice.shiftLength,
               conflicts: currentEquipment.conflicts[selectedDate],
@@ -179,6 +182,8 @@ export default function BookingMenu({
           events.push({
             start: selectedDate,
             extendedProps: {
+              itemMap: mapsEquipment1,
+
               shortTitle: currentEquipment.shortTitle,
               shiftLength: currentDevice.shiftLength,
               conflicts: currentEquipment.conflicts[selectedDate],
@@ -193,6 +198,8 @@ export default function BookingMenu({
           events.push({
             start: selectedDate,
             extendedProps: {
+              itemMap: mapsEquipment1,
+
               shortTitle: currentEquipment.shortTitle,
               shiftLength: currentDevice.shiftLength,
               conflicts: currentEquipment.conflicts[selectedDate],
@@ -260,6 +267,7 @@ export default function BookingMenu({
           commonMap[day] = String(partA).slice(1, 13) + String(partB).slice(1, 13);
         }
       });
+      console.log(dayGrids);
       map[group.id] = {
         ...group,
         dates: dayGrids,
@@ -525,6 +533,7 @@ export default function BookingMenu({
       ? {
         ...el,
         extendedProps: {
+          ...el.extendedProps,
           shift: baseOrder.shiftTime,
           shiftLength: currentDevice.shiftLength,
           conflicts: newOrders.conflicts,
@@ -538,14 +547,14 @@ export default function BookingMenu({
 
   const handleConfirmChangesBM = () => {
     pushOrderInBasePreOrder(dayDate);
-    setSelectedConflictDate(null);
+    // setSelectedConflictDate(null);
     setIsDayEditing(false);
     setDayDate(null);
   };
 
   const handleCancelChangesBM = () => {
     deactivatedCells();
-    setSelectedConflictDate(null);
+    // setSelectedConflictDate(null);
     setIsDayEditing(false);
     setDayDate(null);
   };

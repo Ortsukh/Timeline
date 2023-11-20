@@ -272,7 +272,7 @@ export default function BookingTimeline({
           <Timeline
             className={style.tableTimeline}
             groups={newGroups}
-            lineHeight={18}
+            lineHeight={50}
             itemHeightRatio={1}
             horizontalLineClassNamesForGroup={(group) => {
               const selectedDate = moment(group.date).isSameOrAfter(startDate)
