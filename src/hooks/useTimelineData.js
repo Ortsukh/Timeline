@@ -17,7 +17,7 @@ export default function useTimelineData(isMainLessee, update) {
   const { data: userData, loading: userDataLoading } = isMainLessee ? useFetch(`${backendUrl}get_current_user/2`, update) : useFetch(`${backendUrl}get_current_user`, update);
   const { data: companiesData, loading: companiesDataLoading } = !isMainLessee ? useFetch(`${backendUrl}get_lessee_companies`, update) : { data: [], loading: false };
   const { data: allOrderData, loading: allOrderDataLoading } = isLocal ? useFetch(`${backendUrl}get_local_orders`, update) : useFetch(`${backendUrl}get_equipment_items`, update);
-  console.log(allOrderData);
+  // console.log(allOrderData);
   if (allEquipmentDataLoading
       || allOrderDataLoading
       || userDataLoading
@@ -25,7 +25,7 @@ export default function useTimelineData(isMainLessee, update) {
   ) {
     loading = true;
   }
-  console.log(loading);
+  // console.log(loading);
 
   return {
     userData,

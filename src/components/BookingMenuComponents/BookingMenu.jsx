@@ -62,16 +62,38 @@ export default function BookingMenu({
   const [isConfirmWindowOpen, setIsConfirmWindowOpen] = useState(false);
   const [deactivatedCell, setDeactivatedCell] = useState(false);
   const [isAddNewItem, setIsAddNewItem] = useState(false);
+  const [isDayEditing, setIsDayEditing] = useState(false);
+  const [dayDate, setDayDate] = useState(null);
 
   const handleClear = () => {
     setBaseOrder({ shiftTime: [], preOrders: [], equipment: {} });
     setCalendarEvent([]);
     setSelectedConflictDate("");
+    setIsDayEditing(false);
+    setDayDate(false);
     setIsActiveCalendar(true);
     setSelectedDates([]);
   };
   const handleSetSelectedConflictDate = (date) => {
-    console.log(date);
+    // console.log("Дата изменена!!!", date);
+    // console.log("Ну что!!!", isDayEditing);
+    // if (isDayEditing) {
+    //   Swal.fire({
+    //     title: "У вас остались неподтверждённые изменения. Желаете их сохранить?",
+    //     showDenyButton: true,
+    //     showCancelButton: true,
+    //     confirmButtonText: buttonTitleConstants.CONFIRM_CHANGES,
+    //     denyButtonText: buttonTitleConstants.CANCEL_CHANGES,
+    //   }).then((result) => {
+    //     if (result.isConfirmed) {
+    //       setKeyRerenderConflictResolutionWindow((prev) => prev + 1);
+    //       setSelectedConflictDate(date);
+    //     } else if (result.isDenied) {
+    //       Swal.fire("Changes are not saved", "", "info");
+    //     }
+    //   });
+    //   return;
+    // }
     setKeyRerenderConflictResolutionWindow((prev) => prev + 1);
     setSelectedConflictDate(date);
   };
@@ -203,12 +225,12 @@ export default function BookingMenu({
           && equip.dates[selectedDate][shiftTime] === "1"
       ) {
         equipment.countConflicts++;
-        console.log("count", equipment.countConflicts);
+        // console.log("count", equipment.countConflicts);
         equipment.conflicts[selectedDate].push({ shiftTime, groupId, shortTitle });
       } else {
         equipment.success[selectedDate].push({ shiftTime, groupId, shortTitle });
       }
-      console.log(equipment);
+      // console.log(equipment);
       setBaseOrder((prev) => ({ ...prev, equipment }));
     });
   };
@@ -264,7 +286,7 @@ export default function BookingMenu({
     setIsActiveCalendar(false);
     const { map: mapsEquipment1 } = createEquipmentsMap();
     Object.keys(mapsEquipment1).forEach((group) => {
-      console.log(mapsEquipment1[group]);
+      // console.log(mapsEquipment1[group]);
       mapsEquipment1[group].countConflicts = 0;
       mapsEquipment1[group].conflicts = { };
       mapsEquipment1[group].success = { };
@@ -326,7 +348,7 @@ export default function BookingMenu({
       const conflictEvent = {};
       let countConflict = 0;
       editItems.forEach((item) => {
-        console.log(item);
+        // console.log(item);
         editDates[item.date] = [];
         if (!successEvent[item.date]) {
           successEvent[item.date] = [];
@@ -514,6 +536,20 @@ export default function BookingMenu({
       : el)));
   };
 
+  const handleConfirmChangesBM = () => {
+    pushOrderInBasePreOrder(dayDate);
+    setSelectedConflictDate(null);
+    setIsDayEditing(false);
+    setDayDate(null);
+  };
+
+  const handleCancelChangesBM = () => {
+    deactivatedCells();
+    setSelectedConflictDate(null);
+    setIsDayEditing(false);
+    setDayDate(null);
+  };
+
   const openOverLay = (status) => {
     if (status === false) {
       setIsAddNewItem(false);
@@ -561,6 +597,9 @@ export default function BookingMenu({
             addAnotherDay={addAnotherDay}
             selectedConflictDate={selectedConflictDate}
             filterProps={filterProps}
+            handleConfirmChangesBM={handleConfirmChangesBM}
+            handleCancelChangesBM={handleCancelChangesBM}
+            isDayEditing={isDayEditing}
           />
         </div>
 
@@ -586,6 +625,9 @@ export default function BookingMenu({
             isAddNewItem={isAddNewItem}
             setIsAddNewItem={setIsAddNewItem}
             setIsEquipmentInfoWindowOpen={setIsEquipmentInfoWindowOpen}
+            isDayEditing={isDayEditing}
+            setIsDayEditing={setIsDayEditing}
+            setDayDate={setDayDate}
           />
         </div>
       </div>
