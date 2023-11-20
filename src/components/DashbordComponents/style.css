@@ -275,3 +275,7 @@
 .tableCellGroup {
     height: 16px;
 }
+
+.calendarCellTable {
+    width: 100%;
+}

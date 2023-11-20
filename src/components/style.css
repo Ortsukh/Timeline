@@ -812,3 +812,7 @@ a.fc-col-header-cell-cushion.red-color:hover {
 .back-dash-timelinetut{
     margin-bottom: 5px;
 }
+
+.fc .fc-daygrid-body-balanced .fc-daygrid-day-events {
+    position: relative;
+}

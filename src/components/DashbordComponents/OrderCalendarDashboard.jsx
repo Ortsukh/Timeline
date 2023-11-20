@@ -86,6 +86,7 @@ export default function OrderCalendarDashboard({
     }
   };
   const onClickCell = (e) => {
+    setActiveItem(false);
     const startSelect = e.target.closest(".fc-day.fc-daygrid-day");
     if (!startSelect || !startSelect.dataset.date) return;
     const cell = e.target.closest(".fc-day.fc-daygrid-day");

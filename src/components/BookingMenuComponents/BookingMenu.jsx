@@ -136,7 +136,9 @@ export default function BookingMenu({
           }
         }
       });
-      console.log("resultColor", resultColor);
+      console.log("resultColor", resultColor, currentEquipment, mapsEquipment1[equipmentId]);
+      console.log(currentEquipment.conflicts[selectedDate]);
+      console.log(currentEquipment.success[selectedDate]);
       switch (resultColor) {
         case 0:
           events.push({
@@ -188,6 +190,7 @@ export default function BookingMenu({
     // const equipment = equip;
     const { equipment } = baseOrder;
     console.log(baseOrder);
+    console.log(baseOrder.shiftTime);
     baseOrder.shiftTime.forEach(({ value: shiftTime }) => {
       if (!equipment.conflicts[selectedDate]) {
         equipment.conflicts[selectedDate] = [];
@@ -356,6 +359,8 @@ export default function BookingMenu({
       });
       setBaseOrder((prev) => ({
         ...prev,
+        shiftTime:
+              [{ value: startWorkDay, label: `${startWorkDay} - ${currentDevice ? startWorkDay + currentDevice.shiftLength : 24}` }],
         preOrders: editItems,
         equipment: {
           ...currentDevice,

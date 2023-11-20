@@ -135,6 +135,7 @@ export default function BookingCalendar({
     });
     const generateCellTable = () => {
       const table = document.createElement("table");
+      table.className = "calendarCellTable";
       const workHours = groups[0].workTime.shiftTimes.end.split(":")[0] - groups[0].workTime.shiftTimes.start.split(":")[0];
       const countColumn = workHours / groups[0].shiftLength;
       groups.forEach((group) => {
@@ -153,7 +154,7 @@ export default function BookingCalendar({
 
         if (groupedByGroupsId.success[group.id]) {
           groupedByGroupsId.success[group.id].forEach((item) => {
-            const numberColumn = (item.shiftTime - group.workTime.shiftTimes.start.split(":")[0]) / group.shiftLength;
+            const numberColumn = Math.floor((item.shiftTime - group.workTime.shiftTimes.start.split(":")[0]) / group.shiftLength);
             console.log(numberColumn);
             const a = tableRaw.getElementsByTagName("td")[numberColumn];
             a.className = "gridWithoutConflictBG";
@@ -561,7 +562,7 @@ export default function BookingCalendar({
             datesSet={(e) => handleChangeMonth(e)}
             height={isEditMode ? 600 : "auto"}
             initialDate={isEditMode ? moment().add(-1, "month").format("YYYY-MM-DD") : moment().format("YYYY-MM-DD")}
-            contentHeight={200}
+            // contentHeight={200}
             fixedWeekCount={false}
             ref={calendarRef}
             eventOverlap={false}

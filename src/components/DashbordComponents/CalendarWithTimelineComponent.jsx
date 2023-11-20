@@ -15,6 +15,8 @@ export default function CalendarWithTimelineComponent(
           setOrderCalendarSelectDay={setOrderCalendarSelectDay}
           allOrderData={allOrderData}
           setActiveItem={setActiveItem}
+          setIsActiveItem={setIsActiveItem}
+
         />
       </div>
       <div className="col-lg-3 col-md-6 width-hun">
