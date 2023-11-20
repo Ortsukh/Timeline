@@ -33,6 +33,9 @@ export default function ConfirmBookingWindow({
   isAddNewItem,
   setIsAddNewItem,
   setIsEquipmentInfoWindowOpen,
+  isDayEditing,
+  setIsDayEditing,
+  setDayDate,
 }) {
   let calculatedOrSelectedDevice = null;
   if ("id" in baseOrder.equipment) {
@@ -121,6 +124,9 @@ export default function ConfirmBookingWindow({
         setIsAddNewItem={setIsAddNewItem}
         calculatedOrSelectedDevice={calculatedOrSelectedDevice}
         setIsEquipmentInfoWindowOpen={setIsEquipmentInfoWindowOpen}
+        isDayEditing={isDayEditing}
+        setIsDayEditing={setIsDayEditing}
+        setDayDate={setDayDate}
       />
       )}
     </>

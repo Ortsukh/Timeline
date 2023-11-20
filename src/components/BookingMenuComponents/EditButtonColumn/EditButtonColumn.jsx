@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Select from "react-select";
+import Swal from "sweetalert2";
 import FiltersForOrder from "./components/FiltersForOrder";
 import style from "./EditButtonColumn.module.css";
 import BookingCalendar from "./components/BookingCalendar";
@@ -38,6 +39,9 @@ export default function EditButtonColumn({
   addAnotherDay,
   selectedConflictDate, isFromDashboard,
   filterProps,
+  handleConfirmChangesBM,
+  handleCancelChangesBM,
+  isDayEditing,
 }) {
   const [isShowConflictNotification, setIsShowConflictNotification] = useState("");
   const back = buttonTitleConstants.BACK;
@@ -230,6 +234,7 @@ export default function EditButtonColumn({
             selectedConflictDate={selectedConflictDate}
             isEditMode={isEditMode}
             groups={groups.filter((group) => currentDevice.category === group.category)}
+            isDayEditing={isDayEditing}
           />
         ) : null}
       <div>
@@ -309,11 +314,34 @@ export default function EditButtonColumn({
                       type="button"
                       className={style.reserveBtn}
                       onClick={() => {
+                        console.log("click", isDayEditing);
+                        if (isDayEditing) {
+                          Swal.fire({
+                            title: "У вас остались неподтверждённые изменения. Желаете их сохранить?",
+                            showDenyButton: true,
+                            showCancelButton: false,
+                            confirmButtonText: buttonTitleConstants.CONFIRM_CHANGES,
+                            denyButtonText: buttonTitleConstants.CANCEL_CHANGES,
+                            didClose: () => {
+                              if (baseOrder.equipment.countConflicts > 0) {
+                                showNotification("conflicts");
+                                return;
+                              }
+                              setIsConfirmWindowOpen("accepted");
+                            },
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              handleConfirmChangesBM();
+                            } else if (result.isDenied) {
+                              handleCancelChangesBM();
+                            }
+                          });
+                          return;
+                        }
                         if (baseOrder.equipment.countConflicts > 0) {
                           showNotification("conflicts");
                           return;
                         }
-
                         setIsConfirmWindowOpen("accepted");
                       }}
                     >

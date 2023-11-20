@@ -37,6 +37,9 @@ export default function WindowTimeline({
   setIsAddNewItem,
   calculatedOrSelectedDevice,
   setIsEquipmentInfoWindowOpen,
+  isDayEditing,
+  setIsDayEditing,
+  setDayDate,
 }) {
   const PR_COM = {
     category: baseOrder.equipment.category,
@@ -123,16 +126,56 @@ export default function WindowTimeline({
   const [modifSuccessArr, setModifSuccessArr] = useState(initSuccessArr);
   const [modifConflictArr, setModifConflictArr] = useState(initConflictArr);
   const [isClickedItem, setIsClickedItem] = useState(false);
-  const [isOrderChanged, setIsOrderChanged] = useState(false);
   const [elementForChange, setElementForChange] = useState(null);
+
+  const sortingArrayViewChanges = (array) => {
+    array.sort((a, b) => {
+      if (a.shiftTime < b.shiftTime) return -1;
+      if (a.shiftTime > b.shiftTime) return 1;
+      // Если shift равны, то сравниваем по полю id
+      if (a.group < b.group) return -1;
+      if (a.group > b.group) return 1;
+      return 0;
+    });
+    return array;
+  };
 
   useEffect(() => {
     // Если добавить смену и удалить её, массив будет считаться изменённым.
     // От того, что в {modifSuccessArr} будет лежать item со свойствами isAdded и isDeleted = true
     const isChangedSuc = modifSuccessArr.some((el) => el.isAdded || el.isChanged || el.isDeleted);
     const isChangedConflict = modifConflictArr.some((el) => el.isDeleted);
-    setIsOrderChanged(isChangedSuc || isChangedConflict);
-    // console.log("Ну что!!!", isChangedSuc || isChangedConflict, modifSuccessArr);
+    const isChanged = isChangedSuc || isChangedConflict;
+    const dayArrChanged = {
+      date: PR_SEL.todayFormated,
+      success: sortingArrayViewChanges(modifSuccessArr)
+        .filter((order) => order.isDeleted === false)
+        .map((order) => (
+          {
+            date: order.date,
+            group: order.group,
+            shiftTime: order.shiftTime,
+            shortTitle: order.shortTitle,
+            grid: addGrid(
+              Math.floor((
+                order.shiftTime - PR_COM.startWorkDay) / PR_COM.shiftCateg),
+              PR_COM.shiftCateg,
+              PR_COM.startWorkDay,
+            ),
+          }
+        )),
+      conflicts: sortingArrayViewChanges(modifConflictArr)
+        .filter((order) => order.isDeleted === false)
+        .map((order) => (
+          {
+            groupId: order.group,
+            shiftTime: order.shiftTime,
+            shortTitle: order.shortTitle,
+          }
+        )),
+    };
+    setDayDate({ ...dayArrChanged, isChanged });
+    setIsDayEditing(isChanged);
   }, [initSuccessArr, modifSuccessArr, modifConflictArr]);
 
   const [filteredItems, setFilteredItems] = useState([]);
@@ -402,9 +445,11 @@ export default function WindowTimeline({
     }
   };
 
-  const handleCancelWindow = () => {
-    setSelectedConflictDate(null);
+  const handleCancelChanges = () => {
     deactivatedCells();
+    setSelectedConflictDate(null);
+    setIsDayEditing(false);
+    setDayDate(null);
   };
 
   const handleDeleteItem = () => {
@@ -441,19 +486,7 @@ export default function WindowTimeline({
     }
   };
 
-  const sortingArrayViewChanges = (array) => {
-    array.sort((a, b) => {
-      if (a.shiftTime < b.shiftTime) return -1;
-      if (a.shiftTime > b.shiftTime) return 1;
-      // Если shift равны, то сравниваем по полю id
-      if (a.group < b.group) return -1;
-      if (a.group > b.group) return 1;
-      return 0;
-    });
-    return array;
-  };
-
-  const handleResolveConflict = () => {
+  const handleConfirmChanges = () => {
     // console.log("SEND MESSAGE");
     pushOrderInBasePreOrder({
       date: PR_SEL.todayFormated,
@@ -484,11 +517,8 @@ export default function WindowTimeline({
         )),
     });
     setSelectedConflictDate(null);
-    // if (PR_SEL.countOrders === modifSuccessArr.length
-    //  + modifConflictArr.length + countAddedItems) {
-    //   return;
-    // }
-    // openAlertWindow("Заказ не сохранён! Ошибка общего количества заказов.");
+    setIsDayEditing(false);
+    setDayDate(null);
   };
 
   return (
@@ -681,12 +711,12 @@ export default function WindowTimeline({
             <div className={styleConflict.actionBtns} style={{ justifyContent: "flex-end" }}>
               <button
                 type="button"
-                className={elementForChange || !isOrderChanged
+                className={elementForChange || !isDayEditing
                   ? styleConflict.disableBtn
                   : styleConflict.resolveBtn}
                 style={{ minWidth: "170px", marginRight: "5%" }}
-                disabled={elementForChange || !isOrderChanged}
-                onClick={handleResolveConflict}
+                disabled={elementForChange || !isDayEditing}
+                onClick={handleConfirmChanges}
               >
                 {buttonTitleConstants.CONFIRM_CHANGES}
               </button>
@@ -695,7 +725,7 @@ export default function WindowTimeline({
                 className={elementForChange ? styleConflict.disableBtn : styleConflict.rejectBtn}
                 style={{ minWidth: "170px" }}
                 disabled={elementForChange}
-                onClick={handleCancelWindow}
+                onClick={handleCancelChanges}
               >
                 {buttonTitleConstants.CANCEL_CHANGES}
               </button>

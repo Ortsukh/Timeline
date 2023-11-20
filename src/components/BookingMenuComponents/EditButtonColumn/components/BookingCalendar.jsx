@@ -27,6 +27,7 @@ export default function BookingCalendar({
   selectedConflictDate,
   isEditMode,
   groups,
+  isDayEditing,
 }) {
   const [isDefaultSelect] = useState(true);
   const calendarRef = useRef();
@@ -404,7 +405,7 @@ export default function BookingCalendar({
   };
 
   const onClickCell = (e) => {
-    console.log("click");
+    console.log("click-BookCal-1", isDayEditing);
     const startSelect = e.target.closest(".fc-day.fc-daygrid-day");
     if (!startSelect || !startSelect.dataset.date) return;
 
@@ -479,6 +480,7 @@ export default function BookingCalendar({
   };
   useEffect(() => {
     if (calendarRef.current) {
+      console.log("click-BookCal-2", isDayEditing);
       const calendar = calendarRef.current.elRef.current;
       calendar.addEventListener("mousedown", onClickCell);
       return function cleanup() {
