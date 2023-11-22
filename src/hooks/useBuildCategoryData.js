@@ -1,6 +1,6 @@
 import useFetch from "./useFetch";
 
-export default function useBuildLesseeData(id) {
+export default function useBuildCategoryData(id, isMainLessee, categoryId) {
   const isLocal = true;
   let backendUrl = "/admin/api/";
   let backendManagerUrl = "/admin/manager/";
@@ -11,45 +11,33 @@ export default function useBuildLesseeData(id) {
   let loading = false;
 
   const { data: ordersData, loading: orderLoading } = useFetch(
-    `${backendUrl}get_orders/${id}`,
+    `${backendUrl}get_orders${isMainLessee ? `/${id}` : ""}?category=${categoryId}`,
   );
 
   const { data: lesseeInfoData, loading: lesseeInfoDataLoading } = useFetch(
-    `${backendUrl}get_lessee_info/${id}`,
-  );
-
-  const { data: lesseeCompanies, loading: lesseeCompaniesLoading } = useFetch(
-    `${backendUrl}get_contracts`,
-  );
-
-  const { data: transactions, loading: transactionsLoading } = useFetch(
-    `${backendUrl}get_transactions/${id}`,
+    `${backendUrl}get_category_info/${categoryId}`,
   );
 
   // eslint-disable-next-line no-nested-ternary
   const { data: allOrderData, loading: allOrderDataLoading } = isLocal ? useFetch(`${backendUrl}get_local_orders`) : useFetch(
-    `${backendManagerUrl}get_equipment_items/${id}`,
+    `${backendManagerUrl}get_equipment_items${isMainLessee ? `/${id}` : ""}?category=${categoryId}`,
   );
 
-  const { data: rentZone, loading: rentZoneLoading } = useFetch(
-    `${backendUrl}get_current_kitchens/${id}`,
+  const { data: updatedEquipment, loading: updatedEquipmentLoading } = useFetch(
+    `${backendUrl}get_kitchen_equipment?category=${categoryId}`,
   );
 
   if (orderLoading
       || lesseeInfoDataLoading
-      || rentZoneLoading
-      || transactionsLoading
-      || lesseeCompaniesLoading
+      || updatedEquipmentLoading
       || allOrderDataLoading
   ) {
     loading = true;
   }
   return {
-    lesseeCompanies,
+    updatedEquipment,
     ordersData,
-    rentZone,
     lesseeInfoData,
-    transactions,
     loading,
     allOrderData,
   };

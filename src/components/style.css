@@ -813,8 +813,12 @@ a.fc-col-header-cell-cushion.red-color:hover {
     margin-bottom: 5px;
 }
 
-.fc .fc-daygrid-body-balanced .fc-daygrid-day-events {
-    position: relative;
+/*.fc .fc-daygrid-body-balanced .fc-daygrid-day-events {*/
+/*    position: relative;*/
+/*}*/
+.calendarCellTable td {
+    border: 1px solid rgba(221, 221, 221, 0.3);
 }
-
-
+.fc-day .fc-daygrid-day {
+    height: 100px;
+}

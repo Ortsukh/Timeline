@@ -11,8 +11,8 @@ export default function ManagerInfoBox({ userInfo }) {
 
         <div className="widget-user-header bg-aqua-active">
           <h3 className="widget-user-username">{today}</h3>
-          <h4 className="widget-user-desc">ФРАНЧАЙЗИ КОМПАНИЯ</h4>
-          <h5 className="widget-user-desc">{userInfo.name}</h5>
+          <h4 className="widget-user-desc">{userInfo.name}</h4>
+          <h5 className="widget-user-desc">ФРАНЧАЙЗИ</h5>
         </div>
 
         <div className="box-footer" style={{ height: 263 }}>

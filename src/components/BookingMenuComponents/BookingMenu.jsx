@@ -129,7 +129,7 @@ export default function BookingMenu({
       const currentEquipment = baseOrder.equipment?.id ? baseOrder.equipment : mapsEquipment1[equipmentId];
       let resultColor = 0;
       baseOrderShiftTimes.forEach(({ value: baseOrderShiftTime }) => {
-        if (currentDate.isBefore(moment().startOf("day"))) {
+        if (false && currentDate.isBefore(moment().startOf("day"))) {
           events.push({
             start: selectedDate,
             backgroundColor: "#c3cddd",
@@ -237,7 +237,7 @@ export default function BookingMenu({
       } else {
         equipment.success[selectedDate].push({ shiftTime, groupId, shortTitle });
       }
-      // console.log(equipment);
+      console.log(equipment);
       setBaseOrder((prev) => ({ ...prev, equipment }));
     });
   };
@@ -245,7 +245,8 @@ export default function BookingMenu({
     const map = {};
     const commonMap = {};
     const filteredGroups = groups.filter((group) => group.category === currentDevice.category);
-    let filteredItemsByDate = items2.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day")));
+    // let filteredItemsByDate = items2.filter((item) => moment(item.date).isSameOrAfter(moment().startOf("day")));
+    let filteredItemsByDate = items2;
     if (isEditMode) {
       filteredItemsByDate = filteredItemsByDate.filter(
         (item) => item.rentOrderId !== editOrderData.rentOrderId,
@@ -378,6 +379,7 @@ export default function BookingMenu({
         events.push({
           start: date,
           extendedProps: {
+            itemMap: mapsEquipment1,
             // shortTitle: groups.find((group) => group.id === item.group).shortTitle, //! хз
             shiftLength: currentDevice.shiftLength,
             conflicts: conflictEvent[date],

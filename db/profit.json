@@ -1,0 +1,552 @@
+{
+  "success": true,
+  "data": [
+    
+    {
+      "date": "2023-08-29",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-08-30",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-08-31",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-01",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-02",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-03",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-04",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-05",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-06",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-07",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-08",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-09",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-10",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-11",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-12",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-13",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-14",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-15",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-16",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-17",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-18",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-19",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-20",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-21",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-22",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-23",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-24",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-25",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-26",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-27",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-28",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-29",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-09-30",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-01",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-02",
+      "type": "money_in",
+      "amount": "6.00",
+      "updatedAt": "2023-10-02 12:48:50",
+      "count": "2"
+    },
+    {
+      "date": "2023-10-03",
+      "type": "money_in",
+      "amount": "40.00",
+      "updatedAt": "2023-10-03 18:00:03",
+      "count": "2"
+    },
+    {
+      "date": "2023-10-04",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-05",
+      "type": "money_in",
+      "amount": "96.00",
+      "updatedAt": "2023-10-05 17:04:22",
+      "count": "10"
+    },
+    {
+      "date": "2023-10-06",
+      "type": "money_in",
+      "amount": "45.00",
+      "updatedAt": "2023-10-06 18:00:01",
+      "count": "4"
+    },
+    {
+      "date": "2023-10-07",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-08",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-09",
+      "type": "money_in",
+      "amount": "59.00",
+      "updatedAt": "2023-10-09 18:00:02",
+      "count": "3"
+    },
+    {
+      "date": "2023-10-10",
+      "type": "money_in",
+      "amount": "47.00",
+      "updatedAt": "2023-10-10 18:00:03",
+      "count": "3"
+    },
+    {
+      "date": "2023-10-11",
+      "type": "money_in",
+      "amount": "66.00",
+      "updatedAt": "2023-10-11 18:00:01",
+      "count": "6"
+    },
+    {
+      "date": "2023-10-12",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-13",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-14",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-15",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-16",
+      "type": "money_in",
+      "amount": "64.00",
+      "updatedAt": "2023-10-16 18:00:02",
+      "count": "5"
+    },
+    {
+      "date": "2023-10-17",
+      "type": "money_in",
+      "amount": "47.00",
+      "updatedAt": "2023-10-17 18:00:01",
+      "count": "3"
+    },
+    {
+      "date": "2023-10-18",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-19",
+      "type": "money_in",
+      "amount": "55.00",
+      "updatedAt": "2023-10-19 18:00:01",
+      "count": "5"
+    },
+    {
+      "date": "2023-10-20",
+      "type": "money_in",
+      "amount": "74.00",
+      "updatedAt": "2023-10-20 18:00:03",
+      "count": "5"
+    },
+    {
+      "date": "2023-10-21",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-22",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-23",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-24",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-25",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-26",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-27",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-28",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-29",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-30",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-10-31",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-11-01",
+      "type": "money_in",
+      "amount": "100999.00",
+      "updatedAt": "2023-11-01 00:00:00",
+      "count": "2"
+    },
+    {
+      "date": "2023-11-02",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-11-03",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-11-04",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-11-05",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-11-06",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-11-07",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-11-08",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-11-09",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-11-10",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-11-11",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-11-12",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-11-13",
+      "type": null,
+      "amount": "0.00",
+      "updatedAt": null,
+      "count": "0"
+    },
+    {
+      "date": "2023-11-14",
+      "type": "money_in",
+      "amount": "13824.00",
+      "updatedAt": "2023-11-14 15:48:12",
+      "count": "7"
+    }
+  ]
+}

@@ -2,11 +2,13 @@ import React from "react";
 import "./style.css";
 
 export default function ManagerStatsDashboard({ profitItems, userInfo }) {
-  // const calcAllProfit = () => {
-  //   let result = 0;
-  //   result = profitItems.reduce((acc, cur) => cur.y + acc, 0);
-  //   return result;
-  // };
+  const calcAllProfit = () => {
+    console.log(profitItems);
+    let result = 0;
+    result = profitItems.reduce((acc, cur) => Number(cur.y) + acc, 0);
+    console.log(result);
+    return result;
+  };
 
   return (
     !profitItems.length ? <>Загрузка</>
@@ -15,15 +17,15 @@ export default function ManagerStatsDashboard({ profitItems, userInfo }) {
           <div className="statsItem item-green-bg">
             <span>Прибыль за день</span>
             <span className="positive-values values">
-              {/* {profitItems[profitItems.length - 1].y.toFixed(2)} */}
-              -999
+              {profitItems[profitItems.length - 1].y}
+
             </span>
           </div>
           <div className="statsItem item-green-bg">
             <span>Прибыль за период</span>
             <span className="positive-values values">
-              {/* {calcAllProfit().toFixed(2)} */}
-              -999
+              {calcAllProfit().toFixed(2)}
+
             </span>
           </div>
           <div className="statsItem item-green-bg">

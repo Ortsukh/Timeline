@@ -10,6 +10,14 @@ export default function TableComponent({
     window.location.replace(`${origin}${pathname}?page=lessee_dashboard&id=${id}`);
   };
 
+  const handleLinkToCategory = (categoryId) => {
+    const { origin } = window.location;
+    const { pathname } = window.location;
+    const lessee = window.location.search.substring(1).split("&").find((query) => query.startsWith("id"))?.split("=")[1];
+
+    window.location.replace(`${origin}${pathname}?page=category_dashboard&category=${categoryId}${lessee ? `&id=${lessee}` : ""}`);
+  };
+
   const handleEditOrder = (id) => {
     const { origin } = window.location;
     const { pathname } = window.location;

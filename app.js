@@ -44,6 +44,25 @@ app.get(`${backendUrl}get_lessee_info*`, (req, res, next) => {
     }
   });
 });
+
+app.get(`${backendUrl}get_finance_report*`, (req, res, next) => {
+  const options = {
+    root: path.join(__dirname, "db"),
+    dotfiles: "deny",
+    headers: {
+      "x-timestamp": Date.now(),
+      "x-sent": true,
+    },
+  };
+
+  res.sendFile("profit.json", options, (err) => {
+    if (err) {
+      next(err);
+    } else {
+      console.log("Sent: export_sales.json");
+    }
+  });
+});
 app.get(`${backendUrl}get_manager_info*`, (req, res, next) => {
   const options = {
     root: path.join(__dirname, "db"),

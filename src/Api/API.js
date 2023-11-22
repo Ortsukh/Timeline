@@ -1,8 +1,8 @@
 import { formatOrder } from "../common/DataConvertHelper";
 
-const backendUrl = "http://freekitchen.loc/test/";
+// const backendUrl = "http://freekitchen.loc/test/";
 // prod
-// const backendUrl = "/admin/manager/";
+const backendUrl = "/admin/manager/";
 
 export async function sendEditOrder(order) {
   const str = `${backendUrl}edit_order`;
@@ -12,17 +12,17 @@ export async function sendEditOrder(order) {
     headers: {
       "Content-Type": "application/json;charset=utf-8",
     },
-    mode: "no-cors",
+    // mode: "no-cors",
 
     body: JSON.stringify(order),
   });
-  //
-  // if (!res.ok) {
-  //   throw new Error("Something went wrong. Sorry");
-  // }
-  //
-  // return res.json();
-  return true;
+
+  if (!res.ok) {
+    throw new Error("Something went wrong. Sorry");
+  }
+
+  return res.json();
+  // return true;
 }
 
 export async function createOrder(order, company, comment, status) {
@@ -44,13 +44,13 @@ export async function createOrder(order, company, comment, status) {
       "Content-Type": "application/json;charset=utf-8",
       "Access-Control-Allow-Origin": "*",
     },
-    mode: "no-cors",
+    // mode: "no-cors",
     body: JSON.stringify(body),
   });
-  // if (!res.ok) {
-  //   throw new Error("Something went wrong. Sorry");
-  // }
+  if (!res.ok) {
+    throw new Error("Something went wrong. Sorry");
+  }
 
-  // return res.json();
-  return true;
+  return res.json();
+  // return true;
 }

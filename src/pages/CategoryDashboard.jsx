@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import moment from "moment";
 import ProfitByTimeChart from "../components/DashbordComponents/ProfitByTimeChart";
-import LesseeInfoBox from "../components/DashbordComponents/LesseInfoBox";
-import LesseeRentalZoneTableDashboard from "../components/DashbordComponents/LesseeRentalZoneTableDashboard";
-import LesseeTransactionsTableDashboard from "../components/DashbordComponents/LesseeTransactionsTableDashboard";
 import LesseeLastOrdersTableDashboard from "../components/DashbordComponents/LesseeLastOrdersTableDashboard";
 import LesseeStatsDashboard from "../components/DashbordComponents/LesseeStatsDashboard";
 import BackButton from "../components/Button/BackButton";
-import useBuildLesseeData from "../hooks/useBuildLesseeData";
 import Spinner from "../components/Spinner/Spinner";
 import CalendarWithTimelineComponent from "../components/DashbordComponents/CalendarWithTimelineComponent";
 import TimelineDashboardWindow from "../components/Popup/TimelineDashboardWindow";
+import CategoryInfoBox from "../components/DashbordComponents/CategoryInfoBox";
+import ManagerStatsDashboard from "../components/DashbordComponents/ManagerStatsDashboard";
+import RepairKitchenTableDashboard from "../components/DashbordComponents/RepairKitchenTableDashboard";
+import useBuildCategoryData from "../hooks/useBuildCategoryData";
 
-export default function LesseeDashboard({ lesseeId, isMainLessee, user }) {
+export default function CategoryDashboard({
+  lesseeId, isMainLessee, companyType, categoryId,
+}) {
   if (!lesseeId) return;
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-30, "day"), endDate: moment() });
   const [profitItems, setProfitItems] = useState([]);
@@ -20,14 +22,12 @@ export default function LesseeDashboard({ lesseeId, isMainLessee, user }) {
   const [isActiveItem, setIsActiveItem] = useState(false);
 
   const {
+    categoryInfoData,
     ordersData,
-    rentZone,
-    lesseeInfoData,
-    transactions,
-    lesseeCompanies,
+    updatedEquipment,
     allOrderData,
     loading,
-  } = useBuildLesseeData(lesseeId, isMainLessee);
+  } = useBuildCategoryData(lesseeId, isMainLessee, categoryId);
   const listLength = 5;
 
   // eslint-disable-next-line consistent-return
@@ -40,21 +40,22 @@ export default function LesseeDashboard({ lesseeId, isMainLessee, user }) {
       </div>
       <div className="row">
         <div className="col-lg-3 col-md-4">
-          <LesseeInfoBox
+          <CategoryInfoBox
             id={lesseeId}
-            lesseeInfoData={lesseeInfoData}
-            lesseeCompanies={lesseeCompanies}
+            categoryInfoData={categoryInfoData}
           />
         </div>
         <div className="col-lg-6 col-md-8 dash-chart-first">
           <ProfitByTimeChart
             selectedTime={selectedTime}
             setSelectedTime={setSelectedTime}
-            lesseeId={lesseeId}
+            id={lesseeId}
             profitItems={profitItems}
             setProfitItems={setProfitItems}
           />
-          <LesseeStatsDashboard selectedTime={selectedTime} profitItems={profitItems} />
+          {isMainLessee
+            ? <LesseeStatsDashboard profitItems={profitItems} />
+            : <ManagerStatsDashboard profitItems={profitItems} />}
         </div>
 
       </div>
@@ -66,19 +67,17 @@ export default function LesseeDashboard({ lesseeId, isMainLessee, user }) {
           setIsActiveItem={setIsActiveItem}
         />
       </div>
-
+      )
       <div className="row">
         <div className="col-lg-3 col-md-6 width-fif"><LesseeLastOrdersTableDashboard id={lesseeId} ordersData={ordersData.slice(0, listLength)} /></div>
-        <div className="col-lg-3 col-md-6 width-fif"><LesseeRentalZoneTableDashboard rentZone={rentZone.slice(0, listLength)} /></div>
+        <div className="col-lg-3  col-md-6 width-fif"><RepairKitchenTableDashboard updatedEquipment={updatedEquipment.slice(0, listLength)} /></div>
       </div>
-      <div className="row">
-        <div className="col-lg-3 col-md-6 width-hun"><LesseeTransactionsTableDashboard id={lesseeId} transactions={transactions.slice(0, listLength)} /></div>
-      </div>
+
       {isActiveItem && (
         <TimelineDashboardWindow
           item={activeItem}
           close={activeItem.close}
-          user={user}
+          user={companyType}
         />
       )}
     </div>

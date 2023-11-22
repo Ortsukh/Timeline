@@ -235,8 +235,6 @@ export default function EditButtonColumn({
             isEditMode={isEditMode}
             groups={groups.filter((group) => currentDevice.category === group.category)}
             isDayEditing={isDayEditing}
-            handleCancelChangesBM={handleCancelChangesBM}
-            handleConfirmChangesBM={handleConfirmChangesBM}
           />
         ) : null}
       <div>

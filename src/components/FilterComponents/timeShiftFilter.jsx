@@ -14,6 +14,7 @@ export default function TimeShift({
   ]);
 
   useEffect(() => {
+    console.log("update");
     startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
     endWorkDay = Number(currentDevice.workTime.shiftTimes.end.split(":")[0]);
     setValue([]);
@@ -31,6 +32,7 @@ export default function TimeShift({
 
   const animatedComponents = makeAnimated();
   useEffect(() => {
+    console.log("update2", currentDevice);
     setValue(baseOrder.shiftTime);
   }, [baseOrder.shiftTime]);
 

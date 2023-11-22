@@ -20,6 +20,8 @@ import {
 import moment from "moment";
 import { getProfitData } from "../../Api/DashboardApi";
 import CalendarDashboard from "./CalendarDashboard";
+import useGetOrdersByFilters from "../../hooks/useGetOrdersByFilters";
+import useGetFinance from "../../hooks/useGetFinance";
 
 ChartJS.register(
   TimeScale,
@@ -34,10 +36,11 @@ ChartJS.register(
 );
 
 const ProfitByTimeChart = memo(({
-  selectedTime, setSelectedTime, setProfitItems, profitItems,
+  selectedTime, setSelectedTime, setProfitItems, profitItems, lesseeId,
 }) => {
-  const [timeStep, setTimeStep] = useState(1);
+  const [timeStep, setTimeStep] = useState("day");
   const chart = useRef(null);
+  const { execute } = useGetFinance(undefined);
   const options = {
     devicePixelRatio: 2,
     maintainAspectRatio: false,
@@ -170,26 +173,58 @@ const ProfitByTimeChart = memo(({
   };
 
   useEffect(() => {
-    getProfitData(selectedTime.startDate, selectedTime.endDate).then((response) => {
-      setProfitItems(response);
-    });
-  }, []);
+    const foo = async () => {
+      const axiosParams = {
+        start: selectedTime.startDate.format("YYYY-MM-DD"),
+        end: selectedTime.endDate.format("YYYY-MM-DD"),
+        step: timeStep,
+        id: lesseeId,
+      };
+      const data = await execute(axiosParams);
+      console.log("timestep", data);
+      const convertedForChartData = data.map((point) => ({
+        x: point.date, y: point.amount,
+      }));
+      setProfitItems(convertedForChartData);
+    };
+
+    foo();
+    // getProfitData(selectedTime.startDate, selectedTime.endDate).then((response) => {
+    //   console.log(response);
+    //   setProfitItems(response);
+    // });
+  }, [timeStep]);
 
   const handleChangeTimeStep = (step) => {
     setTimeStep(step);
   };
 
-  const handleSelectTime = (item) => {
-    getProfitData(item.startDate, item.endDate).then((response) => {
-      setProfitItems(response);
-      setSelectedTime(item);
-    });
+  const handleSelectTime = async (item) => {
+    console.log(item);
+    const axiosParams = {
+      start: moment(item.startDate).format("YYYY-MM-DD"),
+      end: moment(item.endDate).format("YYYY-MM-DD"),
+      step: timeStep,
+      id: lesseeId,
+
+    };
+    const data = await execute(axiosParams);
+    // getProfitData(item.startDate, item.endDate).then((response) => {
+    //   setProfitItems(response);
+    //   setSelectedTime(item);
+    // });
+    const convertedForChartData = data.map((point) => ({
+      x: point.date, y: point.amount,
+    }));
+    console.log("time", data);
+    setProfitItems(convertedForChartData);
+    setSelectedTime(item);
   };
 
   const data = {
     datasets: [{
       label: "Profit",
-      data: filterDataByTimeStep(),
+      data: profitItems,
       showLine: true,
       lineTension: 0.3,
       borderColor: "rgb(100, 100, 255)",
@@ -208,13 +243,13 @@ const ProfitByTimeChart = memo(({
       <div className="cont-btn-dash">
         <div className="btn-cont-dash">
           <div className="chart-step-buttons">
-            <button className={`btn btn-info ${timeStep === 1 ? "disabled" : ""}`} type="button" onClick={() => handleChangeTimeStep(1)}>
+            <button className={`btn btn-info ${timeStep === "day" ? "disabled" : ""}`} type="button" onClick={() => handleChangeTimeStep("day")}>
               день
             </button>
-            <button className={`btn btn-info ${timeStep === 7 ? "disabled" : ""}`} type="button" onClick={() => handleChangeTimeStep(7)}>
+            <button className={`btn btn-info ${timeStep === "week" ? "disabled" : ""}`} type="button" onClick={() => handleChangeTimeStep("week")}>
               неделя
             </button>
-            <button className={`btn btn-info ${timeStep === 29 ? "disabled" : ""}`} type="button" onClick={() => handleChangeTimeStep(29)}>
+            <button className={`btn btn-info ${timeStep === "month" ? "disabled" : ""}`} type="button" onClick={() => handleChangeTimeStep("month")}>
               месяц
             </button>
           </div>

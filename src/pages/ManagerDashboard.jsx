@@ -42,6 +42,7 @@ export default function ManagerDashboard({ user }) {
             setSelectedTime={setSelectedTime}
             profitItems={profitItems}
             setProfitItems={setProfitItems}
+
           />
           <ManagerStatsDashboard profitItems={profitItems} userInfo={managerInfoData} />
         </div>

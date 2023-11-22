@@ -145,9 +145,13 @@ export default function BookingCalendar({
       const endWorkingDay = groups[0].workTime.shiftTimes.end.split(":")[0];
       const workHours = groups[0].workTime.shiftTimes.end.split(":")[0] - groups[0].workTime.shiftTimes.start.split(":")[0];
       const countColumn = workHours / groups[0].shiftLength;
+      const curCell = getCalendarCellsByClassNames(".fc-daygrid-day-frame.fc-scrollgrid-sync-inner")[0];
+      console.log(curCell.clientHeight);
+      console.log(curCell);
       groups.forEach((group) => {
         const tableRaw = document.createElement("tr");
         tableRaw.className = "tableCellGroup";
+        tableRaw.style.height = `${(curCell.clientHeight - 10) / (groups.length > 4 ? groups.length : 5)}px`;
 
         tableRaw.id = group.id;
         for (let i = 0; i < countColumn; i++) {
@@ -206,7 +210,7 @@ export default function BookingCalendar({
   };
   const addContentInCell = (data, cell, currentCellDate) => {
     const content = cell.querySelector(".cell-content");
-    console.log(content);
+    console.log(content.clientHeight);
     if (!content) return;
     content.append(generateContent(data, currentCellDate));
     // content.append(generateContent(data.conflicts));
@@ -240,7 +244,6 @@ export default function BookingCalendar({
     // }
 
     setEvent(calendarEvent);
-
     paintingEvents();
   }, [calendarEvent]);
 
@@ -431,25 +434,7 @@ export default function BookingCalendar({
 
   const onClickCell = (e) => {
     console.log("click-BookCal-1", isDayEditing);
-    if (isDayEditing) {
-      Swal.fire({
-        title: "У вас остались неподтверждённые изменения. Желаете их сохранить?",
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: buttonTitleConstants.CONFIRM_CHANGES,
-        denyButtonText: buttonTitleConstants.CANCEL_CHANGES,
-        didClose: () => {
-          console.log(123);
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          handleConfirmChangesBM();
-        } else if (result.isDenied) {
-          handleCancelChangesBM();
-        }
-      });
-      // return;
-    }
+
     const startSelect = e.target.closest(".fc-day.fc-daygrid-day");
     if (!startSelect || !startSelect.dataset.date) return;
 
@@ -458,14 +443,71 @@ export default function BookingCalendar({
       if (!cell) return;
       const cellDate = cell.dataset.date;
       const eventByDate = event.find((ev) => ev.start === cellDate);
-      if (selectedDates.indexOf(cellDate) === -1 && moment(cellDate).isSameOrAfter(moment().startOf("day"))) {
+      // if (selectedDates.indexOf(cellDate) === -1 && moment(cellDate).isSameOrAfter(moment().startOf("day"))) {
+      if (selectedDates.indexOf(cellDate) === -1) {
         if (workingDayMap[getDayName(cellDate)]
             && selectedWeekdays.includes(getDayName(cellDate))) {
           if (isViewMode) return;
+          if (isDayEditing) {
+            console.log("fire");
+            Swal.fire({
+              title: "У вас остались неподтверждённые изменения. Желаете их сохранить?",
+              showDenyButton: true,
+              showCancelButton: false,
+              confirmButtonText: buttonTitleConstants.CONFIRM_CHANGES,
+              denyButtonText: buttonTitleConstants.CANCEL_CHANGES,
+              didClose: () => {
+                console.log(123);
+              },
+            }).then((result) => {
+              Swal.fire({
+                position: "top-center",
+                icon: "info",
+                backdrop: false,
+                title: "Добавлен новый день",
+                showConfirmButton: false,
+                timer: 1000,
+              });
+              if (result.isConfirmed) {
+                handleConfirmChangesBM();
+              } else if (result.isDenied) {
+                handleCancelChangesBM();
+              }
+            });
+          } else {
+            Swal.fire({
+              position: "top-center",
+              icon: "info",
+              // backdrop: false,
+              title: "Добавлен новый день",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+          }
 
           addAnotherDay(moment(cell.dataset.date).format("YYYY-MM-DD"));
         }
       } else {
+        if (isDayEditing) {
+          console.log("fire");
+          Swal.fire({
+            title: "У вас остались неподтверждённые изменения. Желаете их сохранить?",
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: buttonTitleConstants.CONFIRM_CHANGES,
+            denyButtonText: buttonTitleConstants.CANCEL_CHANGES,
+            didClose: () => {
+              console.log(123);
+            },
+          }).then((result) => {
+            if (result.isConfirmed) {
+              handleConfirmChangesBM();
+            } else if (result.isDenied) {
+              handleCancelChangesBM();
+            }
+          });
+          // return;
+        }
         unselectDefaultCalendar();
         if (!eventByDate) return;
         cell.firstChild.classList.add("selectedCell");
@@ -600,6 +642,7 @@ export default function BookingCalendar({
             dayCellDidMount={(cell) => {
               const addContent = document.createElement("div");
               addContent.className = ("cell-content");
+              console.log(cell.el.children[0].children[1].clientHeight);
               cell.el.children[0].children[1].append(addContent);
             }}
             unselectAuto={false}

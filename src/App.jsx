@@ -4,6 +4,7 @@ import TimelinePage from "./pages/TimelinePage";
 import ManagerDashboard from "./pages/ManagerDashboard";
 import LesseeDashboard from "./pages/LesseeDashboard";
 import BookingPage from "./pages/BookingPage";
+import CategoryDashboard from "./pages/CategoryDashboard";
 
 function App() {
   // console.log(12312);
@@ -41,6 +42,7 @@ function App() {
     console.log("dashboardPage", dashboardPage);
     console.log("lesseeId", lesseeId);
     if (route === "timeline") return <TimelinePage isMainLessee={companyType === "lessee"} companyId={companyId} />;
+    if (route === "category_dashboard") return <CategoryDashboard isMainLessee={companyType === "lessee"} lesseeId={lesseeId} companyType={companyType} />;
     if (route === "booking_menu") return <BookingPage orderId={orderId} isMainLessee={companyType === "lessee"} />;
     if (companyType === "manager" && route !== "lessee_dashboard" && dashboardPage) return <ManagerDashboard user="manager" />;
     if (route === "lessee_dashboard" || companyType === "lessee") {

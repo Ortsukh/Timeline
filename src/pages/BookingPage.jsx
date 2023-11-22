@@ -82,7 +82,7 @@ export default function BookingPage({orderId, isMainLessee}) {
       setCurrentDevice(groups[0]);
 
     }
-  }, [orderId, items, selectedCompany ]);
+  }, [orderId, items ]);
 
   const openAlertWindow = (message) => {
     showNetwork(message);
@@ -135,6 +135,7 @@ export default function BookingPage({orderId, isMainLessee}) {
           // fromDashBoard
           isFromDashboard
           filterProps={filterProps}
+
         />
         {isEquipmentInfoWindowOpen && (
           <EquipmentInfoWindow
