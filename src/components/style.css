@@ -713,6 +713,7 @@ a.fc-col-header-cell-cushion.red-color:hover {
 
 .select-count-box.select-choose-time {
     align-items: start;
+    z-index: 1111;
 }
 
 .select-count-box.select-choose-time div:last-child {
@@ -838,4 +839,8 @@ a.fc-col-header-cell-cushion.red-color:hover {
 .product-cont{
     display: flex;
     gap: 20px;
+}
+
+.select-choose-part{
+    z-index: 222;
 }

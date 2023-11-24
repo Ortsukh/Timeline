@@ -52,18 +52,20 @@ export default function TimeShift({
   return (
     <div className="select-count-box select-choose-time">
       <span style={{ margin: "auto 0" }}>Время смены:</span>
-      <Select
-        allowSelectAll
-        closeMenuOnSelect={false}
-        components={animatedComponents}
-        isDisabled={!isActiveCalendar}
-        options={[selectAllOption, ...generateShiftTime(+currentDevice.shiftLength)]}
-        onChange={handleChangeTime}
-        value={value}
-        isMulti
-        defaultValue={[]}
-        placeholder="Выбрать..."
-      />
+      <div className="select-choose-part">
+        <Select
+          allowSelectAll
+          closeMenuOnSelect={false}
+          components={animatedComponents}
+          isDisabled={!isActiveCalendar}
+          options={[selectAllOption, ...generateShiftTime(+currentDevice.shiftLength)]}
+          onChange={handleChangeTime}
+          value={value}
+          isMulti
+          defaultValue={[]}
+          placeholder="Выбрать..."
+        />
+      </div>
     </div>
   );
 }
