@@ -822,3 +822,18 @@ a.fc-col-header-cell-cushion.red-color:hover {
 .fc-day .fc-daygrid-day {
     height: 100px;
 }
+
+.сounting{
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.сounting.counting-successful{
+    color: #00a65a;
+}
+
+.product-cont{
+    display: flex;
+    gap: 20px;
+}

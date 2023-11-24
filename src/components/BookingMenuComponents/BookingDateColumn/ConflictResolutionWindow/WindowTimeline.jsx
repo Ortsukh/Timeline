@@ -675,14 +675,14 @@ export default function WindowTimeline({
           <div>
             {modifConflictArr.length > 0
               ? (
-                <p style={{ fontSize: "14px" }}>
+                <p className="сounting counting-unsuccessful" style={{ fontSize: "14px" }}>
                   {"У вас "}
                   <span style={{ fontWeight: "bold", color: "#f03333" }}>{modifConflictArr.length}</span>
                   {` ${PluralizeWordConflict(modifConflictArr.length, "конфликт")}.`}
                 </p>
               )
               : (
-                <p style={{ fontSize: "14px" }}>Подсчет смен прошел успешно.</p>
+                <p className="сounting counting-successful" style={{ fontSize: "14px" }}>Подсчет смен прошел успешно.</p>
               )}
           </div>
           <div className={styleConflict.displayActionBtns}>

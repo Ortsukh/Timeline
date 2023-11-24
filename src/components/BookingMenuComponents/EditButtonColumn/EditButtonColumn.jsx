@@ -191,7 +191,7 @@ export default function EditButtonColumn({
       {!baseOrder.equipment.id && (
       <div className="input-count-box">
         <span style={{ marginTop: "15px" }}>Подбираемое оборудование:</span>
-        <div>
+        <div className="product-cont">
           <div className="select-count-box">
             <Select
               isDisabled={statusCheckboxSelected !== "MYSELF"}
