@@ -593,11 +593,13 @@
 }
 
 .choose-category {
-    padding: 5px 10px;
+    padding: 8px 10px;
     border-radius: 5px;
     border: 1px solid #2780fc;
     font-size: 14px;
     background-color: white;
+    height: 40px;
+    margin-top: 20px;
 }
 
 .choose-category_item {
