@@ -8,6 +8,7 @@ export default function LesseeStatsDashboard({ profitItems }) {
 
     return result;
   };
+  const rout = window.location.search.substring(1).split("&").find((query) => query.startsWith("page"))?.split("=")[1];
   return !profitItems.length ? <>Загрузка</>
     : (
       <div className="statsDashboardContainer">
@@ -22,13 +23,15 @@ export default function LesseeStatsDashboard({ profitItems }) {
           <span>Затраты за период</span>
           <span className="positive-values values">
             {calcAllProfit().toFixed(2)}
-
           </span>
         </div>
-        <div className="statsItem item-red-bg">
-          <span>Забронировано</span>
-          <span className="negative-values values">-999</span>
-        </div>
+        {rout !== "category_dashboard"
+              && (
+              <div className="statsItem item-red-bg">
+                <span>Забронировано</span>
+                <span className="negative-values values">-999</span>
+              </div>
+              )}
         <div className="statsItem item-red-bg">
           <span>Просроченные платежи</span>
           <span className="negative-values values">-999</span>

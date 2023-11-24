@@ -443,7 +443,8 @@ export default function BookingCalendar({
       if (!cell) return;
       const cellDate = cell.dataset.date;
       const eventByDate = event.find((ev) => ev.start === cellDate);
-      // if (selectedDates.indexOf(cellDate) === -1 && moment(cellDate).isSameOrAfter(moment().startOf("day"))) {
+      // if (selectedDates.indexOf(cellDate) === -1
+      // && moment(cellDate).isSameOrAfter(moment().startOf("day"))) {
       if (selectedDates.indexOf(cellDate) === -1) {
         if (workingDayMap[getDayName(cellDate)]
             && selectedWeekdays.includes(getDayName(cellDate))) {

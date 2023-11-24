@@ -120,8 +120,6 @@ export default function BookingMenu({
   }, [currentDevice]);
   const generateEvents = (equipmentId, mapsEquipment1, commonMap = commonMapsEquipment, selectedDatesArr = selectedDates, isNew = false) => {
     const events = [];
-    console.log(mapsEquipment1);
-    console.log(baseOrder.equipment);
     selectedDatesArr.forEach((selectedDate) => {
       const currentDate = moment(selectedDate);
       const baseOrderShiftTimes = baseOrder.shiftTime;
@@ -160,9 +158,6 @@ export default function BookingMenu({
           }
         }
       });
-      console.log("resultColor", resultColor, currentEquipment, mapsEquipment1[equipmentId]);
-      console.log(currentEquipment.conflicts[selectedDate]);
-      console.log(currentEquipment.success[selectedDate]);
       switch (resultColor) {
         case 0:
           events.push({
@@ -218,8 +213,6 @@ export default function BookingMenu({
   const addConflictsAndSuccessInMap = (groupId, selectedDate, equip, shortTitle) => {
     // const equipment = equip;
     const { equipment } = baseOrder;
-    console.log(baseOrder);
-    console.log(baseOrder.shiftTime);
     baseOrder.shiftTime.forEach(({ value: shiftTime }) => {
       if (!equipment.conflicts[selectedDate]) {
         equipment.conflicts[selectedDate] = [];
@@ -237,7 +230,6 @@ export default function BookingMenu({
       } else {
         equipment.success[selectedDate].push({ shiftTime, groupId, shortTitle });
       }
-      console.log(equipment);
       setBaseOrder((prev) => ({ ...prev, equipment }));
     });
   };
@@ -268,7 +260,6 @@ export default function BookingMenu({
           commonMap[day] = String(partA).slice(1, 13) + String(partB).slice(1, 13);
         }
       });
-      console.log(dayGrids);
       map[group.id] = {
         ...group,
         dates: dayGrids,
@@ -280,10 +271,10 @@ export default function BookingMenu({
     setMapsEquipment(map);
     return { map, commonMap };
   };
-
   const { execute } = useGetOrdersByFilters(undefined, true);
   const addAnotherDay = async (date) => {
-    const ordersByDate = await execute({ category: "hook" });
+    console.log("add");
+    const ordersByDate = await execute({ category: currentDevice.id, dateFrom: date, dateTo: moment(date).add("day").format("YYYY-MM-DD") });
     const items1 = createOrderGroup(ordersByDate);
     const { map, commonMap } = createEquipmentsMap(items1);
     setSelectedDates((prev) => [...prev, date]);

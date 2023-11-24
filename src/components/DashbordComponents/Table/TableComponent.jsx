@@ -15,7 +15,7 @@ export default function TableComponent({
     const { pathname } = window.location;
     const lessee = window.location.search.substring(1).split("&").find((query) => query.startsWith("id"))?.split("=")[1];
 
-    window.location.replace(`${origin}${pathname}?page=category_dashboard&category=${categoryId}${lessee ? `&id=${lessee}` : ""}`);
+    window.location.replace(`${origin}${pathname}?page=category_dashboard&categoryId=${categoryId}${lessee ? `&id=${lessee}` : ""}`);
   };
 
   const handleEditOrder = (id) => {
@@ -59,6 +59,7 @@ export default function TableComponent({
                 onClick={() => {
                   if (cell?.idCompany) handleLinkToLessee(cell.idCompany);
                   if (cell?.idOrder) handleEditOrder(cell.idOrder);
+                  if (cell?.idCategory) handleLinkToCategory(cell.idCategory);
                 }}
               >
                 {cell.value}

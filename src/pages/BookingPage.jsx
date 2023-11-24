@@ -17,7 +17,7 @@ import useTimelineData from "../hooks/useTimelineData";
 import Swal from "sweetalert2";
 import showNetwork from "../components/Alert/showNetwork";
 
-export default function BookingPage({orderId, isMainLessee}) {
+export default function BookingPage({orderId, isMainLessee, categoryId}) {
   const [groups, setGroups] = useState([]);
   const [update, setUpdate] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -79,7 +79,9 @@ export default function BookingPage({orderId, isMainLessee}) {
         setEditOrderData(editItem)
       setCurrentDevice(groups.find((group) => editItem.group === group.id));
     }else {
-      setCurrentDevice(groups[0]);
+      console.log(categoryId, groups)
+      console.log(groups.find((group) => categoryId === group.id))
+      setCurrentDevice(categoryId? groups.find((group) => categoryId === group.id) : groups[0]);
 
     }
   }, [orderId, items ]);

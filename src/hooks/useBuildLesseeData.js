@@ -1,12 +1,13 @@
 import useFetch from "./useFetch";
 
-export default function useBuildLesseeData(id) {
-  const isLocal = true;
+export default function useBuildLesseeData(id, activeMonth) {
+  let isLocal = true;
   let backendUrl = "/admin/api/";
   let backendManagerUrl = "/admin/manager/";
   if (isLocal) {
     backendUrl = " http://localhost:3001/admin/manager/";
     backendManagerUrl = " http://localhost:3001/admin/manager/";
+    isLocal = false;
   }
   let loading = false;
 
@@ -26,11 +27,10 @@ export default function useBuildLesseeData(id) {
     `${backendUrl}get_transactions/${id}`,
   );
 
-  // eslint-disable-next-line no-nested-ternary
+  const formattedDate = activeMonth.startDate ? `?dateFrom=${activeMonth.startDate.format("YYYY-MM-DD")}&dateTo=${activeMonth.endDate.format("YYYY-MM-DD")}` : "";
   const { data: allOrderData, loading: allOrderDataLoading } = isLocal ? useFetch(`${backendUrl}get_local_orders`) : useFetch(
-    `${backendManagerUrl}get_equipment_items/${id}`,
+    `${backendManagerUrl}get_equipment_items${formattedDate}&companyId=${id}`,
   );
-
   const { data: rentZone, loading: rentZoneLoading } = useFetch(
     `${backendUrl}get_current_kitchens/${id}`,
   );

@@ -12,7 +12,7 @@ export default function ManagerLastPendingOrdersTableDashboard({ orderData }) {
     // { value: "Статус", style: { minWidth: "70px" } },
     { value: "Сумма", style: {} },
   ];
-
+  console.log(orderData);
   const rowsLastOrders = orderData.map((order) => {
     const roundedPrice = (price) => {
       const numPrice = +price;
@@ -22,7 +22,7 @@ export default function ManagerLastPendingOrdersTableDashboard({ orderData }) {
       { value: order.id, class: "centerCell lesseeCell", idOrder: order.id },
       { value: moment(order.date).format("D MMM"), class: "centerCell", style: { padding: "8px 2px" } },
       { value: order.company, class: "" },
-      { value: order.category, class: "" },
+      { value: order.category, class: "lesseeCell", idCategory: order.categoryId },
       // { value: order.status, class: getClassStatus(order.status) },
       { value: roundedPrice(order.total), class: "moneyCell" },
     ];

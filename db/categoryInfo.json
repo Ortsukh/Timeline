@@ -1,0 +1,48 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": 23,
+      "name": "Цеха",
+      "type": "equipment",
+      "color": "#ff0000",
+      "shiftLength": 8,
+      "kitchenEquipment": [
+        {
+          "id": 22,
+          "status": "maintenance",
+          "type": "kitchen",
+          "name": "Цех 2",
+          "shortName": "Ц2",
+          "parameters": [],
+          "description": "Длинна: 98м. Широта:  96м. Градус: 38.",
+          "price": "55.00",
+          "updatedAt": {
+            "date": "2023-11-08 13:43:55.000000",
+            "timezone_type": 3,
+            "timezone": "Europe/Moscow"
+          },
+          "image": null,
+          "deleted": false
+        },
+        {
+          "id": 42,
+          "status": "active",
+          "type": "kitchen",
+          "name": "Кухня3",
+          "shortName": "К3",
+          "parameters": [],
+          "description": "Хорошая кухня",
+          "price": "50.00",
+          "updatedAt": {
+            "date": "2023-11-13 17:33:48.000000",
+            "timezone_type": 3,
+            "timezone": "Europe/Moscow"
+          },
+          "image": null,
+          "deleted": false
+        }
+      ]
+    }
+  ]
+}

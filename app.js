@@ -63,6 +63,26 @@ app.get(`${backendUrl}get_finance_report*`, (req, res, next) => {
     }
   });
 });
+
+app.get(`${backendUrl}get_category_info*`, (req, res, next) => {
+  const options = {
+    root: path.join(__dirname, "db"),
+    dotfiles: "deny",
+    headers: {
+      "x-timestamp": Date.now(),
+      "x-sent": true,
+    },
+  };
+
+  res.sendFile("categoryInfo.json", options, (err) => {
+    if (err) {
+      next(err);
+    } else {
+      console.log("Sent: export_sales.json");
+    }
+  });
+});
+
 app.get(`${backendUrl}get_manager_info*`, (req, res, next) => {
   const options = {
     root: path.join(__dirname, "db"),
@@ -196,13 +216,20 @@ app.get(`${backendUrl}get_local_orders*`, (req, res, next) => {
 });
 
 app.get(`${backendUrl}get_equipment_items*`, (req, res, next) => {
-  fetch("http://freekitchen.loc/test/get_equipment_items").then((res1) => res1.json().then((data) => {
+  let queryStr = "?";
+  Object.keys(req.query).forEach((query) => {
+    queryStr += `${query}=${req.query[query]}&`;
+  });
+  console.log(queryStr);
+  fetch(`http://freekitchen.loc/test/get_equipment_items${queryStr}`).then((res1) => res1.json().then((data) => {
     res.json(data);
   }));
 });
 
 app.get(`${backendUrl}get_equipment*`, (req, res, next) => {
-  fetch("http://freekitchen.loc/test/get_equipment").then((res1) => res1.json().then((data) => {
+  const query = req.query.categoryId ? `?categoryId=${req.query.categoryId}` : "";
+  fetch(`http://freekitchen.loc/test/get_equipment${query}`).then((res1) => res1.json().then((data) => {
+    console.log(req.query);
     res.json(data);
   }));
 });

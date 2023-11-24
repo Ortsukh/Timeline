@@ -12,11 +12,15 @@ import Spinner from "../components/Spinner/Spinner";
 import CalendarWithTimelineComponent from "../components/DashbordComponents/CalendarWithTimelineComponent";
 import TimelineDashboardWindow from "../components/Popup/TimelineDashboardWindow";
 
-export default function ManagerDashboard({ user }) {
+export default function ManagerDashboard({ user, companyId }) {
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-30, "day"), endDate: moment() });
   const [profitItems, setProfitItems] = useState([]);
   const [activeItem, setActiveItem] = useState(null);
   const [isActiveItem, setIsActiveItem] = useState(false);
+  const activeMonth = {
+    startDate: moment().startOf("month").add(-7, "day"),
+    endDate: moment().endOf("month").add(7, "day"),
+  };
   const {
     orderData,
     managerInfoData,
@@ -25,7 +29,8 @@ export default function ManagerDashboard({ user }) {
     transactions,
     updatedEquipment,
     loading,
-  } = useBuildManagerData();
+  } = useBuildManagerData(activeMonth, companyId);
+
   const listLength = 5;
 
   return loading ? (
@@ -52,6 +57,7 @@ export default function ManagerDashboard({ user }) {
           allOrderData={allOrderData}
           setActiveItem={setActiveItem}
           setIsActiveItem={setIsActiveItem}
+          companyId={companyId}
         />
       </div>
       <div className="row">

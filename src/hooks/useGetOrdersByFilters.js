@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import fetchJSON from "../common/helper";
 
 export default function useGetOrdersByFilters(axiosParams, executeOnMount = true) {
+  console.log(axiosParams);
   let isLocal = true;
   let backendUrl = "/admin/api/";
   let backendManagerUrl = "/admin/manager/";
@@ -13,11 +14,16 @@ export default function useGetOrdersByFilters(axiosParams, executeOnMount = true
   const [fetchData, setFetchData] = React.useState(null);
   const [fetchError, setFetchError] = React.useState(null);
   const handleData = async (options) => {
-    console.log(options);
+    if (!options) return;
+    let queryStr = "?";
+    Object.keys(options).forEach((query) => {
+      if (options[query]) {
+        queryStr += `${query}=${options[query]}&`;
+      }
+    });
     try {
       const { data } = await fetchJSON(isLocal ? `${backendUrl}get_local_orders${options ? `?category=${options.category}` : ""}`
-        : `${backendManagerUrl}get_equipment_items?category=${options.category}&start=${options.start}&end=${options.end}`);
-      console.log(data);
+        : `${backendManagerUrl}get_equipment_items${queryStr}`);
       setFetchData(data);
       return data;
     } catch (error) {

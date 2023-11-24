@@ -1,104 +1,65 @@
 {
   "success": true,
-  "data":[
-  {
-    "id": 272,
-    "category": "Кухни",
-    "company": "компания1",
-    "price": "50.0000",
-    "total": 400,
-    "date": "2023-11-01",
-    "shift": 8,
-    "status": "pending",
-    "equipment": "Кухня 1"
-  },
-  {
-    "id": 271,
-    "category": "Другое",
-    "company": "Франчайзи 001",
-    "price": "100.0000",
-    "total": 100,
-    "date": "2023-11-01",
-    "shift": 1,
-    "status": "pending",
-    "equipment": "Альпака"
-  },
-  {
-    "id": 270,
-    "category": "Кухни",
-    "company": "компания1",
-    "price": "50.0000",
-    "total": 400,
-    "date": "2023-11-01",
-    "shift": 8,
-    "status": "pending",
-    "equipment": "Кухня 1"
-  },
-  {
-    "id": 269,
-    "category": "Морозилки",
-    "company": "Франчайзи 001",
-    "price": "28.0000",
-    "total": 112,
-    "date": "2023-11-01",
-    "shift": 4,
-    "status": "accepted",
-    "equipment": "Морозидка"
-  },
-  {
-    "id": 268,
-    "category": "Печи",
-    "company": "компания1",
-    "price": "88.0000",
-    "total": 352,
-    "date": "2023-11-01",
-    "shift": 4,
-    "status": "accepted",
-    "equipment": "Плавильная печь"
-  },
-  {
-    "id": 267,
-    "category": "Холодильники",
-    "company": "Франчайзи 001",
-    "price": "10.0000",
-    "total": 40,
-    "date": "2023-11-01",
-    "shift": 4,
-    "status": "pending",
-    "equipment": "Холодильник Samsung"
-  },
-  {
-    "id": 266,
-    "category": "Кухни",
-    "company": "Франчайзи 001",
-    "price": "50.0000",
-    "total": 400,
-    "date": "2023-11-01",
-    "shift": 8,
-    "status": "accepted",
-    "equipment": "Кухня 1"
-  },
-  {
-    "id": 265,
-    "category": "Другое",
-    "company": "компания",
-    "price": "5.0000",
-    "total": 5,
-    "date": "2023-10-31",
-    "shift": 1,
-    "status": "accepted",
-    "equipment": "Чайник"
-  },
-  {
-    "id": 264,
-    "category": "Кухни",
-    "company": "компания1",
-    "price": "50.0000",
-    "total": 200,
-    "date": "2023-10-27",
-    "shift": 4,
-    "status": "pending",
-    "equipment": "Кухня 1"
-  }
-]
+  "data": [
+    {
+      "id": 365,
+      "categoryId": 29,
+      "category": "Микроволновки",
+      "company": "компания1",
+      "price": "10.00",
+      "total": 20,
+      "date": "2023-11-20",
+      "shift": 2,
+      "status": "Ожидание",
+      "equipment": "Микроволновка 5"
+    },
+    {
+      "id": 312,
+      "categoryId": 14,
+      "category": "Фритюр",
+      "company": "компания2",
+      "price": "15.00",
+      "total": 60,
+      "date": "2023-11-13",
+      "shift": 4,
+      "status": "Ожидание",
+      "equipment": "Фритюр"
+    },
+    {
+      "id": 311,
+      "categoryId": 14,
+      "category": "Фритюр",
+      "company": "компания2",
+      "price": "15.00",
+      "total": 60,
+      "date": "2023-11-13",
+      "shift": 4,
+      "status": "Ожидание",
+      "equipment": "Фритюр"
+    },
+    {
+      "id": 276,
+      "categoryId": 23,
+      "category": "Цеха",
+      "company": "компания",
+      "price": "55.00",
+      "total": 440,
+      "date": "2023-11-02",
+      "shift": 8,
+      "status": "Ожидание",
+      "equipment": "Цех 2"
+    },
+    {
+      "id": 274,
+      "categoryId": 23,
+      "category": "Цеха",
+      "company": "компания",
+      "price": "55.00",
+      "total": 440,
+      "date": "2023-11-02",
+      "shift": 8,
+      "status": "Ожидание",
+      "equipment": "Цех 2"
+    }
+  ]
 }

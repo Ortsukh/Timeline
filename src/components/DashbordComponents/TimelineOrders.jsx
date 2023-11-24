@@ -23,13 +23,14 @@ export default function TimelineOrders({
   const [elementForEdit, setElementForEdit] = useState(null);
   // console.log("orderItems***************", orderItems);
   useEffect(() => {
+    if (!allOrderData.length) return;
     const filteredOrders = createOrderGroup(allOrderData).filter((order) => (
       order.date === moment(selectedDay).format("YYYY-MM-DD")
     ));
     setOrderItems(filteredOrders.map((order) => (
       { ...order, itemProps: { style: { background: order.status === "pending" ? "#ff9900" : "#464040" } } }
     )));
-  }, [orderCalendarSelectDay]);
+  }, [orderCalendarSelectDay, allOrderData]);
 
   const handleBoundsChange = (timeStart, timeEnd) => {
     setVisibleTimeStart(timeStart);

@@ -18,7 +18,10 @@ export default function LesseeDashboard({ lesseeId, isMainLessee, user }) {
   const [profitItems, setProfitItems] = useState([]);
   const [activeItem, setActiveItem] = useState(null);
   const [isActiveItem, setIsActiveItem] = useState(false);
-
+  const activeMonth = {
+    startDate: moment().startOf("month").add(-7, "day"),
+    endDate: moment().endOf("month").add(7, "day"),
+  };
   const {
     ordersData,
     rentZone,
@@ -27,7 +30,7 @@ export default function LesseeDashboard({ lesseeId, isMainLessee, user }) {
     lesseeCompanies,
     allOrderData,
     loading,
-  } = useBuildLesseeData(lesseeId, isMainLessee);
+  } = useBuildLesseeData(lesseeId, activeMonth);
   const listLength = 5;
 
   // eslint-disable-next-line consistent-return
@@ -64,6 +67,7 @@ export default function LesseeDashboard({ lesseeId, isMainLessee, user }) {
           allOrderData={allOrderData}
           setActiveItem={setActiveItem}
           setIsActiveItem={setIsActiveItem}
+          companyId={lesseeId}
         />
       </div>
 

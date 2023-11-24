@@ -14,7 +14,6 @@ export default function TimeShift({
   ]);
 
   useEffect(() => {
-    console.log("update");
     startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
     endWorkDay = Number(currentDevice.workTime.shiftTimes.end.split(":")[0]);
     setValue([]);
@@ -32,7 +31,6 @@ export default function TimeShift({
 
   const animatedComponents = makeAnimated();
   useEffect(() => {
-    console.log("update2", currentDevice);
     setValue(baseOrder.shiftTime);
   }, [baseOrder.shiftTime]);
 
@@ -51,7 +49,6 @@ export default function TimeShift({
   };
 
   const selectAllOption = { label: "Выбрать все", value: "*" };
-  console.log(value);
   return (
     <div className="select-count-box select-choose-time">
       <span style={{ margin: "auto 0" }}>Время смены:</span>

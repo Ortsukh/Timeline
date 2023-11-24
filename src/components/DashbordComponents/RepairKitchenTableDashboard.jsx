@@ -13,7 +13,7 @@ export default function RepairKitchenTableDashboard({ updatedEquipment }) {
 
   const rowsRepairEquip = updatedEquipment.map((equipment) => {
     const cells = [
-      { value: equipment.name, class: "" },
+      { value: equipment.name, class: "lesseeCell", idCategory: equipment.id },
       { value: equipment.name, class: "" },
       { value: equipment.status, class: getClassStatus(equipment.status) },
       { value: moment(equipment.updatedAt?.date).format("D MMM"), class: "centerCell", style: { padding: "8px 2px" } },

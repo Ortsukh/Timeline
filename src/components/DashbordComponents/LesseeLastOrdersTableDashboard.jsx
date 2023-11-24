@@ -21,7 +21,7 @@ export default function LesseeLastOrdersTableDashboard({ ordersData }) {
     const cells = [
       { value: order.id, class: "centerCell" },
       { value: moment(order.date).format("D MMM"), class: "centerCell", style: { padding: "8px 2px" } },
-      { value: order.category, class: "", idCategory: order.categoryId },
+      { value: order.category, class: "lesseeCell", idCategory: order.categoryId },
       { value: order.status, class: getClassStatus(order.status) },
       { value: roundedPrice(order.total), class: "moneyCell" },
       { value: "-666", class: "moneyCell" },

@@ -1,12 +1,12 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import fetchJSON from "../common/helper";
 
 const useFetch = (url, update) => {
-  const [fetchData, setFetchData] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
-  const [fetchError, setFetchError] = React.useState(null);
+  const [fetchData, setFetchData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setLoading(true);
 
     // eslint-disable-next-line no-extra-semi

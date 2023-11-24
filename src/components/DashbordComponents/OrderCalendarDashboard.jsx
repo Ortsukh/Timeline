@@ -6,15 +6,25 @@ import timeGrid from "@fullcalendar/timegrid";
 import calenderList from "@fullcalendar/list";
 import multiMonthPlugin from "@fullcalendar/multimonth";
 import interaction from "@fullcalendar/interaction";
-import { createOrderGroup } from "../../common/DataConvertHelper";
+import { createEquipmentGroup, createOrderGroup } from "../../common/DataConvertHelper";
+import useGetOrdersByFilters from "../../hooks/useGetOrdersByFilters";
 
 export default function OrderCalendarDashboard({
-  setOrderCalendarSelectDay, allOrderData, setActiveItem,
+  setOrderCalendarSelectDay,
+  setAllOrderData,
+  setActiveItem,
+  categoryEquipments,
+  categoryId,
+  companyId,
 }) {
+  const { execute } = useGetOrdersByFilters(undefined, true);
+
+  const groups = categoryEquipments ? createEquipmentGroup(categoryEquipments) : [];
   const [orders, setOrders] = useState([]);
   const calendarRef = useRef();
   const [month, setMonth] = useState("");
-  const groupByDay = (data) => {
+  const rout = window.location.search.substring(1).split("&").find((query) => query.startsWith("page"))?.split("=")[1];
+  const pendingOrderMapByDay = (data) => {
     const groupingByDay = {};
     data.forEach((item) => {
       let isPending = "0";
@@ -27,32 +37,108 @@ export default function OrderCalendarDashboard({
         groupingByDay[item.date] = isPending;
       }
     });
+    console.log(groupingByDay);
+    return groupingByDay;
+  };
+  const groupByDay = (data) => {
+    const groupingByDay = {};
+    data.forEach((item) => {
+      if (!groupingByDay[item.date]) {
+        groupingByDay[item.date] = [item];
+      } else {
+        groupingByDay[item.date].push(item);
+      }
+    });
     return groupingByDay;
   };
 
-  // const groupByCategory = (data) => {
-  //   const gropingByCategory = {};
-  //   Object.keys(data).forEach((date) => {
-  //     gropingByCategory[date] = {};
-  //     data[date].forEach((item) => {
-  //       if (!gropingByCategory[date][item.categoryId]) {
-  //         gropingByCategory[date][item.categoryId] = [item];
-  //       }
-  //     });
-  //   });
-  //   return gropingByCategory;
-  // };
   const getCalendarCellsByClassNames = (classNames) => {
     const calendar = calendarRef.current.elRef.current;
     return calendar.querySelectorAll(
       classNames,
     );
   };
+  const generateContent = (currentCellDate, items) => {
+    const generateCellTable = () => {
+      const events = items[currentCellDate];
+      const table = document.createElement("table");
+      table.className = "calendarCellTable";
+      const startWorkingDay = groups[0].workTime.shiftTimes.start.split(":")[0];
+      // const endWorkingDay = groups[0].workTime.shiftTimes.end.split(":")[0];
+      const workHours = groups[0].workTime.shiftTimes.end.split(":")[0] - groups[0].workTime.shiftTimes.start.split(":")[0];
+      const countColumn = workHours / groups[0].shiftLength;
+      const curCell = getCalendarCellsByClassNames(".fc-daygrid-day-frame.fc-scrollgrid-sync-inner")[0];
+      console.log(curCell.clientHeight);
+      console.log(curCell);
+      groups.forEach((group) => {
+        const tableRaw = document.createElement("tr");
+        tableRaw.className = "tableCellGroup";
+        tableRaw.style.height = `${(50) / (groups.length > 4 ? groups.length : 5)}px`;
 
-  useEffect(() => {
-    const formattedOrders = groupByDay(createOrderGroup(allOrderData));
-    setOrders(formattedOrders);
-  }, []);
+        tableRaw.id = group.id;
+        for (let i = 0; i < countColumn; i++) {
+          const tableCellGroup = document.createElement("td");
+          // tableCellGroup.className = "tableCellGroup";
+          tableRaw.append(tableCellGroup);
+        }
+        console.log(group.id);
+        table.append(tableRaw);
+        console.log(items);
+
+        console.log(events);
+        events.forEach((item) => {
+          if (item.group === group.id) {
+            console.log(item);
+            const itemIndex = item.grid.indexOf("1");
+            const numberColumn = Math.floor((itemIndex - startWorkingDay) / group.shiftLength);
+            const a = tableRaw.getElementsByTagName("td")[numberColumn];
+            a.className = item.status === "pending" ? "gridWithConflictInThisShiftBG" : "gridWithOtherOrderBG";
+          }
+        });
+
+        table.append(tableRaw);
+
+        console.log(tableRaw);
+      });
+      console.log(table);
+      return table;
+    };
+    return generateCellTable();
+  };
+
+  const addContentInCell = (cell, currentCellDate, items) => {
+    const content = cell.querySelector(".cell-content");
+    console.log(content.clientHeight);
+    if (!content) return;
+    const events = items[currentCellDate];
+    if (!events) return;
+    content.append(generateContent(currentCellDate, items));
+    // content.append(generateContent(data.conflicts));
+  };
+  const paintingEvents = (items) => {
+    if (!calendarRef.current) return;
+    getCalendarCellsByClassNames(".fc-day.fc-daygrid-day").forEach((cell) => {
+      const content = cell.querySelector(".cell-content");
+      const oldChild = content ? content.querySelector("table") : null;
+      if (oldChild) {
+        content.removeChild(oldChild);
+      }
+
+      addContentInCell(cell, cell.dataset.date, items);
+      // cell.firstChild.classList.add(dateEvent.backgroundType);
+      cell.firstChild.classList.remove("gridActiveBG");
+    });
+  };
+  // useEffect(() => {
+  //   let formattedOrders;
+  //   if (rout === "category_dashboard") {
+  //     formattedOrders = groupByDay(createOrderGroup(allOrderData));
+  //     paintingEvents(formattedOrders);
+  //   } else {
+  //     formattedOrders = pendingOrderMapByDay(createOrderGroup(allOrderData));
+  //   }
+  //   setOrders(formattedOrders);
+  // }, []);
 
   const infoElement = document.createElement("small");
   infoElement.className = "label pull-right bg-yellow mr-5 ";
@@ -61,6 +147,7 @@ export default function OrderCalendarDashboard({
   useEffect(() => {
     const infoElementNode = getCalendarCellsByClassNames("small");
     infoElementNode.forEach((node) => node.remove());
+
     getCalendarCellsByClassNames(".fc-day-past:not(.fc-day-other)").forEach((cell) => {
       cell.firstChild.classList.add("gridPastDays");
     });
@@ -68,6 +155,9 @@ export default function OrderCalendarDashboard({
     getCalendarCellsByClassNames(".fc-day-future").forEach((cell) => {
       cell.firstChild.classList.add("gridFeatureDays");
     });
+    if (rout === "category_dashboard") {
+      return;
+    }
 
     getCalendarCellsByClassNames(".fc-day.fc-daygrid-day").forEach((cell) => {
       if (orders[cell.dataset.date]) {
@@ -109,53 +199,44 @@ export default function OrderCalendarDashboard({
     }
     return false;
   }, []);
-  // const renderEventContent = (eventInfo) => {
-  //   const color = eventInfo.backgroundColor || "#ffa4a4";
-  //   const obj = {
-  //     height: 15,
-  //     width: 15,
-  //     backgroundColor: eventInfo.backgroundColor,
-  //     color: (color === "#100e0e" ? "#ffffff" : "#000000"),
-  //     display: "flex",
-  //     wrap: "wrap",
-  //     alignItems: "center",
-  //     justifyContent: "space-around",
-  //   };
-  //
-  //   return (
-  //     <div style={obj} />
-  //   );
-  // };
 
   const handleLinkToBookingMenu = () => {
     const { origin } = window.location;
     const { pathname } = window.location;
     window.location.replace(`${origin}${pathname}?page=booking_menu`);
   };
-  // const generateEvents = (data) => {
-  //   const events = [];
-  //   Object.keys(data).forEach((date) => {
-  //     Object.keys(data[date]).forEach((items) => {
-  //       data[date][items].forEach((item) => {
-  //         const { categoryColor } = item;
-  //         events.push({
-  //           start: `${date}`,
-  //           end: `${date}`,
-  //           backgroundColor: categoryColor,
-  //         });
-  //       });
-  //     });
-  //   });
-  //   return events;
-  // };
 
-  const handleChangeMonth = (time) => {
+  const handleChangeMonth = async (time) => {
+    console.log(time);
     setMonth(time);
+    const options = {
+      dateFrom: time.startStr.split("T")[0],
+      dateTo: time.endStr.split("T")[0],
+      categoryId,
+      companyId,
+    };
+    const ordersByDate = await execute(options);
+    setAllOrderData(ordersByDate);
+    console.log(ordersByDate);
+    let formattedOrders;
+    if (rout === "category_dashboard") {
+      formattedOrders = groupByDay(createOrderGroup(ordersByDate));
+      paintingEvents(formattedOrders);
+    } else {
+      formattedOrders = pendingOrderMapByDay(createOrderGroup(ordersByDate));
+    }
+    setOrders(formattedOrders);
   };
 
   return (
     <div className="dashboardCalendarContainer">
       <FullCalendar
+        dayCellDidMount={(cell) => {
+          const addContent = document.createElement("div");
+          addContent.className = ("cell-content");
+          console.log(cell.el.children[0].children[1].clientHeight);
+          cell.el.children[0].children[1].append(addContent);
+        }}
         ref={calendarRef}
         datesSet={handleChangeMonth}
         unselectAuto={false}

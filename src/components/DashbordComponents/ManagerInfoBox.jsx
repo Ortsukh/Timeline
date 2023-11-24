@@ -38,26 +38,13 @@ export default function ManagerInfoBox({ userInfo }) {
               </div>
             </div>
             <div className="col-xs-6 border-right">
-              <div className="description-block">
-                <h5 className="description-header">{userInfo.kitchensFree}</h5>
-                <span className="description-text">Кухонь свободно</span>
+              <div className="col-xs-6 border-right">
+                <div className="description-block">
+                  <h5 className="description-header">{userInfo.equipment}</h5>
+                  <span className="description-text">Оборудования всего</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-xs-6 border-right">
-              <div className="description-block">
-                <h5 className="description-header">{userInfo.equipment}</h5>
-                <span className="description-text">Оборудования всего</span>
-              </div>
-            </div>
-            <div className="col-xs-6 border-right">
-              <div className="description-block">
-                <h5 className="description-header">{userInfo.equipmentFree}</h5>
-                <span className="description-text">Оборудования свободно</span>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>

@@ -15,14 +15,17 @@ function App() {
   const [companyType, setCompanyType] = useState("");
   const [companyId, setCompanyId] = useState("");
   const [dashboardPage, setDashboardPage] = useState(null);
+  const [categoryId, setCategoryId] = useState("");
   useEffect(() => {
     const rout = window.location.search.substring(1).split("&").find((query) => query.startsWith("page"))?.split("=")[1];
     const lessee = window.location.search.substring(1).split("&").find((query) => query.startsWith("id"))?.split("=")[1];
+    const category = window.location.search.substring(1).split("&").find((query) => query.startsWith("categoryId"))?.split("=")[1];
     const order = window.location.search.substring(1).split("&").find((query) => query.startsWith("order_id"))?.split("=")[1];
     const userType = window.FR?.currentCompanyType;
     const userID = window.FR?.currentCompanyId;
     const arrName = window.FR?.currentRouteName.split("_");
-    console.log(window.FR);
+    console.log(category);
+    setCategoryId(category);
     setCompanyType(userType);
     setCompanyId(userID);
     setDashboardPage(arrName.includes("dashboard"));
@@ -42,9 +45,19 @@ function App() {
     console.log("dashboardPage", dashboardPage);
     console.log("lesseeId", lesseeId);
     if (route === "timeline") return <TimelinePage isMainLessee={companyType === "lessee"} companyId={companyId} />;
-    if (route === "category_dashboard") return <CategoryDashboard isMainLessee={companyType === "lessee"} lesseeId={lesseeId} companyType={companyType} />;
-    if (route === "booking_menu") return <BookingPage orderId={orderId} isMainLessee={companyType === "lessee"} />;
-    if (companyType === "manager" && route !== "lessee_dashboard" && dashboardPage) return <ManagerDashboard user="manager" />;
+    if (route === "category_dashboard") {
+      return (
+        <CategoryDashboard
+          isMainLessee={companyType === "lessee"}
+          lesseeId={lesseeId}
+          companyType={companyType}
+          categoryId={categoryId}
+          companyId={companyId}
+        />
+      );
+    }
+    if (route === "booking_menu") return <BookingPage orderId={orderId} isMainLessee={companyType === "lessee"} categoryId={categoryId} />;
+    if (companyType === "manager" && route !== "lessee_dashboard" && dashboardPage) return <ManagerDashboard user="manager" companyId={companyId} />;
     if (route === "lessee_dashboard" || companyType === "lessee") {
       return (
         <LesseeDashboard

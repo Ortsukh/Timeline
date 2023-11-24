@@ -11,25 +11,31 @@ import CategoryInfoBox from "../components/DashbordComponents/CategoryInfoBox";
 import ManagerStatsDashboard from "../components/DashbordComponents/ManagerStatsDashboard";
 import RepairKitchenTableDashboard from "../components/DashbordComponents/RepairKitchenTableDashboard";
 import useBuildCategoryData from "../hooks/useBuildCategoryData";
+import ManagerLastPendingOrdersTableDashboard
+  from "../components/DashbordComponents/ManagerLastPendingOrdersTableDashboard";
 
 export default function CategoryDashboard({
-  lesseeId, isMainLessee, companyType, categoryId,
+  lesseeId, isMainLessee, companyType, categoryId, companyId,
 }) {
-  if (!lesseeId) return;
+  console.log("category");
+  if (!categoryId) return;
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-30, "day"), endDate: moment() });
   const [profitItems, setProfitItems] = useState([]);
   const [activeItem, setActiveItem] = useState(null);
   const [isActiveItem, setIsActiveItem] = useState(false);
-
+  const activeMonth = {
+    startDate: moment().startOf("month").add(-7, "day"),
+    endDate: moment().endOf("month").add(7, "day"),
+  };
   const {
     categoryInfoData,
     ordersData,
     updatedEquipment,
-    allOrderData,
+    categoryEquipments,
     loading,
-  } = useBuildCategoryData(lesseeId, isMainLessee, categoryId);
+  } = useBuildCategoryData(lesseeId, isMainLessee, categoryId, activeMonth);
   const listLength = 5;
-
+  console.log(loading);
   // eslint-disable-next-line consistent-return
   return loading ? (
     <Spinner />
@@ -55,21 +61,37 @@ export default function CategoryDashboard({
           />
           {isMainLessee
             ? <LesseeStatsDashboard profitItems={profitItems} />
-            : <ManagerStatsDashboard profitItems={profitItems} />}
+            : <ManagerStatsDashboard profitItems={profitItems} userInfo={categoryInfoData} />}
         </div>
 
       </div>
 
       <div className="row" style={{ margin: "10px 0 20px" }}>
         <CalendarWithTimelineComponent
-          allOrderData={allOrderData}
           setActiveItem={setActiveItem}
           setIsActiveItem={setIsActiveItem}
+          categoryEquipments={categoryEquipments}
+          categoryId={categoryId}
+          companyId={companyId}
         />
       </div>
-      )
+
       <div className="row">
-        <div className="col-lg-3 col-md-6 width-fif"><LesseeLastOrdersTableDashboard id={lesseeId} ordersData={ordersData.slice(0, listLength)} /></div>
+        <div className="col-lg-3 col-md-6 width-fif">
+          {isMainLessee
+            ? (
+              <LesseeLastOrdersTableDashboard
+                id={lesseeId}
+                ordersData={ordersData.slice(0, listLength)}
+              />
+            )
+            : (
+              <ManagerLastPendingOrdersTableDashboard
+                id={lesseeId}
+                orderData={ordersData.slice(0, listLength)}
+              />
+            )}
+        </div>
         <div className="col-lg-3  col-md-6 width-fif"><RepairKitchenTableDashboard updatedEquipment={updatedEquipment.slice(0, listLength)} /></div>
       </div>
 

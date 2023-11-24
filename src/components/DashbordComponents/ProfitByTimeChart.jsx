@@ -18,10 +18,9 @@ import {
 
 } from "chart.js";
 import moment from "moment";
-import { getProfitData } from "../../Api/DashboardApi";
 import CalendarDashboard from "./CalendarDashboard";
-import useGetOrdersByFilters from "../../hooks/useGetOrdersByFilters";
 import useGetFinance from "../../hooks/useGetFinance";
+import Spinner from "../Spinner/Spinner";
 
 ChartJS.register(
   TimeScale,
@@ -40,7 +39,9 @@ const ProfitByTimeChart = memo(({
 }) => {
   const [timeStep, setTimeStep] = useState("day");
   const chart = useRef(null);
-  const { execute } = useGetFinance(undefined);
+  // const [loading, setLoading] useState('false')
+  const { execute, loading } = useGetFinance(undefined);
+  console.log(loading);
   const options = {
     devicePixelRatio: 2,
     maintainAspectRatio: false,
@@ -162,16 +163,6 @@ const ProfitByTimeChart = memo(({
     },
 
   };
-
-  const filterDataByTimeStep = () => {
-    const result = [];
-    for (let i = 0; i < profitItems.length; i += timeStep) {
-      result.push(profitItems[i]);
-    }
-    // result.push(profitItems[profitItems.length - 1]);
-    return result;
-  };
-
   useEffect(() => {
     const foo = async () => {
       const axiosParams = {
@@ -240,6 +231,11 @@ const ProfitByTimeChart = memo(({
   };
   return (
     <div className="profitChartContainer">
+      {loading && (
+      <div className="chart-loader">
+        <Spinner />
+      </div>
+      )}
       <div className="cont-btn-dash">
         <div className="btn-cont-dash">
           <div className="chart-step-buttons">
