@@ -1,21 +1,21 @@
 import React from "react";
 import "./style.css";
 
-export default function LesseeStatsDashboard({ profitItems }) {
+export default function LesseeStatsDashboard({ financeReport, lesseeInfoData }) {
   const calcAllProfit = () => {
     let result = 0;
-    result = profitItems.reduce((acc, cur) => Number(cur.y) + acc, 0);
+    result = financeReport.chart?.reduce((acc, cur) => Number(cur.y) + acc, 0);
 
     return result;
   };
   const rout = window.location.search.substring(1).split("&").find((query) => query.startsWith("page"))?.split("=")[1];
-  return !profitItems.length ? <>Загрузка</>
+  return !financeReport.chart?.length ? <>Загрузка</>
     : (
       <div className="statsDashboardContainer">
         <div className="statsItem item-green-bg">
           <span>Затраты за день</span>
           <span className="positive-values values">
-            {profitItems[profitItems.length - 1].y}
+            {financeReport.todayAmount}
 
           </span>
         </div>
@@ -29,16 +29,21 @@ export default function LesseeStatsDashboard({ profitItems }) {
               && (
               <div className="statsItem item-red-bg">
                 <span>Забронировано</span>
-                <span className="negative-values values">-999</span>
+                <span className="negative-values values">{lesseeInfoData.reservedBalance}</span>
               </div>
               )}
         <div className="statsItem item-red-bg">
           <span>Просроченные платежи</span>
-          <span className="negative-values values">-999</span>
+          <span className="negative-values values">
+            {" "}
+            {financeReport.expiredTransactionCount}
+          </span>
         </div>
         <div className="statsItem item-green-bg">
           <span>Количество транзакций</span>
-          <span className="positive-values values">-999</span>
+          <span className="positive-values values">
+            {financeReport.transactionCount}
+          </span>
         </div>
       </div>
     );

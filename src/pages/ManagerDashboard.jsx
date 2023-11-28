@@ -14,7 +14,7 @@ import TimelineDashboardWindow from "../components/Popup/TimelineDashboardWindow
 
 export default function ManagerDashboard({ user, companyId }) {
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-30, "day"), endDate: moment() });
-  const [profitItems, setProfitItems] = useState([]);
+  const [financeReport, setFinanceReport] = useState([]);
   const [activeItem, setActiveItem] = useState(null);
   const [isActiveItem, setIsActiveItem] = useState(false);
   const activeMonth = {
@@ -45,11 +45,11 @@ export default function ManagerDashboard({ user, companyId }) {
           <ProfitByTimeChart
             selectedTime={selectedTime}
             setSelectedTime={setSelectedTime}
-            profitItems={profitItems}
-            setProfitItems={setProfitItems}
+            financeReport={financeReport}
+            setFinanceReport={setFinanceReport}
 
           />
-          <ManagerStatsDashboard profitItems={profitItems} userInfo={managerInfoData} />
+          <ManagerStatsDashboard financeReport={financeReport} userInfo={managerInfoData} />
         </div>
       </div>
       <div className="row" style={{ margin: "10px 0 20px" }}>

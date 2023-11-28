@@ -12,10 +12,10 @@ import Spinner from "../components/Spinner/Spinner";
 import CalendarWithTimelineComponent from "../components/DashbordComponents/CalendarWithTimelineComponent";
 import TimelineDashboardWindow from "../components/Popup/TimelineDashboardWindow";
 
-export default function LesseeDashboard({ lesseeId, isMainLessee, user }) {
+export default function LesseeDashboard({ lesseeId, user }) {
   if (!lesseeId) return;
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-30, "day"), endDate: moment() });
-  const [profitItems, setProfitItems] = useState([]);
+  const [financeReport, setFinanceReport] = useState([]);
   const [activeItem, setActiveItem] = useState(null);
   const [isActiveItem, setIsActiveItem] = useState(false);
   const activeMonth = {
@@ -54,10 +54,14 @@ export default function LesseeDashboard({ lesseeId, isMainLessee, user }) {
             selectedTime={selectedTime}
             setSelectedTime={setSelectedTime}
             lesseeId={lesseeId}
-            profitItems={profitItems}
-            setProfitItems={setProfitItems}
+            financeReport={financeReport}
+            setFinanceReport={setFinanceReport}
           />
-          <LesseeStatsDashboard selectedTime={selectedTime} profitItems={profitItems} />
+          <LesseeStatsDashboard
+            selectedTime={selectedTime}
+            financeReport={financeReport}
+            lesseeInfoData={lesseeInfoData}
+          />
         </div>
 
       </div>

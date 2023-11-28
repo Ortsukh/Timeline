@@ -35,7 +35,7 @@ ChartJS.register(
 );
 
 const ProfitByTimeChart = memo(({
-  selectedTime, setSelectedTime, setProfitItems, profitItems, lesseeId,
+  selectedTime, setSelectedTime, setFinanceReport, financeReport, lesseeId, categoryId,
 }) => {
   const [timeStep, setTimeStep] = useState("day");
   const chart = useRef(null);
@@ -166,17 +166,18 @@ const ProfitByTimeChart = memo(({
   useEffect(() => {
     const foo = async () => {
       const axiosParams = {
-        start: selectedTime.startDate.format("YYYY-MM-DD"),
-        end: selectedTime.endDate.format("YYYY-MM-DD"),
+        dateFrom: selectedTime.startDate.format("YYYY-MM-DD"),
+        dateTo: selectedTime.endDate.format("YYYY-MM-DD"),
         step: timeStep,
-        id: lesseeId,
+        lesseeId,
+        categoryId,
       };
       const data = await execute(axiosParams);
       console.log("timestep", data);
-      const convertedForChartData = data.map((point) => ({
+      const convertedForChartData = data.chart?.map((point) => ({
         x: point.date, y: point.amount,
       }));
-      setProfitItems(convertedForChartData);
+      setFinanceReport({ ...data, chart: convertedForChartData });
     };
 
     foo();
@@ -193,10 +194,11 @@ const ProfitByTimeChart = memo(({
   const handleSelectTime = async (item) => {
     console.log(item);
     const axiosParams = {
-      start: moment(item.startDate).format("YYYY-MM-DD"),
-      end: moment(item.endDate).format("YYYY-MM-DD"),
+      dateFrom: moment(item.startDate).format("YYYY-MM-DD"),
+      dateTo: moment(item.endDate).format("YYYY-MM-DD"),
       step: timeStep,
-      id: lesseeId,
+      lesseeId,
+      categoryId,
 
     };
     const data = await execute(axiosParams);
@@ -204,18 +206,19 @@ const ProfitByTimeChart = memo(({
     //   setProfitItems(response);
     //   setSelectedTime(item);
     // });
-    const convertedForChartData = data.map((point) => ({
+    console.log(data);
+    const convertedForChartData = data.chart?.map((point) => ({
       x: point.date, y: point.amount,
     }));
-    console.log("time", data);
-    setProfitItems(convertedForChartData);
+    console.log("time", convertedForChartData);
+    setFinanceReport({ ...data, chart: convertedForChartData });
     setSelectedTime(item);
   };
 
   const data = {
     datasets: [{
       label: "Profit",
-      data: profitItems,
+      data: financeReport.chart,
       showLine: true,
       lineTension: 0.3,
       borderColor: "rgb(100, 100, 255)",

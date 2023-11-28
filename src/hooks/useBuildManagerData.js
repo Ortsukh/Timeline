@@ -3,7 +3,6 @@ import useFetch from "./useFetch";
 export default function useBuildManagerData() {
   let isLocal = true;
   let backendUrl = "/admin/api/";
-  const backendManagerUrl = "/admin/manager/";
   if (isLocal) {
     backendUrl = " http://localhost:3001/admin/manager/";
     isLocal = false;

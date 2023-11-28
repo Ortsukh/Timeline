@@ -20,7 +20,7 @@ export default function CategoryDashboard({
   console.log("category");
   if (!categoryId) return;
   const [selectedTime, setSelectedTime] = useState({ startDate: moment().add(-30, "day"), endDate: moment() });
-  const [profitItems, setProfitItems] = useState([]);
+  const [financeReport, setFinanceReport] = useState([]);
   const [activeItem, setActiveItem] = useState(null);
   const [isActiveItem, setIsActiveItem] = useState(false);
   const activeMonth = {
@@ -55,13 +55,14 @@ export default function CategoryDashboard({
           <ProfitByTimeChart
             selectedTime={selectedTime}
             setSelectedTime={setSelectedTime}
-            id={lesseeId}
-            profitItems={profitItems}
-            setProfitItems={setProfitItems}
+            lesseeId={lesseeId}
+            financeReport={financeReport}
+            setFinanceReport={setFinanceReport}
+            categoryId={categoryId}
           />
           {isMainLessee
-            ? <LesseeStatsDashboard profitItems={profitItems} />
-            : <ManagerStatsDashboard profitItems={profitItems} userInfo={categoryInfoData} />}
+            ? <LesseeStatsDashboard financeReport={financeReport} />
+            : <ManagerStatsDashboard financeReport={financeReport} userInfo={categoryInfoData} />}
         </div>
 
       </div>

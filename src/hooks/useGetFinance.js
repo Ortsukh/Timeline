@@ -12,11 +12,19 @@ export default function useGetFinance(axiosParams) {
   const [fetchData, setFetchData] = React.useState(null);
   const [fetchError, setFetchError] = React.useState(null);
   const handleData = async (options) => {
-    if (!options) { return []; }
+    if (!options) {
+      return [];
+    }
+    let queryStr = "?";
+    Object.keys(options).forEach((query) => {
+      if (options[query]) {
+        queryStr += `${query}=${options[query]}&`;
+      }
+    });
     setLoading(true);
     try {
-      const { data } = await fetchJSON(isLocal ? `${backendUrl}get_finance_report/${options.start}/${options.end}/${options.step}${options.id ? `/${options.id}` : ""}`
-        : `${backendUrl}get_finance_report/${options.start}/${options.end}/${options.step}${options.id ? `/${options.id}` : ""}`);
+      const { data } = await fetchJSON(isLocal ? `${backendUrl}get_finance_report${queryStr}`
+        : `${backendUrl}get_finance_report${queryStr}`);
       console.log(data);
       setLoading(false);
 

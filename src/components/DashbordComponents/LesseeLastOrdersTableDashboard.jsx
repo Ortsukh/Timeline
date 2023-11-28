@@ -19,7 +19,7 @@ export default function LesseeLastOrdersTableDashboard({ ordersData }) {
       return numPrice.toFixed(2);
     };
     const cells = [
-      { value: order.id, class: "centerCell" },
+      { value: order.id, class: "centerCell lesseeCell", idOrder: order.id },
       { value: moment(order.date).format("D MMM"), class: "centerCell", style: { padding: "8px 2px" } },
       { value: order.category, class: "lesseeCell", idCategory: order.categoryId },
       { value: order.status, class: getClassStatus(order.status) },

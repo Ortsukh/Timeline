@@ -2,123 +2,124 @@
   "success": true,
   "data": [
     {
-      "id": 24,
+      "id": 67,
       "status": "Активен",
       "type": "equipment",
-      "name": "Морозидка",
-      "shortName": "МЗ1",
+      "name": "Микроволновка 5",
+      "shortName": "M5",
       "parameters": [],
-      "description": "Рост: 150см. Ширина: 60см. Вес: 50кг.",
-      "price": "12.0000",
+      "description": null,
+      "price": "10.00",
       "updatedAt": {
-        "date": "2023-11-02 16:25:57.000000",
+        "date": "2023-11-20 13:26:49.000000",
         "timezone_type": 3,
         "timezone": "Europe/Moscow"
       },
       "image": null,
-      "deleted": false
+      "deleted": false,
+      "category": {
+        "id": 29,
+        "name": "Микроволновки",
+        "type": "equipment",
+        "color": "#ba2121",
+        "shiftLength": 2
+      }
     },
     {
-      "id": 22,
-      "status": "В ремонте",
-      "type": "kitchen",
-      "name": "Цех 2",
-      "shortName": "Ц2",
-      "parameters": [],
-      "description": "Длинна: 98м. Широта:  96м. Градус: 38.",
-      "price": "55.0000",
-      "updatedAt": {
-        "date": "1970-01-02 00:00:00.000000",
-        "timezone_type": 3,
-        "timezone": "Europe/Moscow"
-      },
-      "image": null,
-      "deleted": false
-    },
-    {
-      "id": 23,
-      "status": "Неактивен",
-      "type": "equipment",
-      "name": "Холодильник Sumsung",
-      "shortName": "Х1",
-      "parameters": [],
-      "description": "Рост: 150см. Ширина: 60см. Вес: 20кг.",
-      "price": "10.0000",
-      "updatedAt": {
-        "date": "1970-01-02 00:00:00.000000",
-        "timezone_type": 3,
-        "timezone": "Europe/Moscow"
-      },
-      "image": null,
-      "deleted": false
-    },
-    {
-      "id": 25,
-      "status": "В ремонте",
-      "type": "equipment",
-      "name": "Фритюр",
-      "shortName": "ФР1",
-      "parameters": [],
-      "description": "Хороший",
-      "price": "15.0000",
-      "updatedAt": {
-        "date": "1970-01-02 00:00:00.000000",
-        "timezone_type": 3,
-        "timezone": "Europe/Moscow"
-      },
-      "image": null,
-      "deleted": false
-    },
-    {
-      "id": 26,
+      "id": 66,
       "status": "Активен",
       "type": "equipment",
-      "name": "Плавильная печь",
-      "shortName": "ПП1",
-      "parameters": [],
-      "description": "Очень горячё!",
-      "price": "88.0000",
-      "updatedAt": {
-        "date": "1970-01-02 00:00:00.000000",
-        "timezone_type": 3,
-        "timezone": "Europe/Moscow"
-      },
-      "image": null,
-      "deleted": false
-    },
-    {
-      "id": 31,
-      "status": "В ремонте",
-      "type": "equipment",
-      "name": "312",
-      "shortName": "312",
+      "name": "Микроволновка 4",
+      "shortName": "M4",
       "parameters": [],
       "description": null,
-      "price": "0.0000",
+      "price": "10.00",
       "updatedAt": {
-        "date": "1970-01-02 00:00:00.000000",
+        "date": "2023-11-20 12:27:26.000000",
         "timezone_type": 3,
         "timezone": "Europe/Moscow"
       },
       "image": null,
-      "deleted": true
+      "deleted": false,
+      "category": {
+        "id": 29,
+        "name": "Микроволновки",
+        "type": "equipment",
+        "color": "#ba2121",
+        "shiftLength": 2
+      }
     },
     {
-      "id": 38,
-      "status": "Неактивен",
+      "id": 65,
+      "status": "Активен",
       "type": "equipment",
-      "name": "1",
-      "shortName": "1",
+      "name": "Микроволновка 3",
+      "shortName": "M3",
       "parameters": [],
       "description": null,
-      "price": "0.0000",
+      "price": "10.00",
       "updatedAt": {
-        "date": "1970-01-02 00:00:00.000000",
+        "date": "2023-11-20 11:55:56.000000",
         "timezone_type": 3,
         "timezone": "Europe/Moscow"
       },
       "image": null,
-      "deleted": false
+      "deleted": false,
+      "category": {
+        "id": 29,
+        "name": "Микроволновки",
+        "type": "equipment",
+        "color": "#ba2121",
+        "shiftLength": 2
+      }
+    },
+    {
+      "id": 64,
+      "status": "Активен",
+      "type": "equipment",
+      "name": "Микроволновка 2",
+      "shortName": "M2",
+      "parameters": [],
+      "description": null,
+      "price": "10.00",
+      "updatedAt": {
+        "date": "2023-11-20 11:55:44.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "image": null,
+      "deleted": false,
+      "category": {
+        "id": 29,
+        "name": "Микроволновки",
+        "type": "equipment",
+        "color": "#ba2121",
+        "shiftLength": 2
+      }
+    },
+    {
+      "id": 63,
+      "status": "Активен",
+      "type": "equipment",
+      "name": "Микроволновка 1",
+      "shortName": "M1",
+      "parameters": [],
+      "description": null,
+      "price": "10.00",
+      "updatedAt": {
+        "date": "2023-11-20 11:55:31.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "image": null,
+      "deleted": false,
+      "category": {
+        "id": 29,
+        "name": "Микроволновки",
+        "type": "equipment",
+        "color": "#ba2121",
+        "shiftLength": 2
+      }
     }
   ]
 }

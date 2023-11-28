@@ -14,7 +14,7 @@ export default function useGetOrdersByFilters(axiosParams, executeOnMount = true
   const [fetchData, setFetchData] = React.useState(null);
   const [fetchError, setFetchError] = React.useState(null);
   const handleData = async (options) => {
-    if (!options) return;
+    if (!options) return [];
     let queryStr = "?";
     Object.keys(options).forEach((query) => {
       if (options[query]) {
