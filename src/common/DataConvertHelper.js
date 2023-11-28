@@ -60,6 +60,7 @@ const createWorkTimeMap = (workTimesArr) => {
 const createEquipmentObject = (item, elem) => ({
   id: item.id,
   title: item.name,
+  color: elem.color,
   type: item.type,
   category: elem.name,
   shiftLength: elem.shiftLength,
@@ -141,19 +142,43 @@ const createOrderObject = (order, el, shiftLength, interval, user) => {
   const statusColor = getOrderColor(order, user);
   const itemProps = { style: { background: statusColor } };
   const hour = moment(el.start_time).hours();
+  let startOrder = interval.date;
+  let endOrder = interval.date;
+  for (let i = 0; i < order.intervals.length; i++) {
+    if (moment(order.intervals[i].date).isBefore(startOrder)) {
+      startOrder = order.intervals[i].date;
+    }
+    if (moment(order.intervals[i].date).isAfter(endOrder)) {
+      endOrder = order.intervals[i].date;
+    }
+  }
+
   return {
     id: uuidv4(),
     orderId: order.id,
     rentOrderId: order.rentOrder.id,
     group: order.equipment.id,
+    groupName: order.equipment.name,
+    groupShortTitle: order.equipment.shortName,
     intervalId: interval.id,
+    duration: {
+      isMoreDay: startOrder !== endOrder,
+      start_order: startOrder,
+      end_order: endOrder,
+      // intervals: order.intervals,
+    },
     start_time: el.start_time,
     end_time: el.end_time,
+    categoryId: order.equipment.category.id || null,
+    categoryName: order.equipment.category.name || null,
+    categoryColor: order.equipment.category.color || "#622525",
     company: order.rentOrder.company || null,
     status: order.rentOrder.status || "pending",
     itemProps,
     date: interval.date,
     grid: addStartGrid(hour, shiftLength),
+    comment: order.rentOrder.comment,
+    totalOrder: order.rentOrder?.total,
   };
 };
 

@@ -10,7 +10,6 @@ module.exports = {
   mode: "production",
   entry: "./src/index.jsx", // входная точка - исходный файл
   output: {
-    publicPath: "/",
     filename: "bundle.js",
     path: `${__dirname}/build`,
     chunkFilename: "[id].[chunkhash].js",

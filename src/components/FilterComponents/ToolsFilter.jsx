@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import "../style.css";
-import EQUIPMENT_COLOR from "../../constants/equipmentColor";
 
 export default function ToolsFilter({
   toolNames,
@@ -10,36 +9,30 @@ export default function ToolsFilter({
   isClickingOnEmptyFilter,
   setIsClickingOnEmptyFilter,
   showButtonClear,
-  setCurrentDeviceIndex,
-  isActiveCalendar = true,
+  isFromDashboard,
+  isActiveCalendar,
+  currentDevice,
 }) {
   const [selectValue, setSelectValue] = useState(null);
-  // console.log(toolNames);
   useEffect(() => {
-    const value = localStorage.getItem("toolsFilter") || null;
+    const value = localStorage.getItem("toolsFilter") || currentDevice?.category || null;
     if (value) {
       setSelectValue({ value, label: value });
       onInputChange(value);
     }
   }, []);
-
   const changeSearch = (e) => {
     setSelectValue(e);
     onInputChange(e.value);
-    setCurrentDeviceIndex(0);
   };
 
-  const formatOptionLabel = ({ label }) => {
-    const color = EQUIPMENT_COLOR[label] || "#622525";
+  const formatOptionLabel = ({ label }) => (
+    <div style={{ display: "flex" }}>
+      {/* <div className="equipment_color_block" /> */}
+      <div>{label }</div>
 
-    return (
-      <div style={{ display: "flex" }}>
-        <div style={{ backgroundColor: color }} className="equipment_color_block" />
-        <div>{label }</div>
-
-      </div>
-    );
-  };
+    </div>
+  );
 
   // eslint-disable-next-line max-len
   const getOptionsForSearch = (tools) => tools.map((tool) => ({ value: tool, label: tool }));
@@ -60,11 +53,12 @@ export default function ToolsFilter({
         options={getOptionsForSearch(toolNames)}
         onChange={changeSearch}
         value={selectValue}
+        placeholder="Выбрать..."
       />
       {!selectValue && isClickingOnEmptyFilter && (
         <div className="tooltip">Пожалуйста, выберите группу</div>
       )}
-      {showButtonClear && (
+      {showButtonClear && !isFromDashboard && (
         <button type="button" className="clear-button" onClick={handleReset}>
           Очистить
         </button>

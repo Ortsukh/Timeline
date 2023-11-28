@@ -9,13 +9,13 @@ import calenderList from "@fullcalendar/list";
 import multiMonthPlugin from "@fullcalendar/multimonth";
 import interaction from "@fullcalendar/interaction";
 import moment from "moment";
+import Swal from "sweetalert2";
 import RectangleSelection from "react-rectangle-selection";
 import { Tooltip } from "react-tooltip";
 import { generateClue } from "../../../../common/GenerateElementsData";
 import DayCheckbox from "../../../Checkbox/DayCheckbox";
 import "../../../style.css";
-
-const events = [];
+import buttonTitleConstants from "../../../../constants/buttonTitleConstants";
 
 export default function BookingCalendar({
   handleSetSelectedConflictDate,
@@ -27,11 +27,15 @@ export default function BookingCalendar({
   addAnotherDay,
   currentDevice,
   selectedConflictDate,
+  isEditMode,
+  groups,
+  isDayEditing,
+  handleConfirmChangesBM,
+  handleCancelChangesBM,
 }) {
   const [isDefaultSelect] = useState(true);
   const calendarRef = useRef();
-  const [event, setEvent] = useState(events);
-  const [emptyCellsForMonth, setEmptyCellsForMonth] = useState([]);
+  const [event, setEvent] = useState([]);
   const [startSelectCell, setStartSelectCell] = useState(null);
   const [defaultSelect, setDefaultSelect] = useState(true);
   const [selectedWeekdays, setSelectedWeekdays] = useState(["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]);
@@ -70,11 +74,17 @@ export default function BookingCalendar({
     return <div style={obj}>  </div>;
   };
   const unselectDefaultCalendar = () => {
-    const calendarDayCell = getCalendarCellsByClassNames(".activeCell");
+    // const calendarDayCell = getCalendarCellsByClassNames(".activeCell");
+    // if (calendarDayCell[0]) {
+    //   calendarDayCell[0].classList.remove("activeCell");
+    // }
+    const calendarDayCell = getCalendarCellsByClassNames(".selectedCell");
+    console.log(calendarDayCell);
     if (calendarDayCell[0]) {
-      calendarDayCell[0].classList.remove("activeCell");
+      calendarDayCell[0].classList.remove("selectedCell");
     }
   };
+  const isViewMode = window.location.search.substring(1).split("&").find((query) => query.startsWith("view"))?.split("=")[1];
 
   const checkShiftPerDay = (cell) => {
     cell.firstChild.classList.add("gridActiveBG");
@@ -82,37 +92,159 @@ export default function BookingCalendar({
 
   const handleEventClick = (clickInfo) => {
     const data = {
-      start: clickInfo.event.start,
-      extendedProps: clickInfo.event.extendedProps,
+      start: clickInfo.start,
+      extendedProps: clickInfo.extendedProps,
     };
     handleSetSelectedConflictDate(data);
   };
 
   useEffect(() => {
+    console.log("delete");
     unselectDefaultCalendar();
   }, [deactivatedCell]);
 
   useEffect(() => {
+    unselectDefaultCalendar();
+
     if (!selectedConflictDate) {
       return;
     }
-    unselectDefaultCalendar();
     const el = calendarRef.current.elRef.current.querySelectorAll(
       `[data-date="${moment(selectedConflictDate.start).format("YYYY-MM-DD")}"] 
-            > div > .fc-daygrid-day-events`,
+            > div `,
     )[0];
-
-    el.classList.add("activeCell");
+    if (el) {
+      el.classList.add("selectedCell");
+    }
+    // el.classList.add("activeCell");
   }, [selectedConflictDate]);
 
+  const generateContent = (eventData, currentCellDate) => {
+    const groupedByGroupsId = { success: {}, conflicts: {} };
+    eventData.success.forEach((eventItem) => {
+      if (!eventItem) return;
+      if (!groupedByGroupsId.success[eventItem.groupId]) {
+        groupedByGroupsId.success[eventItem.groupId] = [eventItem];
+      } else {
+        groupedByGroupsId.success[eventItem.groupId].push(eventItem);
+      }
+    });
+    eventData.conflicts.forEach((eventItem) => {
+      if (!eventItem) return;
+
+      if (!groupedByGroupsId.conflicts[eventItem.groupId]) {
+        groupedByGroupsId.conflicts[eventItem.groupId] = [eventItem];
+      } else {
+        groupedByGroupsId.conflicts[eventItem.groupId].push(eventItem);
+      }
+    });
+    const generateCellTable = () => {
+      const table = document.createElement("table");
+      table.className = "calendarCellTable";
+      const startWorkingDay = groups[0].workTime.shiftTimes.start.split(":")[0];
+      const endWorkingDay = groups[0].workTime.shiftTimes.end.split(":")[0];
+      const workHours = groups[0].workTime.shiftTimes.end.split(":")[0] - groups[0].workTime.shiftTimes.start.split(":")[0];
+      const countColumn = workHours / groups[0].shiftLength;
+      const curCell = getCalendarCellsByClassNames(".fc-daygrid-day-frame.fc-scrollgrid-sync-inner")[0];
+      console.log(curCell.clientHeight);
+      console.log(curCell);
+      groups.forEach((group) => {
+        const tableRaw = document.createElement("tr");
+        tableRaw.className = "tableCellGroup";
+        tableRaw.style.height = `${(curCell.clientHeight - 10) / (groups.length > 4 ? groups.length : 5)}px`;
+
+        tableRaw.id = group.id;
+        for (let i = 0; i < countColumn; i++) {
+          const tableCellGroup = document.createElement("td");
+          // tableCellGroup.className = "tableCellGroup";
+          tableRaw.append(tableCellGroup);
+        }
+        console.log(groupedByGroupsId);
+        console.log(group.id);
+        table.append(tableRaw);
+        console.log(eventData);
+        const otherOrders = eventData.itemMap[group.id]?.dates[currentCellDate];
+        console.log(otherOrders);
+        if (otherOrders) {
+          let itemIndex = otherOrders.indexOf("1");
+          while (itemIndex < endWorkingDay) {
+            console.log(itemIndex);
+            if (otherOrders[itemIndex] === "0") {
+              itemIndex += group.shiftLength;
+            } else {
+              const numberColumn = Math.floor((itemIndex - startWorkingDay) / group.shiftLength);
+              const a = tableRaw.getElementsByTagName("td")[numberColumn];
+              a.className = "gridWithOtherOrderBG";
+              console.log(a);
+              itemIndex += group.shiftLength;
+            }
+          }
+        }
+        if (groupedByGroupsId.success[group.id]) {
+          groupedByGroupsId.success[group.id].forEach((item) => {
+            const numberColumn = Math.floor((item.shiftTime - startWorkingDay) / group.shiftLength);
+            console.log(numberColumn);
+            const a = tableRaw.getElementsByTagName("td")[numberColumn];
+            a.className = "gridWithoutConflictBG";
+            console.log(a);
+          });
+        }
+        console.log(groupedByGroupsId);
+        if (groupedByGroupsId.conflicts[group.id]) {
+          groupedByGroupsId.conflicts[group.id].forEach((item) => {
+            const numberColumn = (item.shiftTime - startWorkingDay) / group.shiftLength;
+            console.log(numberColumn);
+            const a = tableRaw.getElementsByTagName("td")[numberColumn];
+            a.className = "gridWithConflictBG";
+            console.log(a);
+          });
+        }
+        table.append(tableRaw);
+
+        console.log(tableRaw);
+      });
+      console.log(table);
+      return table;
+    };
+    return generateCellTable();
+  };
+  const addContentInCell = (data, cell, currentCellDate) => {
+    const content = cell.querySelector(".cell-content");
+    console.log(content.clientHeight);
+    if (!content) return;
+    content.append(generateContent(data, currentCellDate));
+    // content.append(generateContent(data.conflicts));
+  };
+  const paintingEvents = () => {
+    if (!calendarRef.current) return;
+    getCalendarCellsByClassNames(".fc-day.fc-daygrid-day").forEach((cell) => {
+      cell.firstChild.classList.remove("gridWithoutConflictBG");
+      cell.firstChild.classList.remove("gridWithConflictBG");
+      cell.firstChild.classList.remove("gridWithConflictInThisShiftBG");
+      const content = cell.querySelector(".cell-content");
+      const oldChild = content ? content.querySelector("table") : null;
+      if (oldChild) {
+        content.removeChild(oldChild);
+      }
+      const dateEvent = calendarEvent.find((dateItem) => dateItem.start === cell.dataset.date);
+      if (dateEvent) {
+        console.log(dateEvent);
+        addContentInCell(dateEvent.extendedProps, cell, cell.dataset.date);
+        // cell.firstChild.classList.add(dateEvent.backgroundType);
+        cell.firstChild.classList.remove("gridActiveBG");
+      }
+    });
+  };
+
   useEffect(() => {
-    const date = (moment(calendarRef.current.getApi().getDate()).endOf("month"));
-    if (moment(date).isBefore(moment())) {
-      setEvent(calendarEvent);
-      return;
-    }
-    console.log(calendarEvent);
+    // const date = (moment(calendarRef.current.getApi().getDate()).endOf("month"));
+    // if (moment(date).isBefore(moment())) {
+    //   setEvent(calendarEvent);
+    //   return;
+    // }
+
     setEvent(calendarEvent);
+    paintingEvents();
   }, [calendarEvent]);
 
   useEffect(() => {
@@ -123,7 +255,6 @@ export default function BookingCalendar({
       }
     });
     if (!selectedDates.length) {
-      setEmptyCellsForMonth([]);
       calendarRef.current.getApi().unselect();
       getCalendarCellsByClassNames(".fc-day.fc-daygrid-day").forEach(
         (cell) => {
@@ -138,7 +269,8 @@ export default function BookingCalendar({
       getCalendarCellsByClassNames(".fc-day.fc-daygrid-day:not(.fc-day-other)").forEach(
         (cell) => {
           if (selectedDates.find((date) => date === cell.dataset.date)) {
-            checkShiftPerDay(cell);
+            // checkShiftPerDay(cell);
+            // unselectDefaultCalendar();
           }
         },
       );
@@ -297,10 +429,12 @@ export default function BookingCalendar({
         }
       },
     );
+    paintingEvents();
   };
 
   const onClickCell = (e) => {
-    console.log("click");
+    console.log("click-BookCal-1", isDayEditing);
+
     const startSelect = e.target.closest(".fc-day.fc-daygrid-day");
     if (!startSelect || !startSelect.dataset.date) return;
 
@@ -308,15 +442,77 @@ export default function BookingCalendar({
       const cell = e.target.closest(".fc-day.fc-daygrid-day");
       if (!cell) return;
       const cellDate = cell.dataset.date;
-      if (moment(cellDate).isBefore(moment().startOf("day"))) {
-        return;
-      }
+      const eventByDate = event.find((ev) => ev.start === cellDate);
+      // if (selectedDates.indexOf(cellDate) === -1
+      // && moment(cellDate).isSameOrAfter(moment().startOf("day"))) {
       if (selectedDates.indexOf(cellDate) === -1) {
         if (workingDayMap[getDayName(cellDate)]
             && selectedWeekdays.includes(getDayName(cellDate))) {
+          if (isViewMode) return;
+          if (isDayEditing) {
+            console.log("fire");
+            Swal.fire({
+              title: "У вас остались неподтверждённые изменения. Желаете их сохранить?",
+              showDenyButton: true,
+              showCancelButton: false,
+              confirmButtonText: buttonTitleConstants.CONFIRM_CHANGES,
+              denyButtonText: buttonTitleConstants.CANCEL_CHANGES,
+              didClose: () => {
+                console.log(123);
+              },
+            }).then((result) => {
+              Swal.fire({
+                position: "top-center",
+                icon: "info",
+                backdrop: false,
+                title: "Добавлен новый день",
+                showConfirmButton: false,
+                timer: 1000,
+              });
+              if (result.isConfirmed) {
+                handleConfirmChangesBM();
+              } else if (result.isDenied) {
+                handleCancelChangesBM();
+              }
+            });
+          } else {
+            Swal.fire({
+              position: "top-center",
+              icon: "info",
+              // backdrop: false,
+              title: "Добавлен новый день",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+          }
+
           addAnotherDay(moment(cell.dataset.date).format("YYYY-MM-DD"));
-          checkShiftPerDay(cell);
         }
+      } else {
+        if (isDayEditing) {
+          console.log("fire");
+          Swal.fire({
+            title: "У вас остались неподтверждённые изменения. Желаете их сохранить?",
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: buttonTitleConstants.CONFIRM_CHANGES,
+            denyButtonText: buttonTitleConstants.CANCEL_CHANGES,
+            didClose: () => {
+              console.log(123);
+            },
+          }).then((result) => {
+            if (result.isConfirmed) {
+              handleConfirmChangesBM();
+            } else if (result.isDenied) {
+              handleCancelChangesBM();
+            }
+          });
+          // return;
+        }
+        unselectDefaultCalendar();
+        if (!eventByDate) return;
+        cell.firstChild.classList.add("selectedCell");
+        handleEventClick(eventByDate);
       }
       return;
     }
@@ -371,6 +567,7 @@ export default function BookingCalendar({
   };
   useEffect(() => {
     if (calendarRef.current) {
+      console.log("click-BookCal-2", isDayEditing);
       const calendar = calendarRef.current.elRef.current;
       calendar.addEventListener("mousedown", onClickCell);
       return function cleanup() {
@@ -378,7 +575,7 @@ export default function BookingCalendar({
       };
     }
     return false;
-  }, [isDefaultSelect, isActiveCalendar, selectedDates]);
+  }, [isDefaultSelect, isActiveCalendar, selectedDates, event, isDayEditing]);
 
   useEffect(() => {
     const changeDef = (e) => {
@@ -401,6 +598,8 @@ export default function BookingCalendar({
       setSelectedDates((prev) => prev.filter((date) => (getDayName(date) !== e.target.value)));
       return;
     }
+    setSelectedWeekdays((prev) => prev.concat(...prev, e.target.value));
+
     if (selectedDates.length < 2) { return; }
     const sortedDates = selectedDates.sort((a, b) => (moment(b).isBefore(moment(a)) ? 1 : -1));
     let iterateDay = sortedDates[0];
@@ -418,7 +617,6 @@ export default function BookingCalendar({
       iterateDay = moment(iterateDay).add(1, "d");
     }
     setSelectedDates((prev) => prev.concat(newSelectedDates));
-    setSelectedWeekdays((prev) => prev.concat(...prev, e.target.value));
   };
 
   return (
@@ -442,16 +640,51 @@ export default function BookingCalendar({
           }}
         >
           <FullCalendar
+            dayCellDidMount={(cell) => {
+              const addContent = document.createElement("div");
+              addContent.className = ("cell-content");
+              console.log(cell.el.children[0].children[1].clientHeight);
+              cell.el.children[0].children[1].append(addContent);
+            }}
             unselectAuto={false}
             className="unselectable"
             datesSet={(e) => handleChangeMonth(e)}
-            height={550}
-            contentHeight={400}
+            height={isEditMode ? 600 : "auto"}
+            initialDate={isEditMode ? moment().add(-1, "month").format("YYYY-MM-DD") : moment().format("YYYY-MM-DD")}
+            // contentHeight={200}
             fixedWeekCount={false}
             ref={calendarRef}
             eventOverlap={false}
             plugins={[dayGridPlugin, interaction, timeGrid, calenderList, multiMonthPlugin]}
-            initialView="dayGridMonth"
+            viewDidMount={(view) => {
+              // const a = calendarRef?.current?.getApi().getOption("height");
+              if (view.view.type === "multiMonthYear") {
+                console.log("sdsfsdf");
+                calendarRef?.current?.getApi().setOption("height", 600);
+                calendarRef?.current?.getApi().gotoDate(moment().add(-1, "month").format("YYYY-MM-DD"));
+                paintingEvents();
+              } else {
+                calendarRef?.current?.getApi().setOption("height", "auto");
+                calendarRef?.current?.getApi().gotoDate(moment().format("YYYY-MM-DD"));
+                paintingEvents();
+              }
+            }}
+            views={{
+              multiMonthYear: {
+                type: "multiMonthYear",
+                height: "600px",
+                buttonText: "Год",
+                duration: {
+                  month: 12,
+                },
+              },
+              dayGridMonth: {
+                type: "dayGridMonth",
+                buttonText: "Месяц",
+
+              },
+            }}
+            initialView={isEditMode ? "multiMonthYear" : "dayGridMonth"}
                 // selectable={isDefaultSelect && isActiveCalendar}
                 // select={(data) => handleSelect(data)}
             showNonCurrentDates={false}
@@ -461,7 +694,7 @@ export default function BookingCalendar({
             multiMonthMaxColumns={2}
             weekends
             eventClick={handleEventClick}
-            events={event.concat(emptyCellsForMonth)}
+            // events={event.concat(emptyCellsForMonth)}
             eventContent={renderEventContent}
             headerToolbar={{
               left: "",
@@ -477,7 +710,7 @@ export default function BookingCalendar({
             eventBackgroundColor="transparent"
           />
         </RectangleSelection>
-        <Tooltip anchorSelect=".fc-clue-button" openOnClick place="right">
+        <Tooltip anchorSelect=".fc-tooltip-button" openOnClick place="right">
           {generateClue("BOOKING_CALENDAR")}
         </Tooltip>
       </div>

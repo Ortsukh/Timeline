@@ -1,0 +1,10 @@
+{
+  "success": true,
+  "data":
+    {
+   "role": "ROLE_MANAGER",
+   "id": 1,
+   "name": "Франчайзи 001"
+ }
+
+}

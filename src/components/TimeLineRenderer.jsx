@@ -3,7 +3,6 @@ import moment from "moment";
 import Timeline from "react-calendar-timeline";
 import "./style.css";
 import "react-calendar-timeline/lib/Timeline.css";
-import EQUIPMENT_COLOR from "../constants/equipmentColor";
 
 export default function TimeLineRenderer({
   groups,
@@ -22,7 +21,6 @@ export default function TimeLineRenderer({
     start: moment(),
     end: moment().add(2, "days"),
   });
-
   useEffect(() => {
     setVisibleTimeRange({
       start: moment(orderDate.selection1.startDate),
@@ -42,29 +40,25 @@ export default function TimeLineRenderer({
   //   setSelectedGroups(() => [category]);
   //   setCurrentDevice(group);
   // };
-
-  const newGroups = groups.map((group) => {
-    const color = EQUIPMENT_COLOR[group.category] || "#622525";
-    return ({
-      ...group,
-      title: (
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <div style={{ backgroundColor: color }} className="equipment_color_block" />
-          <div
+  const newGroups = groups.map((group) => ({
+    ...group,
+    title: (
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={{ backgroundColor: group.color || "#622525" }} className="equipment_color_block" />
+        <div
             // onClick={() => handleToSelectedGroup(group, group.category)}
             // onKeyDown={() => handleToSelectedGroup(group, group.category)}
-            onClick={() => setIsEquipmentInfoWindowOpen(group)}
-            aria-hidden="true"
-            style={{
-              cursor: "pointer", whiteSpace: "break-spaces", overflow: "hidden", height: "40px", maxWidth: "155px", lineHeight: "20px", display: "flex", alignItems: "center",
-            }}
-          >
-            {group.title}
-          </div>
+          onClick={() => setIsEquipmentInfoWindowOpen(group)}
+          aria-hidden="true"
+          style={{
+            cursor: "pointer", whiteSpace: "break-spaces", overflow: "hidden", height: "40px", maxWidth: "155px", lineHeight: "20px", display: "flex", alignItems: "center",
+          }}
+        >
+          {group.title}
         </div>
-      ),
-    });
-  });
+      </div>
+    ),
+  }));
 
   return (
     <Timeline
@@ -78,8 +72,8 @@ export default function TimeLineRenderer({
       visibleTimeEnd={isActiveDate ? visibleTimeRange.end.valueOf() : null}
       itemTouchSendsClick
       minZoom={60 * 60 * 1000 * 24 * 2} //! Минимальное зумирование {2} дня
-      maxZoom={60 * 60 * 1000 * 24 * 31} // TODO в !проде пропадают последние дни и часы
-      lineHeight={45}
+      maxZoom={60 * 60 * 1000 * 24 * 61} // TODO в !проде пропадают последние дни и часы
+      lineHeight={50}
       onItemSelect={handleItemSelect}
       onItemClick={handleItemSelect}
       itemHeightRatio={1}

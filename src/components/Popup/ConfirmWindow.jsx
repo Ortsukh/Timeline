@@ -11,8 +11,9 @@ export default function ConfirmWindow({
   selectedCompany,
   isConfirmWindowOpen,
 }) {
-  const [comment, setComment] = useState("");
-  let fullPrice = 0;
+  const [comment, setComment] = useState(data[0]?.comment || "");
+  let totalForCreate = 0;
+  const totalForEdit = data[0]?.totalOrder;
   const sortingByDate = (array) => {
     array.sort((a, b) => {
       if (moment(a.date).isBefore(moment(b.date))) return -1;
@@ -25,7 +26,9 @@ export default function ConfirmWindow({
   const orderItems = [];
   sortingByDate(data).forEach((item, index) => {
     const group = groups.find((groupItem) => groupItem.id === item.group);
-    fullPrice += +group.price;
+    totalForCreate += +group.price;
+    const titleForCreate = group.title;
+    const titleForEdit = item.groupName;
     orderItems.push(
       <div className="order" key={`${item.id}-${+item.group + +item.shiftTime}`}>
         <div className="numberOrder">
@@ -38,14 +41,12 @@ export default function ConfirmWindow({
           </div>
           <div className="messageWindow-item">
             <span>Оборудование:</span>
-            <span>{group.title}</span>
+            <span>{titleForEdit || titleForCreate}</span>
+            {/* <span>{item.groupName}</span> */}
           </div>
 
           <div className="messageWindow-item">
-            <span>
-              Смена
-              :
-            </span>
+            <span>Смена:</span>
             <span>{item.grid.indexOf("1")}</span>
           </div>
         </div>
@@ -67,9 +68,9 @@ export default function ConfirmWindow({
         >
           x
         </button>
-        <div className="titlePopup">Подтвердите ваш заказ</div>
-        <div className="titlePopup">{`Компания: ${selectedCompany.name}`}</div>
-        <span>{`Общая стоимость: ${fullPrice}р`}</span>
+        <div className="titlePopup">Подтвердите Ваши действия</div>
+        <div className="titlePopup">{`Арендатор: ${selectedCompany.name}`}</div>
+        <span>{`Общая стоимость: ${totalForEdit || totalForCreate}р`}</span>
         <textarea
           id="comment"
           name="comment"

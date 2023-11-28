@@ -1,41 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import moment from "moment";
-import { getRepairingEquipments } from "../../Api/DashboardApi";
-import "./style.css";
+import { getClassStatus } from "../../common/GenerateElementsData";
+import TableComponent from "./Table/TableComponent";
 
-export default function RepairKitchenTableDashboard() {
-  const [rentCompanies, setRentCompanies] = useState([]);
-  useEffect(() => {
-    getRepairingEquipments().then((response) => {
-      console.log(response);
-      setRentCompanies(response);
-    });
-  }, []);
+export default function RepairKitchenTableDashboard({ updatedEquipment }) {
+  const headerRepairEquip = [
+    { value: "Категория", style: {} },
+    { value: "Оборудование", style: {} },
+    { value: "Обновление по статусу", style: {} },
+    { value: "Дата", style: { minWidth: "70px" } },
+  ];
 
-  const generateRentCompaniesItem = () => rentCompanies.slice(0, 3).map((item) => (
-    <tr key={item.name}>
-      <td>{item.name}</td>
-      <td>{item.kitchenEquipment[0].name}</td>
-      <td className="badge badge-danger">В ремонте</td>
-      <td>{moment().add(-(Math.floor(Math.random() * 300)), "day").format("DD-MM-YYYY")}</td>
-    </tr>
-  ));
+  const rowsRepairEquip = updatedEquipment.map((equipment) => {
+    const cells = [
+      { value: equipment.category.name, class: "lesseeCell", idCategory: equipment.category.id },
+      { value: equipment.name, class: "" },
+      { value: equipment.status, class: getClassStatus(equipment.status) },
+      { value: moment(equipment.updatedAt?.date).format("D MMM"), class: "centerCell", style: { padding: "8px 2px" } },
+    ];
+    return { key: equipment.id, date: cells };
+  });
+
   return (
-    <div className="containerChart">
-      <h4 className="title-table"> Оборудование в ремонте</h4>
-      <table className="table table-bordered">
-        <thead className="thead-light">
-          <tr>
-            <th>Категория</th>
-            <th>Оборудование</th>
-            <th>Статус</th>
-            <th>Дата ремонта</th>
-          </tr>
-        </thead>
-        <tbody>
-          {generateRentCompaniesItem()}
-        </tbody>
-      </table>
-    </div>
+    <TableComponent
+      title="Обновление статуса оборудования"
+      headers={headerRepairEquip}
+      rows={rowsRepairEquip}
+      isBtnTimeline={false}
+    />
   );
 }

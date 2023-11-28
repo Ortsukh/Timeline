@@ -33,6 +33,9 @@ export default function ConfirmBookingWindow({
   isAddNewItem,
   setIsAddNewItem,
   setIsEquipmentInfoWindowOpen,
+  isDayEditing,
+  setIsDayEditing,
+  setDayDate,
 }) {
   let calculatedOrSelectedDevice = null;
   if ("id" in baseOrder.equipment) {
@@ -40,8 +43,8 @@ export default function ConfirmBookingWindow({
       (group) => group.id === baseOrder.equipment.id,
     );
   }
-  // console.log("baseOrder", baseOrder);
-  // console.log("selectedConflictDate", selectedConflictDate);
+  console.log("baseOrder", baseOrder);
+  console.log("selectedConflictDate", selectedConflictDate);
 
   return (
     <>
@@ -121,6 +124,9 @@ export default function ConfirmBookingWindow({
         setIsAddNewItem={setIsAddNewItem}
         calculatedOrSelectedDevice={calculatedOrSelectedDevice}
         setIsEquipmentInfoWindowOpen={setIsEquipmentInfoWindowOpen}
+        isDayEditing={isDayEditing}
+        setIsDayEditing={setIsDayEditing}
+        setDayDate={setDayDate}
       />
       )}
     </>

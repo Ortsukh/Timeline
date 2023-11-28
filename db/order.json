@@ -1,0 +1,65 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": 365,
+      "categoryId": 29,
+      "category": "Микроволновки",
+      "company": "компания1",
+      "price": "10.00",
+      "total": 20,
+      "date": "2023-11-20",
+      "shift": 2,
+      "status": "Ожидание",
+      "equipment": "Микроволновка 5"
+    },
+    {
+      "id": 312,
+      "categoryId": 14,
+      "category": "Фритюр",
+      "company": "компания2",
+      "price": "15.00",
+      "total": 60,
+      "date": "2023-11-13",
+      "shift": 4,
+      "status": "Ожидание",
+      "equipment": "Фритюр"
+    },
+    {
+      "id": 311,
+      "categoryId": 14,
+      "category": "Фритюр",
+      "company": "компания2",
+      "price": "15.00",
+      "total": 60,
+      "date": "2023-11-13",
+      "shift": 4,
+      "status": "Ожидание",
+      "equipment": "Фритюр"
+    },
+    {
+      "id": 276,
+      "categoryId": 23,
+      "category": "Цеха",
+      "company": "компания",
+      "price": "55.00",
+      "total": 440,
+      "date": "2023-11-02",
+      "shift": 8,
+      "status": "Ожидание",
+      "equipment": "Цех 2"
+    },
+    {
+      "id": 274,
+      "categoryId": 23,
+      "category": "Цеха",
+      "company": "компания",
+      "price": "55.00",
+      "total": 440,
+      "date": "2023-11-02",
+      "shift": 8,
+      "status": "Ожидание",
+      "equipment": "Цех 2"
+    }
+  ]
+}

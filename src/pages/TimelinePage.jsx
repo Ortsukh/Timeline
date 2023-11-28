@@ -16,12 +16,9 @@ import TimeLineRenderer from "../components/TimeLineRenderer";
 import "react-calendar-timeline/lib/Timeline.css";
 import "../components/style.css";
 import {
-  getAllEquipments,
-  getAllOrders,
-  getCompanies, getManagerEquipments,
-  getUser, sendEditOrder,
+  sendEditOrder,
 } from "../Api/API";
-import AlertWindow from "../components/Popup/AlertWindow";
+import showNetwork from "../components/Alert/showNetwork";
 import BookingMenu from "../components/BookingMenuComponents/BookingMenu";
 import styleConflict
   from "../components/BookingMenuComponents/BookingDateColumn/ConflictResolutionWindow/Conflict.module.css";
@@ -32,21 +29,20 @@ import ConfirmWindow from "../components/Popup/ConfirmWindow";
 import EquipmentInfoWindow from "../components/Popup/EquipmentInfoWindow";
 import Overlay from "../components/BookingMenuComponents/BookingDateColumn/components/Overlay";
 import sortingArrayGroups from "../constants/priorityGroups";
+import BackButton from "../components/Button/BackButton";
+import useTimelineData from "../hooks/useTimelineData";
 
-export default function TimelinePage() {
+export default function TimelinePage({ isMainLessee }) {
   const [groups, setGroups] = useState([]);
   const [update, setUpdate] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [items, setItems] = useState([]);
   const [itemsPreOrder, setItemsPreOrder] = useState([]);
   const [companies, setCompanies] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingEquipment, setIsLoadingEquipment] = useState(true);
   const [isActiveDate, setIsActiveDate] = useState(false);
   const [editOrderData, setEditOrderData] = useState(null);
   const [editOrderItems, setEditOrderItems] = useState(null);
   const [isActiveMessage, setIsActiveMessage] = useState(false);
-  const [isOpenAlertWindow, setIsOpenAlertWindow] = useState({ status: false, message: "" });
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [currentDevice, setCurrentDevice] = useState(groups[0]);
   const [toolsCount, setToolsCount] = useState(0);
@@ -67,51 +63,24 @@ export default function TimelinePage() {
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [isEquipmentInfoWindowOpen, setIsEquipmentInfoWindowOpen] = useState(null);
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
+  const {
+    userData,
+    companiesData,
+    allEquipmentData,
+    loading,
+    allOrderData,
+  } = useTimelineData(isMainLessee, update);
 
   useEffect(() => {
-    getUser().then((res) => {
-      setUser(res);
-      if (res.role === "ROLE_MANAGER") {
-        getCompanies().then((response) => {
-          setCompanies(response);
-        });
-      }
-      if (res.role === "ROLE_COMPANY") {
-        setSelectedCompany(res);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    // console.log(user);
-    setIsLoadingEquipment(true);
-    if (!user) return;
-    if (user && user.role === "ROLE_MANAGER" && false) { //! для дева!
-    // if (user && user.role === "ROLE_MANAGER") {
-      getManagerEquipments().then((response) => {
-        setGroups(sortingArrayGroups(createEquipmentGroup(response.data)));
-        setIsLoadingEquipment(false);
-      });
-    } else {
-      getAllEquipments().then((response) => {
-        setGroups(sortingArrayGroups(createEquipmentGroup(response.data)));
-        setIsLoadingEquipment(false);
-      });
+    if (loading) return;
+    setUser(userData);
+    setCompanies(companiesData);
+    setItems(createOrderGroup(allOrderData, userData));
+    setGroups(sortingArrayGroups(createEquipmentGroup(allEquipmentData)));
+    if (userData.role === "ROLE_COMPANY") {
+      setSelectedCompany(userData);
     }
-  }, [update, user]);
-
-  useEffect(() => {
-    setIsLoading(true);
-    if (!user) return;
-
-    getAllOrders()
-      .then((response) => {
-        setItems(createOrderGroup(response.data, user));
-        if (user) setIsLoading(false);
-      })
-
-      .catch((error) => console.log(error));
-  }, [update, user]);
+  }, [loading, update]);
 
   const handleInputChange = (newInput) => {
     localStorage.setItem("toolsFilter", newInput);
@@ -128,16 +97,7 @@ export default function TimelinePage() {
   };
 
   const openAlertWindow = (message) => {
-    setIsOpenAlertWindow({
-      status: true,
-      message,
-    });
-    setTimeout(() => {
-      setIsOpenAlertWindow({
-        status: false,
-        message,
-      });
-    }, 2000);
+    showNetwork(message);
   };
 
   const getFormattedDate = (groupId, time) => {
@@ -253,10 +213,12 @@ export default function TimelinePage() {
   const getFilteredItemsByCompany = (companyId) => (
     items.filter((item) => item.company?.id === companyId)
   );
+
   const closeBookingWindow = () => {
     setIsActiveMessage((current) => !current);
   };
-  return !isLoading && !isLoadingEquipment ? (
+
+  return !loading && user ? (
     <>
       {isOpenOverlay && (
       <Overlay openOverLay={setIsOpenOverlay} isAddNewItem={false} />
@@ -271,7 +233,7 @@ export default function TimelinePage() {
             toolsCount
               ? getGroupsToShow().slice(0, toolsCount)
               : getGroupsToShow()
-          }
+            }
             editOrderData={editOrderData}
             isEditMode={isEditMode}
             items={items}
@@ -288,7 +250,9 @@ export default function TimelinePage() {
           />
         ) : (
           <>
+
             <div className="container sort-box">
+              <BackButton />
               <div className="sort-box_item">
                 <ToolsFilter
                   toolNames={mapToolsNames()}
@@ -297,7 +261,7 @@ export default function TimelinePage() {
                   isClickingOnEmptyFilter={isClickingOnEmptyFilter}
                   setIsClickingOnEmptyFilter={setIsClickingOnEmptyFilter}
                   showButtonClear={showButtonClear}
-                  setCurrentDeviceIndex={() => {}}
+                  isActiveCalendar
                 />
               </div>
               <div className="sort-box_item">
@@ -315,6 +279,8 @@ export default function TimelinePage() {
                   companies={companies}
                   setSelectedCompany={setSelectedCompany}
                   isClickedOnNew={isClickedOnNew}
+                  isActiveCalendar
+
                 />
               </div>
 
@@ -341,7 +307,7 @@ export default function TimelinePage() {
               toolsCount
                 ? getGroupsToShow().slice(0, toolsCount)
                 : getGroupsToShow()
-            }
+              }
               toolsCount={toolsCount}
               isActiveDate={isActiveDate}
               orderDate={orderDate}
@@ -383,9 +349,6 @@ export default function TimelinePage() {
           setIsOpenOverlay={setIsOpenOverlay}
         />
         )}
-        {isOpenAlertWindow.status ? (
-          <AlertWindow message={isOpenAlertWindow.message} />
-        ) : null}
       </div>
     </>
   ) : (

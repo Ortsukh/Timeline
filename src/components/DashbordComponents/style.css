@@ -3,9 +3,9 @@
     width: 800px;
 } */
 
-.containerChart {
+/* .containerChart {
     height: 345px;
-}
+} */
 .containerUserBox{
     width: auto;
     position: relative;
@@ -13,7 +13,15 @@
 
 .btn-cont-dash{
     display: flex;
+    justify-content: space-between;
+    width: 100%;
     gap: 5px;
+}
+
+.chart-step-buttons{
+    display: flex;
+    gap: 5px;
+
 }
 
 .title-table{
@@ -46,7 +54,7 @@
 
 .cont-btn-dash{
     display: flex;
-    justify-content: space-between;
+    margin-left: auto;
     margin-bottom: 10px;
 }
 
@@ -55,8 +63,8 @@
     margin-bottom: 0 !important;
     box-shadow: none !important;
     border: 2px solid #d0d0d0;
-    width: 100px !important;
-    height: 100px;
+    width: 95px !important;
+    height: 95px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -88,19 +96,22 @@
 .btn-cont-dash .containerCalendarDashboard .button-wrapper .btn-sm{
     font-size: 14px;
 }
-
+.containerCalendarDashboard {
+    border: 1px solid  #17a2b8;
+}
 .info-box-number, .positive-values{
     color: #1fcb22;
 }
 
 .active.calendarContainer{
     position: absolute;
+    z-index: 12;
 }
 
 .statsItem .values{
     font-size: 16px;
     font-weight: 700;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 .negative-values{
@@ -121,8 +132,9 @@
 
 .col-lg-3.col-md-8.cont-check{
     position: absolute;
-    top: 20%;
-    left: 37%;
+    width: 100%;
+    top: 25%;
+    /* left: 33%; */
     padding: 0 !important;
 }
 
@@ -154,4 +166,128 @@
 /* просрочен, отменен */
 .badge-danger{
     background-color: #dc3545;
+}
+
+.lesseeCell:hover{
+    color: lightskyblue;
+    cursor: pointer;
+}
+
+.item-green-bg{
+    background: linear-gradient(0deg, rgba(0, 255, 43, 0.20) 0%, rgba(0, 255, 43, 0.07) 1%, rgba(0, 255, 43, 0.00) 76%);
+    backdrop-filter: blur();
+}
+
+.item-red-bg{
+    background: linear-gradient(0deg, rgba(238, 55, 45, 0.20) 0%, rgba(238, 55, 45, 0.07) 1%, rgba(238, 55, 45, 0.00) 76%);
+    backdrop-filter: blur(5px);
+}
+
+.description-block>.description-header{
+    font-size: 20px !important;
+    margin-bottom: 2px;
+}
+.orderTableHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.description-text{
+    font-size: 12px;
+}
+
+.lesseeCell.btn.btn-info{
+    padding: 3px 10px;
+}
+.fc .fc-daygrid-day.fc-day-today {
+    background-color: transparent
+
+}
+ .fc .fc-daygrid-day.fc-day-today a{
+    background-color: rgba(119, 0, 255, 0.5);
+    padding-left: 3px;
+    color: white !important
+
+}
+
+.gridPastDays a {
+    color: rgba(51, 51, 51, 0.25) !important;
+}
+
+.gridFeatureDays {
+    font-weight: bold;
+}
+
+.mr-5 {
+    margin-right: 5px;
+}
+
+.fc .fc-daygrid-day-top {
+    align-items: center;
+}
+
+.moneyCell {
+    text-align: right;
+}
+
+.centerCell {
+    text-align: center;
+}
+
+.fc-direction-ltr .fc-daygrid-event.fc-event-end, .fc-direction-rtl .fc-daygrid-event.fc-event-start{
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.fc .fc-view-harness-active > .fc-view {
+    background-color: white;
+}
+
+.tableRow:hover {
+    background-color: rgb(254, 255, 176);
+}
+
+.gridWithoutPendingBG {
+    background: linear-gradient(0deg, rgba(0, 255, 43, 0.20) 0%, rgba(0, 255, 43, 0.27) 1%, rgba(0, 255, 43, 0.00) 76%);
+    backdrop-filter: blur();
+}
+
+.gridWithOrderBG {
+    background: rgba(255,220,40,.35);
+}
+
+.gridWithConflictBG {
+    background: #ffa4a4;
+}
+
+.gridWithConflictInThisShiftBG {
+    background: #ffd884
+}
+.gridWithoutConflictBG {
+    background: #90ef90;
+}
+.selectedCell {
+    outline: 2px #5bbbe0 solid;
+    outline-offset: -1px;
+}
+
+.gridWithOtherOrderBG {
+    background: #464040
+}
+.tableCellGroup {
+    height: 10px;
+}
+
+.calendarCellTable {
+    width: 100%;
+}
+.chart-loader {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(134, 134, 134, 0.09);
+}
+.chart-loader span:first-child {
+    margin-top: 10% !important;
 }

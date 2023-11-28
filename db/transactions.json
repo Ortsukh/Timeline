@@ -1,0 +1,185 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": 394,
+      "status": "Принято",
+      "amount": "3.0000",
+      "amountAfter": "89227.0000",
+      "updatedAt": {
+        "date": "2023-10-20 18:00:03.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "contract": {
+        "id": 22,
+        "lesseeCompany": {
+          "id": 3,
+          "name": "компания1"
+        }
+      }
+    },
+    {
+      "id": 385,
+      "status": "Принято",
+      "amount": "42.0000",
+      "amountAfter": "1848.0000",
+      "updatedAt": {
+        "date": "2023-10-20 18:00:03.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "contract": {
+        "id": 22,
+        "lesseeCompany": {
+          "id": 3,
+          "name": "компания1"
+        }
+      }
+    },
+    {
+      "id": 387,
+      "status": "Принято",
+      "amount": "12.0000",
+      "amountAfter": "1860.0000",
+      "updatedAt": {
+        "date": "2023-10-20 18:00:03.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "contract": {
+        "id": 22,
+        "lesseeCompany": {
+          "id": 3,
+          "name": "компания1"
+        }
+      }
+    },
+    {
+      "id": 389,
+      "status": "Принято",
+      "amount": "9.0000",
+      "amountAfter": "1869.0000",
+      "updatedAt": {
+        "date": "2023-10-20 18:00:03.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "contract": {
+        "id": 22,
+        "lesseeCompany": {
+          "id": 3,
+          "name": "компания1"
+        }
+      }
+    },
+    {
+      "id": 391,
+      "status": "Принято",
+      "amount": "8.0000",
+      "amountAfter": "1877.0000",
+      "updatedAt": {
+        "date": "2023-10-20 18:00:03.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "contract": {
+        "id": 22,
+        "lesseeCompany": {
+          "id": 3,
+          "name": "компания1"
+        }
+      }
+    },
+    {
+      "id": 393,
+      "status": "processed",
+      "amount": "3.0000",
+      "amountAfter": "1880.0000",
+      "updatedAt": {
+        "date": "2023-10-20 18:00:03.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "contract": {
+        "id": 22,
+        "lesseeCompany": {
+          "id": 3,
+          "name": "компания1"
+        }
+      }
+    },
+    {
+      "id": 386,
+      "status": "processed",
+      "amount": "42.0000",
+      "amountAfter": "211.0000",
+      "updatedAt": {
+        "date": "2023-10-20 18:00:03.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "contract": {
+        "id": 22,
+        "lesseeCompany": {
+          "id": 3,
+          "name": "компания1"
+        }
+      }
+    },
+    {
+      "id": 388,
+      "status": "processed",
+      "amount": "12.0000",
+      "amountAfter": "199.0000",
+      "updatedAt": {
+        "date": "2023-10-20 18:00:03.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "contract": {
+        "id": 22,
+        "lesseeCompany": {
+          "id": 3,
+          "name": "компания1"
+        }
+      }
+    },
+    {
+      "id": 390,
+      "status": "processed",
+      "amount": "9.0000",
+      "amountAfter": "190.0000",
+      "updatedAt": {
+        "date": "2023-10-20 18:00:03.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "contract": {
+        "id": 22,
+        "lesseeCompany": {
+          "id": 3,
+          "name": "компания1"
+        }
+      }
+    },
+    {
+      "id": 392,
+      "status": "processed",
+      "amount": "8.0000",
+      "amountAfter": "182.0000",
+      "updatedAt": {
+        "date": "2023-10-20 18:00:03.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/Moscow"
+      },
+      "contract": {
+        "id": 22,
+        "lesseeCompany": {
+          "id": 3,
+          "name": "компания1"
+        }
+      }
+    }
+  ]
+}

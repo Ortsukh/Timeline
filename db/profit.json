@@ -1,0 +1,235 @@
+{
+  "success": true,
+  "data": {
+    "transactionCount": "137",
+    "totalAmount": "120483.00",
+    "todayAmount": 666,
+    "expiredTransactionCount": 666,
+    "chart": [
+      {
+        "date": "2023-10-25",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-10-26",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-10-27",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-10-28",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-10-29",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-10-30",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-10-31",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-01",
+        "type": "money_in",
+        "amount": "100999.00",
+        "updatedAt": "2023-11-01 00:00:00",
+        "count": "2"
+      },
+      {
+        "date": "2023-11-02",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-03",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-04",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-05",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-06",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-07",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-08",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-09",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-10",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-11",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-12",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-13",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-14",
+        "type": "money_in",
+        "amount": "13824.00",
+        "updatedAt": "2023-11-14 15:56:16",
+        "count": "7"
+      },
+      {
+        "date": "2023-11-15",
+        "type": "money_in",
+        "amount": "2800.00",
+        "updatedAt": "2023-11-15 18:05:15",
+        "count": "112"
+      },
+      {
+        "date": "2023-11-16",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-17",
+        "type": "money_in",
+        "amount": "440.00",
+        "updatedAt": "2023-11-17 18:00:01",
+        "count": "2"
+      },
+      {
+        "date": "2023-11-18",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-19",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-20",
+        "type": "money_in",
+        "amount": "1040.00",
+        "updatedAt": "2023-11-20 18:00:02",
+        "count": "8"
+      },
+      {
+        "date": "2023-11-21",
+        "type": "money_in",
+        "amount": "80.00",
+        "updatedAt": "2023-11-21 18:00:01",
+        "count": "3"
+      },
+      {
+        "date": "2023-11-22",
+        "type": "money_in",
+        "amount": "80.00",
+        "updatedAt": "2023-11-22 18:00:01",
+        "count": "2"
+      },
+      {
+        "date": "2023-11-23",
+        "type": null,
+        "amount": "0.00",
+        "updatedAt": null,
+        "count": "0"
+      },
+      {
+        "date": "2023-11-24",
+        "type": "money_in",
+        "amount": "1220.00",
+        "updatedAt": "2023-11-24 18:00:01",
+        "count": "1"
+      },
+      {
+        "date": null,
+        "type": "money_in",
+        "amount": "120483.00",
+        "updatedAt": "2023-11-24 18:00:01",
+        "count": "137"
+      }
+    ]
+  }
+}

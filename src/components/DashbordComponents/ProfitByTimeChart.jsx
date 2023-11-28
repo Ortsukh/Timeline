@@ -1,5 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  memo, useEffect, useRef, useState,
+} from "react";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-moment";
 import "./style.css";
@@ -15,8 +17,10 @@ import {
   Filler,
 
 } from "chart.js";
-import { getProfitData } from "../../Api/DashboardApi";
+import moment from "moment";
 import CalendarDashboard from "./CalendarDashboard";
+import useGetFinance from "../../hooks/useGetFinance";
+import Spinner from "../Spinner/Spinner";
 
 ChartJS.register(
   TimeScale,
@@ -30,11 +34,14 @@ ChartJS.register(
 
 );
 
-export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
-  const [profitItems, setProfitItems] = useState([]);
-  const [timeStep, setTimeStep] = useState(1);
+const ProfitByTimeChart = memo(({
+  selectedTime, setSelectedTime, setFinanceReport, financeReport, lesseeId, categoryId,
+}) => {
+  const [timeStep, setTimeStep] = useState("day");
   const chart = useRef(null);
-
+  // const [loading, setLoading] useState('false')
+  const { execute, loading } = useGetFinance(undefined);
+  console.log(loading);
   const options = {
     devicePixelRatio: 2,
     maintainAspectRatio: false,
@@ -129,8 +136,8 @@ export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
           },
         },
 
-        min: selectedTime.startDate,
-        max: selectedTime.endDate,
+        min: moment(selectedTime.startDate).add(-18, "hour"),
+        max: moment(selectedTime.endDate).add(6, "hour"),
         ticks: {
           font: {
             size: 20,
@@ -156,39 +163,62 @@ export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
     },
 
   };
-
-  const filterDataByTimeStep = () => {
-    const result = [];
-    for (let i = 0; i < profitItems.length; i += timeStep) {
-      result.push(profitItems[i]);
-    }
-    // result.push(profitItems[profitItems.length - 1]);
-    return result;
-  };
-
   useEffect(() => {
-    console.log(chart);
-    getProfitData(selectedTime.startDate, selectedTime.endDate).then((response) => {
-      setProfitItems(response);
-    });
-  }, []);
+    const foo = async () => {
+      const axiosParams = {
+        dateFrom: selectedTime.startDate.format("YYYY-MM-DD"),
+        dateTo: selectedTime.endDate.format("YYYY-MM-DD"),
+        step: timeStep,
+        lesseeId,
+        categoryId,
+      };
+      const data = await execute(axiosParams);
+      console.log("timestep", data);
+      const convertedForChartData = data.chart?.map((point) => ({
+        x: point.date, y: point.amount,
+      }));
+      setFinanceReport({ ...data, chart: convertedForChartData });
+    };
+
+    foo();
+    // getProfitData(selectedTime.startDate, selectedTime.endDate).then((response) => {
+    //   console.log(response);
+    //   setProfitItems(response);
+    // });
+  }, [timeStep]);
 
   const handleChangeTimeStep = (step) => {
-    console.log(chart.current.update);
     setTimeStep(step);
   };
 
-  const handleSelectTime = (item) => {
-    getProfitData(item.startDate, item.endDate).then((response) => {
-      setProfitItems(response);
-      setSelectedTime(item);
-    });
+  const handleSelectTime = async (item) => {
+    console.log(item);
+    const axiosParams = {
+      dateFrom: moment(item.startDate).format("YYYY-MM-DD"),
+      dateTo: moment(item.endDate).format("YYYY-MM-DD"),
+      step: timeStep,
+      lesseeId,
+      categoryId,
+
+    };
+    const data = await execute(axiosParams);
+    // getProfitData(item.startDate, item.endDate).then((response) => {
+    //   setProfitItems(response);
+    //   setSelectedTime(item);
+    // });
+    console.log(data);
+    const convertedForChartData = data.chart?.map((point) => ({
+      x: point.date, y: point.amount,
+    }));
+    console.log("time", convertedForChartData);
+    setFinanceReport({ ...data, chart: convertedForChartData });
+    setSelectedTime(item);
   };
 
   const data = {
     datasets: [{
       label: "Profit",
-      data: filterDataByTimeStep(),
+      data: financeReport.chart,
       showLine: true,
       lineTension: 0.3,
       borderColor: "rgb(100, 100, 255)",
@@ -202,20 +232,26 @@ export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
       },
     }],
   };
-  console.log(data);
   return (
     <div className="profitChartContainer">
+      {loading && (
+      <div className="chart-loader">
+        <Spinner />
+      </div>
+      )}
       <div className="cont-btn-dash">
         <div className="btn-cont-dash">
-          <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(1)}>
-            день
-          </button>
-          <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(7)}>
-            неделя
-          </button>
-          <button className="btn btn-info" type="button" onClick={() => handleChangeTimeStep(30)}>
-            месяц
-          </button>
+          <div className="chart-step-buttons">
+            <button className={`btn btn-info ${timeStep === "day" ? "disabled" : ""}`} type="button" onClick={() => handleChangeTimeStep("day")}>
+              день
+            </button>
+            <button className={`btn btn-info ${timeStep === "week" ? "disabled" : ""}`} type="button" onClick={() => handleChangeTimeStep("week")}>
+              неделя
+            </button>
+            <button className={`btn btn-info ${timeStep === "month" ? "disabled" : ""}`} type="button" onClick={() => handleChangeTimeStep("month")}>
+              месяц
+            </button>
+          </div>
           <div>
             <CalendarDashboard setSelectedTime={handleSelectTime} />
           </div>
@@ -225,4 +261,6 @@ export default function ProfitByTimeChart({ selectedTime, setSelectedTime }) {
 
     </div>
   );
-}
+});
+
+export default ProfitByTimeChart;

@@ -7,6 +7,8 @@ export default function CompaniesSelect({
   companies,
   setSelectedCompany,
   isClickedOnNew,
+  isFromDashboard,
+  isActiveCalendar,
 }) {
   const [selectValue, setSelectValue] = useState(null);
   const handleChange = (e) => {
@@ -37,20 +39,25 @@ export default function CompaniesSelect({
 
   return (
     <div className="tools-filter company-filter">
-      <span> Выбрать компанию</span>
+      <span> Выбрать арендатора</span>
 
       <Select
+        isDisabled={!isActiveCalendar}
         className="select-filter"
         options={getOptionsForSearch(companies)}
         onChange={handleChange}
         value={selectValue}
+        placeholder="Выбрать..."
       />
       {!selectedCompany && isClickedOnNew && (
-        <div className="tooltip">Пожалуйста, выберите компанию</div>
+        <div className="tooltip">Пожалуйста, выберите арендатора</div>
       )}
+      {!isFromDashboard && (
       <button type="button" className="clear-button" onClick={handleReset}>
         Отчистить
       </button>
+      ) }
+
     </div>
   );
 }

@@ -3,48 +3,80 @@ import React, { useEffect, useState } from "react";
 import TimelinePage from "./pages/TimelinePage";
 import ManagerDashboard from "./pages/ManagerDashboard";
 import LesseeDashboard from "./pages/LesseeDashboard";
+import BookingPage from "./pages/BookingPage";
+import CategoryDashboard from "./pages/CategoryDashboard";
 
 function App() {
-  console.log(12312);
-  console.log(window.location.search);
+  // console.log(12312);
+  // console.log("window.location.search", window.location.search);
   const [route, setRoute] = useState("");
-  let lesseeId = null;
+  const [lesseeId, setLesseeId] = useState("");
+  const [orderId, setOrderId] = useState("");
+  const [companyType, setCompanyType] = useState("");
+  const [companyId, setCompanyId] = useState("");
+  const [dashboardPage, setDashboardPage] = useState(null);
+  const [categoryId, setCategoryId] = useState("");
   useEffect(() => {
     const rout = window.location.search.substring(1).split("&").find((query) => query.startsWith("page"))?.split("=")[1];
-    lesseeId = window.location.search.substring(1).split("&").find((query) => query.startsWith("id"))?.split("=")[1];
-    console.log(rout);
+    const lessee = window.location.search.substring(1).split("&").find((query) => query.startsWith("id"))?.split("=")[1];
+    const category = window.location.search.substring(1).split("&").find((query) => query.startsWith("categoryId"))?.split("=")[1];
+    const order = window.location.search.substring(1).split("&").find((query) => query.startsWith("order_id"))?.split("=")[1];
+    const userType = window.FR?.currentCompanyType;
+    const userID = window.FR?.currentCompanyId;
+    const arrName = window.FR?.currentRouteName.split("_");
+    console.log(category);
+    setCategoryId(category);
+    setCompanyType(userType);
+    setCompanyId(userID);
+    setDashboardPage(arrName.includes("dashboard"));
+    // console.log("rout", rout);
+    // console.log("lessee", lessee);
+    setOrderId(order);
+    setLesseeId(lessee);
     setRoute(rout);
-  }, [window.location.search]);
-
+  }, [window.location.search, window.FR]);
+  // console.log("companyType:", companyType);
+  // console.log("companyId:", companyId);
+  // console.log("window.FR:", window.FR);
   const getPage = () => {
-    let result = "";
-    switch (route) {
-      case "main_dashboard": result = <ManagerDashboard />;
-        break;
-      case "timeline": result = <TimelinePage />;
-        break;
-      case "lessee_dashboard": result = <LesseeDashboard lesseeId={lesseeId} />;
-        break;
-      default:
-        result = <ManagerDashboard />;
+    // let result = "";
+    console.log("companyType", companyType);
+    console.log("route", route);
+    console.log("dashboardPage", dashboardPage);
+    console.log("lesseeId", lesseeId);
+    if (route === "timeline") return <TimelinePage isMainLessee={companyType === "lessee"} companyId={companyId} />;
+    if (route === "category_dashboard") {
+      return (
+        <CategoryDashboard
+          isMainLessee={companyType === "lessee"}
+          lesseeId={lesseeId}
+          companyType={companyType}
+          categoryId={categoryId}
+          companyId={companyId}
+        />
+      );
     }
-    return result;
+    if (route === "booking_menu") return <BookingPage orderId={orderId} isMainLessee={companyType === "lessee"} categoryId={categoryId} />;
+    if (companyType === "manager" && route !== "lessee_dashboard" && dashboardPage) return <ManagerDashboard user="manager" companyId={companyId} />;
+    if (route === "lessee_dashboard" || companyType === "lessee") {
+      return (
+        <LesseeDashboard
+          lesseeId={lesseeId || companyId}
+          isMainLessee={companyType === "lessee"}
+          user="lessee"
+        />
+      );
+    }
+    return (
+      <>
+      </>
+    );
   };
 
   return (
     <>
       {getPage()}
     </>
-
-  // <BrowserRouter>
-  //   <Routes>
-  //     <Route exect path="/" element={<TimelinePage />} />
-  //     <Route path="1" element={<ProfitByTimeChart />} />
-  //     <Route path="2" element={<RenterTableDashboard />} />
-  //     <Route path="3" element={<UserBox />} />
-  //     <Route path="/4" element={<ManagerDashboard />} />
-  //   </Routes>
-  // </BrowserRouter>
   );
 }
 

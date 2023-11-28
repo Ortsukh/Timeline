@@ -7,19 +7,24 @@ export default function TimeShift({
   currentDevice, setBaseOrder, isActiveCalendar, baseOrder,
 }) {
   // console.log(currentDevice.workTime.shiftTimes);
-  const startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
-  const endWorkDay = Number(currentDevice.workTime.shiftTimes.end.split(":")[0]);
-  // console.log(startWorkDay, endWorkDay);
+  let startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
+  let endWorkDay = Number(currentDevice.workTime.shiftTimes.end.split(":")[0]);
+
   const [value, setValue] = useState([
-    {
-      value: startWorkDay,
-      label: `${startWorkDay} - ${+currentDevice.shiftLength}`,
-    }]);
+  ]);
+
+  useEffect(() => {
+    startWorkDay = Number(currentDevice.workTime.shiftTimes.start.split(":")[0]);
+    endWorkDay = Number(currentDevice.workTime.shiftTimes.end.split(":")[0]);
+    setValue([]);
+  }, [currentDevice]);
+
+  // console.log(startWorkDay, endWorkDay);
 
   const generateShiftTime = (shift) => {
     const options = [];
     for (let i = startWorkDay; i < endWorkDay; i += shift) {
-      options.push({ value: i, label: `${i} - ${i + shift}` });
+      options.push({ value: i, label: `${i} - ${i + shift > 24 ? 24 : i + shift}` });
     }
     return options;
   };
@@ -44,21 +49,23 @@ export default function TimeShift({
   };
 
   const selectAllOption = { label: "Выбрать все", value: "*" };
-
   return (
     <div className="select-count-box select-choose-time">
-      <span>Время смены</span>
-      <Select
-        allowSelectAll
-        closeMenuOnSelect={false}
-        components={animatedComponents}
-        isDisabled={!isActiveCalendar}
-        options={[selectAllOption, ...generateShiftTime(+currentDevice.shiftLength)]}
-        onChange={handleChangeTime}
-        value={value}
-        isMulti
-        // defaultValue={[{ value: 0, label: `0 - ${+currentDevice.shiftLength}` }]}
-      />
+      <span style={{ margin: "auto 0" }}>Время смены:</span>
+      <div className="select-choose-part">
+        <Select
+          allowSelectAll
+          closeMenuOnSelect={false}
+          components={animatedComponents}
+          isDisabled={!isActiveCalendar}
+          options={[selectAllOption, ...generateShiftTime(+currentDevice.shiftLength)]}
+          onChange={handleChangeTime}
+          value={value}
+          isMulti
+          defaultValue={[]}
+          placeholder="Выбрать..."
+        />
+      </div>
     </div>
   );
 }
